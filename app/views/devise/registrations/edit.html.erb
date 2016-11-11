@@ -1,0 +1,110 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+<h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="form-group">
+    <%= f.label :first_name, for: 'fname_field', cclass: "sr-only" %>
+    <%= f.text_field :fname, required: true, aautofocus: true, class: "form-control", id: "fname_field", pplaceholder: "First Name" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :middle_name, for: 'mname_field', cclass: "sr-only" %>
+    <%= f.text_field :mname, class: "form-control", id: "mname_field", pplaceholder: "Middle Name" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :last_name, for: 'lname_field', cclass: "sr-only" %>
+    <%= f.text_field :lname, required: true, class: "form-control", id: "lname_field", pplaceholder: "Last Name" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :email, for: 'email_field', cclass: "sr-only" %>
+    <%= f.email_field :email, required: true, aautofocus: true, class: "form-control", id: "email_field", pplaceholder: "Email" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+  <% end %>
+
+  <div class="form-group">
+    <%#= f.label :password, for: 'password_field', cclass: "sr-only" %>
+    <%= f.label for: 'password_field', cclass: "sr-only" do %>
+       Password <i>(leave blank if you don't want to change it)</i>
+    <% end %>
+    <%= f.password_field :password, rrequired: true, autocomplete: "off", class: "form-control", id: "password_field",
+      pplaceholder: "Password#{ (@minimum_password_length ? ' ('+@minimum_password_length.to_s+' characters minimum)' : '') }",
+      minlength: "#{ (@minimum_password_length ? @minimum_password_length.to_s : '') }"
+    %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password_confirmation, for: 'password_confirmation_field', cclass: "sr-only" %>
+    <%= f.password_field :password_confirmation, rrequired: true, autocomplete: "off", class: "form-control", id: "password_confirmation_field", pplaceholder: "Password confirmation" %>
+  </div>
+  <div class="form-group">
+    <%#= f.label :current_password, for: 'current_password_field', cclass: "sr-only" %>
+    <%= f.label for: 'password_field', cclass: "sr-only" do %>
+       Current password <i>(we need your current password to confirm your changes)</i>
+    <% end %>
+    <%= f.password_field :current_password, required: true, autocomplete: "off", class: "form-control", id: "current_password_field", pplaceholder: "Password confirmation" %>
+  </div>
+
+
+  <!--div class="field">
+    <%#= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%#= f.password_field :password, autocomplete: "off" %>
+  </div>
+  <div class="field">
+    <%#= f.label :password_confirmation %><br />
+    <%#= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div>
+  <div class="field">
+    <%#= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%#= f.password_field :current_password, autocomplete: "off" %>
+  </div-->
+
+  <div class="form-group">
+    <%= f.submit "Update", class: 'btn btn-primary' %>
+  </div>
+  <!--div class="actions">
+    <%#= f.submit "Update" %>
+  </div-->
+<% end %>
+
+<h3>Cancel my account</h3>
+
+<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %></p>
+
+<%#= link_to "Back", :back %>
+
+
+  <!--/div>
+</div-->
+
+
+
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+$('#password_field, #password_confirmation_field').change(
+  function() {
+    var pass2=$('#password_field').val();
+    var pass1=$('#password_confirmation_field').val();
+    if(pass1!=pass2) {
+//      console.log("Passwords Don't Match");
+	    $('#password_confirmation_field')[0].setCustomValidity("Passwords Don't Match");
+    } else {
+//      console.log('Passwords Match');
+  	  $('#password_confirmation_field')[0].setCustomValidity('');	 
+    }
+  }
+);
+
+</script>
+

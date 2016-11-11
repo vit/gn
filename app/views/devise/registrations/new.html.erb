@@ -1,0 +1,115 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+
+<div class="panel panel-default">
+  <div class="panel-body">
+  <!--div class="panel-heading"-->
+    <h2>Register</h2>
+  <!--/div>
+  <div class="panel-body"-->
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+  <div class="form-group">
+    <%= f.label :first_name, for: 'fname_field', class: "sr-only" %>
+    <%= f.text_field :fname, required: true, autofocus: true, class: "form-control", id: "fname_field", placeholder: "First Name" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :middle_name, for: 'mname_field', class: "sr-only" %>
+    <%= f.text_field :mname, class: "form-control", id: "mname_field", placeholder: "Middle Name" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :last_name, for: 'lname_field', class: "sr-only" %>
+    <%= f.text_field :lname, required: true, class: "form-control", id: "lname_field", placeholder: "Last Name" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :email, for: 'email_field', class: "sr-only" %>
+    <%= f.email_field :email, required: true, aautofocus: true, class: "form-control", id: "email_field", placeholder: "Email" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password, for: 'password_field', class: "sr-only" %>
+    <%= f.password_field :password, required: true, autocomplete: "off", class: "form-control", id: "password_field",
+      placeholder: "Password#{ (@minimum_password_length ? ' ('+@minimum_password_length.to_s+' characters minimum)' : '') }",
+      minlength: "#{ (@minimum_password_length ? @minimum_password_length.to_s : '') }"
+    %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password_confirmation, for: 'password_confirmation_field', class: "sr-only" %>
+    <%= f.password_field :password_confirmation, required: true, autocomplete: "off", class: "form-control", id: "password_confirmation_field", placeholder: "Password confirmation" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Sign up", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+
+  </div>
+<!--/div-->
+
+<!--div class="panel panel-default">
+  <div class="panel-body"-->
+  <div class="panel-footer">
+<%= render "devise/shared/links" %>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+$('#password_field, #password_confirmation_field').change(
+  function() {
+    var pass2=$('#password_field').val();
+    var pass1=$('#password_confirmation_field').val();
+    if(pass1!=pass2) {
+//      console.log("Passwords Don't Match");
+	    $('#password_confirmation_field')[0].setCustomValidity("Passwords Don't Match");
+    } else {
+//      console.log('Passwords Match');
+  	  $('#password_confirmation_field')[0].setCustomValidity('');	 
+    }
+  }
+);
+
+</script>
+
+
+
+
+<!--
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "off" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+-->

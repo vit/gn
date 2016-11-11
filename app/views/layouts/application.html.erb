@@ -4,15 +4,32 @@
     <title>Workspace</title>
     <%= csrf_meta_tags %>
 
+<!--link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" data-turbolinks-track="reload" /-->
+
+
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+<!--script src="http://code.jquery.com/jquery-1.11.1.min.js"></script-->
+<!--script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js" data-turbolinks-track="reload"></script-->
+
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
   <body>
 
     <%= render partial: 'layouts/nav' %>
+    <main>
+      <% unless notice.nil? %>
+        <p class="notice"><%= notice %></p>
+      <% end %>
+      <% unless alert.nil? %>
+        <p class="alert"><%= alert %></p>
+      <% end %>
 
     <%= yield %>
+    </main>
   </body>
 </html>

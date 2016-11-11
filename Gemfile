@@ -51,4 +51,31 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
 gem 'bootstrap', '~> 4.0.0.alpha5'
+gem 'devise'
+gem "font-awesome-rails"
+
+
+#gem 'aasm'
+
+
+#gem 'carrierwave'
+gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
+
+gem "mini_magick"
+#gem 'remotipart', '~> 1.2'
+#gem 'remotipart', '~> 1.3.1'
+#gem 'yomu'
+
+#gem 'mongoid'
+
+#gem 'elasticsearch-model', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
+#gem 'elasticsearch-rails', git: 'git://github.com/elasticsearch/elasticsearch-rails.git'
+
+#group :development do
+#  gem 'i18n-debug'
+#  gem 'meta_request'
+#end
+
+#gem "acts_as_follower"
+
 
