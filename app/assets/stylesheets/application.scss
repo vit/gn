@@ -5,224 +5,33 @@ $font-family-sans-serif: 'Open Sans', sans-serif;
 //@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i&subset=cyrillic');
 //$font-family-sans-serif: 'Roboto', sans-serif;
 
-
-//$brand-primary:         #0f4da8;
-//$brand-success:         #00c90d;
-
-//$brand-info:            #5bc0de !default;
-//$brand-warning:         #f0ad4e !default;
-
-//$brand-danger:          #fd0006;
-
 @import "bootstrap/variables";
-
-
-//$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
-//$brand-success:         #5cb85c !default;
-//$brand-info:            #5bc0de !default;
-//$brand-warning:         #f0ad4e !default;
-//$brand-danger:          #d9534f !default;
-
-
-//$brand-primary:         #0f4da8 !default;
-//$brand-primary:         #ff3333;
-//$btn-primary-color: #0f4da8;
-//$btn-primary-color: #ff3333;
-
-
-//$brand-inverse: #112233;
 //$brand-inverse: #3aa6d0;
 //$brand-inverse: #A66900;
 
 
-
-//$brand-inverse-lighter: #334455;
-//$brand-inverse-lighter: #3aa6d0;
-//$brand-inverse-lighter: #62B1D0;
-//$brand-inverse-lighter: #ffa100;
-$brand-inverse-lighter: #ffffff;
-
-
-
-$left-panel-width: 250px;
-//$left-panel-shift: 260px;
-$left-panel-shift: 250px;
-
 // Custom bootstrap variables must be set or imported before bootstrap itself.
 @import "bootstrap";
-
 @import "font-awesome";
 
 
-body { padding-top: 50px; }
+body { ppadding-top: 50px; }
+
 
 html, body {
     height: 100%;
     width: 100%;
 }
-a#menu svg {
-    width: 40px;
-    fill: #000;
-}
-#navleft, main {
-    padding: 1em;
-    box-sizing: border-box;
-//    overflow-y: scroll;
-//    overflow-y: hidden;
-//    overflow-y: visible;
-    overflow-y: auto;
-    //top: 0;
-    //bottom: 0;
-    //height: 100%;
-}
-main {
-    width: 100%;
-    height: 100%;
-    padding-left: 5px !important;
-    //margin-left: 20px;
+
+
+body {
+    ddisplay: -webkit-flex;
+    ddisplay: flex;
+    -wwebkit-flex-flow: row nowrap;
+    fflex-flow: row nowrap;
 }
 
-    #navleft {
-        width: $left-panel-width;
-        height: 100%;
 
-        background-color: $brand-inverse-lighter !important;
-        //border-right: solid 1px $brand-inverse;
-        border-right: solid 1px black;
-        z-index: 100;
-
-        transition: transform 0.3s ease;
-
-
-//        position: absolute;
-        position: fixed;
-        /* This trasform moves the drawer off canvas. */
-        -webkit-transform: translate(-$left-panel-shift, 0);
-        transform: translate(-$left-panel-shift, 0);
-        /* Optionally, we animate the drawer. */
-//        transition: transform 0.3s ease;
-    }
-    #navleft.open {
-        -webkit-transform: translate(0, 0);
-        transform: translate(0, 0);
-      }
-
-        main {
-            padding-left: $left-panel-width - $left-panel-shift;
-        }
-
-
-///*
-@media (min-width: 900px) {
-
-    .left-sidebar-toggler {
-        display: none;
-    }
-
-
-    #navleft {
-        //background-color: $navbar-dark-toggler-bg;
-    //    background-color: $gray-dark;
-//        width: $left-panel-width;
-        height: 100%;
-        
-//        position:relative;
-//        position:absolute;
-        position:fixed;
-        left: 0px;
-//        top: 0px;
-        -webkit-transform: translate(0, 0);
-        transform: translate(0, 0);
-    }
-
-
-
-        body {
-          display: -webkit-flex;
-          display: flex;
-          -webkit-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-        }
-
-
-        main {
-//            padding-left: $left-panel-width;
-            margin-left: $left-panel-width;
-          wwidth: auto;
-          fflex-grow: 1;
-        }
-      }
-
-
-//*/
-
-
-
-//.brand-container {
-////    position: absolute;
-//    width: 100%;
-//    border: solid red thin;
-//}
-
-/*
-.navbar-brand {
-    position: absolute;
-//    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-//    left: auto;
-//    right: auto;
-}
-*/
-
-
-/*
-.navbar-toggler .icon-bar:nth-of-type(2) {
-	  top: 1px;
-}
-
-.navbar-toggler .icon-bar:nth-of-type(3) {
-  	top: 2px;
-}
-
-.navbar-toggler .icon-bar {
-    background-color: red;
-	  position: relative;
-	  transition: all 500ms ease-in-out;
-}
-
-.navbar-toggler.active .icon-bar:nth-of-type(1) {
-	  top: 6px;
-	  transform: rotate(45deg);
-}
-
-.navbar-toggler.active .icon-bar:nth-of-type(2) {
-	  background-color: transparent;
-}
-
-.navbar-toggler.active .icon-bar:nth-of-type(3) {
-	  top: -6px;
-	  transform: rotate(-45deg);
-}
-*/
-
-.navbar-toggler.active {
-//    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 4l24 24m0 -24l-24 24'/%3E%3C/svg%3E");
-//    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10'><linearGradient id='gradient'><stop offset='10%' stop-color='%23F00'/><stop offset='90%' stop-color='%23fcc'/> </linearGradient><rect fill='url(%23gradient)' x='0' y='0' width='100%' height='100%'/></svg>");
-
-//    background-image: none;
-}
-
-//.navbar-toggler:active {
-//.navbar-toggler.navbar-toggler:active.navbar-toggler:focus {
-.navbar-toggler:focus {
-    outline: none;
-//    border: none !important;
-//    border: solid red 15px !important;
-}
-
-//.nav-item {
-////    border: none;
-//    border: solid green 15px;
-//}
+@import "navbar";
+//@import "sidebar";
+@import "home";

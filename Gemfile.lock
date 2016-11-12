@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/svenfuchs/rails-i18n.git
+  revision: a13cc4a5642e3114bf75c304bea27e3f3d225625
+  branch: master
+  specs:
+    rails-i18n (5.0.1)
+      i18n (~> 0.7)
+      railties (~> 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -190,6 +199,7 @@ DEPENDENCIES
   mini_magick
   puma (~> 3.0)
   rails (~> 5.0.0, >= 5.0.0.1)
+  rails-i18n!
   sass-rails (~> 5.0)
   spring
   spring-watcher-listen (~> 2.0.0)

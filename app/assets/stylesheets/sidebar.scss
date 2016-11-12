@@ -1,0 +1,91 @@
+
+//$brand-inverse-lighter: #62B1D0;
+//$brand-inverse-lighter: #ffa100;
+$brand-inverse-lighter: #ffffff;
+
+$left-panel-width: 250px;
+//$left-panel-shift: 260px;
+$left-panel-shift: 250px;
+
+
+a#menu svg {
+    width: 40px;
+    fill: #000;
+}
+#navleft {
+    padding: 1em;
+    box-sizing: border-box;
+}
+main.office {
+    padding: 1em;
+    box-sizing: border-box;
+}
+#navleft {
+    overflow-y: auto;
+}
+main.office {
+    width: 100%;
+    height: 100%;
+    padding-left: 5px !important;
+    //margin-left: 20px;
+}
+
+    #navleft {
+        width: $left-panel-width;
+        height: 100%;
+
+        background-color: $brand-inverse-lighter !important;
+        //border-right: solid 1px $brand-inverse;
+        border-right: solid 1px black;
+        z-index: 100;
+
+        transition: transform 0.3s ease;
+
+
+//        position: absolute;
+        position: fixed;
+        /* This trasform moves the drawer off canvas. */
+        -webkit-transform: translate(-$left-panel-shift, 0);
+        transform: translate(-$left-panel-shift, 0);
+        /* Optionally, we animate the drawer. */
+//        transition: transform 0.3s ease;
+    }
+    #navleft.open {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+      }
+
+        main {
+            padding-left: $left-panel-width - $left-panel-shift;
+        }
+
+
+@media (min-width: 900px) {
+
+    .left-sidebar-toggler {
+        display: none;
+    }
+
+    #navleft {
+        height: 100%;
+        position:fixed;
+        left: 0px;
+//        top: 0px;
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+
+
+
+        main.office {
+//            padding-left: $left-panel-width;
+            margin-left: $left-panel-width;
+          wwidth: auto;
+          fflex-grow: 1;
+        }
+      }
+
+
+
+
+

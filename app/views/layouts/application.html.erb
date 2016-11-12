@@ -20,7 +20,8 @@
 
   <body>
 
-    <%= render partial: 'layouts/nav' %>
+    <%= render partial: 'layouts/nav' if @office %>
+
     <main>
       <% unless notice.nil? %>
         <p class="notice"><%= notice %></p>
