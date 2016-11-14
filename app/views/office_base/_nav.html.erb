@@ -1,16 +1,16 @@
 
-<nav class="navbar navbar-light nnavbar-dark bbg-faded main-nav navbar-fixed-top bbg-inverse">
+<nav id="office-navbar" class="navbar navbar-light nnavbar-dark bg-faded mmain-nav navbar-fixed-top bbg-inverse">
 
-<div class="ccontainer text-xs-center">
+  <div class="ccontainer text-xs-center">
 
-<% if @left_sidebar %>
+<%# if @left_sidebar %>
     <ul class="nav navbar-nav float-xs-left" sstyle="margin: 0px; padding: 0px;">
         <li class="nav-item" sstyle="border: none;">
           <!--span class="left-sidebar-toggler nnavbar-toggler" type="button">&#9776;</span-->
           <button class="left-sidebar-toggler navbar-toggler" type="button"></button>
         </li>
     </ul>
-<% end %>
+<%# end %>
 
     <ul class="nav navbar-nav nnavbar-brand" style="display: inline-block; margin: 0px; padding-top: 5px; padding-bottom: 5px;">
     <!--ul class="nav navbar-nav nnavbar-brand" style="display: inline-block; margin: 0px; padding-top: auto; padding-bottom: auto;"-->
@@ -19,6 +19,11 @@
         </li>
     </ul>
 
+
+
+<%
+=begin
+%>
 <ul class="nav navbar-nav float-xs-right">
 
 <% if user_signed_in? %>
@@ -54,61 +59,18 @@
 
 </ul>
 
+<%
+=end
+%>
+
+
+  <%= link_to new_submission_path(@journal), class: 'btn btn-primary bbtn-success bbtn-circle bbtn-lg bbtn-fixed-bottom float-xs-right form-inline' do %>
+    <%= fa_icon 'plus' %><span class="hidden-xs-down"> <%= t('context.submissions.new') %></span>
+  <% end %>
+
 
 </div>
+
+
 </nav>
-
-<% if @left_sidebar %>
-
-<ul id="navleft" class="nav nav-pills nav-stacked nnavbar nnavbar-light nnavbar-dark bbg-inverse bbg-faded">
-
-  <li class="nav-item">
-    <b class="nav-link text-xs-center">Editor office</b>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link aactive ppull-right" href="#">Incoming
-      <span class="tag tag-default tag-pill float-xs-right">5</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Progress</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Done</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Archive</a>
-  </li>
-
-  <li class="nav-item">
-    <b class="nav-link text-xs-center">My reviews</b>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link aactive ppull-right" href="#">Incoming
-      <span class="tag tag-default tag-pill float-xs-right">2</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Progress</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Done</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Archive</a>
-  </li>
-
-  <li class="nav-item">
-    <b class="nav-link text-xs-center">My papers</b>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link aactive ppull-right" href="#">Current</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Archive</a>
-  </li>
-
-</ul>
-
-<% end %>
 

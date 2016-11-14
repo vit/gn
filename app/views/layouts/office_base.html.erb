@@ -1,0 +1,24 @@
+
+<% content_for :content do %>
+    <%= render partial: 'office_base/left_sidebar' %>
+    <div id="main-block">
+        <%= render partial: 'office_base/nav' %>
+        <!--nav>
+        </nav-->
+        <main>
+            <div id="alerts-block">
+                <% unless notice.nil? %>
+                    <p class="notice"><%= notice %></p>
+                <% end %>
+                <% unless alert.nil? %>
+                    <p class="alert"><%= alert %></p>
+                <% end %>
+            </div>
+            <%= yield %>
+        </main>
+    </div>
+<% end %>
+
+
+<%= render template: "layouts/application" %>
+

@@ -1,0 +1,58 @@
+<div class="container">
+
+
+<div class="page-header">
+
+<!--
+  <%#= link_to contexts_path, :class => 'btn btn-default' do %>
+    <i class="fa fa-level-up fa-lg"></i>
+    <%= t('context.contexts.list_title') %>
+  <%# end %>
+  <%#= link_to edit_context_path(@context), :class => 'btn btn-primary' do %>
+    <i class="fa fa-edit fa-lg"></i>
+    <%= t('context.show_context.edit_btn') %>
+  <%# end if current_user #&& current_user.is_admin? %>
+  <%#= link_to @context, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger' do %>
+    <i class="fa fa-trash-o fa-lg"></i>
+    <%= t('context.show_context.destroy_btn') %>
+  <%# end if current_user #&& current_user.is_admin? %>
+-->
+
+  <h1><%= @journal.title %></h1>
+</div>
+
+<p>
+  <%= @journal.description %>
+</p>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%
+=begin
+      all_roles = [
+        {name: 'chief_editor', path: context_ce_submissions_path(@context), enabled: policy(@context).can_chief_editor?},
+        {name: 'admin', path: context_adm_index_path(@context), enabled: policy(@context).can_admin?},
+#        {name: 'reviewer', path: journal_r_path(journal_id: @journal_journal.id)},
+#        {name: 'author', path: submissions_path(journal_id: @journal_journal.id)}
+        {name: 'author', path: context_submissions_path(@context), enabled: policy(@context).can_author?},
+      ]
+      #my_roles = ['author'] | @context.user_roles(current_user)
+=end
+    %>
+
+<!--
+    <%# all_roles.each do |role| %>
+      <%#= link_to role[:path], class: 'btn btn-xlg btn-success' do %>
+        <i class="fa fa-user fa-2x"></i><br>
+        <%#= t('context.role_name.'+role[:name]) %>
+      <%# end if role[:enabled] %>
+    <%# end %>
+-->
+
+  </div>
+</div>
+
+
+
+
+</div>

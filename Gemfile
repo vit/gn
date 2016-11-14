@@ -50,6 +50,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 
 
+gem 'record_tag_helper'
+
 gem 'rails-i18n', github: 'svenfuchs/rails-i18n', branch: 'master' # For 5.x
 
 
@@ -58,8 +60,8 @@ gem 'devise'
 gem "font-awesome-rails"
 
 
-#gem 'aasm'
-#gem "pundit"
+gem 'aasm'
+gem "pundit"
 
 
 #gem 'carrierwave'

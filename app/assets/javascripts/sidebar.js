@@ -3,27 +3,35 @@
 $(document).on('turbolinks:load', function() {
     
     function navleft_toggle() {
-        $("#navleft").toggleClass("open");
+//        $("#left-sidebar").addClass("open");
+        $("#left-sidebar").toggleClass("open");
+//        $("#main-block").toggleClass("moved-right");
 	    $(".left-sidebar-toggler").toggleClass("active");
     }
     function navleft_hide() {
-        $("#navleft").removeClass("open");
+        $("#left-sidebar").removeClass("open");
+//        $("#main-block").removeClass("moved-right");
 	    $(".left-sidebar-toggler").removeClass("active");
     }
     function navleft_show() {
-        $("#navleft").addClass("open");
+        $("#left-sidebar").addClass("open");
+//        $("#main-block").addClass("moved-right");
 	    $(".left-sidebar-toggler").addClass("active");
     }
     
     $(".left-sidebar-toggler").click(function(event) {
         navleft_toggle();
+        event.stopPropagation();
+        event.preventDefault();
 //        $("#navleft").toggleClass("open");
 //	    $(this).toggleClass("active");
     });
-    $("main").on("click",function(){
-        navleft_hide();
-//        $("#navleft").removeClass("open");
-//	    $(".left-sidebar-toggler").removeClass("active");
+    $("#main-block").on("click",function(){
+        if( $("#left-sidebar").hasClass("open") ) {
+            navleft_hide();
+            event.stopPropagation();
+            event.preventDefault();
+        }
     });
 
 //    $("#navleft").on("swiperight",function(){
@@ -33,7 +41,9 @@ $(document).on('turbolinks:load', function() {
 //        $(this).removeClass("open");
 //    });
 
-    $("#navleft").on("swipeleft",function(){
+
+/*
+    $("#left-sidebar").on("swipeleft",function(){
         navleft_hide();
 //        $(this).removeClass("open");
 //	    $(".left-sidebar-toggler").removeClass("active");
@@ -46,11 +56,10 @@ $(document).on('turbolinks:load', function() {
         navleft_show();
     });
 
-
     $.mobile.loading( "hide" );
     $.mobile.loading().hide();
     $.mobile.ajaxEnabled=false;
-
+*/
     
     
 //    $(document).ready(function () {

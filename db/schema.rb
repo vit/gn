@@ -10,7 +10,76 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161109220119) do
+ActiveRecord::Schema.define(version: 20161114155437) do
+
+  create_table "journal_appointments", force: :cascade do |t|
+    t.integer  "journal_id"
+    t.integer  "user_id"
+    t.string   "role_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["journal_id", "user_id", "role_name"], name: "index_journal_appointments_journal_user_role", unique: true
+    t.index ["journal_id"], name: "index_journal_appointments_on_journal_id"
+    t.index ["user_id"], name: "index_journal_appointments_on_user_id"
+  end
+
+  create_table "journals", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "slug"
+    t.integer  "user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["slug"], name: "index_journals_on_slug", unique: true
+    t.index ["user_id"], name: "index_journals_on_user_id"
+  end
+
+  create_table "submission_revision_decisions", force: :cascade do |t|
+    t.string   "decision"
+    t.text     "comment"
+    t.integer  "revision_id"
+    t.integer  "user_id"
+    t.string   "aasm_state"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["revision_id"], name: "index_submission_revision_decisions_on_revision_id"
+    t.index ["user_id"], name: "index_submission_revision_decisions_on_user_id"
+  end
+
+  create_table "submission_revision_files", force: :cascade do |t|
+    t.integer  "revision_id"
+    t.string   "file_type"
+    t.string   "file_data"
+    t.string   "aasm_state"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["revision_id", "file_type"], name: "index_submission_revision_files_revision_type", unique: true
+    t.index ["revision_id"], name: "index_submission_revision_files_on_revision_id"
+  end
+
+  create_table "submission_revisions", force: :cascade do |t|
+    t.integer  "submission_id"
+    t.integer  "revision_n",    default: 0
+    t.string   "aasm_state"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["submission_id"], name: "index_submission_revisions_on_submission_id"
+  end
+
+  create_table "submissions", force: :cascade do |t|
+    t.string   "title"
+    t.text     "abstract"
+    t.integer  "user_id"
+    t.integer  "journal_id"
+    t.integer  "revision_seq",               default: 0
+    t.integer  "last_created_revision_id"
+    t.integer  "last_submitted_revision_id"
+    t.string   "aasm_state"
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.index ["journal_id"], name: "index_submissions_on_journal_id"
+    t.index ["user_id"], name: "index_submissions_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

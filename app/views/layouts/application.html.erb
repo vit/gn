@@ -20,9 +20,9 @@
 
   <body>
 
-    <%= render partial: 'layouts/nav' if @office %>
+    <%#= render partial: 'layouts/nav' if @office %>
 
-    <main>
+    <div>
       <% unless notice.nil? %>
         <p class="notice"><%= notice %></p>
       <% end %>
@@ -30,7 +30,8 @@
         <p class="alert"><%= alert %></p>
       <% end %>
 
-    <%= yield %>
-    </main>
+    <%= content_for?(:content) ? yield(:content) : yield %>
+    <%#= yield %>
+    </div>
   </body>
 </html>

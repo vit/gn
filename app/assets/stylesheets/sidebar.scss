@@ -1,13 +1,45 @@
 
-//$brand-inverse-lighter: #62B1D0;
-//$brand-inverse-lighter: #ffa100;
-$brand-inverse-lighter: #ffffff;
+    #office-navbar {
+        z-index: 10;
+    }
 
+
+#main-block main {
+    padding-top: 60px;
+}
+
+
+$brand-inverse-lighter: #ffffff;
 $left-panel-width: 250px;
-//$left-panel-shift: 260px;
 $left-panel-shift: 250px;
 
+#left-sidebar {
+    width: $left-panel-width;
+    height: 100%;
 
+    background-color: $brand-inverse-lighter !important;
+    border-right: solid 1px black;
+    z-index: 100;
+
+    position: fixed;
+    -webkit-transform: translate(-$left-panel-shift, 0);
+    transform: translate(-$left-panel-shift, 0);
+    transition: transform 0.3s ease;
+
+    overflow-y: auto;
+
+    &.open {
+        -webkit-transform: translate(0, 0);
+        transform: translate(0, 0);
+//        transition: transform 0.3s ease;
+        //border: solid red thin;
+    }
+
+    //padding: 1em;
+    //box-sizing: border-box;
+
+
+/*
 a#menu svg {
     width: 40px;
     fill: #000;
@@ -21,7 +53,6 @@ main.office {
     box-sizing: border-box;
 }
 #navleft {
-    overflow-y: auto;
 }
 main.office {
     width: 100%;
@@ -29,35 +60,34 @@ main.office {
     padding-left: 5px !important;
     //margin-left: 20px;
 }
+*/
 
-    #navleft {
-        width: $left-panel-width;
-        height: 100%;
+}
 
-        background-color: $brand-inverse-lighter !important;
-        //border-right: solid 1px $brand-inverse;
-        border-right: solid 1px black;
-        z-index: 100;
-
-        transition: transform 0.3s ease;
+//    #left-sidebar.open {
+//        -webkit-transform: translate(0, 0);
+//        transform: translate(0, 0);
+//        border: solid red thin;
+//    }
 
 
-//        position: absolute;
-        position: fixed;
-        /* This trasform moves the drawer off canvas. */
-        -webkit-transform: translate(-$left-panel-shift, 0);
-        transform: translate(-$left-panel-shift, 0);
-        /* Optionally, we animate the drawer. */
+
+#main-block {
+    //padding-left: $left-panel-width - $left-panel-shift;
+    margin-left: $left-panel-width - $left-panel-shift;
+//    -webkit-transform: translate(0, 0);
+//    transform: translate(0, 0);
+//    transition: transform 0.3s ease;
+
+    &.moved-right {
+//        -webkit-transform: translate($left-panel-width, 0);
+//        transform: translate($left-panel-width, 0);
 //        transition: transform 0.3s ease;
+//        border: solid red thin;
     }
-    #navleft.open {
-        -webkit-transform: translate(0, 0);
-        transform: translate(0, 0);
-      }
 
-        main {
-            padding-left: $left-panel-width - $left-panel-shift;
-        }
+    
+}
 
 
 @media (min-width: 900px) {
@@ -66,11 +96,12 @@ main.office {
         display: none;
     }
 
-    #navleft {
-        height: 100%;
-        position:fixed;
-        left: 0px;
-//        top: 0px;
+    #office-navbar {
+//        padding-left: $left-panel-width;
+        margin-left: $left-panel-width;
+    }
+
+    #left-sidebar {
         -webkit-transform: translate(0, 0);
         transform: translate(0, 0);
     }
@@ -78,14 +109,19 @@ main.office {
 
 
         main.office {
-//            padding-left: $left-panel-width;
-            margin-left: $left-panel-width;
-          wwidth: auto;
-          fflex-grow: 1;
         }
-      }
+
+    #main-block {
+//        padding-left: $left-panel-width - $left-panel-shift;
+        //padding-left: $left-panel-width;
+        margin-left: $left-panel-width;
+        //wwidth: auto;
+        //fflex-grow: 1;
+    }
 
 
 
+
+}
 
 
