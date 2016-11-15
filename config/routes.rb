@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   root 'home#index'
 
 
-  devise_for :users
+  devise_for :users, controllers: {registrations: 'custom_registrations'}
+
   get 'welcome/index'
 
 #  root 'welcome#index'
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
   get '/office/', to: 'office#show'
 
   resources :submissions #, only: [:show]
+  resources :submission_revision_files
 
 
 end

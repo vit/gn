@@ -1,6 +1,6 @@
 #class SubmissionsController < ApplicationController
 class SubmissionsController < OfficeSubmissionsController
-#  before_action :set_submission, only: [:show, :edit, :update, :destroy]
+  before_action :set_submission, only: [:show, :edit, :update, :destroy]
 #  before_action :set_context, only: [:index, :new, :create]
 #  before_action :authenticate_user!
   
@@ -13,6 +13,7 @@ class SubmissionsController < OfficeSubmissionsController
   def index
     authorize @journal, :can_author?
     @submissions = current_user.submissions.where(journal: @journal)
+    @sidebar_active='my_papers'
   end
 
   # GET /submissions/1
@@ -20,30 +21,33 @@ class SubmissionsController < OfficeSubmissionsController
   def show
 ##    @context = @submission.context
 ##    add_breadcrumb @context.title, context_path(@context)
-    authorize @submission
+#    authorize @submission
+    @sidebar_active='my_papers'
   end
 
   # GET /submissions/new
   def new
-    authorize @context, :can_author?
+    #authorize @context, :can_author?
     @submission = Submission.new
+    @sidebar_active='my_papers'
   end
 
   # GET /submissions/1/edit
   def edit
-    authorize @submission, :update?
+#    authorize @submission, :update?
     @submission_revision = @submission.last_created_revision
     @file_records = (true and @submission_revision) ? %w[author_file author_expert_file].map do |type|
       @submission_revision.get_or_new_file_by_type type
     end : []
+    @sidebar_active='my_papers'
   end
 
   # POST /submissions
   # POST /submissions.json
   def create
-    authorize @context, :can_author?
+#    authorize @journal, :can_author?
     data = submission_params.merge user: current_user
-    @submission = @context.submissions.new(data)
+    @submission = @journal.submissions.new(data)
 
     respond_to do |format|
       if @submission.save
@@ -108,6 +112,12 @@ class SubmissionsController < OfficeSubmissionsController
   end
 
   private
+
+    def set_submission
+      @submission = Submission.find(params[:id])
+      #@context = @submission.context
+    end
+
 =begin
     # Use callbacks to share common setup or constraints between actions.
     def set_submission

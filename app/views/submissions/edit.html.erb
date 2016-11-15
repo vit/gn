@@ -1,0 +1,38 @@
+
+<%
+  @page_menu_data = [
+    {
+      title: t('journal.submissions.show'),
+      url: submission_path(@submission),
+      icon: 'eye',
+#      icon: 'info',
+#      style: 'primary'
+      style: 'default'
+    }, {
+      title: t('journal.submissions.my_papers'),
+      url: submissions_path,
+      icon: 'arrow-left',
+      style: 'default'
+    }
+  ]
+%>
+
+
+
+
+
+
+<div class="container-fluid">
+
+<div class="page-header">
+  <h2><%= t('journal.submissions.edit_paper') %></h2>
+</div>
+
+
+<%= render 'submission_revisions/form' %>
+
+<%= render 'form' %>
+
+</div>
+
+

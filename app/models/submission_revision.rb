@@ -2,7 +2,8 @@ class SubmissionRevision < ActiveRecord::Base
 	include AASM
 
     belongs_to :submission
-    has_many :submission_files, foreign_key: "revision_id"
+#    has_many :submission_files, foreign_key: "revision_id"
+    has_many :submission_revision_files, class_name: 'SubmissionRevisionFile', foreign_key: "revision_id"
     has_one :revision_decision, class_name: 'SubmissionRevisionDecision', foreign_key: "revision_id"
 #    has_many :reviews
     has_many :reviews, class_name: 'SubmissionRevisionReview', foreign_key: "revision_id"
@@ -84,10 +85,10 @@ class SubmissionRevision < ActiveRecord::Base
 	end
 
 	def get_file_by_type(file_type = 'author_file')
-		submission_files.find_by_file_type file_type
+		submission_revision_files.find_by_file_type file_type
 	end
 	def get_or_new_file_by_type(file_type = 'author_file')
-		get_file_by_type(file_type) || submission_files.new(file_type: file_type)
+		get_file_by_type(file_type) || submission_revision_files.new(file_type: file_type)
 	end
 
 

@@ -17,6 +17,7 @@ class OfficeController < OfficeBaseController
   # GET /contexts/1
   # GET /contexts/1.json
   def show
+    @sidebar_active='dashboard'
   end
 
 =begin

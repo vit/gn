@@ -1,0 +1,15 @@
+en:
+    journal:
+        submissions:
+            show: View
+            new: New
+            edit: Edit
+            new_paper: New paper
+            edit_paper: Edit paper
+            my_papers: My papers
+        submission_form:
+            paper_metadata: Paper metadata
+            title: Title
+            abstract: Abstract
+            save_update: Update
+            save_new: Create draft

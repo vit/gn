@@ -90,7 +90,10 @@ main.office {
 }
 
 
-@media (min-width: 900px) {
+
+
+//@media (min-width: 900px) {
+@include media-breakpoint-up(lg) {
 
     .left-sidebar-toggler {
         display: none;

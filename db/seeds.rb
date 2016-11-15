@@ -26,7 +26,7 @@ Submission.create([{
     journal_id: 1,
     revision_seq: 1,
     last_created_revision_id: 1,
-    last_submitted_revision_id: false,
+    last_submitted_revision_id: nil,
     aasm_state: 'draft'
 }, {
     id: 2,
@@ -36,7 +36,7 @@ Submission.create([{
     journal_id: 1,
     revision_seq: 1,
     last_created_revision_id: 2,
-    last_submitted_revision_id: false,
+    last_submitted_revision_id: nil,
     aasm_state: 'draft'
 }, {
     id: 3,
@@ -46,7 +46,7 @@ Submission.create([{
     journal_id: 1,
     revision_seq: 1,
     last_created_revision_id: 3,
-    last_submitted_revision_id: false,
+    last_submitted_revision_id: nil,
     aasm_state: 'draft'
 }, {
     id: 4,
@@ -56,7 +56,7 @@ Submission.create([{
     journal_id: 1,
     revision_seq: 1,
     last_created_revision_id: 4,
-    last_submitted_revision_id: false,
+    last_submitted_revision_id: nil,
     aasm_state: 'draft'
 }, {
     id: 5,
@@ -66,7 +66,7 @@ Submission.create([{
     journal_id: 1,
     revision_seq: 1,
     last_created_revision_id: 5,
-    last_submitted_revision_id: false,
+    last_submitted_revision_id: nil,
     aasm_state: 'draft'
 }, {
     id: 6,
@@ -76,32 +76,38 @@ Submission.create([{
     journal_id: 1,
     revision_seq: 1,
     last_created_revision_id: 6,
-    last_submitted_revision_id: false,
+    last_submitted_revision_id: nil,
     aasm_state: 'draft'
 }])
 
 SubmissionRevision.delete_all
 SubmissionRevision.create([{
+    id: 1,
     submission_id: 1,
     revision_n: 1,
     aasm_state: 'draft'
 }, {
+    id: 2,
     submission_id: 2,
     revision_n: 1,
     aasm_state: 'draft'
 }, {
+    id: 3,
     submission_id: 3,
     revision_n: 1,
     aasm_state: 'draft'
 }, {
+    id: 4,
     submission_id: 4,
     revision_n: 1,
     aasm_state: 'draft'
 }, {
+    id: 5,
     submission_id: 5,
     revision_n: 1,
     aasm_state: 'draft'
 }, {
+    id: 6,
     submission_id: 6,
     revision_n: 1,
     aasm_state: 'draft'

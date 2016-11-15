@@ -70,6 +70,7 @@ gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
 gem "mini_magick"
 #gem 'remotipart', '~> 1.2'
 #gem 'remotipart', '~> 1.3.1'
+gem 'remotipart', '>= 1.3.1'
 #gem 'yomu'
 
 #gem 'mongoid'

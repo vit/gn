@@ -1,0 +1,115 @@
+<%
+  @page_menu_data = [
+    {
+      title: t('journal.submissions.edit'),
+      url: edit_submission_path(@submission),
+      icon: 'pencil',
+#      style: 'primary'
+      style: 'default'
+    }, {
+      title: t('journal.submissions.my_papers'),
+      url: submissions_path,
+      icon: 'arrow-left',
+      style: 'default'
+    }
+  ]
+%>
+
+
+<div class="container-fluid">
+
+    <h2><%= t('journal.submissions.show') %></h2>
+
+<div class="card">
+    <div class="card-block">
+        <p class="card-text">
+            <b>Id:</b> <%= @submission.id %>
+            <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= @submission.aasm_state %></span>
+        </p>
+        <p class="card-text">
+            <b>Title:</b> <%= @submission.title %>
+        </p>
+        <p class="card-text">
+            <b>Abstract:</b> <%= @submission.abstract %>
+        </p>
+    </div>
+
+    <ul class="list-group">
+        <% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
+            <li class="list-group-item">
+                <dl class="row">
+                    <dt class="col-xs-3">Revision:</dt>
+                    <dd class="col-xs-9">#<%= revision.revision_n %></dd>
+                    <dt class="col-xs-3">State:</dt>
+                    <dd class="col-xs-9"><%= revision.aasm_state %></dd>
+                    <dt class="col-xs-3">Files:</dt>
+                    <dd class="col-xs-9">
+                        
+                        <% revision.submission_revision_files.each do |file| %>
+                            &nbsp;<%= link_to file.file_data.url do %><%= fa_icon 'download' %>
+                                <%= file.file_type %>
+                            <% end %>
+                        <% end %>
+                        
+                    </dd>
+                    <% if revision.revision_decision %>
+                        <dt class="col-xs-3">Chief editor comment:</dt>
+                        <dd class="col-xs-9"><%= revision.revision_decision.comment %></dd>
+                    <% end if nil %>
+                </dl>
+            </li>
+        <% end %>
+    </ul>
+
+</div>
+
+
+
+
+<%
+=begin
+%>
+
+<%= render partial: 'blk/comp/buttons', locals: {data_list:[
+  {
+    path: submissions_path,# method: :get,
+    type: 'default', icon: 'level-up',
+    text: t('context.submissions.my_list_title'),
+  },
+  {
+    path: edit_submission_path(@submission),# method: :get,
+    type: 'primary', icon: 'edit',
+    text: t('context.my_submission.edit_btn'),
+    disabled: !policy(@submission).update?
+  },
+  {
+    path: submission_path(@submission, op: :submit), method: :put,
+    type: 'success', icon: 'check',
+#    type: 'success', icon: 'send',
+    text: t('context.my_submission.submit_btn'),
+    data: { confirm: 'Are you sure your paper is ready for submittion?' },
+    disabled: !policy(@submission).submit?
+  },
+  {
+    path: submission_path(@submission, op: :revise), method: :put,
+    type: 'success', icon: 'magic',
+    text: t('context.my_submission.revise_btn'),
+    data: { confirm: 'Are you sure you are want to make new revision of the paper?' },
+    disabled: !policy(@submission).revise?
+  },
+  {
+    path: @submission, method: :delete,
+    type: 'danger', icon: 'trash-o',
+    text: t('context.my_submission.delete_btn'),
+    data: { confirm: 'Are you sure?' },
+    disabled: !policy(@submission).destroy?
+  },
+]} %>
+
+<%
+=end
+%>
+
+
+</div>
+

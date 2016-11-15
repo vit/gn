@@ -1,0 +1,15 @@
+ru:
+    journal:
+        submissions:
+            show: Просмотр
+            new: Новая
+            edit: Изменить
+            new_paper: Новая статья
+            edit_paper: Изменить статью
+            my_papers: Мои статьи
+        submission_form:
+            paper_metadata: Метаданные статьи
+            title: Название
+            abstract: Аннотация
+            save_update: Обновить
+            save_new: Создать черновик
