@@ -1,7 +1,29 @@
-<div class="container">
+<div class="container-fluid">
 
 
-<div class="page-header">
+<div class="card">
+  <div class="card-block">
+    <h2 class="card-title"><%= @journal.title %></h2>
+    <!--p class="card-text">
+      <%= @journal.description %>
+    </p>
+  </div>
+  <div class="card-block"-->
+    <p class="card-text">
+      Эта страница предназначена для "приборной панели", в которой пользователь будет видеть компактный обзор всей своей текущей деятельности:
+      <ul>
+        <li>количество необработанных статей (для редактора)</li>
+        <li>приглашения к рецензированию</li>
+        <li>скорые дедлайны и т.п.</li>
+      </ul>
+    </p>
+  </div>
+  <div class="">
+  </div>
+</div>
+
+
+<!--div class="page-header"-->
 
 <!--
   <%#= link_to contexts_path, :class => 'btn btn-default' do %>
@@ -18,12 +40,12 @@
   <%# end if current_user #&& current_user.is_admin? %>
 -->
 
-  <h1><%= @journal.title %></h1>
-</div>
+  <!--h1><%= @journal.title %></h1>
+</div-->
 
-<p>
+<!--p>
   <%= @journal.description %>
-</p>
+</p-->
 
 <div class="panel panel-default">
   <div class="panel-body">

@@ -15,7 +15,7 @@ class SubmissionRevisionFilesController < ApplicationController
 #			@submission_file = Journal::SubmissionFile.new(file_create_params)
 			#@submission_file = Journal::SubmissionFile.new(file_type: file_type)
 #			@submission_file = @revision.submission_files.new(file_create_params)
-			@submission_file = @revision.submission_files.new(file_type: file_type)
+			@submission_file = @revision.submission_revision_files.new(file_type: file_type)
 			@submission_file.file_data = file
 			flash[:notice] = 'File was successfully uploaded.' if @submission_file.save!
 		end

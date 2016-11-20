@@ -8,11 +8,29 @@
 
 
 
+User.delete_all
+User.create!([{
+    id: 1,
+    email: 'dt@example.com',
+    fname: 'D',
+    lname: 'T',
+    password: '123456',
+    password_confirmation: '123456'
+}, {
+    id: 2,
+    email: 'vs@example.com',
+    fname: 'V',
+    lname: 'S',
+    password: '123456',
+    password_confirmation: '123456'
+}])
+
+
 Journal.delete_all
 Journal.create([{
     id: 1,
     title: 'Журнал "Гироскопия и Навигация"',
-    description: 'Журнал "Гироскопия и Навигация" более длинное описание',
+    description: 'Журнал "Гироскопия и Навигация", более длинное описание',
     slug: 'gn',
     user_id: 1
 }])
@@ -38,6 +56,7 @@ Submission.create([{
     last_created_revision_id: 2,
     last_submitted_revision_id: nil,
     aasm_state: 'draft'
+=begin
 }, {
     id: 3,
     title: 'My paper 3 w qwer qwej wekjr lqweih qwhtqwri tuhqwoirt uqweoir uhqweri qweri uhqweori uhqweori qwehr oiqweur hqowieru hqwoeiru hqweriu qweh',
@@ -78,6 +97,7 @@ Submission.create([{
     last_created_revision_id: 6,
     last_submitted_revision_id: nil,
     aasm_state: 'draft'
+=end
 }])
 
 SubmissionRevision.delete_all
@@ -91,6 +111,7 @@ SubmissionRevision.create([{
     submission_id: 2,
     revision_n: 1,
     aasm_state: 'draft'
+=begin
 }, {
     id: 3,
     submission_id: 3,
@@ -111,6 +132,7 @@ SubmissionRevision.create([{
     submission_id: 6,
     revision_n: 1,
     aasm_state: 'draft'
+=end
 }]);
 
 
