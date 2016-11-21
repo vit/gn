@@ -23,6 +23,23 @@
     <% end %>
   </li>
 
+<% if policy(@journal).can_editor? %>
+  <li class="nav-item">
+    <b class="nav-link text-xs-center">Editor office</b>
+  </li>
+  <!--li class="nav-item">
+    <a class="nav-link aactive ppull-right" href="#">Incoming
+      <span class="tag tag-default tag-pill float-xs-right">5</span>
+    </a>
+  </li-->
+  <li class="nav-item">
+    <%= link_to e_submissions_path, class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : '') do %>
+        Submitted papers
+        <span class="tag tag-default tag-pill float-xs-right"><%= @journal.submissions.all_submitted.count %></span>
+        <span class="tag tag-warning tag-pill float-xs-right"><%= @journal.submissions.get_submitted.count %></span>
+    <% end %>
+  </li>
+<% end %>
 
 <hr>
 

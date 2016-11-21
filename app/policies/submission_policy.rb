@@ -2,8 +2,20 @@ class SubmissionPolicy < ApplicationPolicy
     def is_owner?
         record.owner?(user)
     end
+#    def update?
+#        is_owner? && record.may_sm_update?
+#    end
+#    def update_text?
+#        is_owner? && record.may_sm_update_text?
+#    end
     def update?
-        is_owner? && record.may_sm_update?
+        update_file? || update_metadata?
+    end
+    def update_file?
+        is_owner? && record.may_sm_update_file?
+    end
+    def update_metadata?
+        is_owner? && record.may_sm_update_metadata?
     end
     def submit?
         is_owner? && record.may_sm_submit?
@@ -14,6 +26,12 @@ class SubmissionPolicy < ApplicationPolicy
     def destroy?
         is_owner? && record.may_sm_destroy?
     end
+
+#    def can_editor?
+#        true
+##        can_role? :editor
+#    end
+
 
     def show?
         is_owner?

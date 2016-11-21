@@ -11,6 +11,10 @@ class JournalPolicy < ApplicationPolicy
     def can_author?
         true
     end
+    def can_editor?
+        true
+#        can_role? :editor
+    end
     def can_chief_editor?
         can_role? :chief_editor
     end

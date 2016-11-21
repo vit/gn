@@ -1,0 +1,42 @@
+
+<%
+=begin
+  @page_menu_data = [
+    {
+      title: t('journal.submissions.new'),
+      url: new_submission_path,
+      icon: 'plus',
+#      style: 'primary'
+      style: 'default'
+    }
+  ]
+=end
+%>
+
+
+<div class="container-fluid submissions">
+
+<div class="page-header">
+  <h2><%= t('journal.editor.submitted_papers') %></h2>
+</div>
+
+<div class="list-group">
+  <% @submissions.each do |submission| %>
+      <%
+          text = submission.last_submitted_revision.text
+      %>
+    <%= link_to(e_submission_path(submission), class: "list-group-item list-group-item-action") do %>
+        <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.aasm_state %></span>
+        <!--b><%#= submission.id %></b> | <%#= submission.title.truncate(120) %> <span class="hidden-sm-down"><i><%#= submission.abstract.truncate(250) %></i></span-->
+        <b><%= submission.id %></b> | <%= submission.last_submitted_revision.text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= submission.last_submitted_revision.text.abstract.truncate(250) rescue '' %></i></span>
+        <br>
+        <b>by</b> <%= submission.user.full_name %>
+    <% end %>
+  <% end %>
+</div>
+
+
+
+
+</div>
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114155437) do
+ActiveRecord::Schema.define(version: 20161120190457) do
 
   create_table "journal_appointments", force: :cascade do |t|
     t.integer  "journal_id"
@@ -32,6 +32,28 @@ ActiveRecord::Schema.define(version: 20161114155437) do
     t.datetime "updated_at",  null: false
     t.index ["slug"], name: "index_journals_on_slug", unique: true
     t.index ["user_id"], name: "index_journals_on_user_id"
+  end
+
+  create_table "submission_authors", force: :cascade do |t|
+    t.string   "fname"
+    t.string   "mname"
+    t.string   "lname"
+    t.integer  "submission_revision_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["submission_revision_id"], name: "index_submission_authors_on_submission_revision_id"
+  end
+
+  create_table "submission_files", force: :cascade do |t|
+    t.string   "file_category"
+    t.string   "file_data"
+    t.string   "content_type"
+    t.integer  "file_size"
+    t.string   "attachable_type"
+    t.integer  "attachable_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.index ["attachable_type", "attachable_id"], name: "index_submission_files_on_attachable_type_and_attachable_id"
   end
 
   create_table "submission_revision_decisions", force: :cascade do |t|
@@ -64,6 +86,15 @@ ActiveRecord::Schema.define(version: 20161114155437) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.index ["submission_id"], name: "index_submission_revisions_on_submission_id"
+  end
+
+  create_table "submission_texts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "abstract"
+    t.integer  "submission_revision_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["submission_revision_id"], name: "index_submission_texts_on_submission_revision_id"
   end
 
   create_table "submissions", force: :cascade do |t|

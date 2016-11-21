@@ -16,7 +16,10 @@ Rails.application.routes.draw do
   get '/office/', to: 'office#show'
 
   resources :submissions #, only: [:show]
-  resources :submission_revision_files
+#  resources :submission_revision_files
+  resources :submission_files
+
+  resources :e_submissions, only: [:index, :show, :update]
 
 
 end

@@ -21,58 +21,80 @@ class SubmissionsController < OfficeSubmissionsController
   def show
 ##    @context = @submission.context
 ##    add_breadcrumb @context.title, context_path(@context)
-#    authorize @submission
+    authorize @submission
     @sidebar_active='my_papers'
   end
 
   # GET /submissions/new
   def new
-    #authorize @context, :can_author?
+    authorize @journal, :can_author?
+
     @submission = Submission.new
+    @submission_text = @submission.get_text || SubmissionText.new
+
     @sidebar_active='my_papers'
   end
 
   # GET /submissions/1/edit
   def edit
-#    authorize @submission, :update?
+    authorize @submission, :update?
+
+    @submission_text = @submission.get_text || SubmissionText.new
     @submission_revision = @submission.last_created_revision
-    @file_records = (true and @submission_revision) ? %w[author_file author_expert_file].map do |type|
-      @submission_revision.get_or_new_file_by_type type
-    end : []
+#    @file_records = (true and @submission_revision) ? %w[author_file author_expert_file].map do |type|
+#      @submission_revision.get_or_new_file_by_type type
+#    end : []
+
     @sidebar_active='my_papers'
   end
 
   # POST /submissions
   # POST /submissions.json
   def create
-#    authorize @journal, :can_author?
-    data = submission_params.merge user: current_user
-    @submission = @journal.submissions.new(data)
+    authorize @journal, :can_author?
+    submission_text = submission_text_params
+    @submission = @journal.submissions.new(user: current_user)
+
+#    submission_revision = @submission.revisions.build
+#    submission_text = submission_revision.build_text
+#    data = submission_params.merge user: current_user
+#    @submission = @journal.submissions.new(data)
+
+
+#    @submission.save
+#    @submission.sm_init!
+#    @submission.set_text(submission_text)
+
+#puts "!!!!!!"
+#    puts @submission.get_text.text.title
+#puts "!!!!!!"
 
     respond_to do |format|
-      if @submission.save
+#      if @submission.save
         @submission.sm_init!
+        @submission.set_text(submission_text)
         format.html { redirect_to edit_submission_path(@submission), notice: 'Submission was successfully created.' }
-#        format.html { redirect_to @submission, notice: 'Submission was successfully created.' }
         format.json { render :show, status: :created, location: @submission }
-      else
-        format.html { render :new }
-        format.json { render json: @submission.errors, status: :unprocessable_entity }
-      end
+#      else
+#        format.html { render :new }
+#        format.json { render json: @submission.errors, status: :unprocessable_entity }
+#      end
     end
   end
 
   # PATCH/PUT /submissions/1
   # PATCH/PUT /submissions/1.json
   def update
+    submission_text = submission_text_params
     @submission_revision = @submission.last_created_revision
-      data = submission_params
-      if data
-        if policy(@submission).update?
-          @submission.sm_update!(data)
-          @file_records = @submission_revision ? %w[author_file author_expert_file].map do |type|
-            @submission_revision.get_or_new_file_by_type type
-          end : []
+      #data = submission_params
+      if submission_text
+        if policy(@submission).update_metadata?
+          @submission.set_text(submission_text)
+          #@submission.sm_update_text!(submission_text)
+#          @file_records = @submission_revision ? %w[author_file author_expert_file].map do |type|
+#            @submission_revision.get_or_new_file_by_type type
+#          end : []
         end
       end
 
@@ -101,12 +123,13 @@ class SubmissionsController < OfficeSubmissionsController
   # DELETE /submissions/1
   # DELETE /submissions/1.json
   def destroy
-#        authorize @submission
+        authorize @submission
     if policy(@submission).destroy?
       @submission.destroy
     end
     respond_to do |format|
-      format.html { redirect_to context_submissions_url, notice: 'Submission was successfully destroyed.' }
+#      format.html { redirect_to context_submissions_url, notice: 'Submission was successfully destroyed.' }
+      format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -143,12 +166,15 @@ class SubmissionsController < OfficeSubmissionsController
     end
 =end
 
-    def set_role
-        @user_role = :author
-    end
+#    def set_role
+#        @user_role = :author
+#    end
 
 
     # Never trust parameters from the scary internet, only allow the white list through.
+    def submission_text_params
+      params.require(:submission_text).permit(:title, :abstract) rescue nil
+    end
     def submission_params
       params.require(:submission).permit(:title, :abstract, :sid, :user_id, :context_id, :revision_seq, :last_created_revision_id, :last_submitted_revision_id, :aasm_state) rescue nil
     end

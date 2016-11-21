@@ -1,0 +1,51 @@
+
+
+
+<div class="card card-default">
+  <div class="card-block">
+    <h5 class="card-title"><%= t('context.revision_form.file_category') %>: <b><%= submission_file.file_category %></b></h5>
+  <!--/div>
+  <div class="panel-body"-->
+
+<%= form_for(submission_file, :html => { :multipart => true, :class => "form-inline", :cclass => "form-horizontal", :role => "form" }) do |f| %>
+
+  <%= render partial: 'common/forms/form_error_alert', locals: {form_model: submission_file} %>
+
+      <%#= f.hidden_field :revision_id, :class => "form-control" %>
+      <%= f.hidden_field :attachable_id, :class => "form-control" %>
+      <%= f.hidden_field :attachable_type, :class => "form-control" %>
+      <%= f.hidden_field :file_category, :class => "form-control" %>
+
+  <% if true or submission_file.attachable.submission.may_sm_update_file? %>
+  <div class="form-group">
+    <%#= f.label :title, :class => "ccol-sm-2 control-label" %>
+    <div class="ccol-sm-10">
+      <%= f.file_field :file_data, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="ccol-sm-offset-2 ccol-sm-10">
+      <%= f.button :class => "btn btn-success" do %>
+        <i class="fa fa-check fa-lg"></i>
+        <%= t('context.revision_form.submit_'+(submission_file.persisted? ? 'update' : 'new') ) %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+
+	<% if submission_file.persisted? %>
+		<div class="form-group">
+			<div class="ccol-sm-offset-2 ccol-sm-10">
+				(<%= link_to t('context.revision_form.download_file'), submission_file.file_data.url %>)
+			</div>
+		</div>
+	<% end %>
+
+
+<% end %>
+
+
+  </div>
+</div>
+
+

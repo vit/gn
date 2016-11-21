@@ -1,23 +1,27 @@
-class Submission < ActiveRecord::Base
+#class Submission < ActiveRecord::Base
+class Submission < ApplicationRecord
 	include AASM
 
   belongs_to :user
   belongs_to :journal
 
-  validates :title, :abstract, presence: true
+#  validates :title, :abstract, presence: true
 
   has_many :revisions, class_name: 'SubmissionRevision', dependent: :destroy
-  has_many :reviewer_invitations, class_name: 'SubmissionReviewerInvitation', dependent: :destroy
+#  has_many :reviewer_invitations, class_name: 'SubmissionReviewerInvitation', dependent: :destroy
 
-  belongs_to :last_created_revision, class_name: 'SubmissionRevision', optional: true
-  belongs_to :last_submitted_revision, class_name: 'SubmissionRevision', optional: true
+#  belongs_to :last_created_revision, class_name: 'SubmissionRevision', optional: true
+#  belongs_to :last_submitted_revision, class_name: 'SubmissionRevision', optional: true
 
   scope :all_submitted, -> { where.not(aasm_state: 'draft') }
+  scope :get_submitted, -> { where(aasm_state: 'submitted') }
 
   aasm do
     state :just_created, initial: true
     state :draft
+    state :submitted
     state :revised_draft
+    state :revised
     state :under_review
     state :need_revise
     state :rejected
@@ -31,14 +35,37 @@ class Submission < ActiveRecord::Base
       transitions :from => :just_created, :to => :draft
     end
 
-
-#    event :sm_update, :after_commit => (-> {JournalMailer.author_submission_update(self)}) do
-    event :sm_update do
-      after do |data|
-        self.update data
-        self.save
+#    event :sm_update do
+#      after do |data|
+#        self.update data
+#        self.save
 #        JournalMailer.author_submission_update(self).deliver_now
-        JournalMailer.author_submission_update(self).deliver_now
+#      end
+#      transitions :from => :draft, :to => :draft
+#      transitions :from => :revised_draft, :to => :revised_draft
+#    end
+
+#    event :sm_update_text do
+#      after do |data|
+#        self.set_text data
+#        #JournalMailer.author_submission_update(self).deliver_now
+#      end
+#      transitions :from => :draft, :to => :draft
+#      transitions :from => :revised_draft, :to => :revised_draft
+#    end
+
+    event :sm_update_metadata do
+      after do |data|
+        #self.set_text data
+        #JournalMailer.author_submission_update(self).deliver_now
+      end
+      transitions :from => :draft, :to => :draft
+      transitions :from => :revised_draft, :to => :revised_draft
+    end
+    event :sm_update_file do
+      after do |data|
+        #self.set_text data
+        #JournalMailer.author_submission_update(self).deliver_now
       end
       transitions :from => :draft, :to => :draft
       transitions :from => :revised_draft, :to => :revised_draft
@@ -47,15 +74,15 @@ class Submission < ActiveRecord::Base
     event :sm_submit do
       after do
         self.last_created_revision.sm_submit!
-        self.last_submitted_revision = self.last_created_revision
+#        self.last_submitted_revision = self.last_created_revision
         save!
-#        JournalMailer.author_submission_submit(self).deliver_now
-#        JournalMailer.ce_submission_submit(self).deliver_now
-        JournalMailer.author_submission_submit(self).deliver_now
-        JournalMailer.ce_submission_submit(self).deliver_now
+        #JournalMailer.author_submission_submit(self).deliver_now
+        #JournalMailer.ce_submission_submit(self).deliver_now
       end
-      transitions :from => :draft, :to => :under_review
-      transitions :from => :revised_draft, :to => :under_review
+      transitions :from => :draft, :to => :submitted
+      transitions :from => :revised_draft, :to => :revised
+#      transitions :from => :draft, :to => :under_review
+#      transitions :from => :revised_draft, :to => :under_review
     end
 
     event :sm_revise do
@@ -103,11 +130,29 @@ class Submission < ActiveRecord::Base
     self.user==user
   end
 
+  def last_created_revision
+    self.revisions.order(:revision_n).last
+  end
+  def last_submitted_revision
+    self.revisions.where.not(aasm_state: :draft).order(:revision_n).last
+  end
+  def set_text data
+    last_created_revision.tap { |lcr| (lcr.text || lcr.build_text()).update(data) }.text
+  end
+  def get_text
+    revisions.joins(:text).order("submission_revisions.revision_n").last.text rescue nil
+  end
+  def get_text_submitted
+    revisions.where.not(aasm_state: :draft).joins(:text).order("submission_revisions.revision_n").last.text rescue nil
+  end
+
+
+
 private
     def create_new_revision
         self.revision_seq += 1
         r = self.revisions.build(revision_n: self.revision_seq)
-        self.last_created_revision = r
+#        self.last_created_revision = r
         r.save
         self.save
         r

@@ -1,7 +1,13 @@
-class SubmissionRevision < ActiveRecord::Base
+#class SubmissionRevision < ActiveRecord::Base
+class SubmissionRevision < ApplicationRecord
 	include AASM
 
     belongs_to :submission
+    
+    has_one :text, class_name: 'SubmissionText'
+    has_many :authors, class_name: 'SubmissionAuthor'
+    has_many :files, class_name: 'SubmissionFile', as: :attachable
+
 #    has_many :submission_files, foreign_key: "revision_id"
     has_many :submission_revision_files, class_name: 'SubmissionRevisionFile', foreign_key: "revision_id"
     has_one :revision_decision, class_name: 'SubmissionRevisionDecision', foreign_key: "revision_id"
@@ -84,11 +90,13 @@ class SubmissionRevision < ActiveRecord::Base
 		reviews.find_by(user: user)
 	end
 
-	def get_file_by_type(file_type = 'author_file')
-		submission_revision_files.find_by_file_type file_type
+	def get_file_by_category(file_category = 'author_file')
+#		submission_revision_files.find_by_file_type file_type
+		files.find_by_file_category file_category
 	end
-	def get_or_new_file_by_type(file_type = 'author_file')
-		get_file_by_type(file_type) || submission_revision_files.new(file_type: file_type)
+	def get_or_new_file_by_category(file_category = 'author_file')
+#		get_file_by_type(file_type) || submission_revision_files.new(file_type: file_type)
+		get_file_by_category(file_category) || files.new(file_category: file_category)
 	end
 
 

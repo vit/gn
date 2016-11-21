@@ -1,21 +1,81 @@
 <%
+=begin
+  {
+    path: context_submissions_path(@context),# method: :get,
+    type: 'default', icon: 'level-up',
+    text: t('context.submissions.my_list_title'),
+  },
+  {
+    path: edit_submission_path(@submission),# method: :get,
+    type: 'primary', icon: 'edit',
+    text: t('context.my_submission.edit_btn'),
+    disabled: !policy(@submission).update?
+  },
+  {
+    path: submission_path(@submission, op: :submit), method: :put,
+    type: 'success', icon: 'check',
+#    type: 'success', icon: 'send',
+    text: t('context.my_submission.submit_btn'),
+    data: { confirm: 'Are you sure your paper is ready for submittion?' },
+    disabled: !policy(@submission).submit?
+  },
+  {
+    path: submission_path(@submission, op: :revise), method: :put,
+    type: 'success', icon: 'magic',
+    text: t('context.my_submission.revise_btn'),
+    data: { confirm: 'Are you sure you are want to make new revision of the paper?' },
+    disabled: !policy(@submission).revise?
+  },
+  {
+    path: @submission, method: :delete,
+    type: 'danger', icon: 'trash-o',
+    text: t('context.my_submission.delete_btn'),
+    data: { confirm: 'Are you sure?' },
+    disabled: !policy(@submission).destroy?
+  },
+=end
+
+
+
   @page_menu_data = [
     {
-      title: t('journal.submissions.edit'),
-      url: edit_submission_path(@submission),
-      icon: 'pencil',
-#      style: 'primary'
-      style: 'default'
+        title: t('journal.submissions.submit'),
+        url: submission_path(@submission, op: :submit),
+        method: :put,
+        data: { confirm: 'Are you sure you want to submit this paper?' },
+        icon: 'send',
+#        style: 'default',
+#        style: 'outline-primary',
+        disabled: !policy(@submission).submit?
     }, {
-      title: t('journal.submissions.my_papers'),
-      url: submissions_path,
-#      icon: 'arrow-left',
-      icon: 'list',
-      style: 'default'
+        title: t('journal.submissions.edit'),
+        url: edit_submission_path(@submission),
+        icon: 'pencil',
+#        style: 'default',
+#        style: 'outline-primary',
+        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
+    }, {
+        title: t('journal.submissions.delete'),
+        url: submission_path(@submission),
+        method: :delete,
+        data: { confirm: 'Delete this paper, are you sure? All paper data will be lost.' },
+        icon: 'trash',
+#        style: 'default',
+#        style: 'outline-danger',
+        disabled: !policy(@submission).destroy?
+    }, {
+        title: t('journal.submissions.my_papers'),
+        url: submissions_path,
+        icon: 'list',
+#        style: 'default'
+#        style: 'outline-primary',
     }
   ]
 %>
 
+<%
+    text = @submission.get_text
+%>
 
 <div class="container-fluid">
 
@@ -28,10 +88,10 @@
             <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= @submission.aasm_state %></span>
         </p>
         <p class="card-text">
-            <b>Title:</b> <%= @submission.title %>
+            <b>Title:</b> <%= text.title rescue '' %>
         </p>
         <p class="card-text">
-            <b>Abstract:</b> <%= @submission.abstract %>
+            <b>Abstract:</b> <%= text.abstract rescue '' %>
         </p>
     </div>
 
@@ -46,9 +106,10 @@
                     <dt class="col-xs-3">Files:</dt>
                     <dd class="col-xs-9">
                         
-                        <% revision.submission_revision_files.each do |file| %>
+                        <%# revision.submission_revision_files.each do |file| %>
+                        <% revision.files.each do |file| %>
                             &nbsp;<%= link_to file.file_data.url do %><%= fa_icon 'download' %>
-                                <%= file.file_type %>
+                                <%= file.file_category %>
                             <% end %>
                         <% end %>
                         

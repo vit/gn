@@ -10,6 +10,11 @@
 			<dt class="col-xs-3">State</dt>
 			<dd class="col-xs-9"><%= @submission_revision.aasm_state %></dd>
 		</dl>
-    	<%= render @file_records %>
+		<%
+			file_records = @submission_revision ? %w[author_file author_expert_file].map do |category|
+				@submission_revision.get_or_new_file_by_category category
+			end : []
+		%>
+    	<%= render file_records %>
 	</div>
 </div>

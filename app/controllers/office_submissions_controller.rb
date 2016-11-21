@@ -1,9 +1,9 @@
 #class OfficeSubmissionsController < ApplicationController
 class OfficeSubmissionsController < OfficeBaseController
-	before_action -> { @section_journal_journals = true }
+#	before_action -> { @section_journal_journals = true }
 #	before_action -> { @section_journal_chief_editor_office = true }
 
-	before_action :set_role
+#	before_action :set_role
 
 
 #  before_action :set_submission, only: [:show, :edit, :update, :destroy]

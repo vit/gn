@@ -70,9 +70,9 @@
 -->
 
 <% @page_menu_data.each do |el| %>
-  <%= link_to el[:url], class: "btn btn-#{el[:style]} bbtn-circle bbtn-lg bbtn-fixed-bottom float-xs-right form-inline" do %>
+  <%= link_to el[:url], class: "btn btn-#{el[:style] || 'default'} bbtn-circle bbtn-lg bbtn-fixed-bottom float-xs-right form-inline", data: el[:data], method: el[:method] || :get do %>
     <%= fa_icon el[:icon] %><span class="hidden-xs-down"> <%= el[:title] %></span>
-  <% end %>
+  <% end unless el[:disabled] %>
 <% end if @page_menu_data.is_a?(Array) %>
 
 
