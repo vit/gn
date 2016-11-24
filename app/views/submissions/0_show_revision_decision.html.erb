@@ -1,0 +1,42 @@
+
+<!--div id="decision_block_<%= stage %>">
+
+    <div class="card-block ccard-inverse ccard-primary" style='background-color: #eeeeee; border-bottom: 1px solid #333333'>
+      <div class="card-block">
+            <h5 class="card-title">
+                <%= t('context.editor_submission.editor_decision_'+stage) %>
+            </h5>
+        <% decision=@decisions[stage] %>
+        <%# if @decision.persisted? %>
+        <% if decision %>
+          <dl class="row">
+            <dt class="col-sm-2 col-xs-6"><%= t('context.office_submission.ce_decision.decision') %>:</dt>
+            <dd class="col-sm-10 col-xs-6"><%= decision.decision %></dd>
+            <dt class="col-sm-2"><%= t('context.office_submission.ce_decision.comment') %>:</dt>
+            <dd class="col-sm-12"><%= decision.comment %></dd>
+            <dt class="col-sm-2 col-xs-6">State:</dt>
+            <dd class="col-sm-10 col-xs-6"><%= decision.aasm_state %></dd>
+          </dl>
+        <% else %>
+          <p>
+            <%= t('context.office_submission.ce_decision.not_made') %>
+          </p>
+        <% end %>
+
+        <% if operation_enabled %>
+          <%= link_to "#", data: { toggle: "modal", target: "#decisionModal_"+stage }, :class => 'btn btn-primary btn-sm', disabled: !(@decision && @decision.may_sm_update?) do %>
+            <i class="fa fa-edit fa-lg"></i>
+            <%= t('context.office_submission.ce_decision.prepare') %>
+          <% end %>
+          <%= link_to e_submission_path(@submission, op: 'submit_decision_'+stage), enabled: !!decision, method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success btn-sm', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
+            <i class="fa fa-check fa-lg"></i>
+            <%= t('context.office_submission.ce_decision.submit') %>
+          <% end %>
+        <% end %>
+
+      </div>
+    </div>
+
+    <%= render partial: 'edit_decision_dialog', locals: {stage: stage, operation_enabled: operation_enabled} %>
+
+</div-->

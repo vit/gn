@@ -16,14 +16,20 @@ class Submission < ApplicationRecord
   scope :all_submitted, -> { where.not(aasm_state: 'draft') }
   scope :get_submitted, -> { where(aasm_state: 'submitted') }
 
+  def revisions_submitted
+    revisions.where.not(aasm_state: 'draft')
+  end
+
   aasm do
     state :just_created, initial: true
     state :draft
     state :submitted
-    state :revised_draft
-    state :revised
-    state :under_review
+		state :rejected_without_consideration
+    state :under_consideration
     state :need_revise
+#    state :revised_draft
+    state :under_reworking
+    state :revised
     state :rejected
     state :accepted
     state :nonexistent
@@ -42,7 +48,8 @@ class Submission < ApplicationRecord
 #        JournalMailer.author_submission_update(self).deliver_now
 #      end
 #      transitions :from => :draft, :to => :draft
-#      transitions :from => :revised_draft, :to => :revised_draft
+##      transitions :from => :revised_draft, :to => :revised_draft
+#      transitions :from => :under_reworking, :to => :under_reworking
 #    end
 
 #    event :sm_update_text do
@@ -51,7 +58,8 @@ class Submission < ApplicationRecord
 #        #JournalMailer.author_submission_update(self).deliver_now
 #      end
 #      transitions :from => :draft, :to => :draft
-#      transitions :from => :revised_draft, :to => :revised_draft
+##      transitions :from => :revised_draft, :to => :revised_draft
+#      transitions :from => :under_reworking, :to => :under_reworking
 #    end
 
     event :sm_update_metadata do
@@ -60,15 +68,18 @@ class Submission < ApplicationRecord
         #JournalMailer.author_submission_update(self).deliver_now
       end
       transitions :from => :draft, :to => :draft
-      transitions :from => :revised_draft, :to => :revised_draft
+#      transitions :from => :revised_draft, :to => :revised_draft
+      transitions :from => :under_reworking, :to => :under_reworking
     end
+
     event :sm_update_file do
       after do |data|
         #self.set_text data
         #JournalMailer.author_submission_update(self).deliver_now
       end
       transitions :from => :draft, :to => :draft
-      transitions :from => :revised_draft, :to => :revised_draft
+#      transitions :from => :revised_draft, :to => :revised_draft
+      transitions :from => :under_reworking, :to => :under_reworking
     end
 
     event :sm_submit do
@@ -80,16 +91,17 @@ class Submission < ApplicationRecord
         #JournalMailer.ce_submission_submit(self).deliver_now
       end
       transitions :from => :draft, :to => :submitted
-      transitions :from => :revised_draft, :to => :revised
-#      transitions :from => :draft, :to => :under_review
-#      transitions :from => :revised_draft, :to => :under_review
+#      transitions :from => :under_reworking, :to => :under_reworking
+      transitions :from => :under_reworking, :to => :under_consideration
+# ???????
     end
 
     event :sm_revise do
       after do
         create_new_revision
       end
-      transitions :from => :need_revise, :to => :revised_draft
+#      transitions :from => :need_revise, :to => :revised_draft
+      transitions :from => :need_revise, :to => :under_reworking
     end
 
     event :sm_destroy do
@@ -108,16 +120,13 @@ class Submission < ApplicationRecord
     event :sm_apply_decision do
       after do
 #        JournalMailer.author_submission_apply_decision(self).deliver_now
-        JournalMailer.author_submission_apply_decision(self).deliver_now
       end
-      transitions :from => :under_review, :to => :rejected, :if => (-> {last_submitted_revision.rejected?})
-      transitions :from => :under_review, :to => :accepted, :if => (-> {last_submitted_revision.accepted?})
-      transitions :from => :under_review, :to => :need_revise, :if => (-> {last_submitted_revision.need_revise?})
+      transitions :from => :under_consideration, :to => :rejected, :if => (-> {last_submitted_revision.rejected?})
+      transitions :from => :under_consideration, :to => :accepted, :if => (-> {last_submitted_revision.accepted?})
+      transitions :from => :under_consideration, :to => :need_revise, :if => (-> {last_submitted_revision.need_revise?})
+      transitions :from => :submitted, :to => :rejected_without_consideration, :if => (-> {last_submitted_revision.rejected_without_consideration?})
+      transitions :from => :submitted, :to => :under_consideration, :if => (-> {last_submitted_revision.under_consideration?})
     end
-
-=begin
-
-=end
 
 
   end

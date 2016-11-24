@@ -21,8 +21,7 @@
 <div class="list-group">
   <% @submissions.each do |submission| %>
     <%= link_to(submission, class: "list-group-item list-group-item-action") do %>
-        <!--b><%#= submission.id %></b> | <%#= submission.title.truncate(120) %> <span class="hidden-sm-down"><i><%#= submission.abstract.truncate(250) %></i></span-->
-        <b><%= submission.id %></b> | <%= submission.last_created_revision.text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= submission.last_created_revision.text.abstract.truncate(250) rescue '' %></i></span>
+        <b><%= submission.id %></b> | <%= submission.get_text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= submission.get_text.abstract.truncate(250) rescue '' %></i></span>
         <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= submission.aasm_state %></span>
     <% end %>
   <% end %>

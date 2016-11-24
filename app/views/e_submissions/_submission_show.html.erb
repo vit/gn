@@ -1,0 +1,124 @@
+
+<%
+
+  @page_menu_data = [
+    {
+=begin
+        title: t('journal.submissions.submit'),
+        url: submission_path(@submission, op: :submit),
+        method: :put,
+        data: { confirm: 'Are you sure you want to submit this paper?' },
+        icon: 'send',
+        disabled: !policy(@submission).submit?
+    }, {
+        title: t('journal.submissions.edit'),
+        url: edit_submission_path(@submission),
+        icon: 'pencil',
+        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
+    }, {
+        title: t('journal.submissions.delete'),
+        url: submission_path(@submission),
+        method: :delete,
+        data: { confirm: 'Delete this paper, are you sure? All paper data will be lost.' },
+        icon: 'trash',
+        disabled: !policy(@submission).destroy?
+    }, {
+=end
+        title: t('journal.e_submissions.papers_list'),
+        url: e_submissions_path,
+        icon: 'list',
+    }
+  ]
+%>
+
+<%
+    text = @submission.get_text_submitted
+%>
+
+<!-- div class="container-fluid"-->
+
+    <h2><%= t('journal.submissions.show') %></h2>
+
+<div class="card">
+    <div class="card-block">
+        <p class="card-text">
+            <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= @submission.aasm_state %></span>
+            <b>Id:</b> <%= @submission.id %>
+            <b>by</b> <%= @submission.user.full_name %>
+        </p>
+        <p class="card-text">
+            <b>Title:</b> <%= text.title rescue '' %>
+            <br>
+            <b>Abstract:</b> <%= text.abstract rescue '' %>
+        </p>
+    </div>
+
+    <div cclass="card-block">
+        <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: @submission.submitted?} %>
+    </div>
+    <div cclass="card-block">
+        <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} %>
+    </div>
+
+
+    <ul class="list-group">
+        <% @submission.revisions_submitted.order(:revision_n).reverse_order.each do |revision| %>
+            <li class="list-group-item">
+                <dl class="row">
+                    <dt class="col-xs-3">Revision:</dt>
+                    <dd class="col-xs-9">#<%= revision.revision_n %></dd>
+                    <dt class="col-xs-3">State:</dt>
+                    <dd class="col-xs-9"><%= revision.aasm_state %></dd>
+                    <dt class="col-xs-3">Files:</dt>
+                    <dd class="col-xs-9">
+                        
+                        <%# revision.submission_revision_files.each do |file| %>
+                        <% revision.files.each do |file| %>
+                            &nbsp;<%= link_to file.file_data.url do %><%= fa_icon 'download' %>
+                                <%= file.file_category %>
+                            <% end %>
+                        <% end %>
+                        
+                    </dd>
+                </dl>
+                <% if revision.text %>
+                    <p>
+                        <!--a class="btn btn-primary" data-toggle="collapse" href="#collapse_<%= revision.id %>" aria-expanded="false" aria-controls="collapse_<%= revision.id %>">
+                            Link with href
+                        </a-->
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_<%= revision.id %>" aria-expanded="false" aria-controls="collapse_<%= revision.id %>">
+                            Text...
+                        </button>
+                    </p>
+                    <div class="collapse" id="collapse_<%= revision.id %>">
+                        <div class="card card-block">
+                            <p class="card-text">
+                                <b>Title:</b> <%= revision.text.title rescue '' %>
+                                <br>
+                                <b>Abstract:</b> <%= revision.text.abstract rescue '' %>
+                            </p>
+                        </div>
+                    </div>
+                <% end %>
+
+                    <% if revision.decision_1 %>
+                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} %>
+                    <% end %>
+                    <% if revision.decision_2 %>
+                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} %>
+                    <% end %>
+
+
+            </li>
+        <% end %>
+    </ul>
+
+</div>
+
+
+
+
+
+<!--/div-->
+
+

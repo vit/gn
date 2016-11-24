@@ -13,3 +13,8 @@ ru:
             abstract: Аннотация
             save_update: Обновить
             save_new: Создать черновик
+        editor_submission:
+            editor_decision: Решение редактора
+            form:
+                decision: Решение
+                decision_comment: Комментарий

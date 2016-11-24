@@ -1,0 +1,21 @@
+
+<% if decision.submitted? %>
+<div>
+
+                        <p>
+                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_<%= decision.id %>" aria-expanded="false" aria-controls="collapse_<%= decision.id %>">
+                                Editor decision <%= t(decision.category) %>...
+                            </button>
+                        </p>
+                        <div class="collapse" id="collapse_<%= decision.id %>">
+                            <div class="card card-block"  style='background-color: #eeeeee;'>
+                                <p class="card-text">
+                                    <b>Decision:</b> <%= decision.decision rescue '' %>
+                                    <br>
+                                    <b>Comment:</b> <%= decision.comment rescue '' %>
+                                </p>
+                            </div>
+                        </div>
+
+</div>
+<% end %>

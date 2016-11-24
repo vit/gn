@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120190457) do
+ActiveRecord::Schema.define(version: 20161123120811) do
 
   create_table "journal_appointments", force: :cascade do |t|
     t.integer  "journal_id"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(version: 20161120190457) do
     t.string   "aasm_state"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "category"
     t.index ["revision_id"], name: "index_submission_revision_decisions_on_revision_id"
     t.index ["user_id"], name: "index_submission_revision_decisions_on_user_id"
   end
