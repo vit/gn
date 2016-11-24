@@ -2,7 +2,7 @@ class Journal < ApplicationRecord
 #    Types = %w[Conference Journal]
     belongs_to :user
     has_many :submissions
-    has_many :appointments, class_name: 'ContextAppointment'
+    has_many :appointments, class_name: 'JournalAppointment'
 
     validates :title, :description, :slug, presence: true
     validates :slug, uniqueness: true
@@ -30,6 +30,9 @@ class Journal < ApplicationRecord
 =end
 	def chief_editors
 		self.appointments.where(role_name: 'chief_editor').map(&:user)
+	end
+	def editors
+		self.appointments.where(role_name: 'editor').map(&:user)
 	end
 	def reviewers
 		self.appointments.where(role_name: 'reviewer').map(&:user)
