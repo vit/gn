@@ -1,12 +1,18 @@
 
-<div id="decision_block_<%= stage %>">
+<%
+  decision=@decisions[stage]
+  modal_target_id = 'modal_' + @submission.id.to_s + '_revision_decision_' + stage
+  decision_block_id = 'decision_block_' + @submission.id.to_s + '_revision_decision_' + stage
+%>
+
+<div id="<%= decision_block_id %>">
 
     <div class="card-block ccard-inverse ccard-primary" style='background-color: #eeeeee; border-bottom: 1px solid #333333'>
       <div class="card-block">
             <h5 class="card-title">
                 <%= t('context.editor_submission.editor_decision_'+stage) %>
             </h5>
-        <% decision=@decisions[stage] %>
+        <%# decision=@decisions[stage] %>
         <%# if @decision.persisted? %>
         <% if decision %>
           <dl class="row">
@@ -24,7 +30,7 @@
         <% end %>
 
         <% if operation_enabled %>
-          <%= link_to "#", data: { toggle: "modal", target: "#decisionModal_"+stage }, :class => 'btn btn-primary btn-sm', disabled: !(@decision && @decision.may_sm_update?) do %>
+          <%= link_to "#", data: { toggle: "modal", target: "##{modal_target_id}" }, :class => 'btn btn-primary btn-sm', disabled: !(@decision && @decision.may_sm_update?) do %>
             <i class="fa fa-edit fa-lg"></i>
             <%= t('context.office_submission.ce_decision.prepare') %>
           <% end %>
@@ -37,6 +43,8 @@
       </div>
     </div>
 
-    <%= render partial: 'edit_decision_dialog', locals: {stage: stage, operation_enabled: operation_enabled} %>
+    <% if operation_enabled %>
+      <%= render partial: 'edit_decision_dialog', locals: {stage: stage, modal_target_id: modal_target_id, operation_enabled: operation_enabled} %>
+    <% end %>
 
 </div>

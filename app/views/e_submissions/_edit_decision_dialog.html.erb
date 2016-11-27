@@ -1,10 +1,10 @@
 
-<div class="modal fade" id="decisionModal_<%= stage %>" tabindex="-1" role="dialog" aria-labelledby="decisionModal" aria-hidden="true">
-  <div class="modal-dialog role="document" mmodal-lg">
+<div class="modal fade" id="<%= modal_target_id %>" tabindex="-1">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" aaria-hidden="true">
-            <span aria-hidden="true">&times;</span>
+        <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
         </button>
         <h4 class="modal-title">
           <%= t('journal.editor_submission.editor_decision') %> <%= stage %>
@@ -13,7 +13,10 @@
       <div class="modal-body">
         <% decision=@decisions[stage] %>
         <% decision = SubmissionRevisionDecision.new unless decision %>
-        <%= form_for decision, url: e_submission_path(@submission), method: :put, remote: true, :html => { :class => "container-fluid fform-horizontal", :role => "form", :onsubmit => "$('#decisionModal_#{stage}').modal('hide'); /*$('body').removeClass('modal-open');*/ return true;"} do |f| %>
+        <%= form_for decision, url: e_submission_path(@submission), method: :put, remote: true, :html => {
+              :class => "container-fluid",
+              :onsubmit => "$('##{modal_target_id}').modal('hide'); /*$('body').removeClass('modal-open');*/ return true;"
+            } do |f| %>
             <%= f.hidden_field :category, value: stage %>
           <div class="form-group row">
             <%= f.label t('journal.editor_submission.form.decision'), :class => "col-sm-2 col-form-label form-control-label" %>
