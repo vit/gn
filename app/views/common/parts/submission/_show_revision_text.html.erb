@@ -1,0 +1,23 @@
+
+<% if revision.text %>
+<div>
+    <%
+        collapse_target_id = 'collapse_revision_text_' + revision.text.id.to_s
+    %>
+                    <p>
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#<%= collapse_target_id %>" aria-expanded="false" aria-controls="<%= collapse_target_id %>">
+                            Text...
+                        </button>
+                    </p>
+                    <div class="collapse" id="<%= collapse_target_id %>">
+                        <div class="card card-block">
+                            <p class="card-text">
+                                <b>Title:</b> <%= revision.text.title rescue '' %>
+                                <br>
+                                <b>Abstract:</b> <%= revision.text.abstract rescue '' %>
+                            </p>
+                        </div>
+                    </div>
+
+</div>
+<% end %>

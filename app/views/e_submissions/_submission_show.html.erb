@@ -81,25 +81,9 @@
                         
                     </dd>
                 </dl>
-                <% if revision.text %>
-                    <p>
-                        <!--a class="btn btn-primary" data-toggle="collapse" href="#collapse_<%= revision.id %>" aria-expanded="false" aria-controls="collapse_<%= revision.id %>">
-                            Link with href
-                        </a-->
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_<%= revision.id %>" aria-expanded="false" aria-controls="collapse_<%= revision.id %>">
-                            Text...
-                        </button>
-                    </p>
-                    <div class="collapse" id="collapse_<%= revision.id %>">
-                        <div class="card card-block">
-                            <p class="card-text">
-                                <b>Title:</b> <%= revision.text.title rescue '' %>
-                                <br>
-                                <b>Abstract:</b> <%= revision.text.abstract rescue '' %>
-                            </p>
-                        </div>
-                    </div>
-                <% end %>
+                    <% if revision.text %>
+                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+                    <% end %>
 
                     <% if revision.decision_1 %>
                         <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} %>

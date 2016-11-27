@@ -132,11 +132,8 @@
                 </dl>
 
 
-                <% if revision.text %>
-                    <p>
-                        <!--a class="btn btn-primary" data-toggle="collapse" href="#collapse_<%= revision.id %>" aria-expanded="false" aria-controls="collapse_<%= revision.id %>">
-                            Link with href
-                        </a-->
+                <%# if revision.text %>
+                    <!--p>
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_<%= revision.id %>" aria-expanded="false" aria-controls="collapse_<%= revision.id %>">
                             Text...
                         </button>
@@ -149,9 +146,12 @@
                                 <b>Abstract:</b> <%= revision.text.abstract rescue '' %>
                             </p>
                         </div>
-                    </div>
-                <% end %>
+                    </div-->
+                <%# end %>
 
+                    <% if revision.text %>
+                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+                    <% end %>
 
                     <% if revision.decision_1 %>
                         <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} %>
