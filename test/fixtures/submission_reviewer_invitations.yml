@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  aasm_state: MyString
+  user: one
+  submission: one
+
+two:
+  aasm_state: MyString
+  user: two
+  submission: two

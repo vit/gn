@@ -5,6 +5,7 @@ class ESubmissionsController < OfficeSubmissionsController
 #	before_action -> { @section_journal_journals = true }
 #	before_action -> { @section_journal_chief_editor_office = true }
 
+	before_action -> { @current_role = 'editor' }
 
 	def index
         authorize @journal, :can_editor?
@@ -14,6 +15,7 @@ class ESubmissionsController < OfficeSubmissionsController
         @sidebar_active='editor_office'
 	end
 
+=begin
     def show
         authorize @journal, :can_editor?
         #authorize @submission, :can_editor?
@@ -73,7 +75,7 @@ class ESubmissionsController < OfficeSubmissionsController
             end
 		end
 
-=begin
+##=begin
 		data = params[:submission_revision_review]
 		if data
 			data = data.permit(:decision, :comment).merge user: current_user
@@ -84,7 +86,7 @@ class ESubmissionsController < OfficeSubmissionsController
 				@my_review = @revision.user_review current_user
 			end
 		end
-=end
+##=end
 
 		case params[:op]
 		when 'submit_decision_stage_1'
@@ -97,13 +99,11 @@ class ESubmissionsController < OfficeSubmissionsController
 
 #		when 'cancel_decision'
 #			@decision.sm_cancel!
-=begin
 		when 'add_reviewer_invitations'
 			r_ids = params[:reviewer_invitations]
 			r_ids.each do |r_id|
 				puts r_id
 				u = User.find(r_id)
-				#@submission.reviewer_invitations.find(user: u)
 				inv = @submission.reviewer_invitations.build(user: u)
 				inv.save! rescue nil
 			end if r_ids and r_ids.is_a?(Array)
@@ -117,13 +117,14 @@ class ESubmissionsController < OfficeSubmissionsController
 			u = User.find(r_id)
 			inv = @submission.reviewer_invitations.find_by(user: u)
 			inv.sm_destroy! if inv.may_sm_destroy?
+##=begin
 		when 'accept_my_reviewer_invitation'
 			@my_invitation.sm_accept! if @my_invitation && @my_invitation.may_sm_accept?
 		when 'decline_my_reviewer_invitation'
 			@my_invitation.sm_decline! if @my_invitation && @my_invitation.may_sm_decline?
 		when 'submit_my_review'
 			@my_review.sm_submit! if @my_review && @my_review.may_sm_submit?
-=end
+##=end
 		end
 
 
@@ -155,13 +156,8 @@ class ESubmissionsController < OfficeSubmissionsController
 			format.js
 		end
 
-
-
-
-
-
     end
-
+=end
 
 private
 

@@ -12,7 +12,7 @@ class SubmissionsController < OfficeSubmissionsController
   # GET /submissions.json
   def index
     authorize @journal, :can_author?
-    @submissions = current_user.submissions.where(journal: @journal)
+    @submissions = current_user.submissions.where(journal: @journal).order(id: :desc)
     @sidebar_active='my_papers'
   end
 

@@ -9,21 +9,29 @@
       style: 'default'
     }
   ]
-%>
 
+  @page_title = t('journal.submissions.my_papers')
+
+%>
 
 <div class="container-fluid submissions">
 
-<div class="page-header">
+<!--div class="page-header">
   <h2><%= t('journal.submissions.my_papers') %></h2>
-</div>
+</div-->
 
-<div class="list-group">
+<div class="list-group papers-list rrow">
   <% @submissions.each do |submission| %>
-    <%= link_to(submission, class: "list-group-item list-group-item-action") do %>
-        <b><%= submission.id %></b> | <%= submission.get_text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= submission.get_text.abstract.truncate(250) rescue '' %></i></span>
-        <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= submission.aasm_state %></span>
+    <!--div class="col-md-6 papers-list-col" ssstyle="border: 1px solid red;"-->
+    <%= link_to(submission, class: "list-group-item list-group-item-action papers-list-item ccol-md-6") do %>
+        <!--span class="tag tag-pill tag-primary tag-pill float-xs-right papers-list-item-tag-<%= submission.aasm_state %>"><%= submission.aasm_state %></span-->
+        <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= submission.last_created_revision.aasm_state %>"><%= submission.last_created_revision.aasm_state %></span>
+        <span>#<%= submission.id %></span> | <span class="papers-list-item-title"><%= submission.get_text.title.truncate(120) rescue '' %></span>
+        <div class="papers-list-item-authors">Сидоров Сидор Сидорович, Иванов Иван Иванович</div>
+        <div class="hidden-sm-down papers-list-item-abstract"><ii><%= submission.get_text.abstract.truncate(250) rescue '' %></ii></div>
     <% end %>
+    <!--/div-->
+    <!--div class="clearfix visible-xs-block"></div-->
   <% end %>
 </div>
 

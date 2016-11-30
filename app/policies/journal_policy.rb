@@ -19,7 +19,8 @@ class JournalPolicy < ApplicationPolicy
         can_role? :chief_editor
     end
     def can_reviewer?
-        true
+        #true
+        record.user_reviewer_invitations(user).count > 0
     end
 
 private

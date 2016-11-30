@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Workspace</title>
+    <%
+      journal_title = @journal ? @journal.title : ''
+      page_title = @page_title ? @page_title : nil
+      title = journal_title
+      title = page_title + ' : ' + journal_title if page_title
+    %>
+    <title><%= title %></title>
     <%= csrf_meta_tags %>
 
 <!--link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" data-turbolinks-track="reload" /-->

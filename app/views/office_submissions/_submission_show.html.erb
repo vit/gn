@@ -1,0 +1,96 @@
+<%
+    case @current_role
+    when 'editor'
+        @page_menu_data = [
+        {
+            title: t('journal.e_submissions.papers_list'),
+            url: e_submissions_path,
+            icon: 'arrow-left',
+        }
+        ]
+        @page_title = t('journal.e_submissions.show') + ' #' + @submission.id.to_s
+        @page_title_sm = '#' + @submission.id.to_s
+    when 'reviewer'
+        @page_menu_data = [
+        {
+            title: t('journal.r_submissions.papers_list'),
+            url: r_submissions_path,
+            icon: 'arrow-left',
+        }
+        ]
+        @page_title = t('journal.r_submissions.show') + ' #' + @submission.id.to_s
+        @page_title_sm = '#' + @submission.id.to_s
+    end
+%>
+
+<%
+    text = @submission.get_text_submitted
+%>
+
+<div class="card">
+    <div class="card-block">
+        <p class="card-text">
+            <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= @submission.aasm_state %></span>
+            <b>Id:</b> <%= @submission.id %>
+            <b>by</b> <%= @submission.user.full_name %>
+        </p>
+        <p class="card-text">
+            <b>Title:</b> <%= text.title rescue '' %>
+            <br>
+            <b>Abstract:</b> <%= text.abstract rescue '' %>
+        </p>
+    </div>
+
+        <%#= render partial: 'submission_r_invitation_block', locals: {operation_enabled: true} %>
+        <%#= render partial: 'submission_r_review_block' if @section_journal_reviewer_office && @my_invitation && @my_invitation.accepted? %>
+
+        <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: @submission.submitted?} if @current_role=='editor' %>
+        <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} if @current_role=='editor' %>
+        <%= render partial: 'submission_invitations_block', locals: {operation_enabled: true} if @current_role=='editor' %>
+
+        <%#= render 'submission_r_invitation_block' if @section_journal_reviewer_office %>
+        <%#= render 'submission_r_review_block' if @section_journal_reviewer_office && @my_invitation && @my_invitation.accepted? %>
+
+        <%#= render 'submission_ce_decision_block' if @section_journal_chief_editor_office %>
+        <%#= render 'submission_invitations_block' if @section_journal_chief_editor_office %>
+
+
+    <ul class="list-group">
+        <% @submission.revisions_submitted.order(:revision_n).reverse_order.each do |revision| %>
+            <li class="list-group-item">
+                <dl class="row">
+                    <dt class="col-xs-3">Revision:</dt>
+                    <dd class="col-xs-9">#<%= revision.revision_n %></dd>
+                    <dt class="col-xs-3">State:</dt>
+                    <dd class="col-xs-9"><%= revision.aasm_state %></dd>
+                    <dt class="col-xs-3">Files:</dt>
+                    <dd class="col-xs-9">
+                        
+                        <%# revision.submission_revision_files.each do |file| %>
+                        <% revision.files.each do |file| %>
+                            &nbsp;<%= link_to file.file_data.url do %><%= fa_icon 'download' %>
+                                <%= file.file_category %>
+                            <% end %>
+                        <% end %>
+                        
+                    </dd>
+                </dl>
+                    <% if revision.text %>
+                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+                    <% end %>
+
+                    <% if revision.decision_1 %>
+                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} if @current_role=='editor' %>
+                    <% end %>
+                    <% if revision.decision_2 %>
+                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} if @current_role=='editor' %>
+                    <% end %>
+
+
+            </li>
+        <% end %>
+    </ul>
+
+</div>
+
+

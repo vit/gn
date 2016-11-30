@@ -1,0 +1,22 @@
+<%
+  @page_title = t('journal.r_submissions.assigned_papers')
+%>
+
+<div class="container-fluid submissions">
+
+    <div class="list-group">
+        <% @submissions.each do |submission| %>
+            <%
+                text = submission.get_text
+            %>
+            <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action") do %>
+                <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span>
+                <b>#<%= submission.id %></b> | <%= submission.last_submitted_revision.text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= submission.last_submitted_revision.text.abstract.truncate(250) rescue '' %></i></span>
+                <br>
+                <b>by</b> <%= submission.user.full_name %>
+            <% end %>
+        <% end %>
+    </div>
+</div>
+
+

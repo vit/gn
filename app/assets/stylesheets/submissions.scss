@@ -14,3 +14,53 @@
 }
 
 */
+
+//$papers-list-item-background-color: #f9f9f5;
+//$papers-list-item-background-color: #fdfffb;
+$papers-list-item-background-color: #ffffff;
+$papers-list-item-background-color-hover: darken($papers-list-item-background-color, 3%);
+
+        .paper-tag-draft {
+            background-color: darkgray;
+        }
+        .paper-tag-submitted {
+            background-color: darkblue;
+        }
+        .paper-tag-under_consideration {
+            background-color: darkorchid;
+        }
+        .paper-tag-need_revise {
+            background-color: darkorange;
+        }
+        .paper-tag-rejected, .paper-tag-rejected_without_consideration {
+            background-color: darkred;
+        }
+        .paper-tag-accepted {
+            background-color: darkgreen;
+        }
+
+
+.papers-list {
+    .papers-list-item {
+        margin: 8px 0px;
+        background-color: $papers-list-item-background-color !important;
+        box-shadow: 2px 2px 2px rgba(10,10,0,0.5);
+        &:hover {
+            background-color: $papers-list-item-background-color-hover !important;
+        }
+    }
+}
+
+        .papers-list-item-title, .paper-card-title {
+            font-size: 120%;
+            color: #000000;
+        }
+        .papers-list-item-authors, .paper-card-authors {
+            font-family: Georgia, serif;
+            font-size: 85%;
+            color: #777777;
+        }
+        .papers-list-item-abstract, .paper-card-abstract {
+            color: #aaaaaa;
+        }
+

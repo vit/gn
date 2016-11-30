@@ -77,11 +77,16 @@
     }, {
         title: t('journal.submissions.my_papers'),
         url: submissions_path,
-        icon: 'list',
+        icon: 'arrow-left',
+#        icon: 'list',
 #        style: 'default'
 #        style: 'outline-primary',
     }
   ]
+
+  @page_title = t('journal.submissions.show') + ' #' + @submission.id.to_s
+  @page_title_sm = '#' + @submission.id.to_s
+
 %>
 
 <%
@@ -90,23 +95,56 @@
 
 <div class="container-fluid">
 
-    <h2><%= t('journal.submissions.show') %></h2>
+    <!--h2><%#= t('journal.submissions.show') %></h2-->
 
-<div class="card">
-    <div class="card-block">
-        <p class="card-text">
-            <b>Id:</b> <%= @submission.id %>
+<!--div cclass="card"-->
+    <div class="ccard-block paper-card">
+        <!--p class="card-text">
+            <b>Id:</b> <%#= @submission.id %>
             <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= @submission.aasm_state %></span>
-        </p>
-        <p class="card-text">
+        </p-->
+        <!--p cclass="card-text">
+            <div>
+            <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= @submission.aasm_state %></span>
             <b>Title:</b> <%= text.title rescue '' %>
-        </p>
-        <p class="card-text">
+            </div-->
+        <!--/p>
+        <p class="card-text"-->
+            <!--div>
             <b>Abstract:</b> <%= text.abstract rescue '' %>
-        </p>
+            </div>
+        </p-->
+
+        <div>
+            <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span>
+            <b>Title:</b> <span class="ppaper-card-title"><%= text.title rescue '' %></span>
+        </div>
+        <div>
+            <b>Authors:</b>
+            <span class="ppaper-card-authors">Сидоров Сидор Сидорович, Иванов Иван Иванович</span>
+        </div>
+        <!--div>
+            <b>Abstract:</b>
+            <div class="ppaper-card-abstract"><%= text.abstract rescue '' %></div>
+        </div-->
+        <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
+        <div>
+            <b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b>
+            <div cclass="ppaper-card-abstract" class="collapse" id="<%= abstract_collapse_target_id %>">
+                <%= text.abstract rescue '' %>
+            </div>
+        </div>
+
     </div>
 
-    <ul class="list-group">
+<hr>
+
+<div cclass="card">
+    <% revisions_collapse_target_id = "collapse_revisions_"+@submission.id.to_s %>
+    <div cclass="card-block">
+        <h4 class="card-title bbtn btn-link" data-toggle="collapse" data-target="#<%= revisions_collapse_target_id %>">All revisions...</h4>
+    </div>
+    <ul class="list-group collapse" id="<%= revisions_collapse_target_id %>">
         <% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
             <li class="list-group-item">
                 <dl class="row">

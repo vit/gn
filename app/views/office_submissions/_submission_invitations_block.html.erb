@@ -1,0 +1,57 @@
+<%
+  modal_target_id = 'modal_submission_' + @submission.id.to_s + '_invite_reviewers'
+  invitations_block_id = 'invitations_block_' + @submission.id.to_s
+%>
+
+<div class="card" id="<%= invitations_block_id %>" style='background-color: #eeffee; border-bottom: 1px solid #333333'>
+    <div class="card-block">
+        <h5 class="card-title">
+            <%= t('journal.e_submission.invite_reviewers') %>
+        </h5>
+    <!--/div-->
+        <ul class="list-group">
+            <% @submission.reviewer_invitations.each do |ri| %>
+                <li class="list-group-item">
+                    <%= link_to e_submission_path(@submission, op: 'drop_reviewer_invitation', reviewer_id: ri.user.id),
+                        method: :put,
+                        data: { confirm: 'Are you sure?' },
+                        :class => 'btn btn-danger btn-sm pull-right', remote: true,
+                        :disabled => !ri.may_sm_destroy? do %>
+                            &times;
+                    <% end %>
+
+                    <%= link_to e_submission_path(@submission, op: 'activate_reviewer_invitation', reviewer_id: ri.user.id),
+                        method: :put,
+                        data: { confirm: 'Are you sure?' },
+                        :class => 'btn btn-success btn-sm pull-right',
+                        remote: true,
+                        :disabled => !ri.may_sm_activate? do %>
+                            <i class="fa fa-check"></i>
+                            <%= t('journal.e_submission.reviewer_invitations.activate') %>
+                    <% end %>
+                    <p>
+                        <%#= link_to u_path(ri.user), target: "_blank" do %>
+                            <i class="fa fa-user"></i> <%= ri.user.full_name -%>
+                        <%# end %>
+                        | <%= ri.aasm_state %>
+                    </p>
+                </li>
+            <% end %>
+        </ul>
+
+    <!--div class="card-block"-->
+        <%= link_to "#",
+            data: { toggle: "modal", target: "##{modal_target_id}" },
+            :class => 'btn btn-primary btn-sm', disabled: false do %>
+                <i class="fa fa-plus ffa-lg"></i>
+                <%= t('journal.e_submission.reviewer_invitations.create_invitations') %>
+        <% end %>
+    </div>
+
+    <% if operation_enabled %>
+        <%= render partial: 'edit_reviewer_invitations_dialog', locals: {modal_target_id: modal_target_id, operation_enabled: operation_enabled} %>
+    <% end %>
+
+
+</div>
+

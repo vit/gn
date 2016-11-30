@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :submission_files
 
   resources :e_submissions, only: [:index, :show, :update]
+  resources :r_submissions, only: [:index, :show, :update]
 
 
 end

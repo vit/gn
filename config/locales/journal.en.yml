@@ -1,12 +1,17 @@
 en:
     journal:
         submissions:
-            show: View
+            #show: View
+            show: My paper
             new: New
             edit: Edit
             new_paper: New paper
             edit_paper: Edit paper
             my_papers: My papers
+        e_submissions:
+            show: Paper
+            submitted_papers: Submitted papers
+            papers_list: Papers list
         submission_form:
             paper_metadata: Paper metadata
             title: Title

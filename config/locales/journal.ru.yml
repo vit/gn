@@ -1,12 +1,17 @@
 ru:
     journal:
         submissions:
-            show: Просмотр
+            #show: Просмотр
+            show: Моя статья
             new: Новая
             edit: Изменить
             new_paper: Новая статья
             edit_paper: Изменить статью
             my_papers: Мои статьи
+        e_submissions:
+            show: Статья
+            submitted_papers: Поданные статьи
+            papers_list: Список статей
         submission_form:
             paper_metadata: Метаданные статьи
             title: Название

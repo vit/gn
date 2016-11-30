@@ -33,6 +33,14 @@ $(document).on('turbolinks:load', function() {
             event.preventDefault();
         }
     });
+    $(".left-sidebar-close-btn").on("click",function(){
+        if( $("#left-sidebar").hasClass("open") ) {
+            navleft_hide();
+        }
+        event.stopPropagation();
+        event.preventDefault();
+    });
+
 
 //    $("#navleft").on("swiperight",function(){
 //        $(this).addClass("open");
