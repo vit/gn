@@ -22,6 +22,7 @@ class SubmissionReviewerInvitation < ApplicationRecord
 			after do
 			end
 			transitions :from => :pending, :to => :cancelled
+			transitions :from => :accepted, :to => :cancelled
 		end
 
 		event :sm_decline do
@@ -40,8 +41,8 @@ class SubmissionReviewerInvitation < ApplicationRecord
 			after do
 				self.destroy!
 			end
-			transitions :to => :nonexistent
-#			transitions :from => :inactive, :to => :nonexistent
+#			transitions :to => :nonexistent
+			transitions :from => :inactive, :to => :nonexistent
 		end
 
 	end

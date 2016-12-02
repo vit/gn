@@ -1,5 +1,5 @@
 <%
-  @page_title = t('journal.r_submissions.assigned_papers')
+  @page_title = t('journal.r_submission.assigned_papers')
 %>
 
 <div class="container-fluid submissions">
@@ -8,13 +8,27 @@
         <% @submissions.each do |submission| %>
             <%
                 text = submission.get_text
+                invitation_state = submission.reviewer_invitations.first.aasm_state
             %>
-            <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action") do %>
+            <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action #{ %w[declined cancelled].include?(invitation_state) ? 'disabled' : '' }") do %>
+                <b>Invitation:</b> <span>
+                    <%= invitation_state %>
+                    <% if invitation_state=='pending' %>
+                        <i>(please accept or decline)</i>
+                    <% end %>
+                </span>
+                <br>
                 <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span>
                 <b>#<%= submission.id %></b> | <%= submission.last_submitted_revision.text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= submission.last_submitted_revision.text.abstract.truncate(250) rescue '' %></i></span>
                 <br>
                 <b>by</b> <%= submission.user.full_name %>
             <% end %>
+            <!--p>
+                <%#= submission.inspect %>
+            </p>
+            <p>
+                <%#= submission.reviewer_invitations.inspect %>
+            </p-->
         <% end %>
     </div>
 </div>

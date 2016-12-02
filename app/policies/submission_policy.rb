@@ -2,6 +2,14 @@ class SubmissionPolicy < ApplicationPolicy
     def is_owner?
         record.owner?(user)
     end
+    def can_write_review?
+        record.user_invitation(user).accepted? && record.last_submitted_revision.under_consideration? &&
+        !(record.last_submitted_revision.user_review(user) && record.last_submitted_revision.user_review(user).submitted?)
+        rescue false
+    end
+    def can_process?
+        record.user_invitation(user) && !record.user_invitation(user).inactive? || Pundit.policy(user,record.journal).can_editor? rescue false
+    end
 #    def update?
 #        is_owner? && record.may_sm_update?
 #    end
@@ -25,6 +33,10 @@ class SubmissionPolicy < ApplicationPolicy
     end
     def destroy?
         is_owner? && record.may_sm_destroy?
+    end
+
+    def write_review?
+        is_owner? && record.may_sm_revise?
     end
 
 #    def can_editor?

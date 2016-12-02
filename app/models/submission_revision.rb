@@ -37,6 +37,11 @@ class SubmissionRevision < ApplicationRecord
 #    has_many :reviews
     has_many :reviews, class_name: 'SubmissionRevisionReview', foreign_key: "revision_id"
 
+	def reviews_submitted
+		reviews.where(aasm_state: 'submitted')
+	end
+
+
 	aasm do
 		state :draft, initial: true
 		state :submitted

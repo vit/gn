@@ -1,5 +1,12 @@
 en:
     journal:
+        menu:
+            gn_journal: GN Journal
+            editor_office: Editor office
+            reviewer_office: Reviewer office
+            author_office: Author office
+            edit_my_data: Edit my data
+            help: 'Any bugs and questions:'
         submissions:
             #show: View
             show: My paper
@@ -8,13 +15,41 @@ en:
             new_paper: New paper
             edit_paper: Edit paper
             my_papers: My papers
-        e_submissions:
-            show: Paper
-            submitted_papers: Submitted papers
-            papers_list: Papers list
         submission_form:
             paper_metadata: Paper metadata
             title: Title
             abstract: Abstract
             save_update: Update
             save_new: Create draft
+
+        e_submission:
+            #show: Paper
+            submitted_papers: Submitted papers
+            #papers_list: Papers list
+        r_submission:
+            #show: Paper
+            assigned_papers: Assigned papers
+            #papers_list: Papers list
+        office_submission:
+            paper: Paper # single paper show
+            papers_list: Papers list
+            r_invitation: # my review invitation
+                my_invitation: Reviewer invitation
+                inv_txt: To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.
+                accept: Accept
+                decline: Decline
+                not_invited_txt: You are not invited to review this paper yet.
+                accepted_txt: You have accepted the invitation
+                declined_txt: You have declined the invitation
+                cancelled_txt: The invitation is cancelled
+                wrong_state_txt: Wrong state of the invitation
+            r_review: # my review
+                my_review: My Review
+                decision: Decision
+                comment: Comment
+                not_made: Not made yet
+                edit: Edit
+                submit: Submit
+                save: Save
+                cancel: Cancel
+

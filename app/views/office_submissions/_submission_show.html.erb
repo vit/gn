@@ -3,24 +3,24 @@
     when 'editor'
         @page_menu_data = [
         {
-            title: t('journal.e_submissions.papers_list'),
-            url: e_submissions_path,
+#            title: t('journal.e_submissions.papers_list'),
+             title: t('journal.office_submission.papers_list'),
+           url: e_submissions_path,
             icon: 'arrow-left',
         }
         ]
-        @page_title = t('journal.e_submissions.show') + ' #' + @submission.id.to_s
-        @page_title_sm = '#' + @submission.id.to_s
     when 'reviewer'
         @page_menu_data = [
         {
-            title: t('journal.r_submissions.papers_list'),
+#            title: t('journal.r_submissions.papers_list'),
+            title: t('journal.office_submission.papers_list'),
             url: r_submissions_path,
             icon: 'arrow-left',
         }
         ]
-        @page_title = t('journal.r_submissions.show') + ' #' + @submission.id.to_s
-        @page_title_sm = '#' + @submission.id.to_s
     end
+        @page_title = t('journal.office_submission.paper') + ' #' + @submission.id.to_s
+        @page_title_sm = '#' + @submission.id.to_s
 %>
 
 <%
@@ -41,12 +41,22 @@
         </p>
     </div>
 
-        <%#= render partial: 'submission_r_invitation_block', locals: {operation_enabled: true} %>
-        <%#= render partial: 'submission_r_review_block' if @section_journal_reviewer_office && @my_invitation && @my_invitation.accepted? %>
+        <% if @current_role=='reviewer' %>
+            <%= render partial: 'submission_r_invitation_block', locals: {operation_enabled: true} if @my_invitation %>
+            <%= render partial: 'submission_r_review_block', locals: {operation_enabled: policy(@submission).can_write_review?} if @my_invitation %>
+        <% end %>
 
-        <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: @submission.submitted?} if @current_role=='editor' %>
-        <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} if @current_role=='editor' %>
-        <%= render partial: 'submission_invitations_block', locals: {operation_enabled: true} if @current_role=='editor' %>
+        <% if @current_role=='editor' %>
+            <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: @submission.submitted?} %>
+            <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} %>
+            <%= render partial: 'submission_invitations_block', locals: {operation_enabled: true} %>
+
+            <% if @submission.last_submitted_revision && @submission.last_submitted_revision.reviews_submitted.count > 0 %>
+                <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {revision: @submission.last_submitted_revision} %>
+            <% end %>
+
+
+        <% end %>
 
         <%#= render 'submission_r_invitation_block' if @section_journal_reviewer_office %>
         <%#= render 'submission_r_review_block' if @section_journal_reviewer_office && @my_invitation && @my_invitation.accepted? %>
@@ -85,6 +95,70 @@
                     <% if revision.decision_2 %>
                         <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} if @current_role=='editor' %>
                     <% end %>
+                    <% if @current_role=='editor' %>
+                        <% if revision.reviews_submitted.count > 0 %>
+                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {revision: revision} %>
+                        <% end %>
+                    <% end %>
+
+
+          <% if false and @current_role=="reviewer" %>
+            <% if r=revision.user_review(current_user) %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <%= t('context.office_submission.revisions.my_review') %>
+                </div>
+                <div class="panel-body">
+                  <dl class="dl-horizontal">
+                    <dt><%= t('context.office_submission.revisions.reviewer') %>:</dt>
+                    <dd>
+                      <%= link_to u_path(r.user), target: '_blank' do %>
+                        <i class="fa fa-user"></i> <%= r.user.full_name %>
+                      <% end %>
+                    </dd>
+                    <dt><%= t('context.office_submission.revisions.decision') %>:</dt>
+                    <dd><%= r.decision %></dd>
+                    <dt><%= t('context.office_submission.revisions.comment') %>:</dt>
+                    <dd><%= r.comment %></dd>
+                    <dt>State:</dt>
+                    <dd><%= r.aasm_state %></dd>
+                  </dl>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+
+          <% if false and @current_role=="editor" %>
+            <div class="card">
+              <div class="card-block">
+                <h5 class="card-title"><%= t('context.office_submission.revisions.reviews') %></h5>
+                <div class="list-group">
+                  <% revision.reviews.each do |r| %>
+                    <div class="list-group-item">
+                      <dl class="row">
+                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('context.office_submission.revisions.reviewer') %>:</dt>
+                        <dd class="col-xs-6 col-sm-8 col-md-10>
+                          <%#= link_to u_path(r.user), target: '_blank' do %>
+                            <i class="fa fa-user"></i> <%= r.user.full_name %> (Id: <%= r.user.id %>)
+                          <%# end %>
+                        </dd>
+                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('context.office_submission.revisions.decision') %>:</dt>
+                        <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.decision %></dd>
+                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('context.office_submission.revisions.comment') %>:</dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= r.comment %></dd>
+                        <dt class="col-xs-6 col-sm-4 col-md-2">State:</dt>
+                        <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.aasm_state %></dd>
+                      </dl>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+
+
 
 
             </li>

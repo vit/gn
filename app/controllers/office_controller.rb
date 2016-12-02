@@ -18,6 +18,15 @@ class OfficeController < OfficeBaseController
   # GET /contexts/1.json
   def show
     @sidebar_active='dashboard'
+#    redirect_to submissions_path unless policy(@journal).can_editor?
+    if policy(@journal).can_editor?
+      redirect_to e_submissions_path
+    elsif policy(@journal).can_reviewer?
+      redirect_to r_submissions_path
+    else
+      redirect_to submissions_path
+    end
+      
   end
 
 =begin

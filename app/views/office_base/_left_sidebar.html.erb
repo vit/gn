@@ -9,65 +9,83 @@
   
   <li class="nav-item">
     <a class="nav-link" href="/">
-        <b class="nav-link text-xs-center">GN Journal</b>
+        <b class="nav-link text-xs-center"><%= t('journal.menu.gn_journal') %></b>
     </a>
   </li>
 
 <hr>
 
+<!--
+<% if policy(@journal).can_editor? %>
   <li class="nav-item">
     <%= link_to office_path, class: "nav-link " + (@sidebar_active=='dashboard' ? 'active' : '') do %>
         Dashboard
     <% end %>
   </li>
-  <li class="nav-item">
-    <%= link_to submissions_path, class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : '') do %>
-        <%= t('journal.submissions.my_papers') %>
-        <span class="tag tag-default tag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
-    <% end %>
-  </li>
+<% end %>
+-->
 
 <% if policy(@journal).can_editor? %>
   <li class="nav-item">
-    <b class="nav-link text-xs-center">Editor office</b>
+    <b class="nav-link text-xs-center"><%= t('journal.menu.editor_office') %></b>
   </li>
-  <!--li class="nav-item">
-    <a class="nav-link aactive ppull-right" href="#">Incoming
-      <span class="tag tag-default tag-pill float-xs-right">5</span>
-    </a>
-  </li-->
   <li class="nav-item">
     <%= link_to e_submissions_path, class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : '') do %>
-        <%= t('journal.e_submissions.submitted_papers') %>
+        <%= fa_icon 'hand-o-right' %> <%= t('journal.e_submission.submitted_papers') %>
         <span class="tag tag-default tag-pill float-xs-right"><%= @journal.submissions.all_submitted.count %></span>
         <span class="tag tag-warning tag-pill float-xs-right"><%= @journal.submissions.get_submitted.count %></span>
     <% end %>
   </li>
+<!--hr-->
 <% end %>
 
+
+<% if policy(@journal).can_editor? %>
 <hr>
+<% end %>
+
 
 <% if policy(@journal).can_reviewer? %>
-  <li class="nav-item">
-    <b class="nav-link text-xs-center">Reviewer office</b>
-  </li>
+  <!--li class="nav-item">
+    <b class="nav-link text-xs-center"><%#= t('journal.menu.reviewer_office') %></b>
+  </li-->
   <li class="nav-item">
     <%= link_to r_submissions_path, class: "nav-link " + (@sidebar_active=='reviewer_office' ? 'active' : '') do %>
-        <%= t('journal.r_submissions.assigned_papers') %>
-        <!--span class="tag tag-default tag-pill float-xs-right"><%#= @journal.submissions.all_submitted.count %></span>
-        <span class="tag tag-warning tag-pill float-xs-right"><%#= @journal.submissions.get_submitted.count %></span-->
+        <%= fa_icon 'hand-o-right' %> <%= t('journal.r_submission.assigned_papers') %>
     <% end %>
   </li>
 <% end %>
 
-<hr>
+<%# if policy(@journal).can_reviewer? || policy(@journal).can_editor? %>
+<!--hr-->
+<%# end %>
+
+  <!--li class="nav-item">
+    <b class="nav-link text-xs-center"><%#= t('journal.menu.author_office') %></b>
+  </li-->
+  <li class="nav-item">
+    <%= link_to submissions_path, class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : '') do %>
+        <%= fa_icon 'hand-o-right' %> <%= t('journal.submissions.my_papers') %>
+        <span class="tag tag-default tag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
+    <% end %>
+  </li>
+
+<!--hr-->
+
+  <!--li class="nav-item">
+    <%#= link_to help_path, class: "nav-link " + (@sidebar_active=='help' ? 'active' : '') do %>
+        <%#= fa_icon 'question' %> <%#= t('journal.menu.help') %>
+    <%# end %>
+  </li-->
+
+
 
   <li class="nav-item">
-    <b class="nav-link text-xs-center"><%= fa_icon 'user' %> <%= current_user.full_name %></b>
+    <b class="nav-link text-xs-center"><%= fa_icon 'user' %> <%= current_user.full_name %> (Id: <%= current_user.id %>)</b>
   </li>
   <li class="nav-item">
     <%= link_to edit_user_registration_path, class: 'nav-link ' + (@sidebar_active=='edit_my_data' ? 'active' : '') do %>
-      <%= fa_icon 'pencil' %> Edit my data
+      <%= fa_icon 'pencil' %> <%= t('journal.menu.edit_my_data') %>
     <% end %>
   </li>
   <li class="nav-item">
@@ -79,54 +97,19 @@
   </li>
 
 
+<!--hr-->
+
 <hr>
 
+<div class="helpdesk">
+  <%= t('journal.menu.help') %>
+  <br>
+  <a class="email" href="mailto:support@gnjournal.freshdesk.com">support@gnjournal.freshdesk.com</a>
+  <br>
+  <a class="site" target="_blank" href="https://gnjournal.freshdesk.com">https://gnjournal.freshdesk.com</a>
+</div>
 
-  <!--li class="nav-item">
-    <b class="nav-link text-xs-center">Editor office</b>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link aactive ppull-right" href="#">Incoming
-      <span class="tag tag-default tag-pill float-xs-right">5</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Progress</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Done</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Archive</a>
-  </li>
 
-  <li class="nav-item">
-    <b class="nav-link text-xs-center">My reviews</b>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link aactive ppull-right" href="#">Incoming
-      <span class="tag tag-default tag-pill float-xs-right">2</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Progress</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Done</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Archive</a>
-  </li>
-
-  <li class="nav-item">
-    <b class="nav-link text-xs-center">My papers</b>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link aactive ppull-right" href="#">Current</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Archive</a>
-  </li-->
 
 </ul>
 

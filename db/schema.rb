@@ -57,9 +57,9 @@ ActiveRecord::Schema.define(version: 20161127235123) do
   end
 
   create_table "submission_reviewer_invitations", force: :cascade do |t|
-    t.string   "aasm_state"
     t.integer  "user_id"
     t.integer  "submission_id"
+    t.string   "aasm_state"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["submission_id", "user_id"], name: "index_submission_reviewer_invitations_submission_user", unique: true

@@ -40,7 +40,8 @@ class Journal < ApplicationRecord
 #=begin
 	def user_reviewer_invitations user
 #		self.submissions.joins(:submission_reviewer_invitations).where(submission_reviewer_invitations: {user_id: user.id}).where.not(submission_reviewer_invitations: {aasm_state: 'inactive'})
-		self.submissions.joins(:reviewer_invitations).where(submission_reviewer_invitations: {user_id: user.id}).where.not(submission_reviewer_invitations: {aasm_state: 'inactive'})
+#		self.submissions.joins(:reviewer_invitations).where(submission_reviewer_invitations: {user_id: user.id}).where.not(submission_reviewer_invitations: {aasm_state: 'inactive'})
+		self.submissions.joins(:reviewer_invitations).includes(:reviewer_invitations).where(submission_reviewer_invitations: {user_id: user.id}).where.not(submission_reviewer_invitations: {aasm_state: 'inactive'})
 	end
 #=end
 

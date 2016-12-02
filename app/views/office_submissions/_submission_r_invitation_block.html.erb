@@ -1,0 +1,41 @@
+<%
+    invitation_block_id = 'my_invitation_block_' + @my_invitation.id.to_s
+%>
+
+<div id="<%= invitation_block_id %>">
+    <div class="card" style='background-color: #eeffee; border-bottom: 1px solid #333333'>
+        <div class="card-block">
+            <h5 class="card-title"><%= t('journal.office_submission.r_invitation.my_invitation') %></h5>
+
+            <% if @my_invitation && !@my_invitation.inactive? %>
+                <dl class="row">
+                    <dt class="col-xs-6 col-sm-4 col-md-2">State:</dt>
+                    <dd class=" col-xs-6 col-sm-8 col-md-2"><%= @my_invitation.aasm_state %></dd>
+                </dl>
+
+                <% if @my_invitation.pending? %>
+                    <p><%= t('journal.office_submission.r_invitation.inv_txt') %></p>
+                    <%= link_to r_submission_path(@submission, op: :accept_my_reviewer_invitation), method: :put, data: { confirm: 'Are you sure your want to accept this invitation?' }, :class => 'btn btn-success', :remote => true, disabled: !(@my_invitation && @my_invitation.may_sm_accept?) do %>
+                        <i class="fa fa-check ffa-lg"></i>
+                        <%= t('journal.office_submission.r_invitation.accept') %>
+                    <% end %>
+                    <%= link_to r_submission_path(@submission, op: :decline_my_reviewer_invitation), method: :put, data: { confirm: 'Are you sure your want to decline this invitation?' }, :class => 'btn btn-danger', :remote => true, disabled: !(@my_invitation && @my_invitation.may_sm_decline?) do %>
+                        <%= fa_icon 'times' %>
+                        <%= t('journal.office_submission.r_invitation.decline') %>
+                    <% end %>
+                <% elsif @my_invitation.accepted? %>
+                    <p><%= t('journal.office_submission.r_invitation.accepted_txt') %></p>
+                <% elsif @my_invitation.declined? %>
+                    <p><%= t('journal.office_submission.r_invitation.declined_txt') %></p>
+                <% elsif @my_invitation.cancelled? %>
+                    <p><%= t('journal.office_submission.r_invitation.cancelled_txt') %></p>
+                <% else %>
+                    <p><%= t('journal.office_submission.r_invitation.wrong_state_txt') %></p>
+                <% end %>
+
+            <% else %>
+                <p><%= t('journal.office_submission.r_invitation.not_invitationd_txt') %></p>
+            <% end %>
+        </div>
+    </div>
+</div>

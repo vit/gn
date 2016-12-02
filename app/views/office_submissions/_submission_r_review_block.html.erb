@@ -1,0 +1,39 @@
+<%
+  modal_target_id = 'modal_submission_' + @submission.id.to_s + '_edit_review'
+  review_block_id = 'review_block_' + @submission.id.to_s
+%>
+
+
+    <div class="card" id="<%= review_block_id %>" style='background-color: #eeeeee; border-bottom: 1px solid #333333'>
+        <div class="card-block">
+            <h5 class="card-title"><%= t('journal.office_submission.r_review.my_review') %></h5>
+            <%# if @my_review.persisted? %>
+            <% if @my_review %>
+                <dl class="dl-horizontal">
+                    <dt><%= t('journal.office_submission.r_review.decision') %>:</dt>
+                    <dd><%= @my_review.decision %></dd>
+                    <dt><%= t('journal.office_submission.r_review.comment') %>:</dt>
+                    <dd><%= @my_review.comment %></dd>
+                    <dt>State:</dt>
+                    <dd><%= @my_review.aasm_state %></dd>
+                </dl>
+            <% else %>
+                <p><%= t('journal.office_submission.r_review.not_made') %></p>
+            <% end %>
+
+            <% if operation_enabled %>
+                <%= link_to "#", data: { toggle: "modal", target: "##{modal_target_id}" }, :class => 'btn btn-primary', disabled: !(@my_review && @my_review.may_sm_update?) do %>
+                    <i class="fa fa-edit ffa-lg"></i>
+                    <%= t('journal.office_submission.r_review.edit') %>
+                <% end %>
+                <%= link_to r_submission_path(@submission, op: :submit_my_review), method: :put, data: { confirm: 'Are you sure your review is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do %>
+                    <i class="fa fa-check ffa-lg"></i>
+                    <%= t('journal.office_submission.r_review.submit') %>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+
+    <% if operation_enabled %>
+        <%= render partial: 'edit_review_dialog', locals: {modal_target_id: modal_target_id, operation_enabled: operation_enabled} %>
+    <% end %>

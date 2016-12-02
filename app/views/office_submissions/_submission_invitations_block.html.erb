@@ -12,15 +12,42 @@
         <ul class="list-group">
             <% @submission.reviewer_invitations.each do |ri| %>
                 <li class="list-group-item">
-                    <%= link_to e_submission_path(@submission, op: 'drop_reviewer_invitation', reviewer_id: ri.user.id),
+                <!--
+                    <%#= link_to e_submission_path(@submission, op: 'drop_reviewer_invitation', reviewer_id: ri.user.id),
+                        method: :put,
+                        data: { confirm: 'Are you sure?' },
+                        :class => 'btn btn-danger btn-sm pull-right', remote: true,
+                        :disabled => !ri.may_sm_destroy? do %>
+                            &times;
+                    <%# end %>
+                -->
+                    <%= button_to e_submission_path(@submission, op: 'drop_reviewer_invitation', reviewer_id: ri.user.id),
                         method: :put,
                         data: { confirm: 'Are you sure?' },
                         :class => 'btn btn-danger btn-sm pull-right', remote: true,
                         :disabled => !ri.may_sm_destroy? do %>
                             &times;
                     <% end %>
+                    <%= button_to e_submission_path(@submission, op: 'cancel_reviewer_invitation', reviewer_id: ri.user.id),
+                        method: :put,
+                        data: { confirm: 'Are you sure?' },
+                        :class => 'btn btn-warning btn-sm pull-right', remote: true,
+                        :disabled => !ri.may_sm_cancel? do %>
+                            Cancel
+                    <% end %>
 
-                    <%= link_to e_submission_path(@submission, op: 'activate_reviewer_invitation', reviewer_id: ri.user.id),
+                <!--
+                    <%#= link_to e_submission_path(@submission, op: 'activate_reviewer_invitation', reviewer_id: ri.user.id),
+                        method: :put,
+                        data: { confirm: 'Are you sure?' },
+                        :class => 'btn btn-success btn-sm pull-right',
+                        remote: true,
+                        :disabled => !ri.may_sm_activate? do %>
+                            <i class="fa fa-check"></i>
+                            <%#= t('journal.e_submission.reviewer_invitations.activate')+ri.may_sm_activate? %>
+                    <%# end %>
+                -->
+                    <%= button_to e_submission_path(@submission, op: 'activate_reviewer_invitation', reviewer_id: ri.user.id),
                         method: :put,
                         data: { confirm: 'Are you sure?' },
                         :class => 'btn btn-success btn-sm pull-right',
