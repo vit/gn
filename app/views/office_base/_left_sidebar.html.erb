@@ -1,7 +1,7 @@
 
 <aside id="left-sidebar">
 
-<ul iid="navleft" class="nav nav-pills nav-stacked nnavbar nnavbar-light nnavbar-dark bbg-inverse bbg-faded">
+<ul iid="navleft" class="nav nav-pills nav-stacked bbg-inverse bbg-faded" sstyle: "position: relative;">
 
   <%= link_to "#", class: "btn btn-default btn-lg float-xs-right left-sidebar-close-btn" do %>
     <%= fa_icon 'times' %>
@@ -33,7 +33,7 @@
     <%= link_to e_submissions_path, class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : '') do %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.e_submission.submitted_papers') %>
         <span class="tag tag-default tag-pill float-xs-right"><%= @journal.submissions.all_submitted.count %></span>
-        <span class="tag tag-warning tag-pill float-xs-right"><%= @journal.submissions.get_submitted.count %></span>
+        <!--span class="tag tag-warning tag-pill float-xs-right"><%#= @journal.submissions.get_submitted.count %></span-->
     <% end %>
   </li>
 <!--hr-->
@@ -63,20 +63,72 @@
   <!--li class="nav-item">
     <b class="nav-link text-xs-center"><%#= t('journal.menu.author_office') %></b>
   </li-->
-  <li class="nav-item">
-    <%= link_to submissions_path, class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : '') do %>
+
+
+
+  <!--li class="nav-item">
+<div class="nav-link <%= @sidebar_active=='my_papers' ? 'active' : '' %>">
+    <%#= link_to submissions_path, cclass: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : '') do %>
+        <%#= fa_icon 'hand-o-right' %> <%= t('journal.submissions.my_papers') %>
+        <span class="tag tag-default tag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
+    <%# end %>
+        <a href="<%#= new_submission_path %>"><%= fa_icon 'plus' %></a>
+</div>
+
+  </li-->
+
+<!--
+  <li class="nav-item" style="padding-right: 34px;">
+    <%= link_to submissions_path,
+      class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
+      sstyle: "pposition: relative; ppadding-right: 40px; padding-right: 6px;" do
+      #style: "position: absolute; padding-right: 35px;" do
+    %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.submissions.my_papers') %>
         <span class="tag tag-default tag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
+-->
+<!--
+        <%#= link_to new_submission_path,
+          class: "btn bbtn-success bbtn-circle btn-sm float-xs-right",
+          #style: "position: absolute; right: 0px; ttop: 5px; z-index: 1000;",
+          sstyle: "position: relative; right: -32px; top: -33px; zz-index: 1000; border-radius: 15px;",
+          data: {} do
+        %>
+          <b><%= fa_icon 'plus', class: "fa-lg" %><span cclass="hidden-sm-down"></span></b>
+        <%# end %>
+-->
+<!--
+    <% end %>
+  </li>
+-->
+
+<div style="position: relative; margin: 0px; padding: 0px; bborder: thin solid red;">
+
+  <li class="nav-item" sstyle="ppadding-right: 34px;">
+    <%= link_to submissions_path,
+      class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
+      style: "pposition: relative; margin-right: 44px;" do
+    %>
+        <%= fa_icon 'hand-o-right' %> <%= t('journal.submissions.my_papers') %>
+        <span class="tag tag-default tag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
+
     <% end %>
   </li>
 
-<!--hr-->
 
-  <!--li class="nav-item">
-    <%#= link_to help_path, class: "nav-link " + (@sidebar_active=='help' ? 'active' : '') do %>
-        <%#= fa_icon 'question' %> <%#= t('journal.menu.help') %>
-    <%# end %>
-  </li-->
+  <li class="nav-item" style="ppadding-right: 34px; position: absolute; width: 42px; right: 0px; top: 0px; margin: 0px;">
+        <%= link_to new_submission_path,
+          class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
+          style: "pposition: relative; rright: -32px; ttop: -33px; bborder-radius: 15px;",
+          data: {} do
+        %>
+          <b><%= fa_icon 'plus', cclass: "fa-lg" %> <span cclass="hidden-sm-down"></span></b>
+        <% end %>
+  </li>
+</div>
+
+
+<!--hr-->
 
 
 

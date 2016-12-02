@@ -17,20 +17,17 @@ class SubmissionFilesController < ApplicationController
 #			@submission_file = @revision.submission_files.new(file_category: file_category)
 			@submission_file = @revision.files.new(file_category: file_category)
 			@submission_file.file_data = file
-			flash[:notice] = 'File was successfully uploaded.' if @submission_file.save!
+			@submission_file.save!
+#			flash[:notice] = 'File was successfully uploaded.' if @submission_file.save!
 		end
-		redirect_to edit_submission_path(@submission)
+		#redirect_to edit_submission_path(@submission)
+		respond_to do |format|
+#			format.js, template: 'submission_files/update'
+			format.js {render :update}
+		end
 	end
 
 	def update
-		
-#		"submission_file"=>{
-#			"attachable_id"=>"41",
-#			"attachable_type"=>"SubmissionRevision",
-#			"file_category"=>"author_file",
-#			"file_data"=>#<ActionDispatch::Http::UploadedFile:0x000000039f6610 @tempfile=#<Tempfile:/tmp/RackMultipart20161121-9538-193shmz.png>, @original_filename="helios_h_m.png", @content_type="image/png", @headers="Content-Disposition: form-data; name=\"submission_file[file_data]\"; filename=\"helios_h_m.png\"\r\nContent-Type: image/png\r\n">
-		
-#		data = params[:submission_revision_file]
 		data = params[:submission_file]
 
 		@submission_file = SubmissionFile.find(params[:id])
@@ -47,9 +44,13 @@ class SubmissionFilesController < ApplicationController
 		if file && @submission_file
 #			@submission_file.update
 			@submission_file.file_data = file
-			flash[:notice] = 'File was successfully uploaded.' if @submission_file.save!
+			@submission_file.save!
+#			flash[:notice] = 'File was successfully uploaded.' if @submission_file.save!
 		end
-		redirect_to edit_submission_path(@submission)
+		#redirect_to edit_submission_path(@submission)
+		respond_to do |format|
+			format.js
+		end
 	end
 
 private
