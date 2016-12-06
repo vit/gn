@@ -2,6 +2,8 @@ class SubmissionRevisionReview < ApplicationRecord
   belongs_to :revision, class_name: 'SubmissionRevision'
   belongs_to :user
 
+    has_many :files, class_name: 'SubmissionFile', as: :attachable, dependent: :destroy
+
 	include AASM
 
 	Decisions = %w[revise accept reject]
@@ -43,6 +45,15 @@ class SubmissionRevisionReview < ApplicationRecord
 		end
 
 	end
+
+
+	def get_file_by_category(file_category = 'reviewer_file')
+		files.find_by_file_category file_category
+	end
+	def get_or_new_file_by_category(file_category = 'reviewer_file')
+		get_file_by_category(file_category) || files.new(file_category: file_category)
+	end
+
 
 end
 

@@ -34,6 +34,26 @@
 
                     <!--dt><%#= t('journal.office_submission.r_review.comment') %>:</dt>
                     <dd><%#= @my_review.comment %></dd-->
+
+        
+		<%
+			file_records = @my_review ? %w[reviewer_file].map do |category|
+				@my_review.get_or_new_file_by_category category
+			end : []
+		%>
+    	<% file_records.each do |submission_file| %>
+            <%# if operation_enabled %>
+                <%= render partial: 'submission_files/submission_file', locals: {submission_file: submission_file} %>
+            <%# else %>
+                <%# if submission_file.persisted? %>
+                <!--
+                    &nbsp;(<%#= link_to t('journal.office_submission.r_review.attachment'), submission_file.file_data.url, target: "_blank" %>)
+                -->
+                <%# end %>
+    	    <%# end %>
+    	<% end %>
+
+
                 </dl>
             <% else %>
                 <p><%= t('journal.office_submission.r_review.not_made') %></p>

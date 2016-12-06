@@ -15,6 +15,7 @@
               <div class="card-block"  style='background-color: #eeeeee;'>
                 <h5 class="card-title"><%= t('journal.office_submission.revisions.reviews') %></h5>
                 <div class="list-group">
+
                   <% revision.reviews_submitted.each do |r| %>
                     <div class="list-group-item">
                       <dl class="row">
@@ -52,8 +53,16 @@
                         <!--dt class="col-xs-6 col-sm-4 col-md-2">State:</dt>
                         <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.aasm_state %></dd-->
                       </dl>
+                      <p>
+                        <b>Attachment:</b> <% r.files.each do |file| %>
+                            &nbsp;<%= link_to file.file_data.url, target: '_blank' do %><%= fa_icon 'download' %>
+                                <%= file.file_category %>
+                            <% end %>
+                        <% end %>
+                      </p>
                     </div>
                   <% end %>
+
                 </div>
               </div>
             </div>

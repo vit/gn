@@ -4,10 +4,6 @@
   form_id = "fileuploadform_#{submission_file.file_category}_#{submission_file.attachable_type}_#{submission_file.attachable_id}"
   field_id = "fileuploadfield_#{submission_file.file_category}_#{submission_file.attachable_type}_#{submission_file.attachable_id}"
   spinner_id = "fileuploadspinner_#{submission_file.file_category}_#{submission_file.attachable_type}_#{submission_file.attachable_id}"
-#  block_id = "fileuploadblock_#{submission_file.id}"
-#  form_id = "fileuploadform_#{submission_file.id}"
-#  field_id = "fileuploadfield_#{submission_file.id}"
-#  spinner_id = "fileuploadspinner_#{submission_file.id}"
 %>
 
 
@@ -15,45 +11,6 @@
 <div class="card card-default" id="<%= block_id %>">
   <div class="card-block">
     <h5 class="card-title"><%= t('journal.revision_form.file_category') %>: <b><%= submission_file.file_category %></b></h5>
-<!--
-<%= form_for(submission_file, :html => { :multipart => true, :class => "form-inline", :cclass => "form-horizontal", :role => "form" }) do |f| %>
-
-  <%= render partial: 'common/forms/form_error_alert', locals: {form_model: submission_file} %>
-
-      <%#= f.hidden_field :revision_id, :class => "form-control" %>
-      <%= f.hidden_field :attachable_id, :class => "form-control" %>
-      <%= f.hidden_field :attachable_type, :class => "form-control" %>
-      <%= f.hidden_field :file_category, :class => "form-control" %>
-
-  <% if true or submission_file.attachable.submission.may_sm_update_file? %>
-  <div class="form-group">
-    <%#= f.label :title, :class => "ccol-sm-2 control-label" %>
-    <div class="ccol-sm-10">
-      <%= f.file_field :file_data, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="ccol-sm-offset-2 ccol-sm-10">
-      <%= f.button :class => "btn btn-success" do %>
-        <i class="fa fa-check fa-lg"></i>
-        <%= t('journal.revision_form.submit_'+(submission_file.persisted? ? 'update' : 'new') ) %>
-      <% end %>
-    </div>
-  </div>
-  <% end %>
-
-	<% if submission_file.persisted? %>
-		<div class="form-group">
-			<div class="ccol-sm-offset-2 ccol-sm-10">
-				(<%= link_to t('journal.revision_form.download_file'), submission_file.file_data.url %>)
-			</div>
-		</div>
-	<% end %>
-
-<% end %>
-
-<hr>
--->
 
     <div>
 <%= form_for(submission_file, mmethod: :post, remote: true, :html => {:multipart => true, id: form_id, :class => "form-inline"}) do |f| %>
@@ -75,15 +32,6 @@
         <% end %>
 
         <div class="btn-group">
-            <%#= link_to drop_avatar_u_path(@user),
-                class: "btn btn-danger btn-sm",
-                method: :delete,
-                remote: true,
-                data: {confirm: "Are you sure?"},
-                title: "Delete current avatar" do
-            %>
-                <!--i class="fa fa-remove"></i-->
-            <%# end %>
             <%= link_to "#", class: "btn btn-primary btn-sm",
                 onclick: "$('input[id=#{field_id}]').click(); return false;",
                 title: "Upload file" do
@@ -94,18 +42,21 @@
 
             <% if submission_file.persisted? %>
               &nbsp;(<%= link_to t('journal.revision_form.see_current_file'), submission_file.file_data.url, target: "_blank" %>)
+
+              <%= link_to submission_file_path(submission_file),
+                  class: "btn btn-danger btn-sm",
+                  method: :delete,
+                  remote: true,
+                  data: {confirm: "Are you sure?"},
+                  title: "Delete this attachment" do
+              %>
+                  <i class="fa fa-remove"></i>
+              <% end %>
+
             <% end %>
 
-        </div>
 
-	<%# if submission_file.persisted? %>
-		<!--div class="form-group">
-			<div class="ccol-sm-offset-2 ccol-sm-10">
-				(<%#= link_to t('journal.revision_form.download_file'), submission_file.file_data.url %>)
-			</div>
-		</div-->
-	<%# end %>
-        
+        </div>
 
     </div>
 
