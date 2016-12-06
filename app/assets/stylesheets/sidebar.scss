@@ -60,11 +60,12 @@ $left-panel-shift: 250px;
         }
         margin-bottom: 10px;
     }
-    //.nav {
-//        .nav-link {
-        //    display: block;
-//        }
-//    }
+    .nav {
+        .nav-link.active {
+//            display: block;
+            cursor: pointer;
+        }
+    }
 
 }
 

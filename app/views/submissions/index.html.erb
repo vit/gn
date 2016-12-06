@@ -20,7 +20,7 @@
   <h2><%= t('journal.submissions.my_papers') %></h2>
 </div-->
 
-<div class="list-group papers-list rrow">
+<div class="list-group papers-list rrow aauthors-sortable">
   <% @submissions.each do |submission| %>
     <!--div class="col-md-6 papers-list-col" ssstyle="border: 1px solid red;"-->
     <%= link_to(submission, class: "list-group-item list-group-item-action papers-list-item ccol-md-6") do %>

@@ -85,4 +85,7 @@ gem 'remotipart', '>= 1.3.1'
 
 #gem "acts_as_follower"
 
+gem 'jquery-ui-rails'
+#gem 'touchpunch-rails'
+
 

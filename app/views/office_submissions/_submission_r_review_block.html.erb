@@ -9,13 +9,31 @@
             <h5 class="card-title"><%= t('journal.office_submission.r_review.my_review') %></h5>
             <%# if @my_review.persisted? %>
             <% if @my_review %>
-                <dl class="dl-horizontal">
+                <p><%= t('journal.office_submission.r_review.state_'+@my_review.aasm_state) %></p>
+                <dl class="ddl-horizontal">
+                    <!--dt>State:</dt>
+                    <dd><%#= @my_review.aasm_state %></dd-->
                     <dt><%= t('journal.office_submission.r_review.decision') %>:</dt>
                     <dd><%= @my_review.decision %></dd>
-                    <dt><%= t('journal.office_submission.r_review.comment') %>:</dt>
-                    <dd><%= @my_review.comment %></dd>
-                    <dt>State:</dt>
-                    <dd><%= @my_review.aasm_state %></dd>
+
+                    <dt><%= t('journal.office_submission.r_review.comment_science_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_2) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_3) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_4) ) %></dd>
+                    <dt><%= t('journal.office_submission.r_review.comment_quality_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_quality) ) %></dd>
+                    <dt><%= t('journal.office_submission.r_review.comment_author_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment) ) %></dd>
+                    <dt><%= t('journal.office_submission.r_review.comment_for_editor_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_for_editor) ) %></dd>
+
+
+                    <!--dt><%#= t('journal.office_submission.r_review.comment') %>:</dt>
+                    <dd><%#= @my_review.comment %></dd-->
                 </dl>
             <% else %>
                 <p><%= t('journal.office_submission.r_review.not_made') %></p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161127235123) do
+ActiveRecord::Schema.define(version: 20161205223335) do
 
   create_table "journal_appointments", force: :cascade do |t|
     t.integer  "journal_id"
@@ -97,8 +97,14 @@ ActiveRecord::Schema.define(version: 20161127235123) do
     t.integer  "revision_id"
     t.integer  "user_id"
     t.string   "aasm_state"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.text     "comment_science"
+    t.text     "comment_science_2"
+    t.text     "comment_science_3"
+    t.text     "comment_science_4"
+    t.text     "comment_quality"
+    t.text     "comment_for_editor"
     t.index ["revision_id", "user_id"], name: "index_submission_revision_reviews_revision_user", unique: true
     t.index ["revision_id"], name: "index_submission_revision_reviews_on_revision_id"
     t.index ["user_id"], name: "index_submission_revision_reviews_on_user_id"
