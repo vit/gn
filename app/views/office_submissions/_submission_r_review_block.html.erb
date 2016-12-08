@@ -43,7 +43,8 @@
 		%>
     	<% file_records.each do |submission_file| %>
             <%# if operation_enabled %>
-                <%= render partial: 'submission_files/submission_file', locals: {submission_file: submission_file} %>
+                <%#= render partial: 'submission_files/submission_file', locals: {submission_file: submission_file} %>
+    			<%= render partial: 'submission_files/submission_file', locals: {submission_file: submission_file, can_upload: operation_enabled} %>
             <%# else %>
                 <%# if submission_file.persisted? %>
                 <!--

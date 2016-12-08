@@ -2,8 +2,6 @@
 <div class="card card-default">
 	<div class="card-block">
 		<h4 class="ccard-title"><%= t('journal.revision_form.revision_files') %></h4>
-	<!--/div>
-	<div class="panel-body"-->
 		<dl class="row">
 			<dt class="col-xs-3">Revision</dt>
 			<dd class="col-xs-9">#<%= @submission_revision.revision_n %></dd>
@@ -15,6 +13,10 @@
 				@submission_revision.get_or_new_file_by_category category
 			end : []
 		%>
-    	<%= render file_records %>
+    	<%#= render file_records %>
+		<% file_records.each do |fr| %>
+			<%= render partial: 'submission_files/submission_file', locals: {submission_file: fr, can_upload: policy(@submission).update_file?} %>
+		<% end %>
+
 	</div>
 </div>
