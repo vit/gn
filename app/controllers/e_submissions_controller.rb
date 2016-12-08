@@ -10,7 +10,7 @@ class ESubmissionsController < OfficeSubmissionsController
 	def index
         authorize @journal, :can_editor?
 		#@journal_submissions = @journal.submissions
-		@submissions = @journal.submissions.all_submitted
+		@submissions = @journal.submissions.all_submitted.order(id: :desc)
 #		respond_with(@journal_submissions)
         @sidebar_active='editor_office'
 	end

@@ -48,6 +48,7 @@ $papers-list-item-background-color-hover: darken($papers-list-item-background-co
         &:hover {
             background-color: $papers-list-item-background-color-hover !important;
         }
+        overflow: hidden;
     }
 }
 

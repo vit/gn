@@ -23,12 +23,12 @@
   <h2><%= t('journal.editor.submitted_papers') %></h2>
 </div-->
 
-<div class="list-group">
+<div class="list-group papers-list">
   <% @submissions.each do |submission| %>
       <%
             text = submission.get_text
       %>
-    <%= link_to(e_submission_path(submission), class: "list-group-item list-group-item-action") do %>
+    <%= link_to(e_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item") do %>
         <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span>
         <!--b><%#= submission.id %></b> | <%#= submission.title.truncate(120) %> <span class="hidden-sm-down"><i><%#= submission.abstract.truncate(250) %></i></span-->
         <b><%= submission.id %></b> | <%= submission.last_submitted_revision.text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= submission.last_submitted_revision.text.abstract.truncate(250) rescue '' %></i></span>

@@ -4,13 +4,13 @@
 
 <div class="container-fluid submissions">
 
-    <div class="list-group">
+    <div class="list-group papers-list">
         <% @submissions.each do |submission| %>
             <%
                 text = submission.get_text
                 invitation_state = submission.reviewer_invitations.first.aasm_state
             %>
-            <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action #{ %w[declined cancelled].include?(invitation_state) ? 'disabled' : '' }") do %>
+            <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item #{ %w[declined cancelled].include?(invitation_state) ? 'disabled' : '' }") do %>
                 <b>Invitation:</b> <span>
                     <%= invitation_state %>
                     <% if invitation_state=='pending' %>

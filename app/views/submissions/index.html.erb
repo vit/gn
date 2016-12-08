@@ -20,10 +20,10 @@
   <h2><%= t('journal.submissions.my_papers') %></h2>
 </div-->
 
-<div class="list-group papers-list rrow aauthors-sortable">
+<div class="list-group papers-list">
   <% @submissions.each do |submission| %>
     <!--div class="col-md-6 papers-list-col" ssstyle="border: 1px solid red;"-->
-    <%= link_to(submission, class: "list-group-item list-group-item-action papers-list-item ccol-md-6") do %>
+    <%= link_to(submission, class: "list-group-item list-group-item-action papers-list-item") do %>
         <!--span class="tag tag-pill tag-primary tag-pill float-xs-right papers-list-item-tag-<%= submission.aasm_state %>"><%= submission.aasm_state %></span-->
         <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= submission.last_created_revision.aasm_state %>"><%= submission.last_created_revision.aasm_state %></span>
         <span>#<%= submission.id %></span> | <span class="papers-list-item-title"><%= submission.get_text.title.truncate(120) rescue '' %></span>

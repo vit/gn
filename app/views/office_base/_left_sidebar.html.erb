@@ -41,17 +41,18 @@
 
 
 <% if policy(@journal).can_editor? %>
-<hr>
+<!--hr-->
 <% end %>
 
 
 <% if policy(@journal).can_reviewer? %>
-  <!--li class="nav-item">
-    <b class="nav-link text-xs-center"><%#= t('journal.menu.reviewer_office') %></b>
-  </li-->
+  <li class="nav-item">
+    <b class="nav-link text-xs-center"><%= t('journal.menu.reviewer_office') %></b>
+  </li>
   <li class="nav-item">
     <%= link_to r_submissions_path, class: "nav-link " + (@sidebar_active=='reviewer_office' ? 'active' : '') do %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.r_submission.assigned_papers') %>
+        <span class="tag tag-default tag-pill float-xs-right"><%= @journal.user_reviewer_invitations(current_user).count %></span>
     <% end %>
   </li>
 <% end %>
@@ -60,9 +61,9 @@
 <!--hr-->
 <%# end %>
 
-  <!--li class="nav-item">
-    <b class="nav-link text-xs-center"><%#= t('journal.menu.author_office') %></b>
-  </li-->
+  <li class="nav-item">
+    <b class="nav-link text-xs-center"><%= t('journal.menu.author_office') %></b>
+  </li>
 
 
 
