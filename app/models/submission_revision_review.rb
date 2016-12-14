@@ -25,6 +25,27 @@ class SubmissionRevisionReview < ApplicationRecord
 			transitions :from => :draft, :to => :draft
 		end
 
+		event :sm_editor_update do
+			after do |data|
+				data.each do |f,v|
+					self.send(f+'=', v)
+					self.send(f+'_c=', true)
+				end
+				self.save
+			end
+			transitions :from => :submitted, :to => :submitted
+		end
+
+		event :sm_editor_drop do
+			after do |f|
+				self.send(f+'=', '')
+				self.send(f+'_c=', false)
+				self.save
+			end
+			transitions :from => :submitted, :to => :submitted
+		end
+
+
 		event :sm_submit do
 			after do
 			end

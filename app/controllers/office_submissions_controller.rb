@@ -175,12 +175,12 @@ class OfficeSubmissionsController < OfficeBaseController
 #			review_data = params.require(:submission_revision_review).permit(:decision, :comment).merge user: current_user
 			review_data = params.require(:submission_revision_review).permit(
 				:decision,
-				:comment,
 				:comment_science,
 				:comment_science_2,
 				:comment_science_3,
 				:comment_science_4,
 				:comment_quality,
+				:comment_for_author,
 				:comment_for_editor,
 			).merge user: current_user
 			@revision.user_review(current_user) ?

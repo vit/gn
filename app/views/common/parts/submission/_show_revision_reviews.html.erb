@@ -1,8 +1,16 @@
+<%
+  user_role = (defined? user_role) ? user_role : :author
+%>
 
 <%# if decision.submitted? %>
 <div>
     <%
+#        readonly = (defined? readonly) ? readonly : true
+        can_editor_change = (defined? can_editor_change) ? can_editor_change : false
         collapse_target_id = 'collapse_revision_reviews_' + revision.id.to_s
+        if defined? id_prefix
+          collapse_target_id = id_prefix + '_' + collapse_target_id
+        end
     %>
                         <p>
                             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#<%= collapse_target_id %>">
@@ -16,50 +24,15 @@
                 <h5 class="card-title"><%= t('journal.office_submission.revisions.reviews') %></h5>
                 <div class="list-group">
 
-                  <% revision.reviews_submitted.each do |r| %>
+                  <% revision.reviews_submitted.each_with_index do |r, n| %>
                     <div class="list-group-item">
-                      <dl class="row">
-                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('journal.office_submission.revisions.reviewer') %>:</dt>
-                        <dd class="col-xs-6 col-sm-8 col-md-10>
-                          <%#= link_to u_path(r.user), target: '_blank' do %>
-                            <i class="fa fa-user"></i> <%= r.user.full_name %> (Id: <%= r.user.id %>)
-                          <%# end %>
-                        </dd>
-                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('journal.office_submission.r_review.decision') %>:</dt>
-                        <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.decision %></dd>
+                      <%= render partial: 'common/parts/submission/show_revision_review', locals: {
+                        review: r,
+                        user_role: user_role,
+                        revision_index: n,
+                        can_editor_change: can_editor_change
+                      } %>
 
-                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_science_header') %>:</dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science) ) %></dd>
-                        <dt class="col-xs-12"></dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science_2) ) %></dd>
-                        <dt class="col-xs-12"></dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science_3) ) %></dd>
-                        <dt class="col-xs-12"></dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science_4) ) %></dd>
-
-                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_quality_header') %>:</dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_quality) ) %></dd>
-
-                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_authors_header') %>:</dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment) ) %></dd>
-
-                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_for_editor_header') %>:</dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_for_editor) ) %></dd>
-
-
-                        <!--dt class="col-xs-6 col-sm-4 col-md-2"><%#= t('journal.office_submission.revisions.comment') %>:</dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%#= r.comment %></dd-->
-
-                        <!--dt class="col-xs-6 col-sm-4 col-md-2">State:</dt>
-                        <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.aasm_state %></dd-->
-                      </dl>
-                      <p>
-                        <b>Attachment:</b> <% r.files.each do |file| %>
-                            &nbsp;<%= link_to file.file_data.url, target: '_blank' do %><%= fa_icon 'download' %>
-                                <%= file.file_category %>
-                            <% end %>
-                        <% end %>
-                      </p>
                     </div>
                   <% end %>
 

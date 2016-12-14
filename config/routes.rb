@@ -20,6 +20,13 @@ Rails.application.routes.draw do
   resources :submissions #, only: [:show]
 #  resources :submission_revision_files
   resources :submission_files
+  resources :submission_revision_reviews, only: [] do
+    member do
+      put 'editor_update'
+#      delete 'editor_update'
+#      delete 'editor_drop'
+    end
+  end
 
   resources :e_submissions, only: [:index, :show, :update]
   resources :r_submissions, only: [:index, :show, :update]

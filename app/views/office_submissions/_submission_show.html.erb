@@ -51,8 +51,18 @@
             <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} %>
             <%= render partial: 'submission_invitations_block', locals: {operation_enabled: true} %>
 
-            <% if @submission.last_submitted_revision && @submission.last_submitted_revision.reviews_submitted.count > 0 %>
-                <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {revision: @submission.last_submitted_revision} %>
+            <%
+                last_revision = @submission.last_submitted_revision
+                can_editor_change = policy(@journal).can_editor? && last_revision && last_revision.under_consideration?
+#                can_editor_change = policy(@journal).can_editor? && last_revision && last_revision.aasm_state=='under_consideration'
+            %>
+            <% if last_revision && last_revision.reviews_submitted.count > 0 %>
+                <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                    revision: last_revision,
+                    user_role: :editor,
+                    can_editor_change: can_editor_change,
+                    id_prefix: 'head'
+                } %>
             <% end %>
 
 
@@ -97,7 +107,10 @@
                     <% end %>
                     <% if @current_role=='editor' %>
                         <% if revision.reviews_submitted.count > 0 %>
-                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {revision: revision} %>
+                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                revision: revision,
+                                user_role: :editor,
+                            } %>
                         <% end %>
                     <% end %>
 

@@ -1,0 +1,95 @@
+<%
+    user_role = (defined? user_role) ? user_role : :author
+    revision_index = (defined? revision_index) ? revision_index+1 : 1
+    can_editor_change = (defined? can_editor_change) ? can_editor_change : false
+    r = review
+%>
+
+                        <div>
+                            <b><%= t('journal.office_submission.revisions.reviewer') %>:</b>&nbsp;
+                            <% if user_role==:author %>
+                                #<%= revision_index %>
+                            <% else %>
+                          <%#= link_to u_path(r.user), target: '_blank' do %>
+                            <i class="fa fa-user"></i> <%= r.user.full_name %> (Id: <%= r.user.id %>)
+                          <%# end %>
+                            <% end %>
+                        </div>
+                        <div>
+                            <b><%= t('journal.office_submission.r_review.decision') %>:</dt></b>&nbsp;
+                            <%= r.decision %>
+                        </div>
+
+                        <div class="review_blocks">
+
+                            <%
+                            blocks_names = [
+                                'comment_science',
+                                'comment_science_2',
+                                'comment_science_3',
+                                'comment_science_4',
+                                'comment_quality',
+                                'comment_for_author',
+                                #'comment_for_editor',
+                            ]
+                            blocks_names.push('comment_for_editor') unless user_role==:author
+                            blocks_names.each do |field_name| %>
+                                <%= render partial: 'common/parts/submission/show_revision_review_field', locals: {
+                                    review: review,
+                                    field_name: field_name,
+                                    user_role: user_role,
+                                    can_editor_change: can_editor_change
+                                } %>
+                            <% end %>
+
+                        </div>
+
+                      <p>
+                        <b>Attachment:</b> <% r.files.each do |file| %>
+                            &nbsp;<%= link_to file.file_data.url, target: '_blank' do %><%= fa_icon 'download' %>
+                                <%= file.file_category %>
+                            <% end %>
+                        <% end %>
+                      </p>
+
+
+
+
+
+                      <!--dl class="row">
+                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('journal.office_submission.revisions.reviewer') %>:</dt>
+                        <dd class="col-xs-6 col-sm-8 col-md-10>
+                          <%#= link_to u_path(r.user), target: '_blank' do %>
+                            <i class="fa fa-user"></i> <%= r.user.full_name %> (Id: <%= r.user.id %>)
+                          <%# end %>
+                        </dd>
+                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('journal.office_submission.r_review.decision') %>:</dt>
+                        <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.decision %></dd>
+
+                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_science_header') %>:</dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science) ) %></dd>
+                        <dt class="col-xs-12"></dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science_2) ) %></dd>
+                        <dt class="col-xs-12"></dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science_3) ) %></dd>
+                        <dt class="col-xs-12"></dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_science_4) ) %></dd>
+
+                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_quality_header') %>:</dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_quality) ) %></dd>
+
+                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_author_header') %>:</dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment) ) %></dd>
+
+                        <dt class="col-xs-12"><%= t('journal.office_submission.r_review.comment_for_editor_header') %>:</dt>
+                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= simple_format( strip_tags(r.comment_for_editor) ) %></dd>
+
+                      </dl>
+                      <p>
+                        <b>Attachment:</b> <% r.files.each do |file| %>
+                            &nbsp;<%= link_to file.file_data.url, target: '_blank' do %><%= fa_icon 'download' %>
+                                <%= file.file_category %>
+                            <% end %>
+                        <% end %>
+                      </p-->
+

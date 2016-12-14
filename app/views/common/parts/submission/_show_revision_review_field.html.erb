@@ -1,0 +1,111 @@
+<%
+#    can_edit = (defined? can_edit) ? can_edit : false
+    user_role = (defined? user_role) ? user_role : :author
+    can_editor_change = (defined? can_editor_change) ? can_editor_change : false
+
+    block_id = "review_#{review.id}_field_#{field_name}"
+    modal_id = "modal_review_#{review.id}_field_#{field_name}"
+
+    field_original_value = review.send(field_name)
+    field_value = review.send(field_name+'_e_c?') ? review.send(field_name+'_e') : field_original_value
+
+    field_name_orig = field_name
+    field_name_current = field_name+'_e'
+    #field_name_flag = field_name+'_e_c?'
+%>
+
+    <div id="<%= block_id %>" style="margin-top: 20px; background-color: #fafafa; bborder: thin solid #999999;" class="review_text_block">
+
+        <%# if field_title %>
+        <div style="background-color: #eeeeee; mmargin: 30px !important;">
+            <b><%= t('journal.office_submission.r_review.'+field_name+'_header') %>:</b><br>
+            <div style="font-size: 80%; font-style: italic; bbackground-color: #eeeeee"><%= simple_format(t('journal.office_submission.r_review.'+field_name+'_description')) %></div>
+        </div>
+        <%# end %>
+        <%# if field_subtitle %>
+            <!--i><%#= t('journal.office_submission.r_review.'+field_name) %>:</i><br-->
+        <%# end %>
+            <% if can_editor_change %>
+                <%= link_to "#", data: { toggle: "modal", target: "##{modal_id}" }, :class => 'btn btn-primary btn-sm bbtn-link' do %>
+                    <i class="fa fa-edit ffa-lg"></i>
+                    <%= t('journal.office_submission.e_review.change') %>
+                <% end %>
+                <% if review.send(field_name+'_e_c?') %>
+                    <%= link_to editor_update_submission_revision_review_path(review,
+                            block_id: block_id,
+                            field_name: field_name_current,
+                            field_name_orig: field_name_orig,
+                            op: :field_drop
+                        ),
+#                        method: :delete, remote: true,
+                        method: :put, remote: true,
+                        data: {
+                            confirm: 'Are you sure?'
+                        },
+                        :class => 'btn btn-danger btn-sm bbtn-link' do
+                    %>
+                        <i class="fa fa-times ffa-lg"></i>
+                        <%= t('journal.office_submission.e_review.drop_changes') %>
+                    <% end %>
+                <% end %>
+            <% end %>
+        <div class='highlightable'><%= simple_format( strip_tags(field_value) ) %></div>
+        <% if review.send(field_name+'_e_c?') && user_role==:editor %>
+            <div style="color: #999999; font-size: 80%; background-color: #eeeeee; margin: 0px; padding: 0px; bborder: thin solid red;">
+                <b><%= t('journal.office_submission.e_review.original') %>:</b><bbr>
+                <div><%= simple_format( strip_tags(field_original_value) ) %></div>
+            </div>
+        <% end %>
+    </div>
+
+
+
+
+    <% if can_editor_change %>
+        <%= render layout: 'common/parts/dialog/modal_lg', locals: {
+            modal_id: modal_id,
+            modal_title: t('journal.office_submission.e_review.edit_review_field')
+        } do %>
+
+                <%= form_for review, url: editor_update_submission_revision_review_path(
+                        review,
+                        block_id: block_id,
+                        field_name_orig: field_name_orig,
+                        op: :field_update
+                    ), method: :put, remote: true, :html => {
+                        :class => "fform-horizontal", :role => "form",
+                        :onsubmit => "$('##{modal_id}').modal('hide'); return true;"
+                    } do |f| %>
+
+
+                    <%# if field_title %>
+                        <h4><%= t('journal.office_submission.r_review.'+field_name+'_header') %>:</h4>
+                    <%# end %>
+                    <%# if field_subtitle %>
+                        <!--i><%#= t('journal.office_submission.r_review.'+field_name) %>:</i-->
+                    <%# end %>
+
+                    <div class="form-group">
+                        <%= f.text_area field_name_current.to_sym, value: field_value, :class => "form-control" %>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="ooffset-sm-2 col-sm-12">
+                                <%= f.button ddata: { dismiss: "modal" }, :class => 'btn btn-success btn-sm' do %>
+                                    <i class="fa fa-check fa-llg"></i>
+                                    <%= t('journal.office_submission.r_review.save') %>
+                                <% end %>
+                                <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-warning btn-sm' do %>
+                                    <i class="fa fa-times fa-llg"></i>
+                                    <%= t('journal.office_submission.r_review.cancel') %>
+                                <% end %>
+                        </div>
+                    </div>
+                <% end %>
+
+
+
+
+        <% end %>
+    <% end %>

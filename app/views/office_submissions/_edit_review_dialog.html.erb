@@ -66,13 +66,13 @@
                         <%= f.text_area :comment_quality, :class => "form-control" %>
                     </div>
 
-                    <h4><%= t('journal.office_submission.r_review.comment_author_header') %></h4>
+                    <h4><%= t('journal.office_submission.r_review.comment_for_author_header') %></h4>
 
                     <div class="form-group">
-                        <%= f.label :comment do %>
-                            <%= simple_format(t('journal.office_submission.r_review.comment_description')) %>
+                        <%= f.label :comment_for_author do %>
+                            <%= simple_format(t('journal.office_submission.r_review.comment_for_author_description')) %>
                         <% end %>
-                        <%= f.text_area :comment, :class => "form-control" %>
+                        <%= f.text_area :comment_for_author, :class => "form-control" %>
                     </div>
 
                     <h4><%= t('journal.office_submission.r_review.comment_for_editor_header') %></h4>

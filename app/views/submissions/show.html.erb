@@ -170,23 +170,6 @@
                 </dl>
 
 
-                <%# if revision.text %>
-                    <!--p>
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse_<%= revision.id %>" aria-expanded="false" aria-controls="collapse_<%= revision.id %>">
-                            Text...
-                        </button>
-                    </p>
-                    <div class="collapse" id="collapse_<%= revision.id %>">
-                        <div class="card card-block">
-                            <p class="card-text">
-                                <b>Title:</b> <%= revision.text.title rescue '' %>
-                                <br>
-                                <b>Abstract:</b> <%= revision.text.abstract rescue '' %>
-                            </p>
-                        </div>
-                    </div-->
-                <%# end %>
-
                     <% if revision.text %>
                         <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
                     <% end %>
@@ -197,6 +180,12 @@
                     <% if revision.decision_2 %>
                         <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} %>
                     <% end %>
+                        <% if %w[accepted rejected need_revise].include?(revision.aasm_state) && revision.reviews_submitted.count > 0 %>
+                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                revision: revision,
+                                user_role: :author,
+                            } %>
+                        <% end %>
 
 
 

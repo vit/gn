@@ -1,0 +1,16 @@
+
+<% if @can_edit %>
+
+$('#<%= @block_id %>').html("<%= escape_javascript (
+    render partial: 'common/parts/submission/show_revision_review_field', locals: {
+        field_name: @field_name_orig,
+        review: @review,
+        user_role: :editor,
+        can_editor_change: @can_edit
+    }
+) %>");
+
+//$('#<%= @block_id %>').effect( "highlight", {color: 'lightgreen'}, 3000 );
+$('#<%= @block_id %> .highlightable').effect( "highlight", {color: 'lightgreen'}, 3000 );
+
+<% end %>
