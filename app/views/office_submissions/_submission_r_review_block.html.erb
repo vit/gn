@@ -31,29 +31,18 @@
                     <dt><%= t('journal.office_submission.r_review.comment_for_editor_header') %>:</dt>
                     <dd><%= simple_format( strip_tags(@my_review.comment_for_editor) ) %></dd>
 
-
-                    <!--dt><%#= t('journal.office_submission.r_review.comment') %>:</dt>
-                    <dd><%#= @my_review.comment %></dd-->
-
-        
-		<%
-			file_records = @my_review ? %w[reviewer_file].map do |category|
-				@my_review.get_or_new_file_by_category category
-			end : []
-		%>
-    	<% file_records.each do |submission_file| %>
-            <%# if operation_enabled %>
-                <%#= render partial: 'submission_files/submission_file', locals: {submission_file: submission_file} %>
-    			<%= render partial: 'submission_files/submission_file', locals: {submission_file: submission_file, can_upload: operation_enabled} %>
-            <%# else %>
-                <%# if submission_file.persisted? %>
-                <!--
-                    &nbsp;(<%#= link_to t('journal.office_submission.r_review.attachment'), submission_file.file_data.url, target: "_blank" %>)
-                -->
-                <%# end %>
-    	    <%# end %>
-    	<% end %>
-
+    <!--                <%#
+                        file_records = @my_review ? %w[reviewer_file].map do |category|
+                            @my_review.get_or_new_file_by_category category
+                        end : []
+                    %>
+                    <b>Attachment:</b> &nbsp;<%# file_records.each do |submission_file| %>
+                        <%#= render partial: 'submission_files/submission_file', locals: {
+                            submission_file: submission_file,
+                            can_upload: operation_enabled
+                        } %>
+                    <%# end %>
+                    <br-->
 
                 </dl>
             <% else %>
@@ -61,15 +50,69 @@
             <% end %>
 
             <% if operation_enabled %>
-                <%= link_to "#", data: { toggle: "modal", target: "##{modal_target_id}" }, :class => 'btn btn-primary', disabled: !(@my_review && @my_review.may_sm_update?) do %>
+            <div>
+                <%= link_to "#", data: { toggle: "modal", target: "##{modal_target_id}" },
+                    :class => 'btn btn-primary',
+                    disabled: !(@my_review && @my_review.may_sm_update?) do
+                %>
                     <i class="fa fa-edit ffa-lg"></i>
                     <%= t('journal.office_submission.r_review.edit') %>
                 <% end %>
-                <%= link_to r_submission_path(@submission, op: :submit_my_review), method: :put, data: { confirm: 'Are you sure your review is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do %>
+                <%#= link_to r_submission_path(@submission, op: :submit_my_review),
+                    method: :put,
+                    data: { confirm: 'Are you sure your review is ready?' },
+                    :class => 'btn btn-success',
+                    :remote => true,
+                    disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do
+                %>
+                    <!--i class="fa fa-check ffa-lg"></i-->
+                    <%#= t('journal.office_submission.r_review.submit') %>
+                <%# end %>
+            </div>
+            <% end %>
+
+            <% if @my_review %>
+                <div>
+                    <br>
+                    <%
+                        file_records = @my_review ? %w[reviewer_file].map do |category|
+                            @my_review.get_or_new_file_by_category category
+                        end : []
+                    %>
+                    <b>Attachment:</b> &nbsp;<% file_records.each do |submission_file| %>
+                        <%= render partial: 'submission_files/submission_file', locals: {
+                            submission_file: submission_file,
+                            can_upload: operation_enabled
+                        } %>
+                    <% end %>
+                </div>
+            <% end %>
+
+            <% if operation_enabled %>
+            <div>
+                    <br>
+                <%#= link_to "#", data: { toggle: "modal", target: "##{modal_target_id}" },
+                    :class => 'btn btn-primary',
+                    disabled: !(@my_review && @my_review.may_sm_update?) do
+                %>
+                    <!--i class="fa fa-edit ffa-lg"></i-->
+                    <%#= t('journal.office_submission.r_review.edit') %>
+                <%# end %>
+                <%= link_to r_submission_path(@submission, op: :submit_my_review),
+                    method: :put,
+                    data: { confirm: 'Are you sure your review is ready?' },
+                    :class => 'btn btn-success',
+                    :remote => true,
+                    disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do
+                %>
                     <i class="fa fa-check ffa-lg"></i>
                     <%= t('journal.office_submission.r_review.submit') %>
                 <% end %>
+            </div>
             <% end %>
+
+
+
         </div>
     </div>
 

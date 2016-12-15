@@ -64,6 +64,9 @@ ru:
                 dont_forget_to_save: Не забудьте сохранить введенные данные!
 
                 comment_science_header: Оценка научного уровня статьи
+                comment_science_2_header: Оценка научного уровня статьи, часть 2
+                comment_science_3_header: Оценка научного уровня статьи, часть 3
+                comment_science_4_header: Оценка научного уровня статьи, часть 4
                 comment_quality_header: Оценка качества оформления статьи
                 comment_for_author_header: Комментарий для автора
                 comment_for_editor_header: Конфиденциальные комментарии для редакции

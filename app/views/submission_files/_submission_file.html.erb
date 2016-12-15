@@ -7,64 +7,64 @@
 %>
 
 
+<div cclass="card card-default" id="<%= block_id %>">
+  <!--div class="card-block">
+    <h5 class="card-title"><%#= t('journal.revision_form.file_category') %>: <b><%#= submission_file.file_category %></b></h5>
 
-<div class="card card-default" id="<%= block_id %>">
-  <div class="card-block">
-    <h5 class="card-title"><%= t('journal.revision_form.file_category') %>: <b><%= submission_file.file_category %></b></h5>
+    <div-->
 
-    <div>
-<%= form_for(submission_file, mmethod: :post, remote: true, :html => {:multipart => true, id: form_id, :class => "form-inline"}) do |f| %>
-  <%= render partial: 'common/forms/form_error_alert', locals: {form_model: submission_file} %>
-      <%= f.hidden_field :attachable_id, :class => "form-control" %>
-      <%= f.hidden_field :attachable_type, :class => "form-control" %>
-      <%= f.hidden_field :file_category, :class => "form-control" %>
+  <%= form_for(submission_file, mmethod: :post, remote: true, :html => {
+    multipart: true,
+    id: form_id,
+    class: "form-inline",
+    style: 'display: none;'
+  }) do |f| %>
+    <%= render partial: 'common/forms/form_error_alert', locals: {form_model: submission_file} %>
+    <%= f.hidden_field :attachable_id, :class => "form-control" %>
+    <%= f.hidden_field :attachable_type, :class => "form-control" %>
+    <%= f.hidden_field :file_category, :class => "form-control" %>
 
-  <% if true or submission_file.attachable.submission.may_sm_update_file? %>
-  <div class="form-group">
-            <%= f.file_field :file_data, id: field_id, style: 'display: none;', aaccept: "image/jpeg,image/png,image/gif",
-                onchange: "$('##{spinner_id}').show(); $('##{form_id}').submit();"
-            %>
-            <%#= f.hidden_field :file_field_cache %>
-  </div>
-  <% end %>
+    <% if true or submission_file.attachable.submission.may_sm_update_file? %>
+      <div class="form-group">
+        <%= f.file_field :file_data, id: field_id, style: 'display: none;', aaccept: "image/jpeg,image/png,image/gif",
+          onchange: "$('##{spinner_id}').show(); $('##{form_id}').submit();"
+        %>
+      </div>
+    <% end %>
+  <% end if can_upload %>
+  <div class="btn-group">
 
+    <%= link_to "#", class: "btn btn-primary btn-sm",
+      onclick: "$('input[id=#{field_id}]').click(); return false;",
+      title: "Upload file" do
+    %>
+      <i class="fa fa-upload"></i> Upload
+      <span id="<%= spinner_id %>" style="display: none;"><i class="fa fa-spinner fa-spin ffa-3x fa-fw"></i><span class="sr-only">Loading...</span></span>
+    <% end if can_upload %>
 
-        <% end %>
+    <% if submission_file.persisted? %>
 
-        <div class="btn-group">
-            <%= link_to "#", class: "btn btn-primary btn-sm",
-                onclick: "$('input[id=#{field_id}]').click(); return false;",
-                title: "Upload file" do
-            %>
-                <i class="fa fa-upload"></i> Upload
-                  <span id="<%= spinner_id %>" style="display: none;"><i class="fa fa-spinner fa-spin ffa-3x fa-fw"></i><span class="sr-only">Loading...</span></span>
-            <%# end %>
-            <% end if can_upload %>
+      &nbsp; 
+      <%= link_to submission_file.file_data.url, target: "_blank" do %>
+        <%= fa_icon 'download' %>
+        <%= t('journal.revision_form.download') %>
+      <% end %>
+      <%= link_to submission_file_path(submission_file),
+        class: "btn btn-danger btn-sm",
+        method: :delete,
+        remote: true,
+        data: {confirm: "Are you sure?"},
+        title: "Delete this attachment" do
+      %>
+        <i class="fa fa-remove"></i>
+      <% end if can_upload %>
 
-            <% if submission_file.persisted? %>
-              &nbsp;(<%= link_to t('journal.revision_form.see_current_file'), submission_file.file_data.url, target: "_blank" %>)
-
-              <%= link_to submission_file_path(submission_file),
-                  class: "btn btn-danger btn-sm",
-                  method: :delete,
-                  remote: true,
-                  data: {confirm: "Are you sure?"},
-                  title: "Delete this attachment" do
-              %>
-                  <i class="fa fa-remove"></i>
-              <%# end %>
-              <% end if can_upload %>
-
-            <% end %>
-
-
-        </div>
-
-    </div>
-
-
+    <% end %>
 
   </div>
 </div>
+
+  <!--/div>
+</div-->
 
 
