@@ -1,0 +1,54 @@
+
+<ul class="list-group authors-sortable authors-list" style="position: relative;" data-submission="<%= @submission.id %>" iid="<%= block_id %>">
+    <% @submission_authors.each do |a| %>
+        <%
+            modal_edit_target_id = 'modal_submission_' + @submission.id.to_s + '_author_' + a[:author_n].to_s
+            #invitations_block_id = 'invitations_block_' + @submission.id.to_s
+        %>
+
+        <li class="list-group-item authors-list-item" data-n="<%= a.author_n %>" data-author="<%= a.id %>">
+
+            <div class="ppull-right bbtn-group">
+                <%
+                    #modal_target_id = "paper_3_author_123"
+                %>
+
+                    <%= button_to update_authors_submission_path(
+                            @submission,
+                            op: :drop_author,
+                            author_n: a.author_n
+                        ),
+                        method: :put,
+                        remote: true,
+                        data: { confirm: 'Are you sure?' },
+                        :class => 'btn btn-danger btn-sm pull-right',
+                        :style => 'margin-right: -16px;',
+                        #:disabled => !ri.may_sm_destroy?
+                        a: :b do
+                    %>
+                            &times;
+                    <% end %>
+
+<!--
+                <%#= button_to "#", data: { toggle: "modal", target: "##{modal_edit_target_id}" },
+                    :class => 'btn btn-primary btn-sm pull-right',
+                    :style => 'margin-right: 8px;',
+                    #disabled: !(@my_review && @my_review.may_sm_update?)
+                    a: :b do
+                %>
+                    <i class="fa fa-pencil"></i>
+                    <%#= t('journal.submission.authors.edit') %>
+                <%# end %>
+-->
+
+            </div>
+            <span cclass="pull-left" style='margin-left: -14px; margin-right: 4px;'><%= fa_icon 'sort' %></span>
+            <%= a.full_name %>
+            <!--span class="pull-right"><%= fa_icon 'sort' %></span-->
+            <!--span class="pull-right"><%= fa_stacked_icon "hand-pointer-o", base: 'sort' %></span-->
+
+
+        </li>
+    <% end %>
+</ul>
+

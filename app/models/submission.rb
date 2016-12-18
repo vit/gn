@@ -156,9 +156,60 @@ class Submission < ApplicationRecord
     revisions.where.not(aasm_state: :draft).joins(:text).order("submission_revisions.revision_n").last.text rescue nil
   end
 
+  def get_authors
+#    revisions.joins(:authors_list).order("submission_revisions.revision_n").last.authors_list.authors rescue []
+    revisions.joins(:authors_list).order("submission_revisions.revision_n").last.authors_list.authors.order(author_n: :asc) rescue []
+  end
+  def add_author data
+    current_list = get_or_create_current_authors_list
+    n = current_list.authors.count + 1
+    current_list.authors.create(data.merge author_n: n)
+  end
+#  def drop_author id
+  def drop_author n
+    n = n.to_i
+    current_list = get_or_create_current_authors_list
+    current_list.authors.find_by_author_n(n).destroy rescue nil
+    #puts "!!!!!"
+    current_list.authors.where("author_n > #{n.to_i}").update_all("author_n = author_n - 1")
+    #puts "!!!!!"
+    #Deal.update_all("count = count + 1")
+  end
+  def reorder_authors nums
+    puts nums
+    nums_map = {}
+    nums.each_with_index do |n, i|
+      nums_map[n.to_i] = i+1
+    end
+    puts nums_map
+    current_list = get_or_create_current_authors_list
+    current_list.authors.each do |a|
+      an = a.author_n
+      puts an
+      a.author_n = nums_map[a.author_n]
+      a.save
+    end
+#    current_list.authors.find_by_author_n(n).destroy rescue nil
+#    current_list.authors.where("author_n > #{n.to_i}").update_all("author_n = author_n - 1")
+  end
 
 
 private
+
+  def get_or_create_current_authors_list
+    lcr = last_created_revision
+    current_list = lcr.authors_list
+    unless current_list
+      old_list = get_authors
+      current_list = lcr.create_authors_list
+      old_list.each_with_index do |a,i|
+#        current_list.authors.create(a.merge author_n: i)
+        current_list.authors.create(a)
+      end
+    end
+    current_list
+  end
+
     def create_new_revision
         self.revision_seq += 1
         r = self.revisions.build(revision_n: self.revision_seq)

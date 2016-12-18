@@ -14,7 +14,7 @@
 
 %>
 
-<div class="container-fluid submissions">
+<div class="container ccontainer-fluid submissions">
 
 <!--div class="page-header">
   <h2><%= t('journal.submissions.my_papers') %></h2>
@@ -27,7 +27,7 @@
         <!--span class="tag tag-pill tag-primary tag-pill float-xs-right papers-list-item-tag-<%= submission.aasm_state %>"><%= submission.aasm_state %></span-->
         <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= submission.last_created_revision.aasm_state %>"><%= submission.last_created_revision.aasm_state %></span>
         <span>#<%= submission.id %></span> | <span class="papers-list-item-title"><%= submission.get_text.title.truncate(120) rescue '' %></span>
-        <div class="papers-list-item-authors">Сидоров Сидор Сидорович, Иванов Иван Иванович</div>
+        <div class="papers-list-item-authors"><%= (submission.get_authors || []).map(&:full_name).join(', ') %></div>
         <div class="hidden-sm-down papers-list-item-abstract"><ii><%= submission.get_text.abstract.truncate(250) rescue '' %></ii></div>
     <% end %>
     <!--/div-->

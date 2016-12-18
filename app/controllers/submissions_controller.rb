@@ -1,6 +1,6 @@
 #class SubmissionsController < ApplicationController
 class SubmissionsController < OfficeSubmissionsController
-  before_action :set_submission, only: [:show, :edit, :update, :destroy]
+  before_action :set_submission, only: [:show, :edit, :edit_authors, :update_authors, :update, :destroy]
 #  before_action :set_context, only: [:index, :new, :create]
 #  before_action :authenticate_user!
   
@@ -8,24 +8,17 @@ class SubmissionsController < OfficeSubmissionsController
 
 #  before_action -> { add_breadcrumb "Author", context_submissions_path(@context) }
 
-  # GET /submissions
-  # GET /submissions.json
   def index
     authorize @journal, :can_author?
     @submissions = current_user.submissions.where(journal: @journal).order(id: :desc)
     @sidebar_active='my_papers'
   end
 
-  # GET /submissions/1
-  # GET /submissions/1.json
   def show
-##    @context = @submission.context
-##    add_breadcrumb @context.title, context_path(@context)
     authorize @submission
     @sidebar_active='my_papers'
   end
 
-  # GET /submissions/new
   def new
     authorize @journal, :can_author?
 
@@ -35,7 +28,6 @@ class SubmissionsController < OfficeSubmissionsController
     @sidebar_active='my_papers'
   end
 
-  # GET /submissions/1/edit
   def edit
     authorize @submission, :update?
 
@@ -48,26 +40,50 @@ class SubmissionsController < OfficeSubmissionsController
     @sidebar_active='my_papers'
   end
 
-  # POST /submissions
-  # POST /submissions.json
+  def edit_authors
+    authorize @submission, :update?
+
+    @submission_authors = @submission.get_authors
+    @submission_revision = @submission.last_created_revision
+
+    @sidebar_active='my_papers'
+  end
+
+  def update_authors
+    #authorize @submission, :update?
+#    @submission_revision = @submission.last_created_revision
+
+    @op = params[:op]
+    if policy(@submission).update_metadata?
+      case @op
+      when 'add_author'
+        submission_author = params.require(:submission_author).permit(:fname, :mname, :lname) rescue nil
+        if submission_author
+          @submission.add_author submission_author
+        end
+      when 'drop_author'
+        author_n = params[:author_n]
+        if author_n
+          @submission.drop_author author_n
+        end
+      when 'reorder_authors'
+        nums = params[:nums]
+        if nums && nums.is_a?(Array)
+          @submission.reorder_authors nums
+        end
+      end
+    end
+
+    @submission_authors = @submission.get_authors
+#    @submission_revision = @submission.last_created_revision
+
+  end
+
+
   def create
     authorize @journal, :can_author?
     submission_text = submission_text_params
     @submission = @journal.submissions.new(user: current_user)
-
-#    submission_revision = @submission.revisions.build
-#    submission_text = submission_revision.build_text
-#    data = submission_params.merge user: current_user
-#    @submission = @journal.submissions.new(data)
-
-
-#    @submission.save
-#    @submission.sm_init!
-#    @submission.set_text(submission_text)
-
-#puts "!!!!!!"
-#    puts @submission.get_text.text.title
-#puts "!!!!!!"
 
     respond_to do |format|
 #      if @submission.save
@@ -82,8 +98,6 @@ class SubmissionsController < OfficeSubmissionsController
     end
   end
 
-  # PATCH/PUT /submissions/1
-  # PATCH/PUT /submissions/1.json
   def update
     submission_text = submission_text_params
     @submission_revision = @submission.last_created_revision
@@ -120,8 +134,6 @@ class SubmissionsController < OfficeSubmissionsController
     end
   end
 
-  # DELETE /submissions/1
-  # DELETE /submissions/1.json
   def destroy
         authorize @submission
     if policy(@submission).destroy?
@@ -141,37 +153,6 @@ class SubmissionsController < OfficeSubmissionsController
       #@context = @submission.context
     end
 
-=begin
-    # Use callbacks to share common setup or constraints between actions.
-    def set_submission
-      @submission = Submission.find(params[:id])
-      @context = @submission.context
-    end
-    def set_context
-      @context = Context.find(params[:context_id])
-    end
-    def set_breadcrumbs
-      add_breadcrumb @context.title, context_path(@context)
-#      add_breadcrumb "Author", context_submissions_path(@context), dropdown: {
-      add_breadcrumb "My Papers", context_submissions_path(@context), dropdown: {
-        list: [
-#          {name: :a, text: 'Author', path: context_submissions_path(@context), active: true},
-          {name: :a, text: 'My Papers', path: context_submissions_path(@context), active: true},
-          {name: :ce, text: 'Chief Editor', path: context_ce_submissions_path(@context)},
-#          {name: :e, text: 'Editor', path: '/editor'},
-          {name: :r, text: 'Reviewer', path: '/reviewer'},
-        ]
-      }
-      add_breadcrumb @submission.title, submission_path(@submission) if @submission
-    end
-=end
-
-#    def set_role
-#        @user_role = :author
-#    end
-
-
-    # Never trust parameters from the scary internet, only allow the white list through.
     def submission_text_params
       params.require(:submission_text).permit(:title, :abstract) rescue nil
     end
@@ -179,5 +160,4 @@ class SubmissionsController < OfficeSubmissionsController
       params.require(:submission).permit(:title, :abstract, :sid, :user_id, :context_id, :revision_seq, :last_created_revision_id, :last_submitted_revision_id, :aasm_state) rescue nil
     end
 end
-
 

@@ -5,7 +5,8 @@ class SubmissionRevision < ApplicationRecord
     belongs_to :submission
     
     has_one :text, class_name: 'SubmissionText', dependent: :destroy
-    has_many :authors, class_name: 'SubmissionAuthor'
+#    has_many :authors, class_name: 'SubmissionAuthor'
+    has_one :authors_list, class_name: 'SubmissionAuthorsList'
     has_many :files, class_name: 'SubmissionFile', as: :attachable, dependent: :destroy
 
 #    has_many :submission_revision_files, class_name: 'SubmissionRevisionFile', foreign_key: "revision_id"

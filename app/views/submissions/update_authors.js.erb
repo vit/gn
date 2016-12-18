@@ -1,0 +1,31 @@
+
+<%# if @can_edit %>
+
+<%
+    #modal_target_id = 'modal_submission_' + @submission.id.to_s + '_author_' + a.author_n.to_s
+    modal_add_id = 'modal_submission_' + @submission.id.to_s + '_add_author'
+    authors_list_block_id = 'authors_list_block_' + @submission.id.to_s
+%>
+
+//alert("<%= authors_list_block_id %>");
+
+//$('#<%= authors_list_block_id %>').html("");
+
+
+$('#<%= authors_list_block_id %>').html("<%= escape_javascript (
+    render partial: 'authors_list', locals: {
+        block_id: authors_list_block_id
+    }
+) %>");
+
+$("#<%= modal_add_id %> form")[0].reset(); 
+
+$(document).trigger('authorslistreload');
+
+
+//$('#<%= @block_id %>').effect( "highlight", {color: 'lightgreen'}, 3000 );
+//$('#<%= @block_id %> .highlightable').effect( "highlight", {color: 'lightgreen'}, 3000 );
+//$('#<%= authors_list_block_id %> .authors_list_item').last().effect( "highlight", {color: 'lightgreen !important'}, 3000 );
+
+
+<%# end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213020629) do
+ActiveRecord::Schema.define(version: 20161217021847) do
 
   create_table "journal_appointments", force: :cascade do |t|
     t.integer  "journal_id"
@@ -39,9 +39,17 @@ ActiveRecord::Schema.define(version: 20161213020629) do
     t.string   "mname"
     t.string   "lname"
     t.integer  "submission_revision_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "author_n"
+    t.integer  "submission_authors_list_id"
+    t.index ["submission_authors_list_id"], name: "index_submission_authors_on_submission_authors_list_id"
     t.index ["submission_revision_id"], name: "index_submission_authors_on_submission_revision_id"
+  end
+
+  create_table "submission_authors_lists", force: :cascade do |t|
+    t.integer "submission_revision_id"
+    t.index ["submission_revision_id"], name: "index_submission_authors_lists_on_submission_revision_id"
   end
 
   create_table "submission_files", force: :cascade do |t|

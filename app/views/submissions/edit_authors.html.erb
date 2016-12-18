@@ -1,0 +1,96 @@
+<%
+    #modal_target_id = 'modal_submission_' + @submission.id.to_s + '_author_' + a.author_n.to_s
+    modal_add_id = 'modal_submission_' + @submission.id.to_s + '_add_author'
+    authors_list_block_id = 'authors_list_block_' + @submission.id.to_s
+%>
+
+<%
+    @page_menu_data = [{
+        title: t('journal.submissions.add_authors'),
+        url: '#',
+        icon: 'plus',
+        data: { toggle: "modal", target: "##{modal_add_id}" },
+    }, {
+#       title: ( t('journal.submissions.show') + ' #'+@submission.id.to_s ),
+        title: ( '#'+@submission.id.to_s + ' ' + t('journal.submissions.show') ),
+        url: submission_path(@submission),
+        icon: 'arrow-left',
+    }]
+%>
+
+<%
+#    @page_title = t('journal.submission.paper') + ' #' + @submission.id.to_s + ' ' + t('journal.submission.authors')
+#    @page_title_sm = '#' + @submission.id.to_s + ' ' + t('journal.submission.authors')
+
+    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Authors'
+    @page_title_sm = '#' + @submission.id.to_s + ' Authors'
+%>
+
+<div class="container">
+
+<div id="<%= authors_list_block_id %>">
+
+<%= render partial: 'authors_list', locals: {
+    block_id: authors_list_block_id
+} %>
+
+</div>
+
+        <%= render layout: 'common/parts/dialog/modal_lg', locals: {
+            modal_id: modal_add_id,
+            modal_title: t('journal.submissions.form.add_authors'),
+            modal_size: 'sm'
+        } do %>
+
+                <%=
+                    #form_for review, url: editor_update_submission_revision_review_path(
+                    #form_for @submission, #url: editor_update_submission_revision_review_path(
+                    form_for SubmissionAuthor.new, url: update_authors_submission_path(
+                        @submission,
+                        op: :add_author
+                    ),
+                        method: :put, remote: true, :html => {
+                        :class => "fform-horizontal", :role => "form",
+                        :onsubmit => "/*$('##{modal_add_id}').modal('hide');*/ return true;"
+                    } do |f| %>
+
+
+                        <!--h4><%#= t('journal.office_submission.r_review.'+field_name+'_header') %>:</h4-->
+
+                    <div class="form-group">
+                        <%= f.label :lname, t('journal.submissions.add_authors.last_name') %>
+                        <%= f.text_field :lname, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :fname, t('journal.submissions.add_authors.first_name') %>
+                        <%= f.text_field :fname, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :mname, t('journal.submissions.add_authors.middle_name') %>
+                        <%= f.text_field :mname, :class => "form-control" %>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <div class="ooffset-sm-2 col-sm-12">
+                                <%= f.button ddata: { dismiss: "modal" }, :class => 'btn btn-success bbtn-sm' do %>
+                                    <i class="fa fa-check fa-llg"></i>
+                                    <%= t('journal.submissions.add_authors.add') %>
+                                <% end %>
+                                <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-secondary bbtn-sm' do %>
+                                    <i class="fa fa-times fa-llg"></i>
+                                    <%= t('journal.submissions.add_authors.finish') %>
+                                <% end %>
+                        </div>
+                    </div>
+                <% end %>
+
+
+
+
+        <% end %>
+
+
+</div>
+
+

@@ -1,41 +1,4 @@
 <%
-=begin
-  {
-    path: context_submissions_path(@context),# method: :get,
-    type: 'default', icon: 'level-up',
-    text: t('context.submissions.my_list_title'),
-  },
-  {
-    path: edit_submission_path(@submission),# method: :get,
-    type: 'primary', icon: 'edit',
-    text: t('context.my_submission.edit_btn'),
-    disabled: !policy(@submission).update?
-  },
-  {
-    path: submission_path(@submission, op: :submit), method: :put,
-    type: 'success', icon: 'check',
-#    type: 'success', icon: 'send',
-    text: t('context.my_submission.submit_btn'),
-    data: { confirm: 'Are you sure your paper is ready for submittion?' },
-    disabled: !policy(@submission).submit?
-  },
-  {
-    path: submission_path(@submission, op: :revise), method: :put,
-    type: 'success', icon: 'magic',
-    text: t('context.my_submission.revise_btn'),
-    data: { confirm: 'Are you sure you are want to make new revision of the paper?' },
-    disabled: !policy(@submission).revise?
-  },
-  {
-    path: @submission, method: :delete,
-    type: 'danger', icon: 'trash-o',
-    text: t('context.my_submission.delete_btn'),
-    data: { confirm: 'Are you sure?' },
-    disabled: !policy(@submission).destroy?
-  },
-=end
-
-
 
   @page_menu_data = [
     {
@@ -66,6 +29,17 @@
 #        style: 'outline-primary',
         disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
     }, {
+
+
+        title: t('journal.submissions.authors'),
+        url: edit_authors_submission_path(@submission),
+        icon: 'users',
+#        style: 'default',
+#        style: 'outline-primary',
+        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
+
+
+    }, {
         title: t('journal.submissions.delete'),
         url: submission_path(@submission),
         method: :delete,
@@ -91,9 +65,10 @@
 
 <%
     text = @submission.get_text
+    authors = @submission.get_authors || []
 %>
 
-<div class="container-fluid">
+<div class="container-fluid" style="overflow: hidden;">
 
     <!--h2><%#= t('journal.submissions.show') %></h2-->
 
@@ -121,7 +96,7 @@
         </div>
         <div>
             <b>Authors:</b>
-            <span class="ppaper-card-authors">Сидоров Сидор Сидорович, Иванов Иван Иванович</span>
+            <span class="ppaper-card-authors"><%= authors.map(&:full_name).join(', ') %></span>
         </div>
         <!--div>
             <b>Abstract:</b>

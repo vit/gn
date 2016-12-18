@@ -66,6 +66,26 @@ $papers-list-item-background-color-hover: darken($papers-list-item-background-co
         }
 
 
+//$authors-list-item-background-color: #ded6ce;
+$authors-list-item-background-color: #f0f8ff;
+$authors-list-item-background-color-hover: darken($authors-list-item-background-color, 3%);
+
+.authors-list {
+    .authors-list-item {
+        //margin: 8px 25px;
+        //margin: 8px 10px;
+        margin: 8px 15px;
+        //padding-left: 2px;
+        //padding-right: 4px;
+        background-color: $authors-list-item-background-color !important;
+        box-shadow: 2px 2px 2px rgba(10,10,0,0.5);
+        &:hover {
+            background-color: $authors-list-item-background-color-hover !important;
+        }
+        overflow: hidden;
+    }
+}
+
 
 //.review_text_block {
 //    margin-top: 20px;
