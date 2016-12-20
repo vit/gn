@@ -32,7 +32,7 @@
   <li class="nav-item">
     <%= link_to e_submissions_path, class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : '') do %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.e_submission.submitted_papers') %>
-        <span class="tag tag-default tag-pill float-xs-right"><%= @journal.submissions.all_submitted.count %></span>
+        <span class="ttag ttag-default ttag-pill float-xs-right"><%= @journal.submissions.all_submitted.count %></span>
         <!--span class="tag tag-warning tag-pill float-xs-right"><%#= @journal.submissions.get_submitted.count %></span-->
     <% end %>
   </li>
@@ -52,7 +52,7 @@
   <li class="nav-item">
     <%= link_to r_submissions_path, class: "nav-link " + (@sidebar_active=='reviewer_office' ? 'active' : '') do %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.r_submission.assigned_papers') %>
-        <span class="tag tag-default tag-pill float-xs-right"><%= @journal.user_reviewer_invitations(current_user).count %></span>
+        <span class="ttag ttag-default ttag-pill float-xs-right"><%= @journal.user_reviewer_invitations(current_user).count %></span>
     <% end %>
   </li>
 <% end %>
@@ -111,7 +111,7 @@
       style: "pposition: relative; margin-right: 44px;" do
     %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.submissions.my_papers') %>
-        <span class="tag tag-default tag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
+        <span class="ttag ttag-default ttag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
 
     <% end %>
   </li>

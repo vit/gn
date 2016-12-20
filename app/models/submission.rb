@@ -149,48 +149,69 @@ class Submission < ApplicationRecord
   def set_text data
     last_created_revision.tap { |lcr| (lcr.text || lcr.build_text()).update(data) }.text
   end
-  def get_text
+
+  def get_file_newest category
+    revisions.joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files.first rescue nil
+  end
+  def get_file_submitted category
+#    revisions.where.not(aasm_state: :draft).joins(:text).order("submission_revisions.revision_n").last.text rescue nil
+    revisions.where.not(aasm_state: :draft).joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files.first rescue nil
+#    revisions.where.not(aasm_state: :draft).joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last #rescue nil
+  end
+  def get_file category
+    get_file_submitted category
+  end
+
+
+#  def get_text
+#    revisions.joins(:text).order("submission_revisions.revision_n").last.text rescue nil
+#  end
+  def get_text_newest
     revisions.joins(:text).order("submission_revisions.revision_n").last.text rescue nil
   end
   def get_text_submitted
     revisions.where.not(aasm_state: :draft).joins(:text).order("submission_revisions.revision_n").last.text rescue nil
   end
+  def get_text
+    get_text_submitted
+  end
 
-  def get_authors
-#    revisions.joins(:authors_list).order("submission_revisions.revision_n").last.authors_list.authors rescue []
+
+  def get_authors_newest
     revisions.joins(:authors_list).order("submission_revisions.revision_n").last.authors_list.authors.order(author_n: :asc) rescue []
   end
+  def get_authors_submitted
+    revisions.where.not(aasm_state: :draft).joins(:authors_list).order("submission_revisions.revision_n").last.authors_list.authors.order(author_n: :asc) rescue []
+  end
+  def get_authors
+    get_authors_submitted
+  end
+
   def add_author data
     current_list = get_or_create_current_authors_list
     n = current_list.authors.count + 1
     current_list.authors.create(data.merge author_n: n)
   end
-#  def drop_author id
   def drop_author n
     n = n.to_i
     current_list = get_or_create_current_authors_list
     current_list.authors.find_by_author_n(n).destroy rescue nil
-    #puts "!!!!!"
     current_list.authors.where("author_n > #{n.to_i}").update_all("author_n = author_n - 1")
-    #puts "!!!!!"
-    #Deal.update_all("count = count + 1")
   end
   def reorder_authors nums
-    puts nums
+#    puts nums
     nums_map = {}
     nums.each_with_index do |n, i|
       nums_map[n.to_i] = i+1
     end
-    puts nums_map
+#    puts nums_map
     current_list = get_or_create_current_authors_list
     current_list.authors.each do |a|
-      an = a.author_n
-      puts an
+#      an = a.author_n
+#      puts an
       a.author_n = nums_map[a.author_n]
       a.save
     end
-#    current_list.authors.find_by_author_n(n).destroy rescue nil
-#    current_list.authors.where("author_n > #{n.to_i}").update_all("author_n = author_n - 1")
   end
 
 
@@ -200,7 +221,7 @@ private
     lcr = last_created_revision
     current_list = lcr.authors_list
     unless current_list
-      old_list = get_authors
+      old_list = get_authors_newest
       current_list = lcr.create_authors_list
       old_list.each_with_index do |a,i|
 #        current_list.authors.create(a.merge author_n: i)

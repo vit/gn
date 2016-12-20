@@ -1,19 +1,4 @@
 
-/*
-.submissions {
-
-    .btn-fixed-bottom {
-//        position: absolute;
-        position: fixed;
-        right: 15px;
-//        bottom: 15px;
-        top: 15px;
-        z-index: 1;
-    }
-    
-}
-
-*/
 
 //$papers-list-item-background-color: #f9f9f5;
 //$papers-list-item-background-color: #fdfffb;
@@ -91,3 +76,121 @@ $authors-list-item-background-color-hover: darken($authors-list-item-background-
 //    margin-top: 20px;
 //    background-color: #fafafa
 //}
+
+//$paper-state-color-rejected: #dd0033;
+//$paper-state-color-darken-rejected: darken($paper-state-color-rejected, 30%);
+
+.paper-state-block {
+//    padding-left: 30px;
+//    padding-right: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+
+    text-shadow: 1px 1px 2px #000;
+    color: #f4f4f4;
+
+    .blockquote {
+        background-color: rgba(127,127,127,0.2);
+    }
+    .reviews-list {
+        text-shadow: none;
+        color: #333333;
+//        margin-left: -25px;
+//        margin-right: -25px;
+        .card {
+            //border: thin solid red;
+//            padding-left: 0px;
+//            padding-right: 0px;
+//            background-color: rgba(240,240,240,0.4) !important;
+            background-color: rgba(127,127,127,0.2);
+//            text-shadow: none;
+            .card-block {
+                margin-left: 0px;
+                margin-right: 0px;
+//                background-color: rgba(222,222,222,0.2) !important;
+                background-color: rgba(127,127,127,0.2) !important;
+                .card-title {
+//                    color: #333333;
+    text-shadow: 1px 1px 2px #000;
+    color: #f4f4f4;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+$paper-state-color-rejected: #dd0033;
+//$paper-state-color-darken-rejected: darken($paper-state-color-rejected, 30%);
+.submission-block-rejected {
+    background-color: $paper-state-color-rejected;
+    background: linear-gradient(to top, darken($paper-state-color-rejected,30%), $paper-state-color-rejected);
+}
+$paper-state-color-rejected_without_consideration: #dd0033;
+.submission-block-rejected_without_consideration {
+    background-color: $paper-state-color-rejected_without_consideration;
+    background: linear-gradient(to top, darken($paper-state-color-rejected_without_consideration,30%), $paper-state-color-rejected_without_consideration);
+}
+
+
+$paper-state-color-accepted: #00cc22;
+.submission-block-accepted {
+    background-color: $paper-state-color-accepted;
+    background: linear-gradient(to top, darken($paper-state-color-accepted,30%), $paper-state-color-accepted);
+}
+//$paper-state-color-wait: #0033dd;
+//.submission-block-wait {
+//    background-color: $paper-state-color-wait;
+//    background: linear-gradient(to top, darken($paper-state-color-wait,30%), $paper-state-color-wait);
+//}
+$paper-state-color-submitted: #0033dd;
+.submission-block-submitted {
+    background-color: $paper-state-color-submitted;
+    background: linear-gradient(to top, darken($paper-state-color-submitted,30%), $paper-state-color-submitted);
+}
+$paper-state-color-under_consideration: #0033dd;
+.submission-block-under_consideration {
+    background-color: $paper-state-color-under_consideration;
+    background: linear-gradient(to top, darken($paper-state-color-under_consideration,30%), $paper-state-color-under_consideration);
+}
+
+$paper-state-color-need_revise: #eeaa00;
+.submission-block-need_revise {
+    background-color: $paper-state-color-need_revise;
+    background: linear-gradient(to top, darken($paper-state-color-need_revise,30%), $paper-state-color-need_revise);
+}
+$paper-state-color-draft: #777777;
+.submission-block-draft {
+    background-color: $paper-state-color-draft;
+    background: linear-gradient(to top, darken($paper-state-color-draft,30%), $paper-state-color-draft);
+}
+
+.papers-list {
+    .papers-list-item-draft {
+        border-left: 5px solid $paper-state-color-draft;
+    }
+    .papers-list-item-submitted {
+        border-left: 5px solid $paper-state-color-submitted;
+    }
+    .papers-list-item-under_consideration {
+        border-left: 5px solid $paper-state-color-under_consideration;
+    }
+    .papers-list-item-rejected_without_consideration {
+        border-left: 5px solid $paper-state-color-rejected_without_consideration;
+    }
+    .papers-list-item-rejected {
+        border-left: 5px solid $paper-state-color-rejected;
+    }
+    .papers-list-item-need_revise {
+        border-left: 5px solid $paper-state-color-need_revise;
+    }
+    .papers-list-item-accepted {
+        border-left: 5px solid $paper-state-color-accepted;
+    }
+//    .papers-list-item-draft {
+//        border-left: 5px solid $paper-state-color-draft;
+//    }
+}
+
+

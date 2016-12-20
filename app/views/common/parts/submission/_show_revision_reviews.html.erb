@@ -3,7 +3,7 @@
 %>
 
 <%# if decision.submitted? %>
-<div>
+<div class="reviews-list">
     <%
 #        readonly = (defined? readonly) ? readonly : true
         can_editor_change = (defined? can_editor_change) ? can_editor_change : false
@@ -12,17 +12,17 @@
           collapse_target_id = id_prefix + '_' + collapse_target_id
         end
     %>
-                        <p>
+                        <!--p>
                             <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#<%= collapse_target_id %>">
                                 Reviews...
                             </button>
-                        </p>
-                        <div class="collapse" id="<%= collapse_target_id %>">
+                        </p-->
+                        <div cclass="collapse" iid="<%= collapse_target_id %>">
 
             <div class="card">
-              <div class="card-block"  style='background-color: #eeeeee;'>
-                <h5 class="card-title"><%= t('journal.office_submission.revisions.reviews') %></h5>
-                <div class="list-group">
+              <div class="card-block" style='background-color: #eeeeee;'>
+                <h5 class="card-title bbtn btn-link" data-toggle="collapse" data-target="#<%= collapse_target_id %>"><%= t('journal.office_submission.reviews_list') %> <%= fa_icon 'caret-down' %></h5>
+                <div class="list-group collapse" id="<%= collapse_target_id %>">
 
                   <% revision.reviews_submitted.each_with_index do |r, n| %>
                     <div class="list-group-item">

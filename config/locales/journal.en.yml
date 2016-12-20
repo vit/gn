@@ -15,6 +15,7 @@ en:
             new_paper: New paper
             edit_paper: Edit paper
             my_papers: My papers
+            paper_data: Paper data
         submission_form:
             paper_metadata: Paper metadata
             title: Title
@@ -33,6 +34,7 @@ en:
         office_submission:
             paper: Paper # single paper show
             papers_list: Papers list
+            reviews_list: Reviews list
             r_invitation: # my review invitation
                 my_invitation: Reviewer invitation
                 inv_txt: To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.

@@ -64,63 +64,184 @@
 %>
 
 <%
-    text = @submission.get_text
-    authors = @submission.get_authors || []
+    lcr = @submission.last_created_revision
+    lsr = @submission.last_submitted_revision
+#    text = @submission.get_text
+
+    author_file = @submission.get_file_submitted 'author_file'
+    exdoc_file = @submission.get_file_submitted 'exdoc_file'
+    text = @submission.get_text_submitted
+    authors = @submission.get_authors_submitted || []
+
+#    author_file_newest = @submission.get_file_newest 'author_file'
+    author_file_draft = lcr.get_file_by_category 'author_file'
+#    author_file_prev = lsr.get_file_by_category 'author_file'
+    exdoc_file_newest = @submission.get_file_newest 'exdoc_file'
+    text_newest = @submission.get_text_newest
+    authors_newest = @submission.get_authors_newest || []
+
+
+#    decision_1_comment = lsr.revision_decision.comment rescue nil
+    decision_1_comment = lcr.decision_1.comment rescue nil
+    decision_2_comment = lcr.decision_2.comment rescue nil
+
+    state = lcr.aasm_state rescue ''
 %>
 
 <div class="container-fluid" style="overflow: hidden;">
 
-    <!--h2><%#= t('journal.submissions.show') %></h2-->
+<%
+=begin
+class_map = {
+    "draft" => "draft",
+    "submitted" => "wait",
+    "under_consideration" => "wait",
+    "rejected" => "rejected",
+    "rejected_without_consideration" => "rejected",
+    "accepted" => "accepted",
+    "need_revise" => "need_revise",
+}
+=end
+icon_map = {
+#    "need_revise" => "smile-o",
+    "need_revise" => "exclamation",
+    "submitted" => "meh-o",
+    "under_consideration" => "meh-o",
+    "accepted" => "smile-o",
+    "rejected" => "frown-o",
+    "rejected_without_consideration" => "frown-o",
+    "draft" => "",
+}
 
-<!--div cclass="card"-->
-    <div class="ccard-block paper-card">
-        <!--p class="card-text">
-            <b>Id:</b> <%#= @submission.id %>
-            <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= @submission.aasm_state %></span>
-        </p-->
-        <!--p cclass="card-text">
-            <div>
-            <span class="tag tag-pill tag-primary tag-pill float-xs-right"><%= @submission.aasm_state %></span>
-            <b>Title:</b> <%= text.title rescue '' %>
-            </div-->
-        <!--/p>
-        <p class="card-text"-->
-            <!--div>
-            <b>Abstract:</b> <%= text.abstract rescue '' %>
-            </div>
-        </p-->
+#type = class_map[state] || ''
+type = state
 
-        <div>
-            <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span>
-            <b>Title:</b> <span class="ppaper-card-title"><%= text.title rescue '' %></span>
-        </div>
-        <div>
-            <b>Authors:</b>
-            <span class="ppaper-card-authors"><%= authors.map(&:full_name).join(', ') %></span>
-        </div>
-        <!--div>
-            <b>Abstract:</b>
-            <div class="ppaper-card-abstract"><%= text.abstract rescue '' %></div>
-        </div-->
-        <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
-        <div>
-            <b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b>
-            <div cclass="ppaper-card-abstract" class="collapse" id="<%= abstract_collapse_target_id %>">
-                <%= text.abstract rescue '' %>
-            </div>
-        </div>
+block_class = 'submission-block-'+type
+icon = icon_map[type] || ''
+%>
+    <div class="card card-inverse paper-state-block <%= block_class %>" style="overflow: hidden;">
+        <div class="card-block">
+            <%= fa_icon icon, class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
+            <h4 class="card-title text-xs-center"><%= t('journal.submissions.state_short.'+state) %></h4>
+            <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+state) ) %></p>
+        <!--/div-->
+            <% case state %>
+            <% when 'rejected_without_consideration' %>
+                <% if true or decision_1_comment %>
+                    <!--div class="card-block"-->
+                    <blockquote class="blockquote">
+                        <h6 class="card-title text-xs-center"><%= t('journal.submissions.state_block.decision_1_comment') %></h6>
+                        <%= simple_format(decision_1_comment) %>
+                    </blockquote>
+                    <!--/div-->
+                <% end %>
+            <% when 'rejected', 'accepted', 'need_revise' %>
+                <% if true or decision_2_comment %>
+                    <!--div class="card-block"-->
+                    <blockquote class="blockquote">
+                        <h6 class="card-title text-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
+                        <%= simple_format(decision_2_comment) %>
+                    </blockquote>
 
+                        <% if %w[accepted rejected need_revise].include?(state) && lcr.reviews_submitted.count > 0 %>
+                                <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                    revision: lcr,
+                                    user_role: :author,
+                                    id_prefix: 'state'
+                                } %>
+                        <% end %>
+
+
+                    <!--/div-->
+                <% end %>
+            <% end %>
+        </div>
     </div>
 
-<hr>
+    <% unless state=="draft" %>
+    <div class="card paper-data-block" style="overflow: hidden;">
+        <div class="card-block paper-card">
+            <%= fa_icon "file-text-o", class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
+            <h4 class="card-title text-xs-center"><%= t('journal.submissions.paper_data') %></h4>
+        <!--/div>
 
-<div cclass="card">
-    <% revisions_collapse_target_id = "collapse_revisions_"+@submission.id.to_s %>
-    <div cclass="card-block">
+        <div class="card-block paper-card"-->
+
+            <div>
+                <b>Paper file:</b>
+                <span class="paper-card-author_file"><%= link_to "view", author_file.file_data.url, target: '_blank' if author_file %></span>
+            </div>
+
+            <div>
+                <b>Expert document file:</b>
+                <span class="paper-card-author_file"><%= link_to "view", exdoc_file.file_data.url, target: '_blank' if exdoc_file %></span>
+            </div>
+
+            <div>
+                <b>Authors:</b>
+            <!--/div>
+            <div-->
+                <span class="paper-card-authors"><%= authors.map(&:full_name).join(', ') %></span>
+            </div>
+        <!--/div>
+
+        <div class="card-block paper-card"-->
+            <div>
+                <!--span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span-->
+                <b>Title:</b> <span class="paper-card-title"><%= text.title rescue '' %></span>
+            </div>
+        <!--/div>
+
+        <div class="card-block paper-card"-->
+            <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
+            <div>
+                <!--b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b-->
+                <b>Abstract:</b>
+                <div class="ccollapse paper-card-abstract" id="<%= abstract_collapse_target_id %>">
+                    <%#= text.abstract rescue '' %>
+                    <%= simple_format(text.abstract) rescue '' %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% end %>
+
+
+    <!--div class="card" style="overflow: hidden;">
+        <div class="card-block paper-card">
+
+            <div>
+                <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span>
+                <b>Title:</b> <span class="ppaper-card-title"><%= text.title rescue '' %></span>
+            </div>
+            <div>
+                <b>Authors:</b>
+                <span class="ppaper-card-authors"><%= authors.map(&:full_name).join(', ') %></span>
+            </div>
+            <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
+            <div>
+                <b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b>
+                <div cclass="ppaper-card-abstract" class="collapse" id="<%= abstract_collapse_target_id %>">
+                    <%= text.abstract rescue '' %>
+                </div>
+            </div>
+
+        </div>
+    </div-->
+
+<!--hr-->
+
+<%
+    revisions_collapse_target_id = "collapse_revisions_"+@submission.id.to_s
+    revisions = @submission.revisions_submitted.order(:revision_n).reverse_order
+%>
+<% if revisions.count>0 %>
+<div class="card">
+    <div class="card-block">
         <h4 class="card-title bbtn btn-link" data-toggle="collapse" data-target="#<%= revisions_collapse_target_id %>">All revisions...</h4>
     </div>
     <ul class="list-group collapse" id="<%= revisions_collapse_target_id %>">
-        <% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
+        <% revisions.each do |revision| %>
             <li class="list-group-item">
                 <dl class="row">
                     <dt class="col-xs-3">Revision:</dt>
@@ -170,53 +291,8 @@
     </ul>
 
 </div>
+<% end %>
 
-
-
-
-<%
-=begin
-%>
-
-<%= render partial: 'blk/comp/buttons', locals: {data_list:[
-  {
-    path: submissions_path,# method: :get,
-    type: 'default', icon: 'level-up',
-    text: t('context.submissions.my_list_title'),
-  },
-  {
-    path: edit_submission_path(@submission),# method: :get,
-    type: 'primary', icon: 'edit',
-    text: t('context.my_submission.edit_btn'),
-    disabled: !policy(@submission).update?
-  },
-  {
-    path: submission_path(@submission, op: :submit), method: :put,
-    type: 'success', icon: 'check',
-#    type: 'success', icon: 'send',
-    text: t('context.my_submission.submit_btn'),
-    data: { confirm: 'Are you sure your paper is ready for submittion?' },
-    disabled: !policy(@submission).submit?
-  },
-  {
-    path: submission_path(@submission, op: :revise), method: :put,
-    type: 'success', icon: 'magic',
-    text: t('context.my_submission.revise_btn'),
-    data: { confirm: 'Are you sure you are want to make new revision of the paper?' },
-    disabled: !policy(@submission).revise?
-  },
-  {
-    path: @submission, method: :delete,
-    type: 'danger', icon: 'trash-o',
-    text: t('context.my_submission.delete_btn'),
-    data: { confirm: 'Are you sure?' },
-    disabled: !policy(@submission).destroy?
-  },
-]} %>
-
-<%
-=end
-%>
 
 
 </div>
