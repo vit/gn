@@ -1,6 +1,6 @@
 #class SubmissionsController < ApplicationController
 class SubmissionsController < OfficeSubmissionsController
-  before_action :set_submission, only: [:show, :edit, :edit_authors, :update_authors, :update, :destroy]
+  before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :update_authors, :update, :destroy]
 #  before_action :set_context, only: [:index, :new, :create]
 #  before_action :authenticate_user!
   
@@ -19,6 +19,11 @@ class SubmissionsController < OfficeSubmissionsController
     @sidebar_active='my_papers'
   end
 
+  def revisions
+    authorize @submission, :show?
+    @sidebar_active='my_papers'
+  end
+
   def new
     authorize @journal, :can_author?
 
@@ -31,7 +36,8 @@ class SubmissionsController < OfficeSubmissionsController
   def edit
     authorize @submission, :update?
 
-    @submission_text = @submission.get_text || SubmissionText.new
+#    @submission_text = @submission.get_text || SubmissionText.new
+    @submission_text = @submission.get_text_newest || SubmissionText.new
     @submission_revision = @submission.last_created_revision
 #    @file_records = (true and @submission_revision) ? %w[author_file author_expert_file].map do |type|
 #      @submission_revision.get_or_new_file_by_type type
@@ -43,7 +49,7 @@ class SubmissionsController < OfficeSubmissionsController
   def edit_authors
     authorize @submission, :update?
 
-    @submission_authors = @submission.get_authors
+    @submission_authors = @submission.get_authors_newest
     @submission_revision = @submission.last_created_revision
 
     @sidebar_active='my_papers'
@@ -74,7 +80,8 @@ class SubmissionsController < OfficeSubmissionsController
       end
     end
 
-    @submission_authors = @submission.get_authors
+#    @submission_authors = @submission.get_authors
+    @submission_authors = @submission.get_authors_newest
 #    @submission_revision = @submission.last_created_revision
 
   end

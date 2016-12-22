@@ -1,7 +1,21 @@
 <%
 
+
+    revisions = @submission.revisions_submitted.order(:revision_n).reverse_order
+
+
+
+
   @page_menu_data = [
     {
+        title: t('journal.submissions.revisions'),
+        url: revisions_submission_path,
+#        icon: 'arrow-left',
+        icon: 'th-list',
+        disabled: (revisions.count==0)
+#        style: 'default'
+#        style: 'outline-primary',
+    }, {
 #        title: t('journal.submissions.revise'),
         title: t('journal.submissions.new_revision'),
         url: submission_path(@submission, op: :revise),
@@ -22,24 +36,16 @@
 #        style: 'outline-primary',
         disabled: !policy(@submission).submit?
     }, {
-        title: t('journal.submissions.edit'),
-        url: edit_submission_path(@submission),
-        icon: 'pencil',
-#        style: 'default',
-#        style: 'outline-primary',
-        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
-    }, {
-
-
-        title: t('journal.submissions.authors'),
-        url: edit_authors_submission_path(@submission),
-        icon: 'users',
-#        style: 'default',
-#        style: 'outline-primary',
-        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
-
-
-    }, {
+#        title: t('journal.submissions.edit'),
+#        url: edit_submission_path(@submission),
+#        icon: 'pencil',
+#        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
+#    }, {
+#        title: t('journal.submissions.authors'),
+#        url: edit_authors_submission_path(@submission),
+#        icon: 'users',
+#        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
+#    }, {
         title: t('journal.submissions.delete'),
         url: submission_path(@submission),
         method: :delete,
@@ -69,6 +75,8 @@
 #    text = @submission.get_text
 
     author_file = @submission.get_file_submitted 'author_file'
+    author_file_lsr = lsr ? lsr.get_file_by_category('author_file') : nil
+    author_file_lcr = lcr.get_file_by_category 'author_file'
     exdoc_file = @submission.get_file_submitted 'exdoc_file'
     text = @submission.get_text_submitted
     authors = @submission.get_authors_submitted || []
@@ -119,10 +127,33 @@ type = state
 block_class = 'submission-block-'+type
 icon = icon_map[type] || ''
 %>
+
+    <% unless state=="draft" %>
     <div class="card card-inverse paper-state-block <%= block_class %>" style="overflow: hidden;">
         <div class="card-block">
             <%= fa_icon icon, class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
             <h4 class="card-title text-xs-center"><%= t('journal.submissions.state_short.'+state) %></h4>
+
+
+                    <% if state=='need_revise' %>
+                        <%= link_to submission_path(@submission, op: :revise),
+                            #enabled: !!decision,
+                            method: :put,
+                            data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
+                            :class => 'btn btn-primary bbtn-sm pull-right',
+                            :remote => true,
+                            #disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?),
+                            a: :b do
+                        %>
+                            <!--i class="fa fa-check fa-lg"></i-->
+                            <%= fa_icon 'wrench' %>
+                            <%#= t('journal.submissions.prepare_new_revision') %>
+                            <%= t('journal.submissions.rework') %>
+                        <% end %>
+                    <% end %>
+
+
+
             <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+state) ) %></p>
         <!--/div-->
             <% case state %>
@@ -130,16 +161,32 @@ icon = icon_map[type] || ''
                 <% if true or decision_1_comment %>
                     <!--div class="card-block"-->
                     <blockquote class="blockquote">
-                        <h6 class="card-title text-xs-center"><%= t('journal.submissions.state_block.decision_1_comment') %></h6>
+                        <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_1_comment') %></h6>
                         <%= simple_format(decision_1_comment) %>
                     </blockquote>
                     <!--/div-->
                 <% end %>
             <% when 'rejected', 'accepted', 'need_revise' %>
                 <% if true or decision_2_comment %>
-                    <!--div class="card-block"-->
+
+                    <!--div class="card-block text-xs-center" style="border: thin solid red;">
+                    <% if state=='need_revise' %>
+                        <%= link_to submission_path(@submission, op: :revise),
+                            method: :put,
+                            data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
+                            :class => 'btn btn-primary bbtn-sm',
+                            :remote => true,
+                            #disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?),
+                            a: :b do
+                        %>
+                            <%= fa_icon 'wrench' %>
+                            <%= t('journal.submissions.rework') %>
+                        <% end %>
+                    <% end %>
+                    </div-->
+
                     <blockquote class="blockquote">
-                        <h6 class="card-title text-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
+                        <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
                         <%= simple_format(decision_2_comment) %>
                     </blockquote>
 
@@ -157,6 +204,79 @@ icon = icon_map[type] || ''
             <% end %>
         </div>
     </div>
+    <% end %>
+
+    <% if state=="draft" %>
+    <div class="card paper-data-block" style="overflow: hidden;">
+        <div class="card-block paper-card">
+            <%= fa_icon "file-text-o", class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
+            <h4 class="card-title text-xs-center"><%= t('journal.submissions.draft_paper_data') %></h4>
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%#= button_to "Upload paper file", "#", class: 'btn btn-primary' %>
+			    <%= render partial: 'submission_files/submission_file', locals: {submission_file: (author_file_lcr || SubmissionFile.new), can_upload: true} %>
+            </span>
+            <div>
+                <b>Paper file:</b>
+                <span class="paper-card-author_file"><%= link_to "view", author_file_lcr.file_data.url, ttarget: '_blank' if author_file_lcr %></span>
+            </div>
+            <% if lsr %>
+            <div>
+                <b>Previous paper file:</b>
+                <span class="paper-card-author_file"><%= link_to "view", author_file_lsr.file_data.url, ttarget: '_blank' if author_file_lsr %></span>
+            </div>
+            <% end %>
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%#= button_to "Upload expert document file", "#", class: 'btn btn-primary' %>
+			    <%= render partial: 'submission_files/submission_file', locals: {submission_file: (exdoc_file || SubmissionFile.new), can_upload: true} %>
+            </span>
+            <div>
+                <b>Expert document file:</b>
+                <span class="paper-card-exdoc_file"><%= link_to "view", exdoc_file.file_data.url, ttarget: '_blank' if exdoc_file %></span>
+            </div>
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%= link_to "Edit authors", edit_authors_submission_path(@submission), class: 'btn btn-link bbtn-primary' %>
+            </span>
+            <div>
+                <b>Authors:</b>
+            <!--/div>
+            <div-->
+                <span class="paper-card-authors"><%= authors_newest.map(&:full_name).join(', ') %></span>
+            </div>
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%= link_to "Edit text", edit_submission_path(@submission), class: 'btn btn-link bbtn-primary' %>
+            </span>
+            <div>
+                <!--span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span-->
+                <b>Title:</b> <span class="paper-card-title"><%= text_newest.title rescue '' %></span>
+            </div>
+        <!--/div>
+
+        <div class="card-block paper-card"-->
+            <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
+            <div>
+                <!--b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b-->
+                <b>Abstract:</b>
+                <div class="ccollapse paper-card-abstract" id="<%= abstract_collapse_target_id %>">
+                    <%#= text.abstract rescue '' %>
+                    <%= simple_format(text_newest.abstract) rescue '' %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% end %>
+
 
     <% unless state=="draft" %>
     <div class="card paper-data-block" style="overflow: hidden;">
@@ -169,12 +289,12 @@ icon = icon_map[type] || ''
 
             <div>
                 <b>Paper file:</b>
-                <span class="paper-card-author_file"><%= link_to "view", author_file.file_data.url, target: '_blank' if author_file %></span>
+                <span class="paper-card-author_file"><%= link_to "view", author_file.file_data.url, ttarget: '_blank' if author_file %></span>
             </div>
 
             <div>
                 <b>Expert document file:</b>
-                <span class="paper-card-author_file"><%= link_to "view", exdoc_file.file_data.url, target: '_blank' if exdoc_file %></span>
+                <span class="paper-card-author_file"><%= link_to "view", exdoc_file.file_data.url, ttarget: '_blank' if exdoc_file %></span>
             </div>
 
             <div>
@@ -235,6 +355,10 @@ icon = icon_map[type] || ''
     revisions_collapse_target_id = "collapse_revisions_"+@submission.id.to_s
     revisions = @submission.revisions_submitted.order(:revision_n).reverse_order
 %>
+
+<%
+=begin
+%>
 <% if revisions.count>0 %>
 <div class="card">
     <div class="card-block">
@@ -292,7 +416,9 @@ icon = icon_map[type] || ''
 
 </div>
 <% end %>
-
+<%
+=end
+%>
 
 
 </div>

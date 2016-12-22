@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     member do
       get 'edit_authors'
       put 'update_authors'
+      get 'revisions'
     end
   end
 
