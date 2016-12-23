@@ -1,2 +1,22 @@
-
-$('#<%= "fileuploadblock_#{@submission_file.file_category}_#{@submission_file.attachable_type}_#{@submission_file.attachable_id}" %>').replaceWith("<%= escape_javascript(render partial: 'submission_files/submission_file', locals: {submission_file: @submission_file, can_upload: (true or policy(@submission).can_write_review?)}) %>");
+<%
+    case @page_update
+    when 'self'
+%>
+//        alert('<%= @page_update %>');
+        $('#<%= "fileuploadblock_#{@submission_file.file_category}_#{@submission_file.attachable_type}_#{@submission_file.attachable_id}" %>').replaceWith("<%= escape_javascript(render partial: 'submission_files/submission_file', locals: {submission_file: @submission_file, can_upload: (true or policy(@submission).can_write_review?)}) %>");
+<%
+    when 'author_submission_block'
+        if @submission
+%>
+//        alert('update_submission_block');
+        $('#submission_block_container').html("<%=
+            escape_javascript(
+                render partial: 'submissions/show_block', locals: {
+                    #submission_file: @submission_file, can_upload: (true or policy(@submission).can_write_review?)
+                }
+            )
+        %>");
+<%
+        end
+    end
+%>

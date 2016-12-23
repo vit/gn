@@ -2,64 +2,76 @@
 class SubmissionFilesController < ApplicationController
 
 	def create
-#		data = params[:submission_revision_file]
-		data = params[:submission_file]
 
-		#@revision = SubmissionRevision.find(data[:revision_id])
-#		@revision = SubmissionRevision.find(data[:attachable_id])
-		#@submission = @revision.submission
-		#@journal = @submission.journal
+		common_update do |data|
+			attachable_id = data[:attachable_id]
+			attachable_type = data[:attachable_type]
+			file_category = data[:file_category]
+
+			if %w[SubmissionRevision SubmissionRevisionReview].include?(attachable_type) and attachable_id
+				@submission_file = SubmissionFile.new(file_category: file_category, attachable_type: attachable_type, attachable_id: attachable_id)
+			end
+		end
+
+=begin
+		data = params[:submission_file]
 
 		attachable_id = data[:attachable_id]
 		attachable_type = data[:attachable_type]
 		file_category = data[:file_category]
-		file = data[:file_data]
 
-#		file = params[:file_data]
-		if file and %w[SubmissionRevision SubmissionRevisionReview].include?(attachable_type) and attachable_id
-#			@submission_file = @revision.files.new(file_category: file_category)
+		if %w[SubmissionRevision SubmissionRevisionReview].include?(attachable_type) and attachable_id
 			@submission_file = SubmissionFile.new(file_category: file_category, attachable_type: attachable_type, attachable_id: attachable_id)
+		end
+
+
+
+		file = data[:file_data]
+		if file && @submission_file
 			@submission_file.file_data = file
 			@submission_file.save!
-#			flash[:notice] = 'File was successfully uploaded.' if @submission_file.save!
 		end
-		#redirect_to edit_submission_path(@submission)
+
 		respond_to do |format|
-#			format.js, template: 'submission_files/update'
 			format.js {render :update}
 		end
+=end
 	end
 
 	def update
+
+		common_update do |data|
+			@submission_file = SubmissionFile.find(params[:id])
+		end
+
+=begin
 		data = params[:submission_file]
 
 		@submission_file = SubmissionFile.find(params[:id])
-#		@revision = @submission_file.attachable
-		@attachable_type = @submission_file.attachable_type
-#		@submission = @revision.submission
-#		@journal = @submission.journal
+#		@attachable_type = @submission_file.attachable_type
+#		@attachable_id = @submission_file.attachable_id
 
-		@attachable_id = @submission_file.attachable_id
-
-
-#		file_type = data[:file_type]
 		file = data[:file_data]
-#		file = params[:file_data]
 		if file && @submission_file
-#			@submission_file.update
 			@submission_file.file_data = file
 			@submission_file.save!
-#			flash[:notice] = 'File was successfully uploaded.' if @submission_file.save!
 		end
-		#redirect_to edit_submission_path(@submission)
+
 		respond_to do |format|
 			format.js
 		end
+=end
 	end
 
 	def destroy
+		@page_update = params[:page_update] || 'self'
 		data = params[:submission_file]
+
 		@submission_file = SubmissionFile.find(params[:id])
+
+		if @submission_file && @submission_file.attachable_type=='SubmissionRevision'
+			@submission = @submission_file.attachable.submission rescue nil
+		end
 
 		@submission_file.destroy
 
@@ -70,6 +82,27 @@ class SubmissionFilesController < ApplicationController
 
 
 private
+
+	def common_update
+		@page_update = params[:page_update] || 'self'
+		data = params[:submission_file]
+
+		yield data
+
+		file = data[:file_data]
+		if file && @submission_file
+			@submission_file.file_data = file
+			@submission_file.save!
+		end
+
+		if @submission_file && @submission_file.attachable_type=='SubmissionRevision'
+			@submission = @submission_file.attachable.submission rescue nil
+		end
+
+		respond_to do |format|
+			format.js {render :update}
+		end
+	end
 
 #    def file_create_params
 #      params.require(:submission_file).permit(:file_category)

@@ -1,0 +1,14 @@
+
+<%
+    lcr = @submission.last_created_revision
+#    lsr = @submission.last_submitted_revision
+
+    state = lcr.aasm_state rescue ''
+
+%>
+
+    <%#= render partial: 'submissions/show_state_block' unless state=="draft" %>
+    <%= render partial: 'submissions/show_draft_block' if state=="draft" %>
+    <%= render partial: 'submissions/show_state_block' %>
+    <%= render partial: 'submissions/show_data_block' unless state=="draft" %>
+

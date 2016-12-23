@@ -1,0 +1,88 @@
+<%
+
+    lcr = @submission.last_created_revision
+    lsr = @submission.last_submitted_revision
+
+    state = lcr.aasm_state rescue ''
+#    block_class = 'submission-block-'+state
+
+    icon_map = {
+        "need_revise" => "exclamation",
+        "submitted" => "meh-o",
+        "under_consideration" => "meh-o",
+        "accepted" => "smile-o",
+        "rejected" => "frown-o",
+        "rejected_without_consideration" => "frown-o",
+        "draft" => "",
+    }
+
+#    icon = icon_map[state] || ''
+
+#    decision_1_comment = lcr.decision_1.comment rescue nil
+#    decision_2_comment = lcr.decision_2.comment rescue nil
+
+#    author_file_lcr = lcr.get_file_by_category 'author_file'
+#    author_file_lsr = lsr ? lsr.get_file_by_category('author_file') : nil
+
+#    author_expert_file_newest = @submission.get_file_newest 'author_expert_file'
+#    authors_newest = @submission.get_authors_newest || []
+#    text_newest = @submission.get_text_newest
+
+    author_file = @submission.get_file_submitted 'author_file'
+
+    author_expert_file = @submission.get_file_submitted 'author_expert_file'
+    text = @submission.get_text_submitted
+    authors = @submission.get_authors_submitted || []
+
+
+%>
+
+
+    <% unless state=="draft" %>
+    <div class="card paper-data-block" style="overflow: hidden;">
+        <div class="card-block paper-card">
+            <%= fa_icon "file-text-o", class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
+            <h4 class="card-title text-xs-center"><%= t('journal.submissions.paper_data') %></h4>
+        <!--/div>
+
+        <div class="card-block paper-card"-->
+
+            <div>
+                <b>Paper file:</b>
+                <span class="paper-card-author_file"><%= link_to "view", author_file.file_data.url, ttarget: '_blank' if author_file %></span>
+            </div>
+
+            <div>
+                <b>Expert document file:</b>
+                <span class="paper-card-author_file"><%= link_to "view", author_expert_file.file_data.url, ttarget: '_blank' if author_expert_file %></span>
+            </div>
+
+            <div>
+                <b>Authors:</b>
+            <!--/div>
+            <div-->
+                <span class="paper-card-authors"><%= authors.map(&:full_name).join(', ') %></span>
+            </div>
+        <!--/div>
+
+        <div class="card-block paper-card"-->
+            <div>
+                <!--span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span-->
+                <b>Title:</b> <span class="paper-card-title"><%= text.title rescue '' %></span>
+            </div>
+        <!--/div>
+
+        <div class="card-block paper-card"-->
+            <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
+            <div>
+                <!--b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b-->
+                <b>Abstract:</b>
+                <div class="ccollapse paper-card-abstract" id="<%= abstract_collapse_target_id %>">
+                    <%#= text.abstract rescue '' %>
+                    <%= simple_format(text.abstract) rescue '' %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% end %>
+

@@ -21,14 +21,14 @@
 #    text = @submission.get_text
 
     author_file = @submission.get_file_submitted 'author_file'
-    exdoc_file = @submission.get_file_submitted 'exdoc_file'
+    author_expert_file = @submission.get_file_submitted 'author_expert_file'
     text = @submission.get_text_submitted
     authors = @submission.get_authors_submitted || []
 
 #    author_file_newest = @submission.get_file_newest 'author_file'
     author_file_draft = lcr.get_file_by_category 'author_file'
 #    author_file_prev = lsr.get_file_by_category 'author_file'
-    exdoc_file_newest = @submission.get_file_newest 'exdoc_file'
+    author_expert_file_newest = @submission.get_file_newest 'author_expert_file'
     text_newest = @submission.get_text_newest
     authors_newest = @submission.get_authors_newest || []
 

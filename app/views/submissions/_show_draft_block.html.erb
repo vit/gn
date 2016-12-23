@@ -1,0 +1,109 @@
+<%
+
+    lcr = @submission.last_created_revision
+    lsr = @submission.last_submitted_revision
+
+    state = lcr.aasm_state rescue ''
+    substate = state+"_"+(@submission.draft? ? 'first' : 'second')
+
+    author_file_lcr = lcr.get_file_by_category 'author_file'
+    author_file_lsr = lsr ? lsr.get_file_by_category('author_file') : nil
+
+    author_expert_file_newest = @submission.get_file_newest 'author_expert_file'
+    authors_newest = @submission.get_authors_newest || []
+    text_newest = @submission.get_text_newest
+
+%>
+
+
+    <% if state=="draft" %>
+    <div class="card paper-data-block" style="overflow: hidden;">
+        <div class="card-block paper-card">
+            <%= fa_icon "file-text-o", class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
+            <h4 class="card-title text-xs-center"><%= t('journal.submissions.draft_short.'+substate) %></h4>
+
+                    <% if 1 %>
+                        <%= button_to submission_path(@submission, op: :submit),
+                            #enabled: !!decision,
+                            method: :put,
+                            #data: { confirm: 'Are you sure you want to submit next revision for this paper?' },
+                            data: { confirm: t('journal.submissions.submit_confirm.'+substate) },
+                            :class => 'btn btn-success bbtn-sm pull-right',
+                            #:remote => true,
+                            #disabled: true || !author_file_lcr,
+                            disabled: !author_file_lcr,
+                            a: :b do
+                        %>
+                            <%= fa_icon 'send' %>
+                            <%= t('journal.submissions.submit') %>
+                        <% end %>
+                    <% end %>
+
+            <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+substate) ) %></p>
+
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%#= button_to "Upload paper file", "#", class: 'btn btn-primary' %>
+			    <%#= render partial: 'submission_files/submission_file', locals: {submission_file: (author_file_lcr || SubmissionFile.new), can_upload: true} %>
+			    <%= render partial: 'submission_files/submission_file', locals: {submission_file: (lcr.get_or_new_file_by_category :author_file), can_upload: true, show_download_link: false, page_update: 'author_submission_block'} %>
+            </span>
+            <div>
+                <b>Paper file:</b>
+                <span class="paper-card-author_file"><%= link_to "view", author_file_lcr.file_data.url, ttarget: '_blank' if author_file_lcr %></span>
+            </div>
+            <% if lsr %>
+            <div>
+                (<b>previous:</b>
+                <span class="paper-card-author_file"><%= link_to "view", author_file_lsr.file_data.url, ttarget: '_blank' if author_file_lsr %></span>)
+            </div>
+            <% end %>
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%#= button_to "Upload expert document file", "#", class: 'btn btn-primary' %>
+			    <%= render partial: 'submission_files/submission_file', locals: {submission_file: (lcr.get_or_new_file_by_category :author_expert_file), can_upload: true, show_download_link: false, page_update: 'author_submission_block'} %>
+            </span>
+            <div>
+                <b>Expert document file:</b>
+                <span class="paper-card-author_expert_file"><%= link_to "view", author_expert_file_newest.file_data.url, ttarget: '_blank' if author_expert_file_newest %></span>
+            </div>
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%= link_to "Edit authors", edit_authors_submission_path(@submission), class: 'btn btn-link bbtn-primary' %>
+            </span>
+            <div>
+                <b>Authors:</b>
+            <!--/div>
+            <div-->
+                <span class="paper-card-authors"><%= authors_newest.map(&:full_name).join(', ') %></span>
+            </div>
+        </div>
+
+        <div class="card-block paper-card">
+            <span class="pull-right">
+                <%= link_to "Edit text", edit_submission_path(@submission), class: 'btn btn-link bbtn-primary' %>
+            </span>
+            <div>
+                <!--span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span-->
+                <b>Title:</b> <span class="paper-card-title"><%= text_newest.title rescue '' %></span>
+            </div>
+        <!--/div>
+
+        <div class="card-block paper-card"-->
+            <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
+            <div>
+                <!--b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b-->
+                <b>Abstract:</b>
+                <div class="ccollapse paper-card-abstract" id="<%= abstract_collapse_target_id %>">
+                    <%#= text.abstract rescue '' %>
+                    <%= simple_format(text_newest.abstract) rescue '' %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% end %>

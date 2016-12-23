@@ -1,24 +1,27 @@
 
 <%
+
+  show_download_link = defined?(show_download_link) ? show_download_link : true
+  page_update = defined?(page_update) ? page_update : 'self'
+#  page_update = 'self'
+
   block_id = "fileuploadblock_#{submission_file.file_category}_#{submission_file.attachable_type}_#{submission_file.attachable_id}"
   form_id = "fileuploadform_#{submission_file.file_category}_#{submission_file.attachable_type}_#{submission_file.attachable_id}"
   field_id = "fileuploadfield_#{submission_file.file_category}_#{submission_file.attachable_type}_#{submission_file.attachable_id}"
   spinner_id = "fileuploadspinner_#{submission_file.file_category}_#{submission_file.attachable_type}_#{submission_file.attachable_id}"
 %>
 
-
 <div cclass="card card-default" id="<%= block_id %>">
-  <!--div class="card-block">
-    <h5 class="card-title"><%#= t('journal.revision_form.file_category') %>: <b><%#= submission_file.file_category %></b></h5>
-
-    <div-->
-
-  <%= form_for(submission_file, mmethod: :post, remote: true, :html => {
-    multipart: true,
-    id: form_id,
-    class: "form-inline",
-    style: 'display: none;'
-  }) do |f| %>
+  <%= form_for(
+    submission_file,
+    url: (submission_file.persisted? ? submission_file_path(submission_file, page_update: page_update) : submission_files_path(page_update: page_update) ),
+    mmethod: :post, remote: true, :html => {
+      multipart: true,
+      id: form_id,
+      class: "form-inline",
+      style: 'display: none;'
+    }
+  ) do |f| %>
     <%= render partial: 'common/forms/form_error_alert', locals: {form_model: submission_file} %>
     <%= f.hidden_field :attachable_id, :class => "form-control" %>
     <%= f.hidden_field :attachable_type, :class => "form-control" %>
@@ -48,8 +51,8 @@
       <%= link_to submission_file.file_data.url, target: "_blank" do %>
         <%= fa_icon 'download' %>
         <%= t('journal.revision_form.download') %>
-      <% end %>
-      <%= link_to submission_file_path(submission_file),
+      <% end if show_download_link %>
+      <%= link_to submission_file_path(submission_file, page_update: page_update),
         class: "btn btn-danger btn-sm",
         method: :delete,
         remote: true,
