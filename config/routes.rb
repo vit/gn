@@ -13,8 +13,9 @@ Rails.application.routes.draw do
 #  get 'office/index'
   get '/office/', to: 'office#show'
 
-  resources :submissions do
+  resources :submissions, except: [:edit] do
     member do
+      get 'edit_text'
       get 'edit_authors'
       put 'update_authors'
       get 'revisions'

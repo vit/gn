@@ -1,0 +1,44 @@
+
+<%
+  @page_menu_data = [
+    {
+#      title: t('journal.submissions.show'),
+        title: ( '#'+@submission.id.to_s + ' ' + t('journal.submissions.show') ),
+      url: submission_path(@submission),
+#      icon: 'eye',
+      icon: 'arrow-left',
+#      icon: 'info',
+#      style: 'primary'
+#      style: 'default'
+#    }, {
+#      title: t('journal.submissions.my_papers'),
+#      url: submissions_path,
+#      icon: 'arrow-left',
+#      style: 'default'
+    }
+  ]
+
+    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Text'
+    @page_title_sm = '#' + @submission.id.to_s + ' Text'
+
+%>
+
+
+
+
+
+
+<div class="container-fluid">
+
+<!--div class="page-header">
+  <h2><%= t('journal.submissions.edit_paper') %></h2>
+</div-->
+
+
+<%#= render 'submission_revisions/form' %>
+
+<%= render 'form' %>
+
+</div>
+
+

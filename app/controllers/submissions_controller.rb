@@ -1,6 +1,6 @@
 #class SubmissionsController < ApplicationController
 class SubmissionsController < OfficeSubmissionsController
-  before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :update_authors, :update, :destroy]
+  before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :edit_text, :update_authors, :update, :destroy]
 #  before_action :set_context, only: [:index, :new, :create]
 #  before_action :authenticate_user!
   
@@ -33,6 +33,7 @@ class SubmissionsController < OfficeSubmissionsController
     @sidebar_active='my_papers'
   end
 
+=begin
   def edit
     authorize @submission, :update?
 
@@ -42,6 +43,16 @@ class SubmissionsController < OfficeSubmissionsController
 #    @file_records = (true and @submission_revision) ? %w[author_file author_expert_file].map do |type|
 #      @submission_revision.get_or_new_file_by_type type
 #    end : []
+
+    @sidebar_active='my_papers'
+  end
+=end
+
+  def edit_text
+    authorize @submission, :update?
+
+    @submission_text = @submission.get_text_newest || SubmissionText.new
+    @submission_revision = @submission.last_created_revision
 
     @sidebar_active='my_papers'
   end
@@ -96,7 +107,8 @@ class SubmissionsController < OfficeSubmissionsController
 #      if @submission.save
         @submission.sm_init!
         @submission.set_text(submission_text)
-        format.html { redirect_to edit_submission_path(@submission), notice: 'Submission was successfully created.' }
+#        format.html { redirect_to edit_submission_path(@submission), notice: 'Submission was successfully created.' }
+        format.html { redirect_to edit_text_submission_path(@submission), notice: 'Submission was successfully created.' }
         format.json { render :show, status: :created, location: @submission }
 #      else
 #        format.html { render :new }

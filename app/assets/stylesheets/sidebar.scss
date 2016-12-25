@@ -47,16 +47,39 @@ $left-panel-shift: 250px;
     .nav-item .active {
         border-radius: 0px;
     }
-    .helpdesk {
-        color: #880000;
+//    .nav-item-link a {
+    .nav-item {
         a {
-            color: #aa3333;
+            padding: 5px 15px 5px 25px;
+        }
+        b {
+//            padding: 8px 15px 2px 15px;
+//            padding: 5px 15px 5px 15px;
+            padding: 12px 15px 5px 15px;
+        }
+    }
+    .helpdesk {
+//        color: #880000;
+//        color: #eeaa00;
+//        color: #cc9900;
+        color: #dd9900;
+        a {
+//            color: #aa3333;
+//            color: #cc9900;
+            color: #dd9900;
         }
         text-align: center;
+//        .help-title, .email, .site {
+        .help-title {
+            display: inline-block;
+            padding: 8px 2px;
+//            padding: 0px 2px;
+        }
         .email, .site {
             display: inline-block;
             font-size: 80%;
             padding: 6px 2px;
+//            padding: 0px 2px;
         }
         margin-bottom: 10px;
     }
@@ -97,7 +120,13 @@ $left-panel-shift: 250px;
 
 
 
-//@media (min-width: 900px) {
+//@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(md) {
+    #navbar-title-box {
+        text-align: center !important;
+    }
+}
+
 @include media-breakpoint-up(lg) {
 
     .left-sidebar-close-btn {
@@ -116,8 +145,6 @@ $left-panel-shift: 250px;
         -webkit-transform: translate(0, 0);
         transform: translate(0, 0);
     }
-
-
 
         main.office {
         }

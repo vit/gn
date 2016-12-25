@@ -5,25 +5,6 @@
 $papers-list-item-background-color: #ffffff;
 $papers-list-item-background-color-hover: darken($papers-list-item-background-color, 3%);
 
-        .paper-tag-draft {
-            background-color: darkgray;
-        }
-        .paper-tag-submitted {
-            background-color: darkblue;
-        }
-        .paper-tag-under_consideration {
-            background-color: darkorchid;
-        }
-        .paper-tag-need_revise {
-            background-color: darkorange;
-        }
-        .paper-tag-rejected, .paper-tag-rejected_without_consideration {
-            background-color: darkred;
-        }
-        .paper-tag-accepted {
-            background-color: darkgreen;
-        }
-
 
 .papers-list {
     .papers-list-item {
@@ -83,8 +64,9 @@ $authors-list-item-background-color-hover: darken($authors-list-item-background-
 .paper-state-block {
 //    padding-left: 30px;
 //    padding-right: 30px;
-    padding-left: 10px;
-    padding-right: 10px;
+
+//    padding-left: 10px;
+//    padding-right: 10px;
     position: relative;
 
     text-shadow: 1px 1px 2px #000;
@@ -121,76 +103,110 @@ $authors-list-item-background-color-hover: darken($authors-list-item-background-
     }
 }
 
-$paper-state-color-rejected: #dd0033;
-//$paper-state-color-darken-rejected: darken($paper-state-color-rejected, 30%);
-.submission-block-rejected {
-    background-color: $paper-state-color-rejected;
-    background: linear-gradient(to top, darken($paper-state-color-rejected,30%), $paper-state-color-rejected);
-}
-$paper-state-color-rejected_without_consideration: #dd0033;
-.submission-block-rejected_without_consideration {
-    background-color: $paper-state-color-rejected_without_consideration;
-    background: linear-gradient(to top, darken($paper-state-color-rejected_without_consideration,30%), $paper-state-color-rejected_without_consideration);
-}
+$paper-state-color: (
+    draft: #777777,
+    submitted: #0033dd,
+    under_consideration: #0033dd,
+    need_revise: #eeaa00,
+    rejected: #dd0033,
+    rejected_without_consideration: #dd0033,
+    accepted: #00cc22
+);
 
-
-$paper-state-color-accepted: #00cc22;
-.submission-block-accepted {
-    background-color: $paper-state-color-accepted;
-    background: linear-gradient(to top, darken($paper-state-color-accepted,30%), $paper-state-color-accepted);
-}
-//$paper-state-color-wait: #0033dd;
-//.submission-block-wait {
-//    background-color: $paper-state-color-wait;
-//    background: linear-gradient(to top, darken($paper-state-color-wait,30%), $paper-state-color-wait);
-//}
-$paper-state-color-submitted: #0033dd;
-.submission-block-submitted {
-    background-color: $paper-state-color-submitted;
-    background: linear-gradient(to top, darken($paper-state-color-submitted,30%), $paper-state-color-submitted);
-}
-$paper-state-color-under_consideration: #0033dd;
-.submission-block-under_consideration {
-    background-color: $paper-state-color-under_consideration;
-    background: linear-gradient(to top, darken($paper-state-color-under_consideration,30%), $paper-state-color-under_consideration);
-}
-
-$paper-state-color-need_revise: #eeaa00;
-.submission-block-need_revise {
-    background-color: $paper-state-color-need_revise;
-    background: linear-gradient(to top, darken($paper-state-color-need_revise,30%), $paper-state-color-need_revise);
-}
-$paper-state-color-draft: #777777;
-.submission-block-draft {
-    background-color: $paper-state-color-draft;
-    background: linear-gradient(to top, darken($paper-state-color-draft,30%), $paper-state-color-draft);
-}
 
 .papers-list {
-    .papers-list-item-draft {
-        border-left: 5px solid $paper-state-color-draft;
+    .papers-list-item {
+        position: relative;
+        .headblock {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            height: 3px;
+            width: 100%;
+            background-color: #f0f0f0;
+            .part_1 {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                height: 3px;
+//                width: 33%;
+                width: 25%;
+                //background-color: gray;
+                background-color: #{map-get($paper-state-color, 'draft')};
+            }
+            .part_2 {
+                position: absolute;
+//                left: 33%;
+                left: 25%;
+                //left: 0px;
+                top: 0px;
+                height: 3px;
+//                width: 18%;
+                width: 25%;
+            }
+            .part_3 {
+                position: absolute;
+                left: 50%;
+                top: 0px;
+                height: 3px;
+//                width: 17%;
+                width: 25%;
+            }
+            .part_4 {
+                position: absolute;
+//                left: 67%;
+                left: 75%;
+                top: 0px;
+                height: 3px;
+//                width: 33%;
+                width: 25%;
+            }
+            .part_2_submitted,
+            .part_2_under_consideration,
+            .part_2_accepted,
+            .part_2_rejected,
+            .part_2_rejected_without_consideration,
+            .part_2_need_revise {
+                background-color: #{map-get($paper-state-color, 'submitted')};
+            }
+            .part_3_under_consideration,
+            .part_3_accepted,
+            .part_3_rejected,
+            //.part_3_rejected_without_consideration,
+            .part_3_need_revise {
+                background-color: #{map-get($paper-state-color, 'under_consideration')};
+            }
+            .part_3_rejected_without_consideration {
+                background-color: #{map-get($paper-state-color, 'rejected_without_consideration')};
+            }
+            .part_4_accepted {
+                background-color: #{map-get($paper-state-color, 'accepted')};
+            }
+            .part_4_rejected, .part_4_rejected_without_consideration {
+                background-color: #{map-get($paper-state-color, 'rejected')};
+            }
+            .part_4_need_revise {
+                background-color: #{map-get($paper-state-color, 'need_revise')};
+            }
+        }
     }
-    .papers-list-item-submitted {
-        border-left: 5px solid $paper-state-color-submitted;
-    }
-    .papers-list-item-under_consideration {
-        border-left: 5px solid $paper-state-color-under_consideration;
-    }
-    .papers-list-item-rejected_without_consideration {
-        border-left: 5px solid $paper-state-color-rejected_without_consideration;
-    }
-    .papers-list-item-rejected {
-        border-left: 5px solid $paper-state-color-rejected;
-    }
-    .papers-list-item-need_revise {
-        border-left: 5px solid $paper-state-color-need_revise;
-    }
-    .papers-list-item-accepted {
-        border-left: 5px solid $paper-state-color-accepted;
-    }
-//    .papers-list-item-draft {
-//        border-left: 5px solid $paper-state-color-draft;
-//    }
 }
 
+
+//$state-list: draft submitted under_consideration need_revise rejected rejected_without_consideration accepted;
+
+    //@each $state in $state-list {
+    @each $state, $color in $paper-state-color {
+        .paper-tag-#{$state} {
+    //        background-color: #{map-get($paper-state-color, $state)};
+            background-color: #{$color};
+        }
+        .papers-list-item-#{$state} {
+        //    border-left: 5px solid $color;
+        }
+        .submission-block-#{$state} {
+            background-color: $color;
+            background: linear-gradient(to top, darken($color,30%), $color);
+        }
+    }
 

@@ -3,7 +3,7 @@
 <div class="card card-default ccard-primary ccard-inverse">
     <div class="card-block">
     <!--div class="card-header"-->
-        <h4 class="ccard-title"><%= t('journal.submission_form.paper_metadata') %></h4>
+        <!--h4 class="ccard-title"><%= t('journal.submission_form.paper_metadata') %></h4-->
     <!--/div-->
         <%= form_for(@submission_text, method: @submission.persisted? ? :put : :post ,url: @submission.persisted? ? submission_path(@submission) : submissions_path, :html => { :class => "fform-horizontal", :role => "form" }) do |f| %>
           <div class="form-group row">
@@ -20,13 +20,27 @@
           </div>
 
           <% if policy(@submission).update_metadata? or not @submission.persisted? %>
-            <div class="form-group row">
-              <div class="col-sm-offset-2 col-sm-10">
-                <%= f.button :class => "btn btn-success" do %>
+            <div class="fform-group rrow">
+
+              <div cclass="col-sm-offset-2 col-sm-10" class="float-xs-right">
+                <%= f.button :class => "btn btn-success ffloat-xs-right" do %>
                   <i class="fa fa-check fa-lg"></i>
                   <%= t('journal.submission_form.save_'+(@submission.persisted? ? 'update' : 'new') ) %>
                 <% end %>
               </div>
+
+              <div cclass="col-sm-offset-2 col-sm-10" class="float-xs-right">
+                <%= link_to submission_path(@submission),
+                    #method: :get,
+                    class: "btn btn-secondary float-xs-right",
+                    a: :b do
+                %>
+                    <%= fa_icon 'arrow-left' %>
+                    <%= t('journal.submissions.authors.back_to_paper') %>
+                <% end if @submission.persisted? %>
+
+              </div>
+
             </div>
           <% end %>
         <% end %>

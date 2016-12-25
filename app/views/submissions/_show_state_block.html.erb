@@ -30,8 +30,12 @@
     <% if lsr %>
     <div class="card card-inverse paper-state-block <%= block_class %>" style="overflow: hidden;">
         <div class="card-block">
-            <%= fa_icon icon, class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
-            <h4 class="card-title text-xs-center"><%= t('journal.submissions.state_short.'+state) %></h4>
+            <%#= fa_icon icon, class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
+            <!--h4 class="card-title ttext-xs-center"><%= t('journal.submissions.state_short.'+state) %></h4-->
+            <h3 class="card-title ttext-xs-center">
+                <%#= fa_icon icon, class: 'ffa-2x', style: 'pposition: absolute; lleft: 5px; ttop: 5px;' %>
+                <%= t('journal.submissions.state_short.'+state) %>
+            </h3>
 
                     <% if state=='need_revise' %>
                         <%= link_to submission_path(@submission, op: :revise),
