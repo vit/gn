@@ -1,13 +1,9 @@
 #class SubmissionsController < ApplicationController
 class SubmissionsController < OfficeSubmissionsController
-  before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :edit_text, :update_authors, :update, :destroy]
+  before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :wizard_authors, :wizard_files, :edit_text, :update_authors, :update, :destroy]
 #  before_action :set_context, only: [:index, :new, :create]
 #  before_action :authenticate_user!
   
-#  before_action :set_breadcrumbs
-
-#  before_action -> { add_breadcrumb "Author", context_submissions_path(@context) }
-
   def index
     authorize @journal, :can_author?
     @submissions = current_user.submissions.where(journal: @journal).order(id: :desc)
@@ -15,7 +11,9 @@ class SubmissionsController < OfficeSubmissionsController
   end
 
   def show
-    authorize @submission
+#    authorize @submission
+    redirect_to submissions_path unless policy(@submission).show? && @submission
+
     @sidebar_active='my_papers'
   end
 
@@ -49,7 +47,8 @@ class SubmissionsController < OfficeSubmissionsController
 =end
 
   def edit_text
-    authorize @submission, :update?
+#    authorize @submission, :update?
+    redirect_to submission_path(@submission) unless policy(@submission).update?
 
     @submission_text = @submission.get_text_newest || SubmissionText.new
     @submission_revision = @submission.last_created_revision
@@ -57,8 +56,27 @@ class SubmissionsController < OfficeSubmissionsController
     @sidebar_active='my_papers'
   end
 
+  def wizard_authors
+    redirect_to submission_path(@submission) unless policy(@submission).update?
+
+    @submission_authors = @submission.get_authors_newest
+    @submission_revision = @submission.last_created_revision
+
+    @sidebar_active='my_papers'
+  end
+
+  def wizard_files
+    redirect_to submission_path(@submission) unless policy(@submission).update?
+
+    @submission_authors = @submission.get_authors_newest
+    @submission_revision = @submission.last_created_revision
+
+    @sidebar_active='my_papers'
+  end
+
   def edit_authors
-    authorize @submission, :update?
+#    authorize @submission, :update?
+    redirect_to submission_path(@submission) unless policy(@submission).update?
 
     @submission_authors = @submission.get_authors_newest
     @submission_revision = @submission.last_created_revision
@@ -108,7 +126,8 @@ class SubmissionsController < OfficeSubmissionsController
         @submission.sm_init!
         @submission.set_text(submission_text)
 #        format.html { redirect_to edit_submission_path(@submission), notice: 'Submission was successfully created.' }
-        format.html { redirect_to edit_text_submission_path(@submission), notice: 'Submission was successfully created.' }
+#        format.html { redirect_to edit_text_submission_path(@submission), notice: 'Submission was successfully created.' }
+        format.html { redirect_to wizard_authors_submission_path(@submission), notice: t('journal.submissions.submission_was_created') }
         format.json { render :show, status: :created, location: @submission }
 #      else
 #        format.html { render :new }

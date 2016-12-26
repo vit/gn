@@ -75,7 +75,10 @@
 
         <div class="card-block paper-card">
             <span class="pull-right">
-                <%= link_to "Edit authors", edit_authors_submission_path(@submission), class: 'btn btn-link bbtn-primary' %>
+                <%= link_to edit_authors_submission_path(@submission), class: 'btn bbtn-link btn-primary btn-sm' do %>
+                    <%= fa_icon 'pencil' %>
+                    <%= t("journal.submissions.edit_authors") %>
+                <% end %>
             </span>
             <div>
                 <b>Authors:</b>
@@ -87,7 +90,10 @@
 
         <div class="card-block paper-card">
             <span class="pull-right">
-                <%= link_to "Edit text", edit_text_submission_path(@submission), class: 'btn btn-link bbtn-primary' %>
+                <%= link_to edit_text_submission_path(@submission), class: 'btn bbtn-link btn-primary btn-sm' do %>
+                    <%= fa_icon 'pencil' %>
+                    <%= t("journal.submissions.edit_text") %>
+                <% end %>
             </span>
             <div>
                 <!--span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span-->

@@ -36,12 +36,15 @@
     <%#= render partial: 'layouts/nav' if @office %>
 
     <div>
-      <% unless notice.nil? %>
+
+      <!--
+      <%# unless notice.nil? %>
         <p class="notice"><%= notice %></p>
-      <% end %>
-      <% unless alert.nil? %>
+      <%# end %>
+      <%# unless alert.nil? %>
         <p class="alert"><%= alert %></p>
-      <% end %>
+      <%# end %>
+      -->
 
     <%= content_for?(:content) ? yield(:content) : yield %>
     <%#= yield %>

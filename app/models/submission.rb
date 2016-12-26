@@ -151,12 +151,16 @@ class Submission < ApplicationRecord
   end
 
   def get_file_newest category
-    revisions.joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files.first rescue nil
+#    revisions.joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files.first rescue nil
+#    files = revisions.joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files #.first rescue nil
+    files = revisions.joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files.where(file_category: category).first rescue nil
+#    puts "!!!!!"
+#    puts files.pluck(:file_category)
+#    puts "!!!!!"
+#    files.first
   end
   def get_file_submitted category
-#    revisions.where.not(aasm_state: :draft).joins(:text).order("submission_revisions.revision_n").last.text rescue nil
-    revisions.where.not(aasm_state: :draft).joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files.first rescue nil
-#    revisions.where.not(aasm_state: :draft).joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last #rescue nil
+    revisions.where.not(aasm_state: :draft).joins(:files).where("submission_files.file_category" => category).order("submission_revisions.revision_n").last.files.where(file_category: category).first rescue nil
   end
   def get_file category
     get_file_submitted category

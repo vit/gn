@@ -1,6 +1,8 @@
 
 <%
-modal_size = defined? modal_size ? modal_size : 'lg'
+#modal_size = defined? modal_size ? modal_size : 'lg'
+defined?(modal_size) or modal_size = 'lg'
+
 %>
 
 <div class="modal fade" id="<%= modal_id %>" tabindex="-1">

@@ -1,7 +1,12 @@
 <%
-    user_role = (defined? user_role) ? user_role : :author
-    revision_index = (defined? revision_index) ? revision_index+1 : 1
-    can_editor_change = (defined? can_editor_change) ? can_editor_change : false
+    #user_role = (defined? user_role) ? user_role : :author
+    #revision_index = (defined? revision_index) ? revision_index+1 : 1
+    #can_editor_change = (defined? can_editor_change) ? can_editor_change : false
+
+    defined?(user_role) or user_role = :author
+    defined?(revision_index) or revision_index = 0; revision_index += 1
+    defined?(can_editor_change) or can_editor_change = false
+
     r = review
 %>
 

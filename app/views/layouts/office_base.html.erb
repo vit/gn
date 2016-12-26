@@ -3,10 +3,8 @@
     <%= render partial: 'office_base/left_sidebar' %>
     <div id="main-block">
         <%= render partial: 'office_base/nav' %>
-        <!--nav>
-        </nav-->
         <main>
-            <div id="alerts-block">
+            <div id="alerts-block" class="text-xs-center">
                 <% unless notice.nil? %>
                     <p class="notice"><%= notice %></p>
                 <% end %>

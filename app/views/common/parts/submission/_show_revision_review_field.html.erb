@@ -1,7 +1,11 @@
 <%
 #    can_edit = (defined? can_edit) ? can_edit : false
-    user_role = (defined? user_role) ? user_role : :author
-    can_editor_change = (defined? can_editor_change) ? can_editor_change : false
+    #user_role = (defined? user_role) ? user_role : :author
+    #can_editor_change = (defined? can_editor_change) ? can_editor_change : false
+
+    defined?(user_role) or user_role = :author
+    defined?(can_editor_change) or can_editor_change = false
+
 
     block_id = "review_#{review.id}_field_#{field_name}"
     modal_id = "modal_review_#{review.id}_field_#{field_name}"

@@ -1,10 +1,15 @@
+<%
+  defined?(mode) or mode = :single
 
+%>
 
 <div class="card card-default ccard-primary ccard-inverse">
+            <% if mode==:wizard %>
     <div class="card-block">
-    <!--div class="card-header"-->
-        <!--h4 class="ccard-title"><%= t('journal.submission_form.paper_metadata') %></h4-->
-    <!--/div-->
+                <%= t('journal.submissions.text.message') %>
+    </div>
+            <% end %>
+    <div class="card-block">
         <%= form_for(@submission_text, method: @submission.persisted? ? :put : :post ,url: @submission.persisted? ? submission_path(@submission) : submissions_path, :html => { :class => "fform-horizontal", :role => "form" }) do |f| %>
           <div class="form-group row">
             <%= f.label t('journal.submission_form.title'), :class => "col-sm-2 control-label" %>
@@ -22,22 +27,34 @@
           <% if policy(@submission).update_metadata? or not @submission.persisted? %>
             <div class="fform-group rrow">
 
-              <div cclass="col-sm-offset-2 col-sm-10" class="float-xs-right">
-                <%= f.button :class => "btn btn-success ffloat-xs-right" do %>
-                  <i class="fa fa-check fa-lg"></i>
+              <div cclass="col-sm-offset-2 col-sm-10" cclass="float-xs-right" sstyle="border: thin solid red;">
+                <%= f.button :class => "btn btn-success btn-sm float-xs-right" do %>
+                  <i class="fa fa-check ffa-lg"></i>
                   <%= t('journal.submission_form.save_'+(@submission.persisted? ? 'update' : 'new') ) %>
                 <% end %>
-              </div>
+              <!--/div>
 
-              <div cclass="col-sm-offset-2 col-sm-10" class="float-xs-right">
+              <div cclass="col-sm-offset-2 col-sm-10" class="float-xs-left"-->
                 <%= link_to submission_path(@submission),
                     #method: :get,
-                    class: "btn btn-secondary float-xs-right",
+                    class: "btn btn-secondary btn-sm float-xs-left",
                     a: :b do
                 %>
                     <%= fa_icon 'arrow-left' %>
-                    <%= t('journal.submissions.authors.back_to_paper') %>
+                    <%= t('journal.submissions.text.back_to_paper') %>
                 <% end if @submission.persisted? %>
+
+                <%= link_to submissions_path,
+                    class: "btn btn-warning btn-sm float-xs-left",
+                    data: {
+                      confirm: t('journal.submissions.text.confirm_stop')
+                    },
+                    a: :b do
+                %>
+                    <%= fa_icon 'times' %>
+                    <%= t('journal.submissions.text.stop') %>
+                <% end if !@submission.persisted? %>
+
 
               </div>
 

@@ -1,5 +1,6 @@
 <%
-  user_role = (defined? user_role) ? user_role : :author
+#  user_role = (defined? user_role) ? user_role : :author
+    defined?(user_role) or user_role = :author
 %>
 
 <%# if decision.submitted? %>

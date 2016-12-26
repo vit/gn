@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   resources :submissions, except: [:edit] do
     member do
       get 'edit_text'
+      get 'wizard_files'
+      get 'wizard_authors'
       get 'edit_authors'
       put 'update_authors'
       get 'revisions'

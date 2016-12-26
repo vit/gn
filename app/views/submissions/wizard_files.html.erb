@@ -1,0 +1,95 @@
+<%
+#    defined?(mode) or mode = :single
+    mode = :wizard
+
+#    modal_add_id = 'modal_submission_' + @submission.id.to_s + '_add_author'
+#    authors_list_block_id = 'authors_list_block_' + @submission.id.to_s
+
+    lcr = @submission_revision
+%>
+
+<%
+    @page_menu_data = [{
+#        title: t('journal.submissions.add_authors'),
+#        url: '#',
+#        icon: 'plus',
+#        data: { toggle: "modal", target: "##{modal_add_id}" },
+#    }, {
+#       title: ( t('journal.submissions.show') + ' #'+@submission.id.to_s ),
+        title: ( '#'+@submission.id.to_s + ' ' + t('journal.submissions.show') ),
+        url: submission_path(@submission),
+        icon: 'arrow-left',
+    }]
+
+    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Files'
+    @page_title_sm = '#' + @submission.id.to_s + ' Files'
+%>
+
+<div class="container-fluid">
+
+    <div class="card ccard-default ccard-primary ccard-inverse">
+            <% if mode==:wizard %>
+        <div class="card-block">
+                <%= t('journal.submissions.files.message') %>
+        </div>
+            <% end %>
+
+        <div class="card-block text-xs-center">
+            <h4 class="card-title"><%= t('journal.submissions.files.author_file') %></h4>
+            <span class="ppull-right">
+			    <%= render partial: 'submission_files/submission_file', locals: {submission_file: (lcr.get_or_new_file_by_category :author_file), can_upload: true, sshow_download_link: true, ppage_update: 'author_submission_block'} %>
+            </span>
+            <!--div>
+                <b>Paper file:</b>
+                <span class="paper-card-author_file"><%#= link_to "view", author_file_lcr.file_data.url, ttarget: '_blank' if author_file_lcr %></span>
+            </div-->
+        </div>
+
+        <div class="card-block text-xs-center">
+            <h4 class="card-title"><%= t('journal.submissions.files.author_expert_file') %></h4>
+            <span class="ppull-right">
+			    <%= render partial: 'submission_files/submission_file', locals: {submission_file: (lcr.get_or_new_file_by_category :author_expert_file), can_upload: true, sshow_download_link: false, ppage_update: 'author_submission_block'} %>
+            </span>
+            <!--div>
+                <b>Expert document file:</b>
+                <span class="paper-card-author_expert_file"><%#= link_to "view", author_expert_file_newest.file_data.url, ttarget: '_blank' if author_expert_file_newest %></span>
+            </div-->
+
+        </div>
+        <div class="card-block">
+            <%#= link_to submission_path(@submission),
+                #method: :get,
+                class: "btn btn-secondary btn-sm float-xs-left",
+                a: :b do
+            %>
+                <%#= fa_icon 'arrow-left' %>
+                <%#= t('journal.submissions.authors.back_to_paper') %>
+            <%# end unless mode==:wizard %>
+
+            <%#= link_to submission_path(@submission),
+                #method: :get,
+                data: {
+                    confirm: t('journal.submissions.authors.confirm_stop')
+                },
+                class: "btn btn-warning btn-sm float-xs-left",
+                a: :b do
+            %>
+                <%#= fa_icon 'times' %>
+                <%#= t('journal.submissions.authors.stop') %>
+            <%# end if mode==:wizard %>
+
+            <%= link_to submission_path(@submission),
+                #method: :get,
+                class: "btn btn-primary btn-sm float-xs-right",
+                a: :b do
+            %>
+                <%= t('journal.submissions.files.finish') %>
+                <%= fa_icon 'arrow-right' %>
+            <% end if mode==:wizard %>
+        </div>
+    </div>
+
+
+
+</div>
+
