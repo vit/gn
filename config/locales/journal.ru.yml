@@ -16,10 +16,10 @@ ru:
             edit_paper: Изменить статью
             my_papers: Мои статьи
             paper_data: Данные статьи
-            edit_text: Изменить текст 
-            edit_authors: Изменить авторов
+            edit_text: Изменить
+            edit_authors: Изменить
             submit: Подать
-            rework: Исправить
+            rework: Доработать
             state_description:
                 rejected_without_consideration: |+
                     К сожалению, Ваша статья была отклонена без рассмотрения рецензентами.
@@ -88,8 +88,8 @@ ru:
                 stop: Отменить
             submission_was_created: Создан черновик статьи
         submission_files:
-            upload: Загрузить файл
-            delete: Удалить файл
+            upload: Загрузить
+            delete: Удалить
             download: Скачать
         submission_form:
             paper_metadata: Метаданные статьи
