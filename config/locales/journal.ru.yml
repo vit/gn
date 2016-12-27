@@ -16,6 +16,9 @@ ru:
             edit_paper: Изменить статью
             my_papers: Мои статьи
             paper_data: Данные статьи
+            delete: Удалить
+            delete_confirm: Вы точно хотите удалить эту статью? Все данные статьи будут потеряны.
+            revisions: Ревизии
             edit_text: Изменить
             edit_authors: Изменить
             submit: Подать
@@ -73,6 +76,14 @@ ru:
                 stop: Прервать
                 add: Добавить авторов
                 confirm_stop: Вы хотите прервать ввод данных? Можно закончить позднее, все ранее введенное сохранится.
+                confirm_delete: Вы правда хотите удалить автора?
+            add_authors:
+                add_authors: Добавить авторов
+                last_name: Фамилия
+                first_name: Имя
+                middle_name: Отчество
+                add: Добавить
+                finish: Хватит
             files:
                 message: |+
                     Загрузите основной файл статьи и файл экспертного заключения.
@@ -86,11 +97,31 @@ ru:
                 back_to_paper: Назад к статье
                 confirm_stop: Вы правда не хотите создавать новую статью?
                 stop: Отменить
+
             submission_was_created: Создан черновик статьи
+            submission_was_updated: Обновлен черновик статьи
+            submission_was_destroyed: Удален черновик статьи
+
         submission_files:
             upload: Загрузить
             delete: Удалить
             download: Скачать
+            confirm_delete: Вы точно хотите удалить этот файл?
+        submission_data:
+            author_file: Основной файл статьи
+            previous_author_file: Предыдущий файл статьи
+            author_expert_file: Файл экспертного заключения
+            authors: Авторы
+            title: Название
+            abstract: Аннотация
+        submission_titles:
+            paper_text: "Метаданные статьи #%{number}"
+            paper_text_sm: "#%{number} Текст"
+            paper_authors: "Авторы статьи #%{number}"
+            paper_authors_sm: "#%{number} Авторы"
+            paper_files: "Файлы статьи #%{number}"
+            paper_files_sm: "#%{number} Файлы"
+
         submission_form:
             paper_metadata: Метаданные статьи
             title: Название
@@ -108,10 +139,8 @@ ru:
             submitted_papers: Поданные статьи
             #papers_list: Список статей
         r_submission:
-            #show: Paper
-            #assigned_papers: Статьи для рецензирования
-            assigned_papers: Я рецензирую
-            #papers_list: Список статей
+            #assigned_papers: Я рецензирую
+            assigned_papers: Мои рецензии
         office_submission:
             paper: Статья # single paper show
             papers_list: Список статей

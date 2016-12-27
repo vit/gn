@@ -49,17 +49,23 @@
         <div class="card-block paper-card"-->
 
             <div>
-                <b>Paper file:</b>
-                <span class="paper-card-author_file"><%= link_to "view", author_file.file_data.url, ttarget: '_blank' if author_file %></span>
+                <b><%= t('journal.submission_data.author_file') %>:</b>
+                <span class="paper-card-author_file"><%= link_to author_file.file_data.url, ttarget: '_blank' do %>
+                        <%= fa_icon 'download' %>
+                        <%= t('journal.submission_files.download') %>
+                <% end if author_file %></span>
             </div>
 
             <div>
-                <b>Expert document file:</b>
-                <span class="paper-card-author_file"><%= link_to "view", author_expert_file.file_data.url, ttarget: '_blank' if author_expert_file %></span>
+                <b><%= t('journal.submission_data.author_expert_file') %>:</b>
+                <span class="paper-card-author_file"><%= link_to author_expert_file.file_data.url, ttarget: '_blank' do %>
+                    <%= fa_icon 'download' %>
+                    <%= t('journal.submission_files.download') %>
+                <% end if author_expert_file %></span>
             </div>
 
             <div>
-                <b>Authors:</b>
+                <b><%= t('journal.submission_data.authors') %>:</b>
             <!--/div>
             <div-->
                 <span class="paper-card-authors"><%= authors.map(&:full_name).join(', ') %></span>
@@ -69,7 +75,7 @@
         <div class="card-block paper-card"-->
             <div>
                 <!--span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= @submission.last_created_revision.aasm_state %>"><%= @submission.last_created_revision.aasm_state %></span-->
-                <b>Title:</b> <span class="paper-card-title"><%= text.title rescue '' %></span>
+                <b><%= t('journal.submission_data.title') %>:</b> <span class="paper-card-title"><%= text.title rescue '' %></span>
             </div>
         <!--/div>
 
@@ -77,7 +83,7 @@
             <% abstract_collapse_target_id = "collapse_abstract_"+@submission.id.to_s %>
             <div>
                 <!--b class="btn btn-link" ttype="button" data-toggle="collapse" data-target="#<%= abstract_collapse_target_id %>">Abstract...</b-->
-                <b>Abstract:</b>
+                <b><%= t('journal.submission_data.abstract') %>:</b>
                 <div class="ccollapse paper-card-abstract" id="<%= abstract_collapse_target_id %>">
                     <%#= text.abstract rescue '' %>
                     <%= simple_format(text.abstract) rescue '' %>

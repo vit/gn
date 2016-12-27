@@ -9,19 +9,16 @@
 
 <%
     @page_menu_data = [{
-#        title: t('journal.submissions.add_authors'),
-#        url: '#',
-#        icon: 'plus',
-#        data: { toggle: "modal", target: "##{modal_add_id}" },
-#    }, {
-#       title: ( t('journal.submissions.show') + ' #'+@submission.id.to_s ),
         title: ( '#'+@submission.id.to_s + ' ' + t('journal.submissions.show') ),
         url: submission_path(@submission),
         icon: 'arrow-left',
     }]
 
-    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Authors'
-    @page_title_sm = '#' + @submission.id.to_s + ' Authors'
+#    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Authors'
+#    @page_title_sm = '#' + @submission.id.to_s + ' Authors'
+
+    @page_title = t('journal.submission_titles.paper_authors', number: @submission.id)
+    @page_title_sm = t('journal.submission_titles.paper_authors_sm', number: @submission.id)
 %>
 
 <div class="container-fluid">
@@ -83,7 +80,7 @@
 
         <%= render layout: 'common/parts/dialog/modal_lg', locals: {
             modal_id: modal_add_id,
-            modal_title: t('journal.submissions.form.add_authors'),
+            modal_title: t('journal.submissions.add_authors.add_authors'),
             modal_size: 'sm'
         } do %>
 

@@ -66,7 +66,7 @@ defined?(show_download_link) or show_download_link = true
         class: "btn btn-danger btn-sm",
         method: :delete,
         remote: true,
-        data: {confirm: "Are you sure?"},
+        data: {confirm: t('journal.submission_files.confirm_delete')},
         #title: "Delete this attachment",
         title: t('journal.submission_files.delete'),
         a: :b do

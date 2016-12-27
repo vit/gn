@@ -163,7 +163,7 @@ class SubmissionsController < OfficeSubmissionsController
 
     respond_to do |format|
 #      if @submission.update(submission_params)
-        format.html { redirect_to @submission, notice: 'Submission was successfully updated.' }
+        format.html { redirect_to @submission, notice: t('journal.submissions.submission_was_updated') }
         format.json { render :show, status: :ok, location: @submission }
 #      else
 #        format.html { render :edit }
@@ -179,7 +179,7 @@ class SubmissionsController < OfficeSubmissionsController
     end
     respond_to do |format|
 #      format.html { redirect_to context_submissions_url, notice: 'Submission was successfully destroyed.' }
-      format.html { redirect_to submissions_url, notice: 'Submission was successfully destroyed.' }
+      format.html { redirect_to submissions_url, notice: t('journal.submissions.submission_was_destroyed') }
       format.json { head :no_content }
     end
   end

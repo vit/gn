@@ -18,8 +18,11 @@
     }
   ]
 
-    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Text'
-    @page_title_sm = '#' + @submission.id.to_s + ' Text'
+#    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Text'
+#    @page_title_sm = '#' + @submission.id.to_s + ' Text'
+
+    @page_title = t('journal.submission_titles.paper_text', number: @submission.id)
+    @page_title_sm = t('journal.submission_titles.paper_text_sm', number: @submission.id)
 
 %>
 

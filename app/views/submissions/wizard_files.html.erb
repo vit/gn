@@ -21,8 +21,11 @@
         icon: 'arrow-left',
     }]
 
-    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Files'
-    @page_title_sm = '#' + @submission.id.to_s + ' Files'
+#    @page_title = 'Paper' + ' #' + @submission.id.to_s + ' Files'
+#    @page_title_sm = '#' + @submission.id.to_s + ' Files'
+
+    @page_title = t('journal.submission_titles.paper_files', number: @submission.id)
+    @page_title_sm = t('journal.submission_titles.paper_files_sm', number: @submission.id)
 %>
 
 <div class="container-fluid">

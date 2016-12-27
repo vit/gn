@@ -20,7 +20,8 @@
                         ),
                         method: :put,
                         remote: true,
-                        data: { confirm: 'Are you sure?' },
+                        #data: { confirm: 'Are you sure?' },
+                        data: { confirm: t('journal.submissions.authors.confirm_delete')},
                         :class => 'btn btn-danger btn-sm pull-right',
                         :style => 'margin-right: -16px;',
                         #:disabled => !ri.may_sm_destroy?

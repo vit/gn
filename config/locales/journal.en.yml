@@ -16,21 +16,129 @@ en:
             edit_paper: Edit paper
             my_papers: My papers
             paper_data: Paper data
+            delete: Удалить
+            delete_confirm: Delete this paper, are you sure? All paper data will be lost.
+            revisions: Revisions
+            edit_text: Edit
+            edit_authors: Edit
+            submit: Submit
+            rework: Rework
+            state_description:
+                rejected_without_consideration: |+
+                    Unfortunately, your paper was rejected without consideration by reviewers.
+                    Typically, this happens if the paper subject doesn't correspond to journal's requirements.
+                submitted: |+
+                    You have submitted the paper, but the editor has not yet taken it for consideration.
+                    When this happens, we will let you know (but the paper may be rejected without review).
+                under_consideration: |+
+                    Your paper is pending. Reviewers read it, write reviews and so on.
+                    When the process is complete, we will inform you of the decision.
+                    The paper will be accepted, or we will suggest to correct it, or it will be rejected finally.
+                accepted: |+
+                    Your paper is accepted for publication. the review process is now complete.
+                need_revise: |+
+                    Your paper is reviewed and the editorial board think that it needs some work.
+                    See the comments of the editor and the reviewers below.
+                    It will be necessary to upload the corrected file of the paper.
+                rejected: |+
+                    Your paper is rejected. On the causes you can learn from the comments of the editor and reviewers (below).
+                draft: |+
+                    Here are the comments of the editor and reviewers on previous revision of your paper.
+                    They can be useful in preparing the new revision.
+                draft_first: |+
+                    You can submit the paper by clicking on the button. Make sure that all data is correct.
+                    Main paper file must be uploaded necessarily.
+                draft_second: |+
+                    You can submit new paper revision by clicking on the button. Before that, make sure that all data are correct.
+                    You have to upload coreccted version of the main paper file.
+                    The remaining data is not required to change without the need.
+            state_short:
+                rejected_without_consideration: Rejected without consideration
+                submitted: Paper submitted
+                under_consideration: Under consideration
+                accepted: Paper accepted
+                need_revise: Need to improve
+                rejected: Paper rejected
+                draft: Info
+            state_block:
+                decision_1_comment: 'Editor comment:'
+                decision_2_comment: 'Editor comment:'
+            draft_short:
+                draft_first: Preparation and submission of the paper
+                draft_second: Preparation and submission of a new revision of the paper
+            submit_confirm:
+                draft_first: Please confirm that you have checked all data. It's impossible to correct something after submission.
+                draft_second: Please confirm that you have checked all data. It's impossible to correct something after submission.
+            authors:
+                message: Please make a list of the authors. You can correct it later.
+                back_to_paper: Back to paper
+                forward: Forward
+                stop: Stop
+                add: Add authors
+                confirm_stop: Do you want to interrupt the work? You can finish it later, all data will be stored.
+                confirm_delete: Do you want to remove the author?
+            add_authors:
+                add_authors: Add authors
+                last_name: Last name
+                first_name: First name
+                middle_name: Middle name
+                add: Add
+                finish: Stop
+            files:
+                message: |+
+                    Upload the main paper file and the expert opinion file.
+                    You can update them until the submission moment.
+                author_file: Main paper file
+                author_expert_file: Expert opinion file
+                finish: Finish
+                forward: Forward
+            text:
+                message: Enter the title and the abstract. You can update them later.
+                back_to_paper: Back to paper
+                confirm_stop: Are you sure you don't want to create new paper?
+                stop: Cancel
+
+            submission_was_created: Submission was successfully created
+            submission_was_updated: Submission was successfully updated
+            submission_was_destroyed: Submission was successfully destroyed
+            
+        submission_files:
+            upload: Upload
+            delete: Delete
+            download: Download
+            confirm_delete: Are you sure you want to delete this file?
+        submission_data:
+            author_file: Main paper file
+            previous_author_file: Previous paper file
+            author_expert_file: Expert opinion file
+            authors: Authors
+            title: Title
+            abstract: Abstract
+        submission_titles:
+            paper_text: "Paper #%{number} Text"
+            paper_text_sm: "#%{number} Text"
+            paper_authors: "Paper #%{number} Authors"
+            paper_authors_sm: "#%{number} Authors"
+            paper_files: "Paper #%{number} Files"
+            paper_files_sm: "#%{number} Files"
+
         submission_form:
             paper_metadata: Paper metadata
             title: Title
             abstract: Abstract
             save_update: Update
             save_new: Create draft
+        editor_submission:
+            editor_decision: Editor decision
+            form:
+                decision: Decision
+                decision_comment: Comment
 
         e_submission:
-            #show: Paper
             submitted_papers: Submitted papers
-            #papers_list: Papers list
         r_submission:
-            #show: Paper
-            assigned_papers: Assigned papers
-            #papers_list: Papers list
+            #assigned_papers: Assigned papers
+            assigned_papers: My reviews
         office_submission:
             paper: Paper # single paper show
             papers_list: Papers list
@@ -47,6 +155,8 @@ en:
                 wrong_state_txt: Wrong state of the invitation
             r_review: # my review
                 my_review: My Review
+                state_draft: Review was not sent
+                state_submitted: Review was sent
                 decision: Decision
                 comment: Comment
                 not_made: Not made yet
@@ -88,3 +198,4 @@ en:
                     б) Если нет, то кого из специалистов в данной области Вы могли бы рекомендовать?
                     в) Дополнительные комментарии к статье, которые Вы считаете необходимым сообщить редакции
                     (положительные характеристики – например, обоснование ценности статьи для журнала, либо отрицательные – наличие плагиата, конфликта интересов, и т.п.).
+

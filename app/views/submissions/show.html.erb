@@ -39,7 +39,8 @@
         title: t('journal.submissions.delete'),
         url: submission_path(@submission),
         method: :delete,
-        data: { confirm: 'Delete this paper, are you sure? All paper data will be lost.' },
+        #data: { confirm: 'Delete this paper, are you sure? All paper data will be lost.' },
+        data: { confirm: t('journal.submissions.delete_confirm') },
         icon: 'trash',
         disabled: !policy(@submission).destroy?
     }, {
