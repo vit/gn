@@ -115,7 +115,7 @@ ru:
             title: Название
             abstract: Аннотация
         submission_titles:
-            paper_text: "Метаданные статьи #%{number}"
+            paper_text: "Текстовые данные статьи #%{number}"
             paper_text_sm: "#%{number} Текст"
             paper_authors: "Авторы статьи #%{number}"
             paper_authors_sm: "#%{number} Авторы"
@@ -124,6 +124,7 @@ ru:
 
         submission_form:
             paper_metadata: Метаданные статьи
+            #paper_metadata: Текстовые данные статьи
             title: Название
             abstract: Аннотация
             save_update: Обновить

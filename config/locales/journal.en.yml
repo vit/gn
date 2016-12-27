@@ -124,6 +124,7 @@ en:
 
         submission_form:
             paper_metadata: Paper metadata
+            #paper_metadata: Paper text data
             title: Title
             abstract: Abstract
             save_update: Update
@@ -167,35 +168,30 @@ en:
 
                 dont_forget_to_save: Please don't forget to save!
 
-                comment_science_header: Оценка научного уровня статьи
-                comment_science_2_header: Оценка научного уровня статьи, часть 2
-                comment_science_3_header: Оценка научного уровня статьи, часть 3
-                comment_science_4_header: Оценка научного уровня статьи, часть 4
-                comment_quality_header: Оценка качества оформления статьи
-                comment_for_author_header: Комментарий для автора
-                comment_for_editor_header: Конфиденциальные комментарии для редакции
+                comment_science_header: Rank the paper scientific level
+                comment_science_2_header: Rank the paper scientific level, часть 2
+                comment_science_3_header: Rank the paper scientific level, часть 3
+                comment_science_4_header: Rank the paper scientific level, часть 4
+                comment_quality_header: Rank the paper presentation
+                comment_for_author_header: Comments for author
+                comment_for_editor_header: Comments for editorial board
 
                 comment_science_description: |+
-                    а) соответствует ли содержание рукописи заявленной в названии теме
-                    б) насколько рукопись соответствует современным достижениям научно-теоретической мысли
-                    в) содержит ли материал оригинальные результаты, если да, то в чем они состоят
-                    г) представляет ли статья интерес для читателя, если результаты не оригинальны, и почему
+                    а) the paper title is adequate to the contents
+                    b) the paper is in line with the modern research
+                    c) the paper contains original results, and (if yes) what are they
+                    d) the paper presents an interest to the reader if there are no original results, and why
                 comment_science_2_description: |+
-                    д) есть ли в статье ошибочные утверждения и если ДА, то в чем они состоят
+                    e) there are erroneous statements in the paper, and if YES what are they
                 comment_science_3_description: |+
-                    е) полнота библиографии
+                    f) the reference list is sufficient
                 comment_science_4_description: |+
-                    ж) целесообразна ли публикация статьи с учетом ранее выпущенной по данному вопросу литературы
+                    g) the paper should be published
                 comment_quality_description: |+
-                    (оценка качества текста с точки зрения четкости и ясности изложения, структуры (наличия введения, основной части, заключения), точности формулировок, терминологии, отсутствия необоснованных повторений, грамматических ошибок, наглядности таблиц, диаграмм, рисунков и формул)
+                    (clear presentation, structure (introduction, main part, conclusions), accurate formulation and terminology, absence of unneeded repetitions and grammar mistakes, quality of tables, diagrams, figures, and formulas)
                 comment_for_author_description: |+
-                    перечень необходимых исправлений и рекомендаций для автора
-                    (замечания и рекомендации, по которым рецензент хочет получить ответ, должны быть пронумерованы. Рецензент может внести вопросы непосредственно в текст электронной версии статьи, указав здесь об этом),
-                    общее мнение о работе.
-                comment_for_editor_description: |+
-                    (Заполняется по желанию рецензента. Авторам данные комментарии не передаются)
-                    а) В полной ли мере содержание статьи соответствует сфере научных интересов рецензента?
-                    б) Если нет, то кого из специалистов в данной области Вы могли бы рекомендовать?
-                    в) Дополнительные комментарии к статье, которые Вы считаете необходимым сообщить редакции
-                    (положительные характеристики – например, обоснование ценности статьи для журнала, либо отрицательные – наличие плагиата, конфликта интересов, и т.п.).
+                    the list of required corrections and recommendations for the author
+                    (comments and recommendations to be answered should be numbered. The reviewer can insert the questions in the paper text and make a note here),
+                    general opinion of the paper.
+                comment_for_editor_description: ''
 
