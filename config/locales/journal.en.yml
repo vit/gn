@@ -37,7 +37,7 @@ en:
                 accepted: |+
                     Your paper is accepted for publication. the review process is now complete.
                 need_revise: |+
-                    Your paper is reviewed and the editorial board think that it needs some work.
+                    Your paper is reviewed and the editorial board think that it needs some rework.
                     See the comments of the editor and the reviewers below.
                     It will be necessary to upload the corrected file of the paper.
                 rejected: |+
@@ -50,7 +50,7 @@ en:
                     Main paper file must be uploaded necessarily.
                 draft_second: |+
                     You can submit new paper revision by clicking on the button. Before that, make sure that all data are correct.
-                    You have to upload coreccted version of the main paper file.
+                    You have to upload corrected version of the main paper file.
                     The remaining data is not required to change without the need.
             state_short:
                 rejected_without_consideration: Rejected without consideration
