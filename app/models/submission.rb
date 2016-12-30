@@ -10,8 +10,6 @@ class Submission < ApplicationRecord
   has_many :revisions, class_name: 'SubmissionRevision', dependent: :destroy
   has_many :reviewer_invitations, class_name: 'SubmissionReviewerInvitation', dependent: :destroy
 
-#  belongs_to :last_created_revision, class_name: 'SubmissionRevision', optional: true
-#  belongs_to :last_submitted_revision, class_name: 'SubmissionRevision', optional: true
 
   scope :all_submitted, -> { where.not(aasm_state: 'draft') }
   scope :get_submitted, -> { where(aasm_state: 'submitted') }

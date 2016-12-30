@@ -175,7 +175,8 @@ class SubmissionsController < OfficeSubmissionsController
   def destroy
         authorize @submission
     if policy(@submission).destroy?
-      @submission.destroy
+#      @submission.destroy
+      @submission.sm_destroy!
     end
     respond_to do |format|
 #      format.html { redirect_to context_submissions_url, notice: 'Submission was successfully destroyed.' }
