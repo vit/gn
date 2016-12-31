@@ -34,7 +34,7 @@
         <span>#<%= submission.id %></span> | <span class="papers-list-item-title"><%= text.title.truncate(120) rescue '' %></span>
         <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
         <div class="hidden-sm-down papers-list-item-abstract"><ii><%= text.abstract.truncate(250) rescue '' %></ii></div>
-        <div><%= submission.aasm_state %> | <%= state %></div>
+        <!--div><%#= submission.aasm_state %> | <%#= state %></div-->
     <% end %>
   <% end %>
 </div>
