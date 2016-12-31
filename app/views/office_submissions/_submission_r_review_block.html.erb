@@ -31,19 +31,6 @@
                     <dt><%= t('journal.office_submission.r_review.comment_for_editor_header') %>:</dt>
                     <dd><%= simple_format( strip_tags(@my_review.comment_for_editor) ) %></dd>
 
-    <!--                <%#
-                        file_records = @my_review ? %w[reviewer_file].map do |category|
-                            @my_review.get_or_new_file_by_category category
-                        end : []
-                    %>
-                    <b>Attachment:</b> &nbsp;<%# file_records.each do |submission_file| %>
-                        <%#= render partial: 'submission_files/submission_file', locals: {
-                            submission_file: submission_file,
-                            can_upload: operation_enabled
-                        } %>
-                    <%# end %>
-                    <br-->
-
                 </dl>
             <% else %>
                 <p><%= t('journal.office_submission.r_review.not_made') %></p>
@@ -79,7 +66,7 @@
                             @my_review.get_or_new_file_by_category category
                         end : []
                     %>
-                    <b>Attachment:</b> &nbsp;<% file_records.each do |submission_file| %>
+                    <b><%= t('journal.office_submission.r_review.attachment') %>:</b> &nbsp;<% file_records.each do |submission_file| %>
                         <%= render partial: 'submission_files/submission_file', locals: {
                             submission_file: submission_file,
                             can_upload: operation_enabled
@@ -100,7 +87,8 @@
                 <%# end %>
                 <%= link_to r_submission_path(@submission, op: :submit_my_review),
                     method: :put,
-                    data: { confirm: 'Are you sure your review is ready?' },
+                    #data: { confirm: 'Are you sure your review is ready?' },
+                    data: { confirm: t('journal.office_submission.r_review.submit_confirm') },
                     :class => 'btn btn-success',
                     :remote => true,
                     disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do

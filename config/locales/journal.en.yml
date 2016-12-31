@@ -18,6 +18,7 @@ en:
             paper_data: Paper data
             delete: Удалить
             delete_confirm: Delete this paper, are you sure? All paper data will be lost.
+            rework_confirm: Are you sure you want to prepare next revision for this paper?
             revisions: Revisions
             edit_text: Edit
             edit_authors: Edit
@@ -101,6 +102,10 @@ en:
             submission_was_created: Submission was successfully created
             submission_was_updated: Submission was successfully updated
             submission_was_destroyed: Submission was successfully destroyed
+
+            submission_text_was_updated: Paper text was successfully updated
+            submission_was_submitted: Paper was successfully submitted
+            submission_rework_was_started: New revision draft was successfully created
             
         submission_files:
             upload: Upload
@@ -155,6 +160,10 @@ en:
                 cancelled_txt: The invitation is cancelled
                 wrong_state_txt: Wrong state of the invitation
             r_review: # my review
+                attachment: File
+                attachment_replace: Replace file
+                attachment_download: Download
+                reviewer: Reviewer
                 my_review: My Review
                 state_draft: Review was not sent
                 state_submitted: Review was sent
@@ -165,6 +174,8 @@ en:
                 submit: Submit
                 save: Save
                 cancel: Cancel
+
+                submit_confirm: Are you sure your review is ready?
 
                 dont_forget_to_save: Please don't forget to save!
 

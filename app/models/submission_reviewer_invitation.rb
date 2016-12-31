@@ -37,13 +37,13 @@ class SubmissionReviewerInvitation < ApplicationRecord
 			transitions :from => :pending, :to => :accepted
 		end
 
-		event :sm_destroy do
-			after do
-				self.destroy!
-			end
-#			transitions :to => :nonexistent
-			transitions :from => :inactive, :to => :nonexistent
-		end
+#		event :sm_destroy do
+#			after do
+#				self.destroy!
+#			end
+##			transitions :to => :nonexistent
+#			transitions :from => :inactive, :to => :nonexistent
+#		end
 
 	end
 

@@ -24,13 +24,14 @@
 %>
 
 <%
+    lsr = @submission.last_submitted_revision
     text = @submission.get_text_submitted
 %>
 
 <div class="card">
     <div class="card-block">
         <p class="card-text">
-            <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= @submission.aasm_state %></span>
+            <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%#= @submission.aasm_state %><%= lsr.aasm_state %></span>
             <b>Id:</b> <%= @submission.id %>
             <b>by</b> <%= @submission.user.full_name %>
         </p>
@@ -47,18 +48,20 @@
         <% end %>
 
         <% if @current_role=='editor' %>
-            <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: @submission.submitted?} %>
-            <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} %>
+            <%#= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: @submission.submitted?} %>
+            <%#= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} %>
+            <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: lsr.submitted?} %>
+            <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: lsr.under_consideration?} %>
             <%= render partial: 'submission_invitations_block', locals: {operation_enabled: true} %>
 
             <%
-                last_revision = @submission.last_submitted_revision
-                can_editor_change = policy(@journal).can_editor? && last_revision && last_revision.under_consideration?
-#                can_editor_change = policy(@journal).can_editor? && last_revision && last_revision.aasm_state=='under_consideration'
+#                last_revision = @submission.last_submitted_revision
+#                last_revision = lsr
+                can_editor_change = policy(@journal).can_editor? && lsr && lsr.under_consideration?
             %>
-            <% if last_revision && last_revision.reviews_submitted.count > 0 %>
+            <% if lsr && lsr.reviews_submitted.count > 0 %>
                 <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
-                    revision: last_revision,
+                    revision: lsr,
                     user_role: :editor,
                     can_editor_change: can_editor_change,
                     id_prefix: 'head'

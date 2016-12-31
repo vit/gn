@@ -58,27 +58,6 @@
 
 %>
 
-<%
-=begin
-icon_map = {
-    "need_revise" => "exclamation",
-    "submitted" => "meh-o",
-    "under_consideration" => "meh-o",
-    "accepted" => "smile-o",
-    "rejected" => "frown-o",
-    "rejected_without_consideration" => "frown-o",
-    "draft" => "",
-}
-
-#type = class_map[state] || ''
-type = state
-
-block_class = 'submission-block-'+type
-icon = icon_map[type] || ''
-=end
-%>
-
-
 <div class="container-fluid" style="overflow: hidden;" id="submission_block_container">
 
     <%= render partial: 'show_block' %>

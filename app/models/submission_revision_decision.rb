@@ -1,4 +1,3 @@
-#class SubmissionRevisionDecision < ActiveRecord::Base
 class SubmissionRevisionDecision < ApplicationRecord
   belongs_to :revision, class_name: 'SubmissionRevision'
   belongs_to :user
@@ -17,9 +16,6 @@ class SubmissionRevisionDecision < ApplicationRecord
 #	validates :decision, :inclusion=> { :in => Decisions }
 #	validates_inclusion_of :decision, :in => Decisions
 #	validates_inclusion_of :decision, :in => Decisions.values.flatten
-
-#	belongs_to :user
-#	belongs_to :revision
 
 	aasm do
 		state :draft, initial: true
@@ -52,13 +48,13 @@ class SubmissionRevisionDecision < ApplicationRecord
 		end
 =end
 
-		event :sm_destroy do
-			after do
-				self.destroy!
-			end
-#			transitions :from => [:draft, :submitted, :nonexistent], :to => :nonexistent
-			transitions :to => :nonexistent
-		end
+#		event :sm_destroy do
+#			after do
+#				self.destroy!
+#			end
+##			transitions :from => [:draft, :submitted, :nonexistent], :to => :nonexistent
+#			transitions :to => :nonexistent
+#		end
 
 
 	end

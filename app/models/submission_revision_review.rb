@@ -45,7 +45,6 @@ class SubmissionRevisionReview < ApplicationRecord
 			transitions :from => :submitted, :to => :submitted
 		end
 
-
 		event :sm_submit do
 			after do
 			end
@@ -58,12 +57,12 @@ class SubmissionRevisionReview < ApplicationRecord
 			transitions :from => :draft, :to => :cancelled
 		end
 
-		event :sm_destroy do
-			after do
-				self.destroy!
-			end
-			transitions :to => :nonexistent
-		end
+#		event :sm_destroy do
+#			after do
+#				self.destroy!
+#			end
+#			transitions :to => :nonexistent
+#		end
 
 	end
 

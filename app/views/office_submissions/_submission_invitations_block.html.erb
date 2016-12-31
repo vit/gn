@@ -25,7 +25,9 @@
                         method: :put,
                         data: { confirm: 'Are you sure?' },
                         :class => 'btn btn-danger btn-sm pull-right', remote: true,
-                        :disabled => !ri.may_sm_destroy? do %>
+                    #    :disabled => !ri.may_sm_destroy?,
+                        :disabled => !ri.inactive?,
+                        a: :b do %>
                             &times;
                     <% end %>
                     <%= button_to e_submission_path(@submission, op: 'cancel_reviewer_invitation', reviewer_id: ri.user.id),

@@ -11,11 +11,11 @@
 %>
 
                         <div>
-                            <b><%= t('journal.office_submission.revisions.reviewer') %>:</b>&nbsp;
+                            <b><%= t('journal.office_submission.r_review.reviewer') %>:</b>&nbsp;
                             <% if user_role==:author %>
                                 #<%= revision_index %>
                             <% else %>
-                          <%#= link_to u_path(r.user), target: '_blank' do %>
+                          <%#= link_to u_path(r.user), ttarget: '_blank' do %>
                             <i class="fa fa-user"></i> <%= r.user.full_name %> (Id: <%= r.user.id %>)
                           <%# end %>
                             <% end %>
@@ -56,12 +56,12 @@
                                 attachment = r.get_file_by_category :reviewer_file
                                 attachment_e = r.get_or_new_file_by_category :reviewer_editor_file
                             %>
-                            <b>Attachment:</b> &nbsp;<%= link_to attachment.file_data.url, target: '_blank' do %><%= fa_icon 'download' %>
+                            <b><%= t('journal.office_submission.r_review.attachment') %>:</b> &nbsp;<%= link_to attachment.file_data.url, ttarget: '_blank' do %><%= fa_icon 'download' %>
                                 <%#= attachment.file_category %>
-                                <%= t('journal.revision_form.download') %>
+                                <%= t('journal.office_submission.r_review.attachment_download') %>
                             <% end if attachment %>
                             <br>
-                            <b>Replace Attachment:</b> &nbsp;
+                            <b><%= t('journal.office_submission.r_review.attachment_replace') %>:</b> &nbsp;
                             <%= render partial: 'submission_files/submission_file', locals: {
                                 submission_file: attachment_e,
                                 can_upload: can_editor_change
@@ -72,13 +72,12 @@
                             <%
                                 attachment = r.get_file_by_category(:reviewer_editor_file) || r.get_file_by_category(:reviewer_file)
                             %>
-                            <b>Attachment:</b> &nbsp;<%= link_to attachment.file_data.url, target: '_blank' do %><%= fa_icon 'download' %>
+                            <b><%= t('journal.office_submission.r_review.attachment') %>:</b> &nbsp;<%= link_to attachment.file_data.url, ttarget: '_blank' do %><%= fa_icon 'download' %>
                                 <%#= attachment_e.file_category %>
-                                <%= t('journal.revision_form.download') %>
+                                <%= t('journal.office_submission.r_review.attachment_download') %>
                             <% end if attachment %>
                             <br>
                         <% end %>
 
                       </p>
-
 

@@ -137,16 +137,14 @@ class SubmissionsController < OfficeSubmissionsController
   end
 
   def update
+    notice = nil
     submission_text = submission_text_params
     @submission_revision = @submission.last_created_revision
       #data = submission_params
       if submission_text
         if policy(@submission).update_metadata?
           @submission.set_text(submission_text)
-          #@submission.sm_update_text!(submission_text)
-#          @file_records = @submission_revision ? %w[author_file author_expert_file].map do |type|
-#            @submission_revision.get_or_new_file_by_type type
-#          end : []
+          notice = t('journal.submissions.submission_text_was_updated')
         end
       end
 
@@ -154,16 +152,18 @@ class SubmissionsController < OfficeSubmissionsController
       when 'submit'
         if policy(@submission).submit?
           @submission.sm_submit!
+          notice = t('journal.submissions.submission_was_submitted')
         end
       when 'revise'
         if policy(@submission).revise?
           @submission.sm_revise!
+          notice = t('journal.submissions.submission_rework_was_started')
         end
       end
 
     respond_to do |format|
 #      if @submission.update(submission_params)
-        format.html { redirect_to @submission, notice: t('journal.submissions.submission_was_updated') }
+        format.html { redirect_to @submission, notice: notice }
         format.json { render :show, status: :ok, location: @submission }
 #      else
 #        format.html { render :edit }
@@ -175,8 +175,8 @@ class SubmissionsController < OfficeSubmissionsController
   def destroy
         authorize @submission
     if policy(@submission).destroy?
-#      @submission.destroy
-      @submission.sm_destroy!
+      @submission.destroy
+#      @submission.sm_destroy!
     end
     respond_to do |format|
 #      format.html { redirect_to context_submissions_url, notice: 'Submission was successfully destroyed.' }

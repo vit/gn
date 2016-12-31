@@ -20,13 +20,9 @@ class OfficeSubmissionsController < OfficeBaseController
             "stage_2" => @decision_2
 		}
 
-
-#        puts @decisions
-
 		@my_invitation = @submission.user_invitation current_user
 #		@my_review = @revision.user_review(current_user) || @revision.reviews.build(user: current_user)
 		@my_review = @revision.user_review(current_user)
-
 
     end
 
@@ -38,11 +34,9 @@ class OfficeSubmissionsController < OfficeBaseController
 
 #		@decision = @revision.revision_decision || @revision.build_revision_decision({user: current_user})
 
-
 		@my_invitation = @submission.user_invitation current_user
 #		@my_review = @revision.user_review(current_user) || @revision.reviews.build(user: current_user)
 		@my_review = @revision.user_review(current_user)
-
 
 		data = params[:submission_revision_decision]
 		if data
@@ -106,7 +100,8 @@ class OfficeSubmissionsController < OfficeBaseController
 			r_id = params[:reviewer_id]
 			u = User.find(r_id)
 			inv = @submission.reviewer_invitations.find_by(user: u)
-			inv.sm_destroy! if inv.may_sm_destroy?
+#			inv.sm_destroy! if inv.may_sm_destroy?
+			inv.destroy! if inv.inactive?
 		when 'cancel_reviewer_invitation'
 			r_id = params[:reviewer_id]
 			u = User.find(r_id)
@@ -121,7 +116,6 @@ class OfficeSubmissionsController < OfficeBaseController
 			@my_review.sm_submit! if @my_review && @my_review.may_sm_submit?
 #=end
 		end
-
 
         @decision_1 = @revision.decision_1
         @decision_2 = @revision.decision_2

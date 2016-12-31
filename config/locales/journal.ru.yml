@@ -18,6 +18,7 @@ ru:
             paper_data: Данные статьи
             delete: Удалить
             delete_confirm: Вы точно хотите удалить эту статью? Все данные статьи будут потеряны.
+            rework_confirm: Вы хотите приступить к подготовке новой ревизии этой статьи?
             revisions: Ревизии
             edit_text: Изменить
             edit_authors: Изменить
@@ -102,6 +103,10 @@ ru:
             submission_was_updated: Обновлен черновик статьи
             submission_was_destroyed: Удален черновик статьи
 
+            submission_text_was_updated: Обновлен текст статьи
+            submission_was_submitted: Выполнена подача
+            submission_rework_was_started: Создан черновик новой ревизии статьи
+
         submission_files:
             upload: Загрузить
             delete: Удалить
@@ -136,9 +141,7 @@ ru:
                 decision_comment: Комментарий
 
         e_submission:
-            #show: Статья
             submitted_papers: Поданные статьи
-            #papers_list: Список статей
         r_submission:
             #assigned_papers: Я рецензирую
             assigned_papers: Мои рецензии
@@ -157,6 +160,10 @@ ru:
                 cancelled_txt: Приглашение было отозвано
                 wrong_state_txt: Неверное состояние приглашения
             r_review: # my review
+                attachment: Файл
+                attachment_replace: Подмена файла
+                attachment_download: Скачать
+                reviewer: Рецензент
                 my_review: Моя рецензия
                 state_draft: Рецензия еще не отправлена
                 state_submitted: Рецензия отправлена
@@ -167,6 +174,8 @@ ru:
                 submit: Подать
                 save: Сохранить
                 cancel: Не сохранять
+
+                submit_confirm: Вы уверены, что Ваша рецензия готова к отправке? Потом поменять будет невозможно.
 
                 dont_forget_to_save: Не забудьте сохранить введенные данные!
 

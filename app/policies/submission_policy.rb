@@ -32,7 +32,8 @@ class SubmissionPolicy < ApplicationPolicy
         is_owner? && record.may_sm_revise?
     end
     def destroy?
-        is_owner? && record.may_sm_destroy?
+#        is_owner? && record.may_sm_destroy?
+        is_owner? && record.draft?
     end
 
     def write_review?
