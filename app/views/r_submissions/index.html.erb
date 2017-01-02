@@ -2,21 +2,25 @@
   @page_title = t('journal.r_submission.assigned_papers')
 %>
 
-<div class="container-fluid submissions">
+<div class="ccontainer container-fluid submissions">
 
     <div class="list-group papers-list">
         <% @submissions.each do |submission| %>
             <%
                 text = submission.get_text
                 invitation_state = submission.reviewer_invitations.first.aasm_state
+                reviewer_to_do_status = submission.reviewer_to_do_status current_user
             %>
             <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item #{ %w[declined cancelled].include?(invitation_state) ? 'disabled' : '' }") do %>
-                <b>Invitation:</b> <span>
+                <b>Status:</b> <b>
+                    <%= t('journal.submissions.reviewer_paper_state_short.'+reviewer_to_do_status) %>
+                </b>
+                <!--b>Invitation:</b> <span>
                     <%= invitation_state %>
                     <% if invitation_state=='pending' %>
                         <i>(please accept or decline)</i>
                     <% end %>
-                </span>
+                </span-->
                 <br>
                 <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span>
                 <b>#<%= submission.id %></b> | <%= text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= text.abstract.truncate(250) rescue '' %></i></span>

@@ -1,0 +1,155 @@
+<%
+
+#    lcr = @submission.last_created_revision
+    lsr = @submission.last_submitted_revision
+
+    state = lsr.aasm_state rescue '_'
+
+    s_state = @submission.aasm_state
+    lsr_state = lsr.aasm_state
+    inv_state = @my_invitation.aasm_state
+    r_state = ((@my_review && @my_review.submitted?) ? 'done' : 'not_done')
+
+=begin
+    reviewer_paper_status = (if @my_invitation.pending?
+        'please_accept'
+    elsif @my_invitation.accepted? && lsr.under_consideration?
+        (if @my_review && @my_review.submitted?
+            'please_wait'
+        else
+            'please_review'
+        end)
+    elsif @my_invitation.accepted? && lsr.need_revise?
+        'please_wait'
+    else
+        'nothing_to_do'
+    end)
+=end
+
+    reviewer_to_do_status = @submission.reviewer_to_do_status current_user
+
+    state1 = state + (lsr.under_consideration? ? ('_'+r_state) : '')
+    block_class = 'reviewer_submission-block-'+reviewer_to_do_status
+
+%>
+
+
+    <%# unless state=="draft" %>
+    <% if lsr %>
+    <div class="card card-inverse paper-state-block <%= block_class %>" style="overflow: hidden;">
+        <div class="card-block">
+            <h3 class="card-title ttext-xs-center">
+                <%= t('journal.submissions.reviewer_paper_state_short.'+reviewer_to_do_status) %>
+            </h3>
+
+            <% if inv_state=='pending' %>
+
+                    <%= button_to r_submission_path(@submission, op: :decline_my_reviewer_invitation),
+                        method: :put,
+                        data: {
+                            confirm: 'Are you sure your want to decline this invitation?'
+                        },
+                        :class => 'btn btn-danger btn-sm pull-right',
+                        :remote => true,
+                        disabled: !(@my_invitation && @my_invitation.may_sm_decline?),
+                        a: :b do
+                    %>
+                        <%= fa_icon 'times' %>
+                        <%= t('journal.office_submission.r_invitation.decline') %>
+                    <% end %>
+
+                    <%= button_to r_submission_path(@submission, op: :accept_my_reviewer_invitation),
+                        method: :put,
+                        data: {
+                            confirm: 'Are you sure your want to accept this invitation?'
+                        },
+                        :class => 'btn btn-success btn-sm pull-right',
+                        :remote => true,
+                        disabled: !(@my_invitation && @my_invitation.may_sm_accept?),
+                        a: :b do
+                    %>
+                        <i class="fa fa-check ffa-lg"></i>
+                        <%= t('journal.office_submission.r_invitation.accept') %>
+                    <% end %>
+
+            <% end %>
+
+            <p class="card-text"><%= simple_format( t('journal.submissions.inv_state_description.'+inv_state) ) %></p>
+            <% if inv_state=='accepted' %>
+                <p class="card-text"><%= simple_format( t('journal.submissions.inv_state_description.accepted_'+state1) ) %></p>
+            <% end %>
+
+        </div>
+    </div>
+
+    <!--div class="card card-inverse paper-state-block <%= block_class %>" style="overflow: hidden;">
+        <div class="card-block">
+            <h3 class="card-title ttext-xs-center">
+                <%#= fa_icon icon, class: 'ffa-2x', style: 'pposition: absolute; lleft: 5px; ttop: 5px;' %>
+                <%= t('journal.submissions.state_short.'+state) %>
+            </h3>
+
+                    <% if state=='need_revise' %>
+                        <%= link_to submission_path(@submission, op: :revise),
+                            #enabled: !!decision,
+                            method: :put,
+                            #data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
+                            data: { confirm: t('journal.submissions.rework_confirm') },
+                            :class => 'btn btn-primary bbtn-sm pull-right',
+                            :remote => true,
+                            #disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?),
+                            a: :b do
+                        %>
+                            <%= fa_icon 'wrench' %>
+                            <%#= t('journal.submissions.prepare_new_revision') %>
+                            <%= t('journal.submissions.rework') %>
+                        <% end %>
+                    <% end %>
+
+
+            <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+s_state) ) %></p>
+            <%# case state %>
+            <%# when 'rejected_without_consideration' %>
+                <%# if true or decision_1_comment %>
+                    <blockquote class="blockquote">
+                        <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_1_comment') %></h6>
+                        <%#= simple_format(decision_1_comment) %>
+                    </blockquote>
+                <%# end %>
+            <%# when 'rejected', 'accepted', 'need_revise', 'draft' %>
+                <%# if true or decision_2_comment %>
+
+                    <%# if state=='need_revise' %>
+                        <%#= link_to submission_path(@submission, op: :revise),
+                            method: :put,
+                            data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
+                            :class => 'btn btn-primary bbtn-sm',
+                            :remote => true,
+                            #disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?),
+                            a: :b do
+                        %>
+                            <%#= fa_icon 'wrench' %>
+                            <%#= t('journal.submissions.rework') %>
+                        <%# end %>
+                    <%# end %>
+
+                    <blockquote class="blockquote">
+                        <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
+                        <%#= simple_format(decision_2_comment) %>
+                    </blockquote>
+
+                        <%# if %w[accepted rejected need_revise draft].include?(state) && lsr.reviews_submitted.count > 0 %>
+                                <%#= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                    revision: lsr,
+                                    user_role: :author,
+                                    id_prefix: 'state'
+                                } %>
+                        <%# end %>
+
+
+                <%# end %>
+            <%# end %>
+        </div>
+    </div-->
+    <% end %>
+

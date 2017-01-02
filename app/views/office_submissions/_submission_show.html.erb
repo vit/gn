@@ -1,8 +1,19 @@
 <%
+    revisions = @submission.revisions_submitted
+    lsr = @submission.last_submitted_revision
+    text = @submission.get_text_submitted
+%>
+
+<%
     case @current_role
     when 'editor'
         @page_menu_data = [
         {
+            title: t('journal.submissions.revisions'),
+            url: revisions_e_submission_path,
+            icon: 'th-list',
+            disabled: (revisions.count==0)
+        }, {
 #            title: t('journal.e_submissions.papers_list'),
              title: t('journal.office_submission.papers_list'),
            url: e_submissions_path,
@@ -12,6 +23,11 @@
     when 'reviewer'
         @page_menu_data = [
         {
+            title: t('journal.submissions.revisions'),
+            url: revisions_r_submission_path,
+            icon: 'th-list',
+            disabled: (revisions.count==0)
+        }, {
 #            title: t('journal.r_submissions.papers_list'),
             title: t('journal.office_submission.papers_list'),
             url: r_submissions_path,
@@ -19,15 +35,29 @@
         }
         ]
     end
+
         @page_title = t('journal.office_submission.paper') + ' #' + @submission.id.to_s
         @page_title_sm = '#' + @submission.id.to_s
+
+    reviewer_to_do_status = @submission.reviewer_to_do_status current_user
+
 %>
 
-<%
-    lsr = @submission.last_submitted_revision
-    text = @submission.get_text_submitted
-%>
 
+    <%#= render partial: 'submissions/show_draft_block' if state=="draft" %>
+    <%= render partial: 'office_submissions/show_reviewer_state_block' if @current_role=='reviewer' %>
+    <%#= render partial: 'submissions/show_data_block' if @current_role=='reviewer' %>
+    <%#= render partial: 'submissions/show_data_block' unless state=="draft" %>
+    <%#= render partial: 'office_submissions/show_reviewer_review_block' if @current_role=='reviewer' %>
+    <%= render partial: 'submission_r_review_block', locals: {
+            operation_enabled: policy(@submission).can_write_review?
+#        } if @my_invitation
+        } if @current_role=='reviewer' && reviewer_to_do_status=='please_review'
+    %>
+    <%= render partial: 'submissions/show_data_block' if @current_role=='reviewer' %>
+
+
+<% if @current_role=='editor' %>
 <div class="card">
     <div class="card-block">
         <p class="card-text">
@@ -77,7 +107,9 @@
         <%#= render 'submission_ce_decision_block' if @section_journal_chief_editor_office %>
         <%#= render 'submission_invitations_block' if @section_journal_chief_editor_office %>
 
-
+<%
+=begin
+%>
     <ul class="list-group">
         <% @submission.revisions_submitted.order(:revision_n).reverse_order.each do |revision| %>
             <li class="list-group-item">
@@ -180,7 +212,11 @@
             </li>
         <% end %>
     </ul>
+<%
+=end
+%>
 
 </div>
+<% end %>
 
 

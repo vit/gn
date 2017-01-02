@@ -113,6 +113,13 @@ $paper-state-color: (
     accepted: #00cc22
 );
 
+$paper-reviewer-state-color: (
+    please_accept: #00cc22,
+    please_wait: #0033dd,
+    please_review: #eeaa00,
+    nothing_to_do: #777777
+);
+
 
 .papers-list {
     .papers-list-item {
@@ -205,6 +212,20 @@ $paper-state-color: (
         //    border-left: 5px solid $color;
         }
         .submission-block-#{$state} {
+            background-color: $color;
+            background: linear-gradient(to top, darken($color,30%), $color);
+        }
+    }
+
+    @each $state, $color in $paper-reviewer-state-color {
+//        .paper-tag-#{$state} {
+//    //        background-color: #{map-get($paper-state-color, $state)};
+//            background-color: #{$color};
+//        }
+//        .papers-list-item-#{$state} {
+//        //    border-left: 5px solid $color;
+//        }
+        .reviewer_submission-block-#{$state} {
             background-color: $color;
             background: linear-gradient(to top, darken($color,30%), $color);
         }

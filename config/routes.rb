@@ -34,7 +34,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :e_submissions, only: [:index, :show, :update]
-  resources :r_submissions, only: [:index, :show, :update]
+  resources :e_submissions, only: [:index, :show, :update] do
+    member do
+      get 'revisions'
+    end
+  end
+  resources :r_submissions, only: [:index, :show, :update] do
+    member do
+      get 'revisions'
+    end
+  end
 
 end

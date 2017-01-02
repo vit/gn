@@ -1,5 +1,8 @@
 #class OfficeSubmissionsController < ApplicationController
 class OfficeSubmissionsController < OfficeBaseController
+    before_action :set_submission, except: [:index]
+
+#    before_action :set_context
 
     def show
 #        authorize @journal, :can_editor?
@@ -24,6 +27,11 @@ class OfficeSubmissionsController < OfficeBaseController
 #		@my_review = @revision.user_review(current_user) || @revision.reviews.build(user: current_user)
 		@my_review = @revision.user_review(current_user)
 
+    end
+
+    def revisions
+		authorize @submission, :can_process?
+		@sidebar_active="#{@current_role}_office"
     end
 
     def update
@@ -144,13 +152,19 @@ class OfficeSubmissionsController < OfficeBaseController
 
 private
 
+#    def set_submission
+#      @submission = Submission.find(params[:id])
+#      @journal = @submission.journal
+#    end
+
     def set_submission
       @submission = Submission.find(params[:id])
-      @journal = @submission.journal
+      #@context = @submission.context
     end
 
-    def set_context_indirect
-    	set_submission
-    end
+
+#    def set_context_indirect
+#    	set_submission
+#    end
 
 end

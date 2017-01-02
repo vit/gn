@@ -113,6 +113,24 @@ class Submission < ApplicationRecord
     reviewer_invitations.find_by(user: user)
   end
 
+  def reviewer_to_do_status user
+    inv = user_invitation user
+    review = lsr.user_review user
+    (if inv.pending?
+        'please_accept'
+    elsif inv.accepted? && lsr.under_consideration?
+        (if review && review.submitted?
+            'please_wait'
+        else
+            'please_review'
+        end)
+    elsif inv.accepted? && lsr.need_revise?
+        'please_wait'
+    else
+        'nothing_to_do'
+    end) rescue '_'
+  end
+
   def owner?(user)
     self.user==user
   end

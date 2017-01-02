@@ -1,7 +1,7 @@
-#class Journal::CeSubmissionsController < Journal::BaseController
-#class CeSubmissionsController < Journal::OfficeSubmissionsController
 class ESubmissionsController < OfficeSubmissionsController
-    before_action :set_submission, only: [:show, :update]
+#    before_action :set_submission, only: [:show, :update]
+#    before_action :set_submission, except: [:index]
+
 	before_action -> { @current_role = 'editor' }
 
 	def index
@@ -14,10 +14,10 @@ class ESubmissionsController < OfficeSubmissionsController
 
 private
 
-    def set_submission
-      @submission = Submission.find(params[:id])
-      #@context = @submission.context
-    end
+#    def set_submission
+#      @submission = Submission.find(params[:id])
+#      #@context = @submission.context
+#    end
 
 end
 

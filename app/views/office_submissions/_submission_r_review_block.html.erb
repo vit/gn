@@ -4,9 +4,9 @@
 %>
 
 
-    <div class="card" id="<%= review_block_id %>" style='background-color: #eeeeee; border-bottom: 1px solid #333333'>
+    <div class="card" id="<%= review_block_id %>" style='background-color: #eeeeee; bborder-bottom: 1px solid #333333'>
         <div class="card-block">
-            <h5 class="card-title"><%= t('journal.office_submission.r_review.my_review') %></h5>
+            <h3 class="card-title"><%= t('journal.office_submission.r_review.my_review') %></h3>
             <%# if @my_review.persisted? %>
             <% if @my_review %>
                 <p><%= t('journal.office_submission.r_review.state_'+@my_review.aasm_state) %></p>
@@ -75,7 +75,7 @@
                 </div>
             <% end %>
 
-            <% if operation_enabled %>
+            <% if operation_enabled && @my_review %>
             <div>
                     <br>
                 <%#= link_to "#", data: { toggle: "modal", target: "##{modal_target_id}" },

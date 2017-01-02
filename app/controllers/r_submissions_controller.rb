@@ -1,5 +1,6 @@
 class RSubmissionsController < OfficeSubmissionsController
-    before_action :set_submission, only: [:show, :update]
+#    before_action :set_submission, only: [:show, :update]
+#    before_action :set_submission, except: [:index]
 
 	before_action -> { @current_role = 'reviewer' }
 
@@ -14,9 +15,9 @@ class RSubmissionsController < OfficeSubmissionsController
 
 private
 
-    def set_submission
-      @submission = Submission.find(params[:id])
-    end
+#    def set_submission
+#      @submission = Submission.find(params[:id])
+#    end
 
 end
 

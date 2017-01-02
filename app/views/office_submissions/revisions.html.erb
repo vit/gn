@@ -1,21 +1,34 @@
 <%
 
-  @page_menu_data = [
-    {
-        title: ( '#'+@submission.id.to_s + ' ' + t('journal.submissions.show') ),
-        url: submission_path(@submission),
-        icon: 'arrow-left',
-#        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
-    }
-  ]
+    case @current_role
+    when 'editor'
+        @page_menu_data = [
+        {
+            title: ( '#'+@submission.id.to_s + ' ' + t('journal.office_submission.paper') ),
+            url: e_submission_path(@submission),
+            icon: 'arrow-left',
+        }
+        ]
+    when 'reviewer'
+        @page_menu_data = [
+        {
+            title: ( '#'+@submission.id.to_s + ' ' + t('journal.office_submission.paper') ),
+            url: r_submission_path(@submission),
+            icon: 'arrow-left',
+        }
+        ]
+    end
 
-#  @page_title = t('journal.submissions.paper_revisions') + ' #' + @submission.id.to_s
-  @page_title = t('journal.submissions.show') + ' #' + @submission.id.to_s
+#  @page_title = t('journal.submissions.show') + ' #' + @submission.id.to_s
+#  @page_title_sm = '#' + @submission.id.to_s
+
+  @page_title = t('journal.office_submission.paper') + ' #' + @submission.id.to_s
   @page_title_sm = '#' + @submission.id.to_s
 
 %>
 
 <%
+=begin
     lcr = @submission.last_created_revision
     lsr = @submission.last_submitted_revision
 #    text = @submission.get_text
@@ -38,31 +51,10 @@
     decision_2_comment = lcr.decision_2.comment rescue nil
 
     state = lcr.aasm_state rescue ''
-%>
-
-<div class="container-fluid" style="overflow: hidden;">
-
-<%
-=begin
-icon_map = {
-#    "need_revise" => "smile-o",
-    "need_revise" => "exclamation",
-    "submitted" => "meh-o",
-    "under_consideration" => "meh-o",
-    "accepted" => "smile-o",
-    "rejected" => "frown-o",
-    "rejected_without_consideration" => "frown-o",
-    "draft" => "",
-}
-
-#type = class_map[state] || ''
-type = state
-
-block_class = 'submission-block-'+type
-icon = icon_map[type] || ''
 =end
 %>
 
+<div class="container-fluid" style="overflow: hidden;">
 
 <%
     revisions_collapse_target_id = "collapse_revisions_"+@submission.id.to_s
@@ -93,13 +85,53 @@ icon = icon_map[type] || ''
                         <% end %>
                         
                     </dd>
+<%
+=begin
+%>
                     <% if revision.revision_decision %>
                         <dt class="col-xs-3">Chief editor comment:</dt>
                         <dd class="col-xs-9"><%= revision.revision_decision.comment %></dd>
                     <% end if nil %>
+<%
+=end
+%>
                 </dl>
 
 
+                    <% if revision.text %>
+                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+                    <% end %>
+
+                    <% if revision.decision_1 %>
+                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} if @current_role=='editor' %>
+                    <% end %>
+                    <% if revision.decision_2 %>
+                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} if @current_role=='editor' %>
+                    <% end %>
+                    <% if @current_role=='editor' %>
+                        <% if revision.reviews_submitted.count > 0 %>
+                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                revision: revision,
+                                user_role: :editor,
+                            } %>
+                        <% end %>
+                    <% end %>
+                    <% if @current_role=='reviewer' %>
+                        <%
+                            my_review = revision.user_review current_user
+                        %>
+                        <% if my_review %>
+                            <%= render partial: 'common/parts/submission/show_revision_review', locals: {
+                                review: my_review,
+                                user_role: :reviewer,
+                            } %>
+                        <% end %>
+                    <% end %>
+
+
+<%
+=begin
+%>
                     <% if revision.text %>
                         <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
                     <% end %>
@@ -116,6 +148,9 @@ icon = icon_map[type] || ''
                                 user_role: :author,
                             } %>
                         <% end %>
+<%
+=end
+%>
 
 
 
