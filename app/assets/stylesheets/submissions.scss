@@ -229,5 +229,8 @@ $paper-reviewer-state-color: (
             background-color: $color;
             background: linear-gradient(to top, darken($color,30%), $color);
         }
+        .reviewer-headblock-#{$state} {
+            background-color: $color !important;
+        }
     }
 

@@ -93,6 +93,10 @@ icon = icon_map[type] || ''
                         <% end %>
                         
                     </dd>
+                    <% if revision.authors_list %>
+                        <dt class="col-xs-3">Authors:</dt>
+                        <dd class="col-xs-9"><%= revision.authors_list.authors.map(&:full_name).join(', ') %></dd>
+                    <% end %>
                     <% if revision.revision_decision %>
                         <dt class="col-xs-3">Chief editor comment:</dt>
                         <dd class="col-xs-9"><%= revision.revision_decision.comment %></dd>

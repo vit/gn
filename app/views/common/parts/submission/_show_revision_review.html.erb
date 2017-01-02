@@ -78,6 +78,16 @@
                             <% end if attachment %>
                             <br>
                         <% end %>
+                        <% if user_role==:reviewer %>
+                            <%
+                                attachment = r.get_file_by_category :reviewer_file
+                            %>
+                            <b><%= t('journal.office_submission.r_review.attachment') %>:</b> &nbsp;<%= link_to attachment.file_data.url, ttarget: '_blank' do %><%= fa_icon 'download' %>
+                                <%#= attachment_e.file_category %>
+                                <%= t('journal.office_submission.r_review.attachment_download') %>
+                            <% end if attachment %>
+                            <br>
+                        <% end %>
 
                       </p>
 

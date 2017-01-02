@@ -12,6 +12,7 @@
 
     field_original_value = review.send(field_name)
     field_value = review.send(field_name+'_e_c?') ? review.send(field_name+'_e') : field_original_value
+    field_value = field_original_value if user_role==:reviewer
 
     field_name_orig = field_name
     field_name_current = field_name+'_e'
@@ -54,7 +55,8 @@
                 <% end %>
             <% end %>
         <div class='highlightable'><%= simple_format( strip_tags(field_value) ) %></div>
-        <% if review.send(field_name+'_e_c?') && user_role==:editor %>
+        <%# if review.send(field_name+'_e_c?') && [:editor, :reviewer].include?(user_role) %>
+        <% if review.send(field_name+'_e_c?') && [:editor].include?(user_role) %>
             <div style="color: #999999; font-size: 80%; background-color: #eeeeee; margin: 0px; padding: 0px; bborder: thin solid red;">
                 <b><%= t('journal.office_submission.e_review.original') %>:</b><bbr>
                 <div><%= simple_format( strip_tags(field_original_value) ) %></div>

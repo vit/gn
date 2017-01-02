@@ -1,0 +1,39 @@
+<%
+    defined?(user_role) or user_role = :author
+%>
+
+<%# if decision.submitted? %>
+<div class="reviews-list">
+    <%
+        can_editor_change = (defined? can_editor_change) ? can_editor_change : false
+        collapse_target_id = 'collapse_one_review_' + review.id.to_s
+        if defined? id_prefix
+          collapse_target_id = id_prefix + '_' + collapse_target_id
+        end
+    %>
+                        <div cclass="collapse" iid="<%= collapse_target_id %>">
+
+            <div class="card">
+              <div class="card-block" style='background-color: #eeeeee;'>
+                <h5 class="card-title bbtn btn-link" data-toggle="collapse" data-target="#<%= collapse_target_id %>"><%= t('journal.office_submission.review') %> <%= fa_icon 'caret-down' %></h5>
+                <div class="llist-group collapse" id="<%= collapse_target_id %>">
+
+                  <%# revision.reviews_submitted.each_with_index do |r, n| %>
+                    <div class="llist-group-item">
+                      <%= render partial: 'common/parts/submission/show_revision_review', locals: {
+                        review: review,
+                        user_role: user_role,
+                        revision_index: 0,
+                        can_editor_change: can_editor_change
+                      } %>
+
+                    </div>
+                  <%# end %>
+
+                </div>
+              </div>
+            </div>
+
+                        </div>
+</div>
+<%# end %>

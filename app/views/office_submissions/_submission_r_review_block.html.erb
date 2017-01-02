@@ -39,7 +39,7 @@
             <% if operation_enabled %>
             <div>
                 <%= link_to "#", data: { toggle: "modal", target: "##{modal_target_id}" },
-                    :class => 'btn btn-primary',
+                    :class => 'btn btn-primary btn-sm',
                     disabled: !(@my_review && @my_review.may_sm_update?) do
                 %>
                     <i class="fa fa-edit ffa-lg"></i>
@@ -89,7 +89,7 @@
                     method: :put,
                     #data: { confirm: 'Are you sure your review is ready?' },
                     data: { confirm: t('journal.office_submission.r_review.submit_confirm') },
-                    :class => 'btn btn-success',
+                    :class => 'btn btn-success btn-sm',
                     :remote => true,
                     disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do
                 %>

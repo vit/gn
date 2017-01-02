@@ -12,6 +12,7 @@
                 reviewer_to_do_status = submission.reviewer_to_do_status current_user
             %>
             <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item #{ %w[declined cancelled].include?(invitation_state) ? 'disabled' : '' }") do %>
+                <div class="headblock reviewer-headblock-<%= reviewer_to_do_status %>"></div>
                 <b>Status:</b> <b>
                     <%= t('journal.submissions.reviewer_paper_state_short.'+reviewer_to_do_status) %>
                 </b>

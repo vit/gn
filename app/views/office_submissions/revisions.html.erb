@@ -27,33 +27,6 @@
 
 %>
 
-<%
-=begin
-    lcr = @submission.last_created_revision
-    lsr = @submission.last_submitted_revision
-#    text = @submission.get_text
-
-    author_file = @submission.get_file_submitted 'author_file'
-    author_expert_file = @submission.get_file_submitted 'author_expert_file'
-    text = @submission.get_text_submitted
-    authors = @submission.get_authors_submitted || []
-
-#    author_file_newest = @submission.get_file_newest 'author_file'
-    author_file_draft = lcr.get_file_by_category 'author_file'
-#    author_file_prev = lsr.get_file_by_category 'author_file'
-    author_expert_file_newest = @submission.get_file_newest 'author_expert_file'
-    text_newest = @submission.get_text_newest
-    authors_newest = @submission.get_authors_newest || []
-
-
-#    decision_1_comment = lsr.revision_decision.comment rescue nil
-    decision_1_comment = lcr.decision_1.comment rescue nil
-    decision_2_comment = lcr.decision_2.comment rescue nil
-
-    state = lcr.aasm_state rescue ''
-=end
-%>
-
 <div class="container-fluid" style="overflow: hidden;">
 
 <%
@@ -85,16 +58,10 @@
                         <% end %>
                         
                     </dd>
-<%
-=begin
-%>
-                    <% if revision.revision_decision %>
-                        <dt class="col-xs-3">Chief editor comment:</dt>
-                        <dd class="col-xs-9"><%= revision.revision_decision.comment %></dd>
-                    <% end if nil %>
-<%
-=end
-%>
+                    <% if revision.authors_list %>
+                        <dt class="col-xs-3">Authors:</dt>
+                        <dd class="col-xs-9"><%= revision.authors_list.authors.map(&:full_name).join(', ') %></dd>
+                    <% end %>
                 </dl>
 
 
@@ -120,39 +87,13 @@
                         <%
                             my_review = revision.user_review current_user
                         %>
-                        <% if my_review %>
-                            <%= render partial: 'common/parts/submission/show_revision_review', locals: {
+                        <% if my_review && my_review.submitted? %>
+                            <%= render partial: 'common/parts/submission/show_revision_one_review', locals: {
                                 review: my_review,
                                 user_role: :reviewer,
                             } %>
                         <% end %>
                     <% end %>
-
-
-<%
-=begin
-%>
-                    <% if revision.text %>
-                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
-                    <% end %>
-
-                    <% if revision.decision_1 %>
-                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} %>
-                    <% end %>
-                    <% if revision.decision_2 %>
-                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} %>
-                    <% end %>
-                        <% if %w[accepted rejected need_revise].include?(revision.aasm_state) && revision.reviews_submitted.count > 0 %>
-                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
-                                revision: revision,
-                                user_role: :author,
-                            } %>
-                        <% end %>
-<%
-=end
-%>
-
-
 
 
             </li>
