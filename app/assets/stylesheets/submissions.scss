@@ -234,3 +234,17 @@ $paper-reviewer-state-color: (
         }
     }
 
+
+$paper-review-status-color: (
+    dead: black,
+    declined: black,
+    noreview: #dd0033,
+    notready: #eeaa00,
+    ready: #00cc22
+);
+
+    @each $rs, $color in $paper-review-status-color {
+        .reviewers-status-#{$rs} {
+            color: $color;
+        }
+    }
