@@ -35,6 +35,11 @@
         <span class="ttag ttag-default ttag-pill float-xs-right"><%= @journal.submissions.all_submitted.count %></span>
     <% end %>
   </li>
+  <li class="nav-item nav-item-link">
+    <%= link_to people_e_submissions_path, class: "nav-link " + (@sidebar_active=='people' ? 'active' : '') do %>
+        <%= fa_icon 'hand-o-right' %> <%= t('journal.e_submission.people') %>
+    <% end %>
+  </li>
 <!--hr-->
 <% end %>
 

@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   root 'home#index'
 
   devise_for :users, controllers: {registrations: 'custom_registrations'}
+#  devise_scope :user do
+#    get 'session/on_signin', :to => 'sessions#memorize_session'
+#  end
 
 #  get 'welcome/index'
 #  root 'welcome#index'
@@ -37,6 +40,11 @@ Rails.application.routes.draw do
   resources :e_submissions, only: [:index, :show, :update] do
     member do
       get 'revisions'
+    end
+    collection do
+      get 'people'
+      post 'people_update'
+      post 'people_find'
     end
   end
   resources :r_submissions, only: [:index, :show, :update] do

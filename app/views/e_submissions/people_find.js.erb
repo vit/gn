@@ -1,0 +1,7 @@
+
+//alert('OK!!!!!');
+
+//$('#found_users_list').html("<%= escape_javascript render('e_submissions/found_users_list') %>");
+$('#found_users_list').replaceWith("<%= escape_javascript render('e_submissions/found_users_list') %>");
+
+$(document).trigger('findusersreload');

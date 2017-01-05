@@ -1,0 +1,33 @@
+
+    <div class="ccard-block list-group" id="found_users_list">
+        <%#= params.inspect %>
+        <div cclass="list-group">
+        <% @found_users.each do |u| %>
+            <div class="list-group-item found_users_item">
+                <!--br-->
+                <%
+                    app_h = {}
+                %>
+                <% u.appointments.each do |a| %>
+                    <%#= a.inspect %>
+                    <%
+                        app_h[a.role_name.to_sym] = true
+                    %>
+                <% end %>
+                <%= form_tag people_update_e_submissions_path, class: "form-inline" do %>
+                    <%= u.id %> | <%= u.full_name %> |
+                    <%= hidden_field_tag 'op', 'switch_user_appointment' %>
+                    <%= hidden_field_tag 'user_id', u.id %>
+                    <% JournalAppointment::Roles.each do |r| %>
+                        <div class="form-check disabled">
+                        <%= label_tag do %>
+                            <%= r %>
+                            <%= check_box_tag "roles[]", r, app_h[r], disabled: (u.id==current_user.id && r==:editor) %>
+                        <% end %>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        <% end if @found_users %>
+        </div>
+    </div>

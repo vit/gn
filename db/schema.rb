@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161217021847) do
+ActiveRecord::Schema.define(version: 20170104022709) do
 
   create_table "journal_appointments", force: :cascade do |t|
     t.integer  "journal_id"
@@ -183,8 +183,39 @@ ActiveRecord::Schema.define(version: 20161217021847) do
     t.string   "lname"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "search"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "users_fts", id: false, force: :cascade do |t|
+    t. "full_name"
+  end
+
+  create_table "users_fts_content", primary_key: "docid", force: :cascade do |t|
+    t. "c0full_name"
+  end
+
+  create_table "users_fts_docsize", primary_key: "docid", force: :cascade do |t|
+    t.binary "size"
+  end
+
+  create_table "users_fts_segdir", primary_key: ["level", "idx"], force: :cascade do |t|
+    t.integer "level"
+    t.integer "idx"
+    t.integer "start_block"
+    t.integer "leaves_end_block"
+    t.integer "end_block"
+    t.binary  "root"
+    t.index ["level", "idx"], name: "sqlite_autoindex_users_fts_segdir_1", unique: true
+  end
+
+  create_table "users_fts_segments", primary_key: "blockid", force: :cascade do |t|
+    t.binary "block"
+  end
+
+  create_table "users_fts_stat", force: :cascade do |t|
+    t.binary "value"
   end
 
 end
