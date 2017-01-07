@@ -53,6 +53,29 @@ en:
                     You can submit new paper revision by clicking on the button. Before that, make sure that all data are correct.
                     You have to upload corrected version of the main paper file.
                     The remaining data is not required to change without the need.
+            inv_state_description:
+                pending: |+
+                    Вас приглашают стать рецензентом статьи, данные которой показаны ниже.
+                    Примите приглашение, чтобы получить доступ к написанию рецензии.
+                    Если Вы не хотите рецензировать эту статью, отклоните приглашение, чтобы редакция знала.
+                accepted: |+
+                    Вы являетесь рецензентом этой статьи.
+                accepted_under_consideration_not_done: |+
+                    Прямо сейчас Вы можете подготовить и отправить свою рецензию.
+                accepted_under_consideration_done: |+
+                    Вы написали и отослали рецензию на эту статью.
+                    Если статья не будет вскоре окончательно принята или отклонена, то автор, вероятно, пришлет исправленную версию и потребуется посмотреть ее снова.
+                accepted_need_revise: |+
+                    Редакция уведомила автора о необходимости переработать статью.
+                    Он еще не прислал исправленную версию, так что непосредственно сейчас писать рецензию Вы не можете.
+                accepted_rejected: |+
+                    Редакция отклонила статью, так что рецензировать ее больше не надо.
+                    Благодарим Вас за участие!
+                accepted_accepted: |+
+                    Редакция приняла статью, так что рецензировать ее больше не надо.
+                    Благодарим Вас за участие!
+                declined: |+
+                    Вы отклонили приглашение рецензировать эту статью.
             state_short:
                 rejected_without_consideration: Rejected without consideration
                 submitted: Paper submitted

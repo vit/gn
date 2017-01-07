@@ -1,0 +1,32 @@
+(see english text below)
+
+Здравствуйте, <%= @user.full_name %>!
+
+Поздравляем, Ваша статья принята к публикации.
+
+Сообщение редактора ниже:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
+Данные статьи и рецензии можно видеть здесь: <%= @submission_url %>
+
+Редколлегия журнала ГН
+
+(Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
+
+
+Dear <%= @user.full_name %>!
+
+Congratulations! Your paper was accepted for publishing.
+
+The editor's comment is here:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
+You can see the paper data and reviews here: <%= @submission_url %>
+
+The GN Journal editorial board
+
+(This email was sent by the system. Please don't reply.)

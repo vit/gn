@@ -28,9 +28,10 @@ class Journal < ApplicationRecord
 	end
 
 =end
-	def chief_editors
-		self.appointments.where(role_name: 'chief_editor').map(&:user)
-	end
+
+#	def chief_editors
+#		self.appointments.where(role_name: 'chief_editor').map(&:user)
+#	end
 	def editors
 		self.appointments.where(role_name: 'editor').map(&:user)
 	end

@@ -1,0 +1,32 @@
+(see english text below)
+
+Здравствуйте, <%= @user.full_name %>!
+
+К сожалению, Ваша статья была отклонена редактором без рассмотрения.
+
+Сообщение редактора ниже:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
+Данные статьи можно видеть здесь: <%= @submission_url %>
+
+Редколлегия журнала ГН
+
+(Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
+
+
+Dear <%= @user.full_name %>!
+
+Unfortunately your paper was rejected by the editor without consideration.
+
+The editor's comment is here:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
+You can see the paper data here: <%= @submission_url %>
+
+The GN Journal editorial board
+
+(This email was sent by the system. Please don't reply.)

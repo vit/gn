@@ -1,0 +1,32 @@
+(see english text below)
+
+Здравствуйте, <%= @user.full_name %>!
+
+Ваша статья нуждается в доработке.
+
+Сообщение редактора ниже:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
+Видеть данные статьи и рецензии, а также подать новую ревизию статьи, можно здесь: <%= @submission_url %>
+
+Редколлегия журнала ГН
+
+(Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
+
+
+Dear <%= @user.full_name %>!
+
+Your paper must be revised.
+
+The editor's comment is here:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
+You can submit a new paper revision or you can see the paper data and reviews here: <%= @submission_url %>
+
+The GN Journal editorial board
+
+(This email was sent by the system. Please don't reply.)

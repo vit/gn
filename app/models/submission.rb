@@ -18,6 +18,11 @@ class Submission < ApplicationRecord
     revisions.where.not(aasm_state: 'draft')
   end
 
+  def reviewers_active
+#    reviewer_invitations.where(aasm_state: 'accepted').pluck(:user)
+    reviewer_invitations.where(aasm_state: 'accepted').map { |i| i.user }
+  end
+
   aasm do
     state :just_created, initial: true
     state :draft
@@ -62,9 +67,10 @@ class Submission < ApplicationRecord
         self.last_created_revision.sm_submit!
 #        self.last_submitted_revision = self.last_created_revision
         save!
-        JournalMailer.submission_submitted_author(self).deliver_now
+#        JournalMailer.submission_submitted_author(self).deliver_now
 #        JournalMailer.submission_submitted_editor(self).deliver_now
 #        JournalMailer.submission_submitted_reviewer(self).deliver_now
+        JournalMailer.send_notifications_submission_submitted self
       end
       transitions :from => :draft, :to => :submitted
 #      transitions :from => :under_reworking, :to => :under_consideration

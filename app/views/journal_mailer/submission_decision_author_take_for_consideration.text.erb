@@ -2,7 +2,13 @@
 
 Здравствуйте, <%= @user.full_name %>!
 
-Вы только что подали новую ревизию Вашей статьи.
+Ваша статья принята к рассмотрению.
+
+Сообщение редактора ниже:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
 Вы можете следить за процессом рецензирования статьи здесь: <%= @submission_url %>
 
 Редколлегия журнала ГН
@@ -12,7 +18,13 @@
 
 Dear <%= @user.full_name %>!
 
-You just submitted new revision of your paper.
+Your paper was taken for consideration.
+
+The editor's comment is here:
+--------------------------------------------------
+<%= @decision.comment %>
+--------------------------------------------------
+
 You can track the paper reviewing progress here: <%= @submission_url %>
 
 The GN Journal editorial board

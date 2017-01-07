@@ -47,6 +47,7 @@ class SubmissionRevisionReview < ApplicationRecord
 
 		event :sm_submit do
 			after do
+				JournalMailer.send_notifications_submission_review_submitted self
 			end
 			transitions :from => :draft, :to => :submitted
 		end

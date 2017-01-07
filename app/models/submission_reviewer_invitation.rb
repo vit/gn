@@ -14,6 +14,7 @@ class SubmissionReviewerInvitation < ApplicationRecord
 
 		event :sm_activate do
 			after do
+				JournalMailer.send_notifications_submission_invite_reviewer self
 			end
 			transitions :from => :inactive, :to => :pending
 		end
@@ -27,12 +28,14 @@ class SubmissionReviewerInvitation < ApplicationRecord
 
 		event :sm_decline do
 			after do
+				JournalMailer.send_notifications_submission_invitation_decision self
 			end
 			transitions :from => :pending, :to => :declined
 		end
 
 		event :sm_accept do
 			after do
+				JournalMailer.send_notifications_submission_invitation_decision self
 			end
 			transitions :from => :pending, :to => :accepted
 		end

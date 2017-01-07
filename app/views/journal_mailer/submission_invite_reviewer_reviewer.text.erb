@@ -1,0 +1,20 @@
+(see english text below)
+
+Здравствуйте, <%= @user.full_name %>!
+
+Пригашаем Вас стать рецензентом статьи #<%= @submission.id %>.
+
+Чтобы начать рецензирование, нужно подтвердить согласие, приняв приглашение здесь: <%= @submission_reviewer_url %>
+Если Вы не хотите рецензировать этe статью, сообщите, пожалуйста, нам об этом, отклонив приглашение там же.
+
+(Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
+
+
+Dear <%= @user.full_name %>!
+
+We invite you to become a reviewer of the paper #<%= @submission.id %>.
+
+To start reviewing please accept our invitation here: <%= @submission_reviewer_url %>
+Decline the invitation if you do not want to review this paper.
+
+(This email was sent by the system. Please don't reply.)

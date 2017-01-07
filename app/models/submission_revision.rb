@@ -74,6 +74,8 @@ class SubmissionRevision < ApplicationRecord
 		event :sm_apply_decision do
 			after do
 			#	submission.sm_apply_decision!
+				#JournalMailer.submission_decision(submission).deliver_now
+				JournalMailer.send_notifications_submission_decision submission
 			end
 			transitions :from => :submitted, :to => :rejected_without_consideration, :if => (-> {decision_1 && decision_1.decision=='reject_without_consideration'})
 			transitions :from => :submitted, :to => :under_consideration, :if => (-> {decision_1 && decision_1.decision=='take_for_consideration'})
