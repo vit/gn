@@ -113,6 +113,7 @@ class SubmissionsController < OfficeSubmissionsController
     @submission_authors = @submission.get_authors_newest
 #    @submission_revision = @submission.last_created_revision
 
+
   end
 
 

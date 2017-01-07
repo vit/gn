@@ -54,20 +54,25 @@ Rails.application.configure do
 
 
 
-config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+#config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
 
 
-config.action_mailer.delivery_method = :sendmail
+#config.action_mailer.delivery_method = :sendmail
 # Defaults to:
 # config.action_mailer.sendmail_settings = {
 #   location: '/usr/sbin/sendmail',
 #   arguments: '-i -t'
 # }
+
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = true
-config.action_mailer.default_options = {from: 'no-reply@gn.comsep.ru'}
+config.action_mailer.default_options = {from: 'no-reply@gn-dev.bigbrowser.ru'}
 
+
+config.action_mailer.delivery_method = :sendmail
+#config.action_mailer.default_url_options = { host: 'gn.comsep.ru', port: 80 }
+config.action_mailer.default_url_options = { host: 'gn-dev.bigbrowser.ru', port: 80 }
 
 
 end
