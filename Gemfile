@@ -93,3 +93,10 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5'
 end
 
+# app doesn't work in production mode without it
+# probably the error in bootstrap causes breaking when all scripts packed in single file
+# https://github.com/twbs/bootstrap-rubygem/blob/master/README.md
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.3.3'
+end
+

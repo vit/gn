@@ -12,6 +12,7 @@
 //
 
 //= require jquery
+//= require tether
 //= require jquery_ujs
 
 //= require jquery-ui

@@ -19,7 +19,7 @@ Rails.application.configure do
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
+  #config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
@@ -94,5 +94,28 @@ config.action_mailer.default_options = {from: 'noreply@gn.comsep.ru'}
 config.action_mailer.delivery_method = :sendmail
 config.action_mailer.default_url_options = { host: 'gn.comsep.ru', port: 80 }
 #config.action_mailer.default_url_options = { host: 'gn-dev.bigbrowser.ru', port: 80 }
+
+
+
+
+#config.serve_static_files = true
+config.public_file_server.enabled = true
+
+  config.assets.compile = true
+
+  config.assets.js_compressor = :uglifier
+#  config.assets.debug = true
+
+
+#  class NoCompression
+#    def compress(string)
+#      # do nothing
+#      string
+#    end
+#  end
+
+#  config.assets.compress = true
+#  config.assets.js_compressor = NoCompression.new
+  #config.assets.css_compressor = NoCompression.new
 
 end
