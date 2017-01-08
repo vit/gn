@@ -4,7 +4,22 @@ Rails.application.routes.draw do
 #  get 'help', to: "home#help"
   root 'home#index'
 
-  devise_for :users, controllers: {registrations: 'custom_registrations'}
+#  devise_for :users, controllers: {registrations: 'custom_registrations'}
+
+  devise_for :users, skip: :registrations, controllers: {registrations: 'custom_registrations'}
+  devise_scope :user do
+#    resource :custom_registration,
+    resource :registration,
+      only: [:new, :create, :edit, :update],
+      path: 'users',
+      path_names: { new: 'sign_up' },
+#      controller: 'devise/registrations',
+      controller: 'custom_registrations',
+      as: :user_registration do
+        get :cancel
+      end
+  end
+
 #  devise_scope :user do
 #    get 'session/on_signin', :to => 'sessions#memorize_session'
 #  end
