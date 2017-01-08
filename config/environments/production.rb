@@ -88,11 +88,14 @@ Rails.application.configure do
 config.action_mailer.perform_deliveries = true
 #config.action_mailer.raise_delivery_errors = true
 #config.action_mailer.default_options = {from: 'noreply@gn-dev.bigbrowser.ru'}
-config.action_mailer.default_options = {from: 'noreply@gn.comsep.ru'}
+
+#config.action_mailer.default_options = {from: 'noreply@gn.comsep.ru'}
+config.action_mailer.default_options = {from: 'noreply@gn.bigbrowser.ru'}
 
 
 config.action_mailer.delivery_method = :sendmail
-config.action_mailer.default_url_options = { host: 'gn.comsep.ru', port: 80 }
+config.action_mailer.default_url_options = { host: 'gn.bigbrowser.ru', port: 80 }
+#config.action_mailer.default_url_options = { host: 'gn.comsep.ru', port: 80 }
 #config.action_mailer.default_url_options = { host: 'gn-dev.bigbrowser.ru', port: 80 }
 
 
