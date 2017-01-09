@@ -5,8 +5,11 @@ ru:
             editor_office: Офис редактора
             reviewer_office: Офис рецензента
             author_office: Офис автора
-            edit_my_data: Изменить мои данные
+            edit_my_data: Мои данные
             help: 'Какие-то ошибки или вопросы?'
+            sign_out: Выйти
+            sign_out_confirm: Вы уверены?
+            people: Люди
         submissions:
             #show: Просмотр
             show: Моя статья
@@ -89,8 +92,6 @@ ru:
                 please_review: Напишите рецензию
                 please_wait: Сейчас надо подождать
                 nothing_to_do: Похоже, здесь больше нечего делать
-
-
 
             state_block:
                 decision_1_comment: 'Комментарий редактора:'
@@ -241,3 +242,40 @@ ru:
                     б) Если нет, то кого из специалистов в данной области Вы могли бы рекомендовать?
                     в) Дополнительные комментарии к статье, которые Вы считаете необходимым сообщить редакции
                     (положительные характеристики – например, обоснование ценности статьи для журнала, либо отрицательные – наличие плагиата, конфликта интересов, и т.п.).
+    user:
+        data:
+            edit: Мои данные
+        sign_in: Вход
+        sign_up: Регистрация
+        sign_out: Выйти
+        forgot_password: Забыли пароль?
+        change_password: Поменять пароль
+        sign_in_link: Вход
+        #sign_in_link_registered: Если вы уже зарегистрированы в системе, то *[войдите]
+        sign_in_link_registered: Уже зарегистрированы? Тогда просто *[войдите].
+        sign_up_link: Регистрация
+        sign_up_link_not_registered: Еще не были здесь? *[Зарегистрируйтесь]!
+        sign_out_link: Выйти
+        forgot_password_link: Забыли пароль?
+
+    helpers:
+        label:
+            user:
+                first_name: Имя
+                middle_name: Отчество / middle name
+                last_name: Фамилия
+                email: Email
+                password: Пароль
+                password_minimum: "минимум %{number} символов"
+                password_leave_blank: оставьте пустым, если не хотите менять пароль
+                password_confirmation: Подтвердите пароль
+                new_password: Новый пароль
+                new_password_confirmation: Подтвердите новый пароль
+                current_password: Текущий пароль
+                current_password_we_need: он нужен, чтобы подтвердить любые вносимые изменения
+                update: Сохранить
+                sign_up: Зарегистрироваться
+                sign_in: Войти
+                remember_me: Запомнить меня
+                send_me_reset: Выслать инструкцию по смене
+                change_password: Поменять мой пароль

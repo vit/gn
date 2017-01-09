@@ -37,7 +37,7 @@
   </li>
   <li class="nav-item nav-item-link">
     <%= link_to people_e_submissions_path, class: "nav-link " + (@sidebar_active=='people' ? 'active' : '') do %>
-        <%= fa_icon 'hand-o-right' %> <%= t('journal.e_submission.people') %>
+        <%= fa_icon 'hand-o-right' %> <%= t('journal.menu.people') %>
     <% end %>
   </li>
 <!--hr-->
@@ -110,8 +110,8 @@
   <li class="nav-item">
     <%= link_to(destroy_user_session_path,
         class: 'nav-link ' + (@sidebar_active=='logout' ? 'active' : ''),
-        :method => :delete, data: {confirm: 'Are you sure?'}) do -%>
-      <%= fa_icon 'sign-out' %> Logout
+        :method => :delete, data: {confirm: t('journal.menu.sign_out_confirm')}) do -%>
+      <%= fa_icon 'sign-out' %> <%= t('journal.menu.sign_out') %>
     <% end -%>
   </li>
 

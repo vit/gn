@@ -1,9 +1,13 @@
+<%
+  @page_title = t('user.data.edit')
+%>
+
 
 <div class="container">
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<!--h2>Edit <%= resource_name.to_s.humanize %></h2-->
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
@@ -32,7 +36,8 @@
   <div class="form-group">
     <%#= f.label :password, for: 'password_field', cclass: "sr-only" %>
     <%= f.label for: 'password_field', cclass: "sr-only" do %>
-       Password <i>(leave blank if you don't want to change it)</i>
+<!--       Password <i>(leave blank if you don't want to change it)</i-->
+       <%= t('helpers.label.user.new_password') %> <i>(<%= t('helpers.label.user.password_leave_blank') %>)</i>
     <% end %>
     <%= f.password_field :password, rrequired: true, autocomplete: "off", class: "form-control", id: "password_field",
       pplaceholder: "Password#{ (@minimum_password_length ? ' ('+@minimum_password_length.to_s+' characters minimum)' : '') }",
@@ -40,13 +45,13 @@
     %>
   </div>
   <div class="form-group">
-    <%= f.label :password_confirmation, for: 'password_confirmation_field', cclass: "sr-only" %>
+    <%= f.label :new_password_confirmation, for: 'password_confirmation_field', cclass: "sr-only" %>
     <%= f.password_field :password_confirmation, rrequired: true, autocomplete: "off", class: "form-control", id: "password_confirmation_field", pplaceholder: "Password confirmation" %>
   </div>
   <div class="form-group">
     <%#= f.label :current_password, for: 'current_password_field', cclass: "sr-only" %>
     <%= f.label for: 'password_field', cclass: "sr-only" do %>
-       Current password <i>(we need your current password to confirm your changes)</i>
+       <%= t('helpers.label.user.current_password') %> <i>(<%= t('helpers.label.user.current_password_we_need') %>)</i>
     <% end %>
     <%= f.password_field :current_password, required: true, autocomplete: "off", class: "form-control", id: "current_password_field", pplaceholder: "Password confirmation" %>
   </div>
@@ -66,7 +71,7 @@
   </div-->
 
   <div class="form-group">
-    <%= f.submit "Update", class: 'btn btn-primary' %>
+    <%= f.submit t('helpers.label.user.update'), class: 'btn btn-primary' %>
   </div>
   <!--div class="actions">
     <%#= f.submit "Update" %>

@@ -1,25 +1,66 @@
-<h2>Change your password</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+<div class="card">
+  <div class="card-header">
+
+            <div id="alerts-block" class="text-xs-center">
+                <% unless notice.nil? %>
+                    <p class="notice"><%= notice %></p>
+                <% end %>
+                <% unless alert.nil? %>
+                    <p class="alert"><%= alert %></p>
+                <% end %>
+            </div>
+
+    <h2 class="card-title"><%= t('user.change_password') %></h2>
+  </div>
+
+  <div class="card-block">
+
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
   <%= f.hidden_field :reset_password_token %>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
-    <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
+  <!--div class="field">
+    <%#= f.label :password, "New password" %><br />
+    <%# if @minimum_password_length %>
+      <em>(<%#= @minimum_password_length %> characters minimum)</em><br />
+    <%# end %>
+    <%#= f.password_field :password, autofocus: true, autocomplete: "off" %>
   </div>
 
   <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+    <%#= f.label :password_confirmation, "Confirm new password" %><br />
+    <%#= f.password_field :password_confirmation, autocomplete: "off" %>
+  </div-->
+
+
+  <div class="form-group">
+    <%= f.label :password, for: 'password_field', class: "sr-only" %>
+    <%= f.password_field :password, required: true, autocomplete: "off", class: "form-control", id: "password_field",
+      placeholder: "#{t('helpers.label.user.new_password')}#{ (@minimum_password_length ? (' ('+t('helpers.label.user.password_minimum', number: @minimum_password_length).to_s+')') : '') }",
+      minlength: "#{ (@minimum_password_length ? @minimum_password_length.to_s : '') }"
+    %>
+  </div>
+  <div class="form-group">
+    <%= f.label :password_confirmation, for: 'password_confirmation_field', class: "sr-only" %>
+    <%= f.password_field :password_confirmation, required: true, autocomplete: "off", class: "form-control", id: "password_confirmation_field", placeholder: t('helpers.label.user.new_password_confirmation') %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Change my password" %>
+  <div class="form-group">
+    <%= f.submit t('helpers.label.user.change_password'), class: 'btn btn-success' %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+  </div>
+  <div class="card-footer">
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>

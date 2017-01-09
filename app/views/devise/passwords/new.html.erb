@@ -1,13 +1,23 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
-<div class="panel panel-default">
-  <div class="panel-body">
-    <h2>Forgot your password?</h2>
+<div class="card">
+  <div class="card-header">
 
+            <div id="alerts-block" class="text-xs-center">
+                <% unless notice.nil? %>
+                    <p class="notice"><%= notice %></p>
+                <% end %>
+                <% unless alert.nil? %>
+                    <p class="alert"><%= alert %></p>
+                <% end %>
+            </div>
 
+    <h2 class="card-title"><%= t('user.forgot_password') %></h2>
+  </div>
 
+  <div class="card-block">
 
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
@@ -15,7 +25,7 @@
 
   <div class="form-group">
     <%= f.label :email, for: 'email_field', class: "sr-only" %>
-    <%= f.email_field :email, required: true, autofocus: true, class: "form-control", id: "email_field", placeholder: "Email" %>
+    <%= f.email_field :email, required: true, autofocus: true, class: "form-control", id: "email_field", placeholder: t('helpers.label.user.email') %>
   </div>
 
   <!--div class="field">
@@ -24,15 +34,13 @@
   </div-->
 
   <div class="form-group">
-    <%= f.submit "Send me reset password instructions", class: 'btn btn-primary' %>
+    <%= f.submit t('helpers.label.user.send_me_reset'), class: 'btn btn-primary' %>
   </div>
 
 <% end %>
 
-
-
   </div>
-  <div class="panel-footer">
+  <div class="card-footer">
 <%= render "devise/shared/links" %>
   </div>
 </div>

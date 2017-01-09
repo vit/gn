@@ -5,8 +5,11 @@ en:
             editor_office: Editor office
             reviewer_office: Reviewer office
             author_office: Author office
-            edit_my_data: Edit my data
+            edit_my_data: My data
             help: 'Any bugs and questions:'
+            sign_out: Sign out
+            sign_out_confirm: Are you sure?
+            people: People
         submissions:
             #show: View
             show: My paper
@@ -84,9 +87,15 @@ en:
                 need_revise: Need to improve
                 rejected: Paper rejected
                 draft: Info
+            reviewer_paper_state_short:
+                please_accept: Please accept the invitation
+                please_review: Write the review please
+                please_wait: Wait please
+                nothing_to_do: It looks like here is nothing to do
+
             state_block:
-                decision_1_comment: 'Editor comment:'
-                decision_2_comment: 'Editor comment:'
+                decision_1_comment: "Editor's comment:"
+                decision_2_comment: "Editor's comment:"
             draft_short:
                 draft_first: Preparation and submission of the paper
                 draft_second: Preparation and submission of a new revision of the paper
@@ -229,3 +238,41 @@ en:
                     general opinion of the paper.
                 comment_for_editor_description: ''
 
+    user:
+        data:
+            edit: My data
+        sign_in: Sign in
+        sign_up: Sign up
+        sign_out: Sign out
+        forgot_password: Forgot your password?
+        change_password: Change your password
+        sign_in_link: Sign in
+        #sign_in_link_registered: '*[Enter the system] if you are registered already'
+        sign_in_link_registered: 'Registered already? *[Sign in].'
+        sign_up_link: Sign up
+        #sign_up_link_not_registered: '*[Please register] if you are not registered yet'
+        sign_up_link_not_registered: 'Need an account? *[Sign up].'
+        sign_out_link: Sign out
+        forgot_password_link: Forgot your password?
+
+    helpers:
+        label:
+            user:
+                first_name: First
+                middle_name: Middle name
+                last_name: Last name
+                email: Email
+                password: Password
+                password_minimum: "%{number} characters minimum"
+                password_leave_blank: leave blank if you don't want to change it
+                password_confirmation: Confirm password
+                new_password: New password
+                new_password_confirmation: Confirm new password
+                current_password: Current password
+                current_password_we_need: we need your current password to confirm your changes
+                update: Update
+                sign_up: Sign up
+                sign_in: Sign in
+                remember_me: Remember me
+                send_me_reset: Send me reset password instructions
+                change_password: Change my password
