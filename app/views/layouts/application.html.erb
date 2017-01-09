@@ -2,10 +2,12 @@
 <html>
   <head>
     <%
-      journal_title = @journal ? @journal.title : ''
+#      journal_title = @journal ? @journal.title : ''
+      journal_title = t('journal.title')
       page_title = @page_title ? @page_title : nil
       title = journal_title
-      title = page_title + ' : ' + journal_title if page_title
+#      title = page_title + ' : ' + journal_title if page_title
+      title = page_title + ' : ' + title if page_title
     %>
     <title><%= title %></title>
     <%= csrf_meta_tags %>

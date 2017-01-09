@@ -1,5 +1,6 @@
 en:
     journal:
+        title: '"Gyroscopy and Navigation" Journal'
         menu:
             gn_journal: GN Journal
             editor_office: Editor office

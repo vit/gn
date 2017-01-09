@@ -1,5 +1,6 @@
 ru:
     journal:
+        title: 'Журнал "Гироскопия и Навигация"'
         menu:
             gn_journal: Журнал ГН
             editor_office: Офис редактора
