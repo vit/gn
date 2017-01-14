@@ -52,6 +52,7 @@ class Submission < ApplicationRecord
       end
       transitions :from => :draft, :to => :draft
 #      transitions :from => :under_reworking, :to => :under_reworking
+      transitions :from => :submitted, :to => :submitted, :if => (-> {self.lcr.draft? rescue false})
     end
 
     event :sm_update_file do
@@ -59,7 +60,7 @@ class Submission < ApplicationRecord
         #JournalMailer.author_submission_update(self).deliver_now
       end
       transitions :from => :draft, :to => :draft
-      transitions :from => :submitted, :to => :submitted, :if => (-> {self.lsr.draft? rescue false})
+      transitions :from => :submitted, :to => :submitted, :if => (-> {self.lcr.draft? rescue false})
     end
 
     event :sm_submit do
@@ -223,7 +224,9 @@ private
       current_list = lcr.create_authors_list
       old_list.each_with_index do |a,i|
 #        current_list.authors.create(a.merge author_n: i)
-        current_list.authors.create(a)
+#        current_list.authors.create(a)
+#        current_list.authors.create(a.attributes.keep_if {| key, value | key!='id' })
+        current_list.authors.create(a.attributes.delete_if {| key, value | key=='id' })
       end
     end
     current_list
