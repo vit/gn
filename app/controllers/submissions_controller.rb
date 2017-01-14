@@ -3,7 +3,9 @@ class SubmissionsController < OfficeSubmissionsController
   before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :wizard_authors, :wizard_files, :edit_text, :update_authors, :update, :destroy]
 #  before_action :set_context, only: [:index, :new, :create]
 #  before_action :authenticate_user!
-  
+  before_action -> { @current_role = 'author' }
+
+
   def index
     authorize @journal, :can_author?
     @submissions = current_user.submissions.where(journal: @journal).order(id: :desc)

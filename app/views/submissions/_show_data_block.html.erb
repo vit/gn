@@ -55,7 +55,7 @@
                         <%= t('journal.submission_files.download') %>
                 <% end if author_file %></span>
             </div>
-
+            <% if %w[author editor].include?(@current_role) %>
             <div>
                 <b><%= t('journal.submission_data.author_expert_file') %>:</b>
                 <span class="paper-card-author_file"><%= link_to author_expert_file.file_data.url, ttarget: '_blank' do %>
@@ -63,6 +63,7 @@
                     <%= t('journal.submission_files.download') %>
                 <% end if author_expert_file %></span>
             </div>
+            <% end %>
 
             <div>
                 <b><%= t('journal.submission_data.authors') %>:</b>
