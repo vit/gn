@@ -15,7 +15,7 @@ class JournalMailer < ApplicationMailer
                 format.text { render 'submission_submitted_author_first' }
 		    end
         else
-            subject = "##{submission.id} New revision submitted | Новая ревизия подана"
+            subject = "##{submission.id} New version submitted | Новая версия подана"
     		mail(to: @user.email, subject: subject) do |format|
                 format.text { render 'submission_submitted_author_second' }
 		    end
@@ -32,7 +32,7 @@ class JournalMailer < ApplicationMailer
                     format.text { render 'submission_submitted_editor_first' }
 		        end
             else
-                subject = "##{submission.id} New revision submitted | Новая ревизия подана"
+                subject = "##{submission.id} New version submitted | Новая версия подана"
     		    mail(to: @user.email, subject: subject) do |format|
                     format.text { render 'submission_submitted_editor_second' }
 	    	    end
@@ -46,7 +46,7 @@ class JournalMailer < ApplicationMailer
 
             if n<2
             else
-                subject = "##{submission.id} New revision submitted | Новая ревизия подана"
+                subject = "##{submission.id} New version submitted | Новая версия подана"
     		    mail(to: @user.email, subject: subject) do |format|
                     format.text { render 'submission_submitted_reviewer_second' }
 	    	    end
