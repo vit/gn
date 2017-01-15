@@ -236,11 +236,14 @@ $paper-reviewer-state-color: (
 
 
 $paper-review-status-color: (
-    dead: black,
+    pending: black,
+    cancelled: black,
     declined: black,
-    noreview: #dd0033,
-    notready: #eeaa00,
-    ready: #00cc22
+    noreview: #0033dd,
+    notready: #0033dd,
+    ready_accept: #00cc22,
+    ready_reject: #dd0033,
+    ready_revise: #eeaa00
 );
 
     @each $rs, $color in $paper-review-status-color {

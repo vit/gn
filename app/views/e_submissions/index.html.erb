@@ -35,23 +35,33 @@
               a
             end
             reviewers_status = invited.map do |i|
-              status = 'dead'
+              status = 'pending'
+              status = 'cancelled' if i.cancelled?
               status = 'declined' if i.declined?
               if i.accepted?
                 status = 'noreview'
                 review = reviews_map[i.user_id]
                 if review
-                  status = review.submitted? ? 'ready' : 'notready'
+#                  status = review.submitted? ? 'ready' : 'notready'
+                  status = if review.submitted?
+                    'ready_'+review.decision
+                  else
+                    'notready'
+                  end
                 end
               end
               status
             end
             icon_map = {
-              dead: 'question-circle-o',
-              declined: 'times-circle-o',
-              noreview: 'circle-thin',
-              notready: 'circle',
-              ready: 'check-circle',
+              pending: 'question-circle-o',
+              cancelled: 'times-circle',
+              declined: 'minus-circle',
+              noreview: 'question-circle-o',
+              notready: 'pencil-square-o',
+              #ready: 'check-circle',
+              ready_accept: 'check-circle',
+              ready_reject: 'minus-circle',
+              ready_revise: 'circle',
             }
       %>
     <%= link_to(e_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item") do %>
@@ -66,7 +76,7 @@
         <% if lsr.under_consideration? %>
           <div>
             <% reviewers_status.each do |rs| %>
-              <%= fa_icon icon_map[rs.to_sym], class: "reviewers-status-#{rs}" %>
+              <%= fa_icon icon_map[rs.to_sym], class: "reviewers-status-#{rs}", title: rs %>
             <% end %>
           </div>
         <% end %>

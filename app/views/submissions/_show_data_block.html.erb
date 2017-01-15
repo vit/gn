@@ -38,7 +38,7 @@
 %>
 
 
-    <% unless state=="draft" %>
+    <% unless state=="draft" && @current_role=='author' %>
     <div class="card paper-data-block" style="overflow: hidden;">
         <div class="card-block paper-card">
             <%#= fa_icon "file-text-o", class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
