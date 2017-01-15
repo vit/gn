@@ -30,6 +30,7 @@
             lsr = submission.lsr
 #            invited = submission.reviewer_invitations.where(aasm_state: :accepted).pluck(:user_id)
             invited = submission.reviewer_invitations.where.not(aasm_state: :inactive)
+            authors = submission.get_authors_newest
             reviews_map = lsr.reviews.inject({}) do |a, r|
               a[r.user_id] = r
               a
@@ -68,7 +69,8 @@
         <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span>
         <!--b><%#= submission.id %></b> | <%#= submission.title.truncate(120) %> <span class="hidden-sm-down"><i><%#= submission.abstract.truncate(250) %></i></span-->
         <b><%= submission.id %></b> | <%= text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= text.abstract.truncate(250) rescue '' %></i></span>
-        <br>
+        <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
+        <!--br-->
         <b>by</b> <%= submission.user.full_name %>
         <!--div><%#= invited %></div>
         <div><%#= reviews_map %></div>

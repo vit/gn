@@ -34,6 +34,12 @@
     text = @submission.get_text_submitted
     authors = @submission.get_authors_submitted || []
 
+    revisions_link = case @current_role
+    when 'author' then revisions_submission_path(@submission)
+    when 'editor' then revisions_e_submission_path(@submission)
+    when 'reviewer' then revisions_r_submission_path(@submission)
+    else nil
+    end
 
 %>
 
@@ -48,6 +54,12 @@
 
         <div class="card-block paper-card"-->
 
+            <div>
+                <b><%= t('journal.submission_data.revision_number') %>:</b>
+                <span class="paper-card-revision_number">
+                        #<%= lsr.revision_n %> (<%= link_to t('journal.submission_data.see_all_revisions'), revisions_link %>)
+                </span>
+            </div>
             <div>
                 <b><%= t('journal.submission_data.author_file') %>:</b>
                 <span class="paper-card-author_file"><%= link_to author_file.file_data.url, ttarget: '_blank' do %>

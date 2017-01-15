@@ -146,6 +146,8 @@ ru:
             download: Скачать
             confirm_delete: Вы точно хотите удалить этот файл?
         submission_data:
+            revision_number: Версия
+            see_all_revisions: см. все версии
             author_file: Основной файл статьи
             previous_author_file: Предыдущий файл статьи
             author_expert_file: Файл экспертного заключения

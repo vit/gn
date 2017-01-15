@@ -60,7 +60,7 @@
                     </dd>
                     <% if revision.authors_list %>
                         <dt class="col-xs-3">Authors:</dt>
-                        <dd class="col-xs-9"><%= revision.authors_list.authors.map(&:full_name).join(', ') %></dd>
+                        <dd class="col-xs-9"><%= revision.authors_list.authors.order(author_n: :asc).map(&:full_name).join(', ') %></dd>
                     <% end %>
                 </dl>
 

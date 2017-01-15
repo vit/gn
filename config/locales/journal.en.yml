@@ -146,6 +146,8 @@ en:
             download: Download
             confirm_delete: Are you sure you want to delete this file?
         submission_data:
+            revision_number: Version
+            see_all_revisions: see all versions
             author_file: Main paper file
             previous_author_file: Previous paper file
             author_expert_file: Expert opinion file
