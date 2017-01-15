@@ -22,8 +22,8 @@ en:
             paper_data: Paper data
             delete: Удалить
             delete_confirm: Delete this paper, are you sure? All paper data will be lost.
-            rework_confirm: Are you sure you want to prepare next revision for this paper?
-            revisions: Revisions
+            rework_confirm: Are you sure you want to prepare next version for this paper?
+            revisions: Versions
             edit_text: Edit
             edit_authors: Edit
             submit: Submit
@@ -48,13 +48,13 @@ en:
                 rejected: |+
                     Your paper is rejected. On the causes you can learn from the comments of the editor and reviewers (below).
                 draft: |+
-                    Here are the comments of the editor and reviewers on previous revision of your paper.
-                    They can be useful in preparing the new revision.
+                    Here are the comments of the editor and reviewers on previous version of your paper.
+                    They can be useful in preparing the new version.
                 draft_first: |+
                     You can submit the paper by clicking on the button. Make sure that all data is correct.
                     Main paper file must be uploaded necessarily.
                 draft_second: |+
-                    You can submit new paper revision by clicking on the button. Before that, make sure that all data are correct.
+                    You can submit new paper version by clicking on the button. Before that, make sure that all data are correct.
                     You have to upload corrected version of the main paper file.
                     The remaining data is not required to change without the need.
             inv_state_description:
@@ -99,7 +99,7 @@ en:
                 decision_2_comment: "Editor's comment:"
             draft_short:
                 draft_first: Preparation and submission of the paper
-                draft_second: Preparation and submission of a new revision of the paper
+                draft_second: Preparation and submission of a new version of the paper
             submit_confirm:
                 draft_first: Please confirm that you have checked all data. It's impossible to correct something after submission.
                 draft_second: Please confirm that you have checked all data. It's impossible to correct something after submission.
@@ -138,7 +138,7 @@ en:
 
             submission_text_was_updated: Paper text was successfully updated
             submission_was_submitted: Paper was successfully submitted
-            submission_rework_was_started: New revision draft was successfully created
+            submission_rework_was_started: New version draft was successfully created
             
         submission_files:
             upload: Upload
