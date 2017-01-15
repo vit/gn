@@ -43,7 +43,7 @@
                             method: :put,
                             #data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
                             data: { confirm: t('journal.submissions.rework_confirm') },
-                            :class => 'btn btn-primary bbtn-sm pull-right',
+                            :class => 'btn btn-success bbtn-primary bbtn-sm pull-right',
                             :remote => true,
                             #disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?),
                             a: :b do

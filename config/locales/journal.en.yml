@@ -204,7 +204,10 @@ en:
                 state_submitted: Review was sent
                 decision: Decision
                 comment: Comment
-                not_made: Not made yet
+                #not_made: Not made yet
+                not_made: |+
+                    Вы еще не начали заполнять форму рецензии.
+                    Заполнив форму и сохранив ее в виде черновика, Вы получите возможность присоединить к рецензии еще и файл.
                 edit: Edit
                 submit: Submit
                 save: Save
