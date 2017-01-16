@@ -24,6 +24,7 @@ en:
             delete_confirm: Delete this paper, are you sure? All paper data will be lost.
             rework_confirm: Are you sure you want to prepare next version for this paper?
             revisions: Versions
+            all_revisions: All versions
             edit_text: Edit
             edit_authors: Edit
             submit: Submit
@@ -97,6 +98,7 @@ en:
             state_block:
                 decision_1_comment: "Editor's comment:"
                 decision_2_comment: "Editor's comment:"
+                see_old_revisions: "See all past reviews and editor's decisions in the paper's *[versions list]."
             draft_short:
                 draft_first: Preparation and submission of the paper
                 draft_second: Preparation and submission of a new version of the paper
@@ -206,7 +208,7 @@ en:
                 comment: Comment
                 #not_made: Not made yet
                 not_made: |+
-                    Вы еще не начали заполнять форму рецензии.
+                    Вы пока не начали заполнять форму рецензии.
                     Заполнив форму и сохранив ее в виде черновика, Вы получите возможность присоединить к рецензии еще и файл.
                 edit: Edit
                 submit: Submit

@@ -23,6 +23,14 @@
     decision_1_comment = lsr.decision_1.comment rescue nil
     decision_2_comment = lsr.decision_2.comment rescue nil
 
+    revisions_link = case @current_role
+    when 'author' then revisions_submission_path(@submission)
+    when 'editor' then revisions_e_submission_path(@submission)
+    when 'reviewer' then revisions_r_submission_path(@submission)
+    else nil
+    end
+
+
 %>
 
 
@@ -104,6 +112,8 @@
                     <!--/div-->
                 <% end %>
             <% end %>
+            <%#= translate_with_link('journal.submissions.state_block.see_old_revisions', link: link_to(t('journal.submissions.state_block.old_revisions'), revisions_link).html_safe ).html_safe %>
+            <%= translate_with_link('journal.submissions.state_block.see_old_revisions', revisions_link) if lcr.revision_n>1 %>
         </div>
     </div>
     <% end %>

@@ -6,36 +6,9 @@
     {
         title: t('journal.submissions.revisions'),
         url: revisions_submission_path,
-#        icon: 'arrow-left',
         icon: 'th-list',
         disabled: (revisions.count==0)
-#        style: 'default'
-#        style: 'outline-primary',
     }, {
-#        title: t('journal.submissions.new_revision'),
-#        url: submission_path(@submission, op: :revise),
-#        method: :put,
-#        data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
-#        icon: 'plus-square',
-#        disabled: !policy(@submission).revise?
-#    }, {
-#        title: t('journal.submissions.submit'),
-#        url: submission_path(@submission, op: :submit),
-#        method: :put,
-#        data: { confirm: 'Are you sure you want to submit this paper?' },
-#        icon: 'send',
-#        disabled: !policy(@submission).submit?
-#    }, {
-#        title: t('journal.submissions.edit'),
-#        url: edit_submission_path(@submission),
-#        icon: 'pencil',
-#        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
-#    }, {
-#        title: t('journal.submissions.authors'),
-#        url: edit_authors_submission_path(@submission),
-#        icon: 'users',
-#        disabled: ! (policy(@submission).update_metadata? || policy(@submission).update_file?)
-#    }, {
         title: t('journal.submissions.delete'),
         url: submission_path(@submission),
         method: :delete,

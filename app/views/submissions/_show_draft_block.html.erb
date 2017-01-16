@@ -13,6 +13,13 @@
     authors_newest = @submission.get_authors_newest || []
     text_newest = @submission.get_text_newest
 
+    revisions_link = case @current_role
+    when 'author' then revisions_submission_path(@submission)
+    when 'editor' then revisions_e_submission_path(@submission)
+    when 'reviewer' then revisions_r_submission_path(@submission)
+    else nil
+    end
+
 %>
 
 
@@ -23,6 +30,20 @@
             <!--h4 class="card-title ttext-xs-center"><%= t('journal.submissions.draft_short.'+substate) %></h4-->
             <h3 class="card-title ttext-xs-center"><%= t('journal.submissions.draft_short.'+substate) %></h3>
 
+                <div class="btn-group-vertical pull-right">
+                    <% if 1 %>
+                        <%= button_to revisions_link,
+                            method: :get,
+                            :class => 'btn btn-secondary bbtn-primary bbtn-sm pull-right',
+                            :style => 'margin-bottom: 15px;',
+                            a: :b do
+                        %>
+                            <%= fa_icon 'th-list' %>
+                            <%#= t('journal.submissions.all_revisions') %>
+                            <%= t('journal.submissions.revisions') %>
+                            <%#= fa_icon 'arrow-right' %>
+                        <% end %>
+                    <% end %>
                     <% if 1 %>
                         <%= button_to submission_path(@submission, op: :submit),
                             #enabled: !!decision,
@@ -39,6 +60,8 @@
                             <%= t('journal.submissions.submit') %>
                         <% end %>
                     <% end %>
+                </div>
+
 
             <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+substate) ) %></p>
 

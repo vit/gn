@@ -49,6 +49,22 @@
         <div class="card-block paper-card">
             <%#= fa_icon "file-text-o", class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
             <!--h4 class="card-title ttext-xs-center"><%= t('journal.submissions.paper_data') %></h4-->
+
+
+                    <% if 1 %>
+                        <%= link_to revisions_link,
+                            :class => 'btn btn-secondary bbtn-primary bbtn-sm pull-right',
+                            a: :b do
+                        %>
+                            <%= fa_icon 'th-list' %>
+                            <%#= t('journal.submissions.all_revisions') %>
+                            <%= t('journal.submissions.revisions') %>
+                            <%#= fa_icon 'arrow-right' %>
+                        <% end %>
+                    <% end %>
+
+
+
             <h3 class="card-title ttext-xs-center"><%= t('journal.submissions.paper_data') %></h3>
         <!--/div>
 
