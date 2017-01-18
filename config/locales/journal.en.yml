@@ -32,32 +32,32 @@ en:
             state_description:
                 rejected_without_consideration: |+
                     Unfortunately, your paper was rejected without consideration by reviewers.
-                    Typically, this happens if the paper subject doesn't correspond to journal's requirements.
+                    Typically this happens if the paper content is very different from what is nornamlly published by the journal.
                 submitted: |+
-                    You have submitted the paper, but the editor has not yet taken it for consideration.
-                    When this happens, we will let you know (but the paper may be rejected without review).
+                    You have submitted the paper, but the editor has not taken it for consideration yet.
+                    When this happens, we will let you know. Please note that a paper may also be rejected without review.
                 under_consideration: |+
-                    Your paper is pending. Reviewers read it, write reviews and so on.
+                    Your paper is pending. Reviewers are reading it, writing reviews and so on.
                     When the process is complete, we will inform you of the decision.
-                    The paper will be accepted, or we will suggest to correct it, or it will be rejected finally.
+                    The paper will be accepted, or we will suggest to correct it, or it will be rejected.
                 accepted: |+
                     Your paper is accepted for publication. the review process is now complete.
                 need_revise: |+
-                    Your paper is reviewed and the editorial board think that it needs some rework.
-                    See the comments of the editor and the reviewers below.
-                    It will be necessary to upload the corrected file of the paper.
+                    Your paper has been reviewed and the editorial board thinks that it needs some rework.
+                    See the comments of the editor and reviewers below.
+                    It will be necessary for you to upload the corrected file of the paper.
                 rejected: |+
-                    Your paper is rejected. On the causes you can learn from the comments of the editor and reviewers (below).
+                    Your paper has been rejected. You can find out the reason why from the comments of the editor and reviewers below.
                 draft: |+
-                    Here are the comments of the editor and reviewers on previous version of your paper.
+                    The comments of the editor and reviewers on previous revision of your paper are here.
                     They can be useful in preparing the new version.
                 draft_first: |+
                     You can submit the paper by clicking on the button. Make sure that all data is correct.
-                    Main paper file must be uploaded necessarily.
+                    It is necessary to upload the main paper file here.
                 draft_second: |+
-                    You can submit new paper version by clicking on the button. Before that, make sure that all data are correct.
-                    You have to upload corrected version of the main paper file.
-                    The remaining data is not required to change without the need.
+                    You can submit a new paper version by clicking on the button. Before that, make sure that all data are correct.
+                    You have to upload a corrected version of the main paper file.
+                    The other data does not need to be changed unless necessary.
             inv_state_description:
                 pending: |+
                     Вас приглашают стать рецензентом статьи, данные которой показаны ниже.
