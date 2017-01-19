@@ -1,0 +1,128 @@
+<%
+    revisions = @submission.revisions_submitted.order(:revision_n).reverse_order
+%>
+<% if revisions.count>0 %>
+    <div class="llist-group paper-revisions-list">
+        <% revisions.each do |revision| %>
+            <%
+                state = revision.aasm_state rescue ''
+            %>
+            <div class="card llist-group-item paper-revisions-list-item paper-revisions-list-item-#{state}" style="overflow: hidden; mmargin: 15px 0;">
+                <div class="card-block">
+                    <% unless @current_role=='reviewer' %>
+                        <h4 class="card-title"><%= t('journal.submission_data.revision.data') %></h4>
+                    <% end %>
+
+                    <div>
+                        <b><%= t('journal.submission_data.revision_number') %>:</b>
+                        <span class="paper-card-revision_number">
+                            #<%= revision.revision_n %>
+                        </span>
+                    </div>
+                    <div>
+                        <b><%= t('journal.submission_data.revision_state') %>:</b>
+                        <span class="paper-card-revision_state">
+                            <%= revision.aasm_state %>
+                        </span>
+                    </div>
+
+                    <%
+                        author_file = revision.get_file_by_category 'author_file'
+                    %>
+                    <% if author_file %>
+                        <div>
+                            <b><%= t('journal.submission_data.author_file') %>:</b>
+                            <span class="paper-card-author_file"><%= link_to author_file.file_data.url, ttarget: '_blank' do %>
+                                <%= fa_icon 'download' %>
+                                <%= t('journal.submission_files.download') %>
+                            <% end %></span>
+                        </div>
+                    <% end %>
+
+                    <% if %w[author editor].include?(@current_role) %>
+                        <%
+                            author_expert_file = revision.get_file_by_category 'author_expert_file'
+                        %>
+                        <% if author_expert_file %>
+                            <div>
+                                <b><%= t('journal.submission_data.author_expert_file') %>:</b>
+                                <span class="paper-card-author_file"><%= link_to author_expert_file.file_data.url, ttarget: '_blank' do %>
+                                    <%= fa_icon 'download' %>
+                                    <%= t('journal.submission_files.download') %>
+                                <% end %></span>
+                            </div>
+                        <% end %>
+                    <% end %>
+
+                    <% if revision.authors_list %>
+                        <div>
+                            <b><%= t('journal.submission_data.authors') %>:</b>
+                            <span class="paper-card-authors">
+                                <%= revision.authors_list.authors.order(author_n: :asc).map(&:full_name).join(', ') %>
+                            </span>
+                        </div>
+                    <% end %>
+
+                    <% if revision.text %>
+                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+                    <% end %>
+
+                </div>
+
+                <div class="card-block">
+                    <% unless @current_role=='reviewer' %>
+                        <h4 class="card-title"><%= t('journal.submission_data.revision.decisions') %></h4>
+                    <% end %>
+                    <% if revision.decision_1 %>
+                        <% if %w[author editor].include? @current_role %>
+                            <%
+                                decision_1_comment = revision.decision_1.comment rescue nil
+                            %>
+                            <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} %>
+                        <% end %>
+                    <% end %>
+                    <% if revision.decision_2 %>
+                        <% if %w[author editor].include? @current_role %>
+                            <%
+                                decision_2_comment = revision.decision_2.comment rescue nil
+                            %>
+                            <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} %>
+                        <% end %>
+                    <% end %>
+
+                    <% if @current_role=='author' %>
+                        <% if %w[accepted rejected need_revise].include?(revision.aasm_state) && revision.reviews_submitted.count > 0 %>
+                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                revision: revision,
+                                user_role: :author,
+                            } %>
+                        <% end %>
+                    <% end %>
+                    <% if @current_role=='editor' %>
+                        <% if revision.reviews_submitted.count > 0 %>
+                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                revision: revision,
+                                user_role: :editor,
+                            } %>
+                        <% end %>
+                    <% end %>
+                    <% if @current_role=='reviewer' %>
+                        <%
+                            my_review = revision.user_review current_user
+                        %>
+                        <% if my_review && my_review.submitted? %>
+                            <%= render partial: 'common/parts/submission/show_revision_one_review', locals: {
+                                review: my_review,
+                                user_role: :reviewer,
+                            } %>
+                        <% end %>
+                    <% end %>
+
+
+                </div>
+
+            </div>
+        <% end %>
+    </div>
+
+<% end %>

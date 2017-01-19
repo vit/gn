@@ -10,128 +10,14 @@
   ]
 
 #  @page_title = t('journal.submissions.paper_revisions') + ' #' + @submission.id.to_s
-  @page_title = t('journal.submissions.show') + ' #' + @submission.id.to_s
+  @page_title = '#' + @submission.id.to_s + ' ' +t('journal.submissions.revisions')
   @page_title_sm = '#' + @submission.id.to_s
 
 %>
 
-<%
-    lcr = @submission.last_created_revision
-    lsr = @submission.last_submitted_revision
-#    text = @submission.get_text
+<div class="container-fluid revisions" style="overflow: hidden;">
 
-    author_file = @submission.get_file_submitted 'author_file'
-    author_expert_file = @submission.get_file_submitted 'author_expert_file'
-    text = @submission.get_text_submitted
-    authors = @submission.get_authors_submitted || []
-
-#    author_file_newest = @submission.get_file_newest 'author_file'
-    author_file_draft = lcr.get_file_by_category 'author_file'
-#    author_file_prev = lsr.get_file_by_category 'author_file'
-    author_expert_file_newest = @submission.get_file_newest 'author_expert_file'
-    text_newest = @submission.get_text_newest
-    authors_newest = @submission.get_authors_newest || []
-
-
-#    decision_1_comment = lsr.revision_decision.comment rescue nil
-    decision_1_comment = lcr.decision_1.comment rescue nil
-    decision_2_comment = lcr.decision_2.comment rescue nil
-
-    state = lcr.aasm_state rescue ''
-%>
-
-<div class="container-fluid" style="overflow: hidden;">
-
-<%
-=begin
-icon_map = {
-#    "need_revise" => "smile-o",
-    "need_revise" => "exclamation",
-    "submitted" => "meh-o",
-    "under_consideration" => "meh-o",
-    "accepted" => "smile-o",
-    "rejected" => "frown-o",
-    "rejected_without_consideration" => "frown-o",
-    "draft" => "",
-}
-
-#type = class_map[state] || ''
-type = state
-
-block_class = 'submission-block-'+type
-icon = icon_map[type] || ''
-=end
-%>
-
-
-<%
-    revisions_collapse_target_id = "collapse_revisions_"+@submission.id.to_s
-    revisions = @submission.revisions_submitted.order(:revision_n).reverse_order
-%>
-<% if revisions.count>0 %>
-<div class="card">
-    <div class="card-block">
-        <!--h4 class="card-title bbtn btn-link" data-toggle="collapse" data-target="#<%= revisions_collapse_target_id %>">All revisions...</h4-->
-        <h4 class="card-title bbtn bbtn-link" ddata-toggle="collapse" ddata-target="#<%= revisions_collapse_target_id %>">All revisions</h4>
-    </div>
-    <ul class="list-group ccollapse" id="<%= revisions_collapse_target_id %>">
-        <% revisions.each do |revision| %>
-            <li class="list-group-item">
-                <dl class="row">
-                    <dt class="col-xs-3">Revision:</dt>
-                    <dd class="col-xs-9">#<%= revision.revision_n %></dd>
-                    <dt class="col-xs-3">State:</dt>
-                    <dd class="col-xs-9"><%= revision.aasm_state %></dd>
-                    <dt class="col-xs-3">Files:</dt>
-                    <dd class="col-xs-9">
-                        
-                        <%# revision.submission_revision_files.each do |file| %>
-                        <% revision.files.each do |file| %>
-                            &nbsp;<%= link_to file.file_data.url do %><%= fa_icon 'download' %>
-                                <%= file.file_category %>
-                            <% end %>
-                        <% end %>
-                        
-                    </dd>
-                    <% if revision.authors_list %>
-                        <dt class="col-xs-3">Authors:</dt>
-                        <dd class="col-xs-9"><%= revision.authors_list.authors.order(author_n: :asc).map(&:full_name).join(', ') %></dd>
-                    <% end %>
-                    <% if revision.revision_decision %>
-                        <dt class="col-xs-3">Chief editor comment:</dt>
-                        <dd class="col-xs-9"><%= revision.revision_decision.comment %></dd>
-                    <% end if nil %>
-                </dl>
-
-
-                    <% if revision.text %>
-                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
-                    <% end %>
-
-                    <% if revision.decision_1 %>
-                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} %>
-                    <% end %>
-                    <% if revision.decision_2 %>
-                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} %>
-                    <% end %>
-                        <% if %w[accepted rejected need_revise].include?(revision.aasm_state) && revision.reviews_submitted.count > 0 %>
-                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
-                                revision: revision,
-                                user_role: :author,
-                            } %>
-                        <% end %>
-
-
-
-
-            </li>
-        <% end %>
-    </ul>
-
-</div>
-<% end %>
-
-
+    <%= render partial: 'submissions/show_revisions' %>
 
 </div>
 

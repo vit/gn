@@ -149,6 +149,7 @@ ru:
             confirm_delete: Вы точно хотите удалить этот файл?
         submission_data:
             revision_number: Версия
+            revision_state: Состояние
             see_all_revisions: см. все версии
             author_file: Основной файл статьи
             previous_author_file: Предыдущий файл статьи
@@ -156,6 +157,9 @@ ru:
             authors: Авторы
             title: Название
             abstract: Аннотация
+            revision:
+                data: Данные
+                decisions: Решения
         submission_titles:
             paper_text: "Текстовые данные статьи #%{number}"
             paper_text_sm: "#%{number} Текст"
@@ -186,6 +190,14 @@ ru:
             paper: Статья # single paper show
             papers_list: Список статей
             reviews_list: Рецензии
+            review: Рецензия
+            text: Текст
+            decision_stage_1: Решение редактора 1
+            decision_stage_1_decision: Решение
+            decision_stage_1_comment: Комментарий
+            decision_stage_2: Решение редактора 2
+            decision_stage_2_decision: Решение
+            decision_stage_2_comment: Комментарий
             r_invitation: # my review invitation
                 my_invitation: Приглашение к рецензированию
                 inv_txt: Чтобы рецензировать, Вам нужно выразить согласие, нажав "Принять". Нажмите "Отклонить", если Вы не хотите рецензировать эту статью.

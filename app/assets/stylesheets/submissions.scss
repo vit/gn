@@ -103,6 +103,11 @@ $authors-list-item-background-color-hover: darken($authors-list-item-background-
     }
 }
 
+.collapse-link {
+    cursor: pointer;
+}
+
+
 $paper-state-color: (
     draft: #777777,
     submitted: #0033dd,

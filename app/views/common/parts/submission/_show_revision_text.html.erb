@@ -1,23 +1,25 @@
 
 <% if revision.text %>
-<div>
+<div class="revision-text">
     <%
         collapse_target_id = 'collapse_revision_text_' + revision.text.id.to_s
     %>
-                    <p>
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#<%= collapse_target_id %>" aria-expanded="false" aria-controls="<%= collapse_target_id %>">
-                            Text...
-                        </button>
-                    </p>
-                    <div class="collapse" id="<%= collapse_target_id %>">
-                        <div class="card card-block">
-                            <p class="card-text">
-                                <b>Title:</b> <%= revision.text.title rescue '' %>
-                                <br>
-                                <b>Abstract:</b> <%= revision.text.abstract rescue '' %>
-                            </p>
-                        </div>
+    <div class="card">
+        <div class="card-block" style='background-color: #f5f5f5;'>
+            <h5 class="card-title bbtn btn-link collapse-link" data-toggle="collapse" data-target="#<%= collapse_target_id %>">
+                <%= t("journal.office_submission.text") %> <%= fa_icon 'caret-down' %>
+            </h5>
+                <div class="collapse" id="<%= collapse_target_id %>">
+                    <div class="card card-block">
+                        <p class="card-text">
+                            <b>Title:</b> <%= revision.text.title rescue '' %>
+                            <br>
+                            <b>Abstract:</b> <%= revision.text.abstract rescue '' %>
+                        </p>
                     </div>
+                </div>
+        </div>
+    </div>
 
 </div>
 <% end %>
