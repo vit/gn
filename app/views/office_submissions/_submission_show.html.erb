@@ -49,7 +49,7 @@
     <%#= render partial: 'submissions/show_data_block' if @current_role=='reviewer' %>
     <%#= render partial: 'submissions/show_data_block' unless state=="draft" %>
     <%#= render partial: 'office_submissions/show_reviewer_review_block' if @current_role=='reviewer' %>
-    <%= render partial: 'submissions/show_data_block' if @current_role=='reviewer' %>
+    <%= render partial: 'submissions/show_data_block' if %w[reviewer editor].include? @current_role %>
     <%= render partial: 'submission_r_review_block', locals: {
             operation_enabled: policy(@submission).can_write_review?
 #        } if @my_invitation
@@ -60,22 +60,22 @@
 <% if @current_role=='editor' %>
 <div class="card">
     <div class="card-block">
-        <p class="card-text">
+        <!--p class="card-text"-->
             <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%#= @submission.aasm_state %><%= lsr.aasm_state %></span>
-            <b>Id:</b> <%= @submission.id %>
+            <!--b>Id:</b> <%= @submission.id %>
             <b>by</b> <%= @submission.user.full_name %>
         </p>
         <p class="card-text">
             <b>Title:</b> <%= text.title rescue '' %>
             <br>
             <b>Abstract:</b> <%= text.abstract rescue '' %>
-        </p>
+        </p-->
     </div>
 
-        <% if @current_role=='reviewer' %>
-            <%= render partial: 'submission_r_invitation_block', locals: {operation_enabled: true} if @my_invitation %>
-            <%= render partial: 'submission_r_review_block', locals: {operation_enabled: policy(@submission).can_write_review?} if @my_invitation %>
-        <% end %>
+        <%# if @current_role=='reviewer' %>
+            <%#= render partial: 'submission_r_invitation_block', locals: {operation_enabled: true} if @my_invitation %>
+            <%#= render partial: 'submission_r_review_block', locals: {operation_enabled: policy(@submission).can_write_review?} if @my_invitation %>
+        <%# end %>
 
         <% if @current_role=='editor' %>
             <%#= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: @submission.submitted?} %>
@@ -100,121 +100,6 @@
 
 
         <% end %>
-
-        <%#= render 'submission_r_invitation_block' if @section_journal_reviewer_office %>
-        <%#= render 'submission_r_review_block' if @section_journal_reviewer_office && @my_invitation && @my_invitation.accepted? %>
-
-        <%#= render 'submission_ce_decision_block' if @section_journal_chief_editor_office %>
-        <%#= render 'submission_invitations_block' if @section_journal_chief_editor_office %>
-
-<%
-=begin
-%>
-    <ul class="list-group">
-        <% @submission.revisions_submitted.order(:revision_n).reverse_order.each do |revision| %>
-            <li class="list-group-item">
-                <dl class="row">
-                    <dt class="col-xs-3">Revision:</dt>
-                    <dd class="col-xs-9">#<%= revision.revision_n %></dd>
-                    <dt class="col-xs-3">State:</dt>
-                    <dd class="col-xs-9"><%= revision.aasm_state %></dd>
-                    <dt class="col-xs-3">Files:</dt>
-                    <dd class="col-xs-9">
-                        
-                        <%# revision.submission_revision_files.each do |file| %>
-                        <% revision.files.each do |file| %>
-                            &nbsp;<%= link_to file.file_data.url do %><%= fa_icon 'download' %>
-                                <%= file.file_category %>
-                            <% end %>
-                        <% end %>
-                        
-                    </dd>
-                </dl>
-                    <% if revision.text %>
-                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
-                    <% end %>
-
-                    <% if revision.decision_1 %>
-                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} if @current_role=='editor' %>
-                    <% end %>
-                    <% if revision.decision_2 %>
-                        <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} if @current_role=='editor' %>
-                    <% end %>
-                    <% if @current_role=='editor' %>
-                        <% if revision.reviews_submitted.count > 0 %>
-                            <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
-                                revision: revision,
-                                user_role: :editor,
-                            } %>
-                        <% end %>
-                    <% end %>
-
-
-          <% if false and @current_role=="reviewer" %>
-            <% if r=revision.user_review(current_user) %>
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <%= t('context.office_submission.revisions.my_review') %>
-                </div>
-                <div class="panel-body">
-                  <dl class="dl-horizontal">
-                    <dt><%= t('context.office_submission.revisions.reviewer') %>:</dt>
-                    <dd>
-                      <%= link_to u_path(r.user), target: '_blank' do %>
-                        <i class="fa fa-user"></i> <%= r.user.full_name %>
-                      <% end %>
-                    </dd>
-                    <dt><%= t('context.office_submission.revisions.decision') %>:</dt>
-                    <dd><%= r.decision %></dd>
-                    <dt><%= t('context.office_submission.revisions.comment') %>:</dt>
-                    <dd><%= r.comment %></dd>
-                    <dt>State:</dt>
-                    <dd><%= r.aasm_state %></dd>
-                  </dl>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
-
-
-          <% if false and @current_role=="editor" %>
-            <div class="card">
-              <div class="card-block">
-                <h5 class="card-title"><%= t('context.office_submission.revisions.reviews') %></h5>
-                <div class="list-group">
-                  <% revision.reviews.each do |r| %>
-                    <div class="list-group-item">
-                      <dl class="row">
-                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('context.office_submission.revisions.reviewer') %>:</dt>
-                        <dd class="col-xs-6 col-sm-8 col-md-10>
-                          <%#= link_to u_path(r.user), target: '_blank' do %>
-                            <i class="fa fa-user"></i> <%= r.user.full_name %> (Id: <%= r.user.id %>)
-                          <%# end %>
-                        </dd>
-                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('context.office_submission.revisions.decision') %>:</dt>
-                        <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.decision %></dd>
-                        <dt class="col-xs-6 col-sm-4 col-md-2"><%= t('context.office_submission.revisions.comment') %>:</dt>
-                        <dd class="col-xs-12 col-sm-12 col-md-12"><%= r.comment %></dd>
-                        <dt class="col-xs-6 col-sm-4 col-md-2">State:</dt>
-                        <dd class="col-xs-6 col-sm-8 col-md-10"><%= r.aasm_state %></dd>
-                      </dl>
-                    </div>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          <% end %>
-
-
-
-
-
-            </li>
-        <% end %>
-    </ul>
-<%
-=end
-%>
 
 </div>
 <% end %>
