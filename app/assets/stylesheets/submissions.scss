@@ -246,9 +246,12 @@ $paper-review-status-color: (
     declined: black,
     noreview: #0033dd,
     notready: #0033dd,
-    ready_accept: #00cc22,
-    ready_reject: #dd0033,
-    ready_revise: #eeaa00
+//    ready_accept: #00cc22,
+//    ready_reject: #dd0033,
+//    ready_revise: #eeaa00
+    accept: #00cc22,
+    reject: #dd0033,
+    revise: #eeaa00
 );
 $paper-decision-status-color: (
     reject_without_consideration: #dd0033,

@@ -19,7 +19,8 @@
                 if review
 #                  status = review.submitted? ? 'ready' : 'notready'
                   status = if review.submitted?
-                    'ready_'+review.decision
+                    #'ready_'+review.decision
+                    review.decision
                   else
                     'notready'
                   end
@@ -36,9 +37,12 @@
               notready: 'circle-o',
               #ready_accept: 'check-circle',
               #ready_reject: 'minus-circle',
-              ready_accept: 'circle',
-              ready_reject: 'circle',
-              ready_revise: 'circle',
+              #ready_accept: 'circle',
+              #ready_reject: 'circle',
+              #ready_revise: 'circle',
+              accept: 'circle',
+              reject: 'circle',
+              revise: 'circle',
             }
 %>
             <%
@@ -50,7 +54,8 @@
             %>
 
             <% if status_1 %>
-                <%= fa_icon (status_1=='draft1' ? 'pencil-square-o' : 'square-o'), class: "decision-status-#{status_1}", title: status_1 %>
+                <%#= fa_icon (status_1=='draft1' ? 'pencil-square-o' : 'square-o'), class: "decision-status-#{status_1}", title: status_1 %>
+                <%= fa_icon (status_1=='draft1' ? 'square-o' : (status_1=='reject_without_consideration' ? 'times' : 'plus' )), class: "decision-status-#{status_1}", title: status_1 %>
                 <% arrow = true %>
             <% end %>
 
