@@ -256,15 +256,15 @@ $paper-review-status-color: (
 $paper-decision-status-color: (
     reject_without_consideration: #dd0033,
     take_for_consideration: #0033dd,
-    draft1: #0033dd,
-    draft2: #0033dd,
+    d1_draft: #0033dd,
+    d2_draft: #0033dd,
     accept: #00cc22,
     reject: #dd0033,
     revise: #eeaa00
 );
 
     @each $rs, $color in $paper-review-status-color {
-        .reviewers-status-#{$rs} {
+        .review-status-#{$rs} {
             color: $color;
         }
     }

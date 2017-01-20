@@ -1,80 +1,102 @@
           <span>
 
 <%
-            defined?(revision) or revision = submission.lsr
+#            defined?(revision) or revision = submission.lsr
+    (defined?(revision) and revs=[revision]) or revs = submission.revisions_submitted.order(:revision_n)
 
-            reviews_map = revision.reviews.inject({}) do |a, r|
-              a[r.user_id] = r
-              a
-            end
+    d_icon_map = {
+        d1_draft: 'square-o',
+        reject_without_consideration: 'times',
+        take_for_consideration: 'plus',
+        d2_draft: 'pencil-square',
+        accept: 'square',
+        reject: 'square',
+        revise: 'square',
+    }
+    r_icon_map = {
+        pending: 'question-circle-o',
+        cancelled: 'times-circle',
+        declined: 'minus-circle',
+        noreview: 'question-circle-o',
+        notready: 'circle-o',
+        accept: 'circle',
+        reject: 'circle',
+        revise: 'circle',
+    }
 
-            invited = submission.reviewer_invitations.where.not(aasm_state: :inactive)
-            reviewers_status = invited.map do |i|
-              status = 'pending'
-              status = 'cancelled' if i.cancelled?
-              status = 'declined' if i.declined?
-              if i.accepted?
+    steps = []
+    revs.each do |rr|
+        decision_1 = rr.decision_1
+        if decision_1
+            status_1 = decision_1.submitted? ? decision_1.decision : 'd1_draft'
+            steps << [{
+                type: 'decision',
+                status: status_1,
+                icon: d_icon_map[status_1.to_sym]
+            }]
+        end
+
+        reviews_by_reviewer_map = rr.reviews.inject({}) do |a, r|
+            a[r.user_id] = r
+            a
+        end
+        invited = submission.reviewer_invitations.where.not(aasm_state: :inactive)
+        reviewers_status = invited.map do |i|
+            status = 'pending'
+            status = 'cancelled' if i.cancelled?
+            status = 'declined' if i.declined?
+            if i.accepted?
                 status = 'noreview'
-                review = reviews_map[i.user_id]
+                review = reviews_by_reviewer_map[i.user_id]
                 if review
-#                  status = review.submitted? ? 'ready' : 'notready'
-                  status = if review.submitted?
-                    #'ready_'+review.decision
-                    review.decision
-                  else
-                    'notready'
-                  end
+                    status = if review.submitted?
+                        review.decision
+                    else
+                        'notready'
+                    end
                 end
-              end
-              status
             end
-            icon_map = {
-              pending: 'question-circle-o',
-              cancelled: 'times-circle',
-              declined: 'minus-circle',
-              noreview: 'question-circle-o',
-              #notready: 'pencil-square-o',
-              notready: 'circle-o',
-              #ready_accept: 'check-circle',
-              #ready_reject: 'minus-circle',
-              #ready_accept: 'circle',
-              #ready_reject: 'circle',
-              #ready_revise: 'circle',
-              accept: 'circle',
-              reject: 'circle',
-              revise: 'circle',
-            }
+            status
+        end
+        if reviewers_status.count > 0
+            steps << reviewers_status.map do |rs|
+                {
+                    type: 'review',
+                    status: rs,
+                    icon: r_icon_map[rs.to_sym]
+                }
+            end
+        end
+
+        decision_2 = rr.decision_2
+        if decision_2
+            status_2 = decision_2.submitted? ? decision_2.decision : 'd2_draft'
+            steps << [{
+                type: 'decision',
+                status: status_2,
+                icon: d_icon_map[status_2.to_sym]
+            }]
+        end
+
+    end
+
 %>
-            <%
-                decision_1 = revision.decision_1
-                decision_2 = revision.decision_2
-                status_1 = decision_1 ? (decision_1.submitted? ? decision_1.decision : 'draft1') : nil
-                status_2 = decision_2 ? (decision_2.submitted? ? decision_2.decision : 'draft2') : nil
-                arrow = false
-            %>
 
-            <% if status_1 %>
-                <%#= fa_icon (status_1=='draft1' ? 'pencil-square-o' : 'square-o'), class: "decision-status-#{status_1}", title: status_1 %>
-                <%= fa_icon (status_1=='draft1' ? 'square-o' : (status_1=='reject_without_consideration' ? 'times' : 'plus' )), class: "decision-status-#{status_1}", title: status_1 %>
-                <% arrow = true %>
-            <% end %>
 
-            <% if arrow && reviewers_status.count>0 %>
-                <%= fa_icon 'chevron-right' %>
-                <%#= fa_icon 'arrow-right' %>
-            <% end %>
+<%
+    arrow = false
+    steps.each do |s|
+%>
+        <% if arrow %>
+            <%= fa_icon 'chevron-right' %>
+        <% end %>
 
-            <% reviewers_status.each do |rs| %>
-                <%= fa_icon icon_map[rs.to_sym], class: "reviewers-status-#{rs}", title: rs %>
-                <% arrow = true %>
-            <% end %>
-
-            <% if status_2 %>
-                <% if arrow %>
-                    <%= fa_icon 'chevron-right' %>
-                    <%#= fa_icon 'arrow-right' %>
-                <% end %>
-                <%= fa_icon (status_2=='draft2' ? 'pencil-square' : 'square'), class: "decision-status-#{status_2}", title: status_2 %>
-            <% end %>
+        <% s.each do |ss| %>
+            <%= fa_icon ss[:icon], class: "#{ss[:type]}-status-#{ss[:status]}", title: ss[:status] %>
+        <% end %>
+<%
+        arrow = true
+    end
+%>
 
           </span>
