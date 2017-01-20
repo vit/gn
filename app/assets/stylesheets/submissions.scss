@@ -250,9 +250,23 @@ $paper-review-status-color: (
     ready_reject: #dd0033,
     ready_revise: #eeaa00
 );
+$paper-decision-status-color: (
+    reject_without_consideration: #dd0033,
+    take_for_consideration: #0033dd,
+    draft1: #0033dd,
+    draft2: #0033dd,
+    accept: #00cc22,
+    reject: #dd0033,
+    revise: #eeaa00
+);
 
     @each $rs, $color in $paper-review-status-color {
         .reviewers-status-#{$rs} {
+            color: $color;
+        }
+    }
+    @each $rs, $color in $paper-decision-status-color {
+        .decision-status-#{$rs} {
             color: $color;
         }
     }

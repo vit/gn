@@ -28,42 +28,7 @@
       <%
             text = submission.get_text
             lsr = submission.lsr
-#            invited = submission.reviewer_invitations.where(aasm_state: :accepted).pluck(:user_id)
-            invited = submission.reviewer_invitations.where.not(aasm_state: :inactive)
             authors = submission.get_authors_newest
-            reviews_map = lsr.reviews.inject({}) do |a, r|
-              a[r.user_id] = r
-              a
-            end
-            reviewers_status = invited.map do |i|
-              status = 'pending'
-              status = 'cancelled' if i.cancelled?
-              status = 'declined' if i.declined?
-              if i.accepted?
-                status = 'noreview'
-                review = reviews_map[i.user_id]
-                if review
-#                  status = review.submitted? ? 'ready' : 'notready'
-                  status = if review.submitted?
-                    'ready_'+review.decision
-                  else
-                    'notready'
-                  end
-                end
-              end
-              status
-            end
-            icon_map = {
-              pending: 'question-circle-o',
-              cancelled: 'times-circle',
-              declined: 'minus-circle',
-              noreview: 'question-circle-o',
-              notready: 'pencil-square-o',
-              #ready: 'check-circle',
-              ready_accept: 'check-circle',
-              ready_reject: 'minus-circle',
-              ready_revise: 'circle',
-            }
       %>
     <%= link_to(e_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item") do %>
         <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span>
@@ -72,16 +37,11 @@
         <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
         <!--br-->
         <b>by</b> <%= submission.user.full_name %>
-        <!--div><%#= invited %></div>
-        <div><%#= reviews_map %></div>
-        <div><%#= reviewers_status %></div-->
-        <% if lsr.under_consideration? %>
+        <%# if lsr.under_consideration? %>
           <div>
-            <% reviewers_status.each do |rs| %>
-              <%= fa_icon icon_map[rs.to_sym], class: "reviewers-status-#{rs}", title: rs %>
-            <% end %>
+            <%= render partial: 'indicator_reviews', locals: {submission: submission} %>
           </div>
-        <% end %>
+        <%# end %>
     <% end %>
   <% end %>
 </div>

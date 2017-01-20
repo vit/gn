@@ -9,6 +9,13 @@
             %>
             <div class="card llist-group-item paper-revisions-list-item paper-revisions-list-item-#{state}" style="overflow: hidden; mmargin: 15px 0;">
                 <div class="card-block">
+
+                    <% if @current_role=='editor' %>
+                        <div class="pull-right">
+                            <%= render partial: 'indicator_reviews', locals: {submission: @submission, revision: revision} %>
+                        </div>
+                    <% end %>
+
                     <% unless @current_role=='reviewer' %>
                         <h4 class="card-title"><%= t('journal.submission_data.revision.data') %></h4>
                     <% end %>

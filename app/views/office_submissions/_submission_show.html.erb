@@ -61,7 +61,13 @@
 <div class="card">
     <div class="card-block">
         <!--p class="card-text"-->
-            <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%#= @submission.aasm_state %><%= lsr.aasm_state %></span>
+            <!--span class="tag tag-pill tag-warning tag-pill float-xs-right"><%#= @submission.aasm_state %><%= lsr.aasm_state %></span-->
+
+          <div class="float-xs-right">
+            <%= render partial: 'indicator_reviews', locals: {submission: @submission} %>
+          </div>
+
+
             <!--b>Id:</b> <%= @submission.id %>
             <b>by</b> <%= @submission.user.full_name %>
         </p>
