@@ -27,13 +27,19 @@
     steps = []
     revs.each do |rr|
         decision_1 = rr.decision_1
+        step = []
         if decision_1
             status_1 = decision_1.submitted? ? decision_1.decision : 'd1_draft'
-            steps << [{
+#            steps << [{
+#                type: 'decision',
+#                status: status_1,
+#                icon: d_icon_map[status_1.to_sym]
+#            }]
+            step << {
                 type: 'decision',
                 status: status_1,
                 icon: d_icon_map[status_1.to_sym]
-            }]
+            }
         end
 
         reviews_by_reviewer_map = rr.reviews.inject({}) do |a, r|
@@ -59,7 +65,8 @@
             status
         end
         if reviewers_status.count > 0
-            steps << reviewers_status.map do |rs|
+#            steps << reviewers_status.map do |rs|
+            step << reviewers_status.map do |rs|
                 {
                     type: 'review',
                     status: rs,
@@ -71,13 +78,18 @@
         decision_2 = rr.decision_2
         if decision_2
             status_2 = decision_2.submitted? ? decision_2.decision : 'd2_draft'
-            steps << [{
+#            steps << [{
+#                type: 'decision',
+#                status: status_2,
+#                icon: d_icon_map[status_2.to_sym]
+#            }]
+            step << {
                 type: 'decision',
                 status: status_2,
                 icon: d_icon_map[status_2.to_sym]
-            }]
+            }
         end
-
+        steps << step.flatten
     end
 
 %>
