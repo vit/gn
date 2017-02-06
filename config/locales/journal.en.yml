@@ -91,7 +91,8 @@ en:
                 draft: Info
             reviewer_paper_state_short:
                 please_accept: Please accept the invitation
-                please_review: Write the review please
+                #please_review: Write the review please
+                please_review: Please write the review
                 please_wait: Wait please
                 nothing_to_do: It looks like here is nothing to do
 

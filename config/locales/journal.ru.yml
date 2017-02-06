@@ -90,10 +90,12 @@ ru:
                 rejected: Статья отклонена
                 draft: Памятка
             reviewer_paper_state_short:
-                please_accept: Пожалуйста примите приглашение
-                please_review: Напишите рецензию
-                please_wait: Сейчас надо подождать
-                nothing_to_do: Похоже, здесь больше нечего делать
+                please_accept: Примите, пожалуйста, приглашение
+                please_review: Напишите, пожалуйста, рецензию
+                please_wait: Сейчас нельзя рецензировать, надо подождать
+                #please_wait: Сейчас надо подождать
+                nothing_to_do: Похоже, здесь все уже закончилось
+                #nothing_to_do: Похоже, здесь больше нечего делать
 
             state_block:
                 decision_1_comment: 'Комментарий редактора:'
