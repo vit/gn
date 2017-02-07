@@ -31,7 +31,7 @@
             <h3 class="card-title ttext-xs-center"><%= t('journal.submissions.draft_short.'+substate) %></h3>
 
                 <div class="btn-group-vertical pull-right">
-                    <% if 1 %>
+                    <% if lsr %>
                         <%= button_to revisions_link,
                             method: :get,
                             :class => 'btn btn-secondary bbtn-primary bbtn-sm pull-right',
