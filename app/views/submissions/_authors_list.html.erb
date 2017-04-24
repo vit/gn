@@ -11,6 +11,7 @@
             <div class="ppull-right bbtn-group">
                 <%
                     #modal_target_id = "paper_3_author_123"
+                    modal_edit_id = 'modal_submission_' + @submission.id.to_s + '_add_author_'+a.author_n.to_s
                 %>
 
                     <%= button_to update_authors_submission_path(
@@ -28,6 +29,92 @@
                     %>
                             &times;
                     <% end %>
+
+
+                    <%= link_to '#',
+                        data: { toggle: "modal", target: "##{modal_edit_id}" },
+                        :class => 'btn btn-primary btn-sm pull-right',
+                        :style => 'margin-right: 10px;',
+                        a: :b do
+                    %>
+                            <%= fa_icon 'pencil' %>
+                    <% end %>
+
+
+        <%= render partial: 'submissions/author_form_dialog', locals: {
+            modal_id: modal_edit_id,
+            modal_title: t('journal.submissions.edit_author.edit_author'),
+            author: a,
+            mode: :edit,
+#            modal_size: 'sm'
+        } %>
+
+
+<%
+=begin
+%>
+        <%= render layout: 'common/parts/dialog/modal_lg', locals: {
+            modal_id: modal_edit_id,
+            modal_title: t('journal.submissions.edit_author.edit_author'),
+            modal_size: 'sm'
+        } do %>
+
+                <%=
+                    form_for a, url: update_authors_submission_path(
+                        @submission,
+                        op: :update_author
+                    ),
+                        method: :put, remote: true, :html => {
+                        :class => "fform-horizontal", :role => "form",
+                        :onsubmit => "$('##{modal_edit_id}').modal('hide'); return true;"
+                    } do |f| %>
+
+                    <%= f.hidden_field :author_n %>
+                    <div class="form-group">
+                        <%= f.label :lname, t('journal.submissions.add_authors.last_name') %>
+                        <%= f.text_field :lname, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :fname, t('journal.submissions.add_authors.first_name') %>
+                        <%= f.text_field :fname, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :mname, t('journal.submissions.add_authors.middle_name') %>
+                        <%= f.text_field :mname, :class => "form-control" %>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="ooffset-sm-2 col-sm-12">
+                                <%= f.button ddata: { dismiss: "modal" }, :class => 'btn btn-success bbtn-sm' do %>
+                                    <i class="fa fa-check fa-llg"></i>
+                                    <%= t('journal.submissions.edit_author.save') %>
+                                <% end %>
+                                <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-secondary bbtn-sm' do %>
+                                    <i class="fa fa-times fa-llg"></i>
+                                    <%= t('journal.submissions.edit_author.cancel') %>
+                                <% end %>
+                        </div>
+                    </div>
+                <% end %>
+
+        <% end %>
+<%
+=end
+%>
+
+                <!--div id="check-icon" style="display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; font-size: 144pt; color: green; text-align: center; bborder: thin solid red; z-index: 1000;">
+                    <%#= fa_icon 'check' %>
+                </div-->
+
+
+
+
+
+
+
+
+
+
 
 <!--
                 <%#= button_to "#", data: { toggle: "modal", target: "##{modal_edit_target_id}" },

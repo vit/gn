@@ -122,6 +122,10 @@ ru:
                 middle_name: Отчество
                 add: Добавить
                 finish: Хватит
+            edit_author:
+                edit_author: Автор
+                save: Сохранить
+                cancel: Отменить
             files:
                 message: |+
                     Загрузите основной файл статьи и файл экспертных документов

@@ -1,0 +1,85 @@
+<%
+    defined?(mode) or mode = :edit
+#    defined?(modal_id) or modal_id = :author_form
+
+#    modal_id = 'modal_submission_' + @submission.id.to_s + '_add_author'
+#    authors_list_block_id = 'authors_list_block_' + @submission.id.to_s
+
+    modal_title = (mode==:edit ? t('journal.submissions.edit_author.edit_author') : t('journal.submissions.add_authors.add_authors'))
+#    modal_title = "wrfqerfwegwegwetgwt"
+
+%>
+
+
+        <%= render layout: 'common/parts/dialog/modal_lg', locals: {
+            modal_id: modal_id,
+#            modal_title: "rfqewrfegwegwtgwtrgrw",
+            modal_size: 'sm',
+            #modal_title: t('journal.submissions.edit_author.edit_author'),
+            modal_title: modal_title,
+        } do %>
+
+                <%=
+                    form_for author, url: update_authors_submission_path(
+                        @submission,
+                        #op: :update_author
+                        op: mode==:edit ? :update_author : :add_author
+                    ),
+                        method: :put, remote: true, :html => {
+                        :class => "fform-horizontal", :role => "form",
+                        :onsubmit => mode==:edit ? "$('##{modal_id}').modal('hide'); return true;" : "/*$('##{modal_id}').modal('hide');*/ /*this.elements[1].focus();*/ return true;"
+                    } do |f| %>
+
+                    <%= f.hidden_field :author_n %>
+                    <div class="form-group">
+                        <%= f.label :lname, t('journal.submissions.add_authors.last_name') %>
+                        <%= f.text_field :lname, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :fname, t('journal.submissions.add_authors.first_name') %>
+                        <%= f.text_field :fname, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :mname, t('journal.submissions.add_authors.middle_name') %>
+                        <%= f.text_field :mname, :class => "form-control" %>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="ooffset-sm-2 col-sm-12">
+                            <% if mode == :edit %>
+
+                                <%= f.button ddata: { dismiss: "modal" }, :class => 'btn btn-success bbtn-sm' do %>
+                                    <i class="fa fa-check fa-llg"></i>
+                                    <%= t('journal.submissions.edit_author.save') %>
+                                <% end %>
+                                <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-secondary bbtn-sm' do %>
+                                    <i class="fa fa-times fa-llg"></i>
+                                    <%= t('journal.submissions.edit_author.cancel') %>
+                                <% end %>
+
+                            <% else %>
+
+                                <%= f.button ddata: { dismiss: "modal" }, :class => 'btn btn-success bbtn-sm' do %>
+                                    <i class="fa fa-check fa-llg"></i>
+                                    <%= t('journal.submissions.add_authors.add') %>
+                                <% end %>
+                                <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-secondary bbtn-sm' do %>
+                                    <i class="fa fa-times fa-llg"></i>
+                                    <%= t('journal.submissions.add_authors.finish') %>
+                                <% end %>
+
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+
+                <% if mode==:add %>
+                    <div id="check-icon" style="display: none; position: fixed; left: 0; top: 0; width: 100%; height: 100%; font-size: 144pt; color: green; text-align: center; bborder: thin solid red; z-index: 1000;">
+                        <%= fa_icon 'check' %>
+                    </div>
+                <% end %>
+
+
+        <% end %>
+
+

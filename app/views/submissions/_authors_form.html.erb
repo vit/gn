@@ -78,6 +78,18 @@
     </div>
 
 
+
+        <%= render partial: 'submissions/author_form_dialog', locals: {
+            modal_id: modal_add_id,
+            #modal_title: t('journal.submissions.edit_author.edit_author'),
+            author: SubmissionAuthor.new,
+            mode: :add,
+#            modal_size: 'sm'
+        } %>
+
+<%
+=begin
+%>
         <%= render layout: 'common/parts/dialog/modal_lg', locals: {
             modal_id: modal_add_id,
             modal_title: t('journal.submissions.add_authors.add_authors'),
@@ -91,12 +103,12 @@
                     ),
                         method: :put, remote: true, :html => {
                         :class => "fform-horizontal", :role => "form",
-                        :onsubmit => "/*$('##{modal_add_id}').modal('hide');*/ return true;"
+                        :onsubmit => "/*$('##{modal_add_id}').modal('hide');*/ /*this.elements[1].focus();*/ return true;"
                     } do |f| %>
 
                     <div class="form-group">
                         <%= f.label :lname, t('journal.submissions.add_authors.last_name') %>
-                        <%= f.text_field :lname, :class => "form-control" %>
+                        <%= f.text_field :lname, :class => "form-control", :aautofocus => 1 %>
                     </div>
                     <div class="form-group">
                         <%= f.label :fname, t('journal.submissions.add_authors.first_name') %>
@@ -126,6 +138,9 @@
                 </div>
 
         <% end %>
+<%
+=end
+%>
 
 </div>
 

@@ -121,6 +121,10 @@ en:
                 middle_name: Middle name
                 add: Add
                 finish: Stop
+            edit_author:
+                edit_author: Edit author
+                save: Save
+                cancel: Cancel
             files:
                 message: |+
                     Upload the main paper file and the expert opinion file.

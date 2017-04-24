@@ -103,6 +103,12 @@ class SubmissionsController < OfficeSubmissionsController
         if author_n
           @submission.drop_author author_n
         end
+      when 'update_author'
+        submission_author = params.require(:submission_author).permit(:fname, :mname, :lname) rescue nil
+        author_n = params.require(:submission_author).permit(:author_n)[:author_n] rescue nil
+        if submission_author && author_n
+          @submission.update_author author_n, submission_author
+        end
       when 'reorder_authors'
         nums = params[:nums]
         if nums && nums.is_a?(Array)

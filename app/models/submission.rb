@@ -201,6 +201,11 @@ class Submission < ApplicationRecord
     current_list.authors.find_by_author_n(n).destroy rescue nil
     current_list.authors.where("author_n > #{n.to_i}").update_all("author_n = author_n - 1")
   end
+  def update_author n, data
+    n = n.to_i
+    current_list = get_or_create_current_authors_list
+    current_list.authors.find_by_author_n(n).update(data) rescue nil
+  end
   def reorder_authors nums
     nums_map = {}
     nums.each_with_index do |n, i|

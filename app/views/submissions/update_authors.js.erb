@@ -7,7 +7,12 @@
     authors_list_block_id = 'authors_list_block_' + @submission.id.to_s
 %>
 
-//alert("<%= authors_list_block_id %>");
+//alert("<%#= authors_list_block_id %>");
+//alert("<%#= @submission_authors.to_a.to_s %>");
+
+//alert("<%#= @submission_author.to_a %>");
+//alert("<%#= @author_n %>");
+
 
 //$('#<%= authors_list_block_id %>').html("");
 
@@ -18,7 +23,19 @@ $('#<%= authors_list_block_id %>').html("<%= escape_javascript (
     }
 ) %>");
 
-$("#<%= modal_add_id %> form")[0].reset(); 
+$("#<%= modal_add_id %> form")[0].reset();
+//$("#<%= modal_add_id %> form")[0].elements[0].focus();
+//$("#<%= modal_add_id %> form")[0].first().focus();
+//$("#<%= modal_add_id %> form")[0].first().value = 'sssss';
+//alert( $("#<%= modal_add_id %> form")[0].first().value );
+//alert( 'wrewtwetget' );
+//alert( $("#<%= modal_add_id %> form")[0].elements[0].value );
+//alert( $("#<%= modal_add_id %> form")[0].elements[0].focus() );
+
+//setTimeout(function (){
+//        $("#<%= modal_add_id %> form")[0].elements[0].focus();
+//        alert('OK');
+//    }, 1000);
 
 $(document).trigger('authorslistreload');
 
