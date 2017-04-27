@@ -14,7 +14,7 @@
             %>
             <%= link_to(r_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item #{ %w[declined cancelled].include?(invitation_state) ? 'disabled' : '' }") do %>
                 <div class="headblock reviewer-headblock-<%= reviewer_to_do_status %>"></div>
-                <b>Status:</b> <b>
+                <b><%= t('journal.submissions.status') %>:</b> <b>
                     <%= t('journal.submissions.reviewer_paper_state_short.'+reviewer_to_do_status) %>
                 </b>
                 <!--b>Invitation:</b> <span>
@@ -24,11 +24,12 @@
                     <% end %>
                 </span-->
                 <br>
-                <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span>
+                <!--span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span-->
+                <span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= t('journal.submissions.state.'+submission.last_submitted_revision.aasm_state) rescue '-' %></span>
                 <b>#<%= submission.id %></b> | <%= text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= text.abstract.truncate(250) rescue '' %></i></span>
                 <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
                 <!--br-->
-                <b>by</b> <%= submission.user.full_name %>
+                <b><%= t('journal.submissions.by') %></b> <%= submission.user.full_name %>
             <% end %>
             <!--p>
                 <%#= submission.inspect %>

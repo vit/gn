@@ -13,6 +13,8 @@ ru:
             sign_out_confirm: Вы уверены?
             people: Люди
         submissions:
+            by: от
+            status: Статус
             #show: Просмотр
             show: Моя статья
             new: Новая
@@ -30,6 +32,14 @@ ru:
             edit_authors: Изменить
             submit: Подать
             rework: Доработать
+            state:
+                rejected_without_consideration: отклонено без рассмотрения
+                submitted: подано
+                under_consideration: на рассмотрении
+                accepted: принято
+                need_revise: нужно исправить
+                rejected: отклонено
+                draft: черновик
             state_description:
                 rejected_without_consideration: |+
                     К сожалению, Ваша статья была отклонена без рассмотрения рецензентами.

@@ -13,6 +13,8 @@ en:
             sign_out_confirm: Are you sure?
             people: People
         submissions:
+            by: by
+            status: Status
             #show: View
             show: My paper
             new: New
@@ -30,6 +32,14 @@ en:
             edit_authors: Edit
             submit: Submit
             rework: Rework
+            state:
+                rejected_without_consideration: rejected without consideration
+                submitted: submitted
+                under_consideration: under consideration
+                accepted: accepted
+                need_revise: need revise
+                rejected: rejected
+                draft: draft
             state_description:
                 rejected_without_consideration: |+
                     Unfortunately, your paper was rejected without consideration by reviewers.

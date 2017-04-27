@@ -30,7 +30,8 @@
     %>
     <%= link_to(submission, class: "list-group-item list-group-item-action papers-list-item papers-list-item-#{state}") do %>
         <div class="headblock"><div class="part_1 <%= 'part_1_'+state %>"></div><div class="part_2 <%= 'part_2_'+state %>"></div><div class="part_3 <%= 'part_3_'+state %>"></div><div class="part_4 <%= 'part_4_'+state %>"></div></div>
-        <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= state %>"><%= state %></span>
+        <!--span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= state %>"><%= state %></span-->
+        <span class="tag tag-pill tag-primary tag-pill float-xs-right paper-tag-<%= state %>"><%= t('journal.submissions.state.'+state) %></span>
         <span>#<%= submission.id %></span> | <span class="papers-list-item-title"><%= text.title.truncate(120) rescue '' %></span>
         <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
         <div class="hidden-sm-down papers-list-item-abstract"><ii><%= text.abstract.truncate(250) rescue '' %></ii></div>
