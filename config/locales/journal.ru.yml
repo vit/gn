@@ -2,7 +2,8 @@ ru:
     journal:
         title: 'Журнал "Гироскопия и Навигация"'
         menu:
-            gn_journal: Журнал ГН
+            #gn_journal: Журнал ГН
+            gn_journal: Гироскопия и Навигация
             editor_office: Офис редактора
             reviewer_office: Офис рецензента
             author_office: Офис автора

@@ -2,7 +2,8 @@ en:
     journal:
         title: '"Gyroscopy and Navigation" Journal'
         menu:
-            gn_journal: GN Journal
+            #gn_journal: GN Journal
+            gn_journal: Gyroscopy and Navigation
             editor_office: Editor office
             reviewer_office: Reviewer office
             author_office: Author office
