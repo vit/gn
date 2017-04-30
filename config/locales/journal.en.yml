@@ -297,6 +297,8 @@ en:
                 first_name: First
                 middle_name: Middle name
                 last_name: Last name
+                country: Country
+                country_blank: Select a country
                 email: Email
                 password: Password
                 password_minimum: "%{number} characters minimum"

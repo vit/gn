@@ -7,7 +7,8 @@ class CustomRegistrationsController < Devise::RegistrationsController
 
     def after_update_path_for(resource)
         #signed_in_root_path(resource)
-        edit_user_registration_path(resource)
+#        edit_user_registration_path(resource)
+        edit_user_registration_path
     end
 
     def edit

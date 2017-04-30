@@ -38,6 +38,10 @@
     <%= f.text_field :lname, required: true, class: "form-control", id: "lname_field", placeholder: t('helpers.label.user.last_name') %>
   </div>
   <div class="form-group">
+    <%= f.label :country, for: 'country_field', class: "sr-only" %>
+    <%= f.country_select :country, {priority_countries: ["RU"], include_blank: t('helpers.label.user.country_blank'), sselected: 'RU'}, {required: true, class: "form-control", id: "country_field", pplaceholder: "Country"} %>
+  </div>
+  <div class="form-group">
     <%= f.label :email, for: 'email_field', class: "sr-only" %>
     <%= f.email_field :email, required: true, aautofocus: true, class: "form-control", id: "email_field", placeholder: t('helpers.label.user.email') %>
   </div>

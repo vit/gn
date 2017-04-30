@@ -302,6 +302,8 @@ ru:
                 first_name: Имя
                 middle_name: Отчество / middle name
                 last_name: Фамилия
+                country: Страна
+                country_blank: Выберите страну
                 email: Email
                 password: Пароль
                 password_minimum: "минимум %{number} символов"

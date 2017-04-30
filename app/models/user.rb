@@ -17,6 +17,7 @@ class User < ApplicationRecord
 
     validates :fname, presence: true
     validates :lname, presence: true
+    validates :country, presence: true
 
     def full_name
 #        "#{fname} #{mname} #{lname}".strip # <#{email}>"
