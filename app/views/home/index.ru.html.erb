@@ -2,17 +2,27 @@
 <div class="jumbotron jumbotron-cover">
       <div class="layer-1">
       <div class="ccontainer text-xs-center layer-2">
-        <h4>Журнал Гироскопия и Навигация</h4>
+        <h4>Журнал &laquo;Гироскопия и Навигация&raquo;</h4>
+
+        <p class=issn>
+            ISSN 0869-7035 (print),
+            ISSN 2075-0927 (online)<br>
+            Сайт журнала: <%= link_to "elektropribor.spb.ru/gn", 'http://elektropribor.spb.ru/gn', class: 'cover-link' %>
+        </p>
+
         <h1 class="display-5">Система онлайн-рецензирования</h1>
-        <p>
+        <!--p>
             Система обеспечивает процесс от подачи автором статьи,
             рецензирования, доработки, до вынесения окончательного решения.
-            Посетите <a href="http://elektropribor.spb.ru/gn" class="cover-link">сайт журнала Гироскопия и Навигация</a>, чтобы узнать больше.
-        </p>
+            Посетите <a href="http://elektropribor.spb.ru/gn" class="cover-link">сайт журнала &laquo;Гироскопия и Навигация&raquo;</a>, чтобы узнать больше.
+        </p-->
         <p>
-            <a class="btn btn-primary bbtn-sm" href="/submissions/new" role="button">Подать статью</a> или просто
-            <%= link_to "войти", '/office', class: 'cover-link' %>
+            <a class="btn btn-primary bbtn-sm" href="/office" role="button">Войти в систему</a>
         </p>
+        <!--p>
+            <a class="btn btn-primary bbtn-sm" href="/submissions/new" role="button">Подать статью</a> или просто
+            <%#= link_to "войти", '/office', class: 'cover-link' %>
+        </p-->
       </div>
       </div>
     </div>

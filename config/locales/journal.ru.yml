@@ -296,7 +296,8 @@ ru:
         #sign_in_link_registered: Если вы уже зарегистрированы в системе, то *[войдите]
         sign_in_link_registered: Уже зарегистрированы? Тогда просто *[войдите].
         sign_up_link: Регистрация
-        sign_up_link_not_registered: Еще не были здесь? *[Зарегистрируйтесь]!
+        #sign_up_link_not_registered: Еще не были здесь? *[Зарегистрируйтесь]!
+        sign_up_link_not_registered: '*[Регистрация нового пользователя]'
         sign_out_link: Выйти
         forgot_password_link: Забыли пароль?
 
