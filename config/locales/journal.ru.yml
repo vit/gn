@@ -158,6 +158,10 @@ ru:
             submission_text_was_updated: Обновлен текст статьи
             submission_was_submitted: Выполнена подача
             submission_rework_was_started: Создан черновик новой версии статьи
+            time:
+                submitted: впервые подана
+                accepted: принята
+                rejected: отклонена
 
         submission_files:
             upload: Загрузить

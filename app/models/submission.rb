@@ -9,6 +9,8 @@ class Submission < ApplicationRecord
 
   has_many :revisions, class_name: 'SubmissionRevision', dependent: :destroy
   has_many :reviewer_invitations, class_name: 'SubmissionReviewerInvitation', dependent: :destroy
+#	has_many :logs, class_name: 'EventLog', as: :loggable, dependent: :destroy
+
 
 #  scope :all_submitted, -> { where.not(aasm_state: 'draft') }
   scope :all_submitted, -> { where(aasm_state: 'submitted') }
@@ -47,6 +49,10 @@ class Submission < ApplicationRecord
 
     event :sm_update_metadata do
       after do |data|
+
+				#logs.create(state_old: aasm.from_state, state_new: aasm.to_state, event: aasm.current_event)
+				#add_log ''
+
         #self.set_text data
         #JournalMailer.author_submission_update(self).deliver_now
       end
@@ -65,6 +71,11 @@ class Submission < ApplicationRecord
 
     event :sm_submit do
       after do
+        if aasm.from_state==:draft
+          self.first_submitted_at = DateTime.now
+          #add_log 'first_submitted'
+        end
+
         self.last_created_revision.sm_submit!
 #        self.last_submitted_revision = self.last_created_revision
         save!
@@ -217,6 +228,10 @@ class Submission < ApplicationRecord
       a.save
     end
   end
+
+#	def add_log event
+#		logs.create(state_old: '-', state_new: '-', event: event)
+#	end
 
 
 private

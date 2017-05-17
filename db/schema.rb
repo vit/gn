@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430122109) do
+ActiveRecord::Schema.define(version: 20170509215454) do
+
+  create_table "event_logs", force: :cascade do |t|
+    t.integer  "loggable_id"
+    t.string   "loggable_type"
+    t.string   "state_old"
+    t.string   "state_new"
+    t.string   "event"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "journal_appointments", force: :cascade do |t|
     t.integer  "journal_id"
@@ -162,6 +172,8 @@ ActiveRecord::Schema.define(version: 20170430122109) do
     t.string   "aasm_state"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.datetime "first_submitted_at"
+    t.datetime "editor_decided_at"
     t.index ["journal_id"], name: "index_submissions_on_journal_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end

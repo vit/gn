@@ -10,6 +10,7 @@ class SubmissionRevision < ApplicationRecord
     has_many :files, class_name: 'SubmissionFile', as: :attachable, dependent: :destroy
     has_many :revision_decisions, class_name: 'SubmissionRevisionDecision', foreign_key: "revision_id", dependent: :destroy
     has_many :reviews, class_name: 'SubmissionRevisionReview', foreign_key: "revision_id", dependent: :destroy
+#	has_many :logs, class_name: 'EventLog', as: :loggable, dependent: :destroy
 
 	def decision_1
 		revision_decisions.where(category: :stage_1).first
@@ -53,6 +54,10 @@ class SubmissionRevision < ApplicationRecord
 		end
 
 		event :sm_submit do
+			after do
+				#logs.create(state_old: aasm.from_state, state_new: aasm.to_state, event: aasm.current_event)
+				#add_log ''
+			end
 #			transitions :from => :draft, :to => :under_review
 #			transitions :from => :draft, :to => :submitted, :if => (-> {submission.submitted?})
 #			transitions :from => :draft, :to => :under_consideration, :if => (-> {submission.under_consideration?})
@@ -73,7 +78,13 @@ class SubmissionRevision < ApplicationRecord
 
 		event :sm_apply_decision do
 			after do
-			#	submission.sm_apply_decision!
+
+				if aasm.to_state==:accepted || aasm.to_state==:rejected || aasm.to_state==:reject_without_consideration
+					submission.editor_decided_at = DateTime.now
+					submission.save!
+				end
+
+				#submission.sm_apply_decision!
 				#JournalMailer.submission_decision(submission).deliver_now
 				JournalMailer.send_notifications_submission_decision submission
 			end
@@ -112,5 +123,8 @@ class SubmissionRevision < ApplicationRecord
 		get_file_by_category(file_category) || files.new(file_category: file_category)
 	end
 
+#	def add_log event
+#		logs.create(state_old: '-', state_new: '-', event: event)
+#	end
 
 end

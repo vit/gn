@@ -30,6 +30,10 @@ $papers-list-item-background-color-hover: darken($papers-list-item-background-co
         .papers-list-item-abstract, .paper-card-abstract {
             color: #aaaaaa;
         }
+        .papers-list-item-time, .paper-card-time {
+            font-size: 75%;
+            //color: #777777;
+        }
 
 
 //$authors-list-item-background-color: #ded6ce;

@@ -24,6 +24,7 @@
   <% @submissions.each do |submission| %>
     <%
       lcr = submission.last_created_revision
+      lsr = submission.lsr
       state = lcr.aasm_state
       text = submission.get_text_newest
       authors = submission.get_authors_newest
@@ -35,7 +36,14 @@
         <span>#<%= submission.id %></span> | <span class="papers-list-item-title"><%= text.title.truncate(120) rescue '' %></span>
         <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
         <div class="hidden-sm-down papers-list-item-abstract"><ii><%= text.abstract.truncate(250) rescue '' %></ii></div>
-        <!--div><%#= submission.aasm_state %> | <%#= state %></div-->
+        <% if submission.first_submitted_at %>
+          <div class="papers-list-item-time">
+            <%= t('journal.submissions.time.submitted') %> <%= format_date_only( submission.first_submitted_at.to_datetime) rescue '' %>
+            <% if lsr && (lsr.accepted? || lsr.rejected? || lsr.rejected_without_consideration?) && submission.editor_decided_at %>
+              | <%= t('journal.submissions.time.'+(lsr.aasm_state rescue 'none')) %> <%= format_date_only( submission.editor_decided_at.to_datetime) rescue '' %>
+            <% end %>
+          </div>
+        <% end %>
     <% end %>
   <% end %>
 </div>

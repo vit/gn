@@ -157,6 +157,10 @@ en:
             submission_text_was_updated: Paper text was successfully updated
             submission_was_submitted: Paper was successfully submitted
             submission_rework_was_started: New version draft was successfully created
+            time:
+                submitted: originally submitted
+                accepted: accepted
+                rejected: rejected
             
         submission_files:
             upload: Upload

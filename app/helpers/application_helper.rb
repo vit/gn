@@ -8,4 +8,12 @@ def translate_with_link(key, *urls)
   }
 end
 
+def format_date_only d
+  I18n.localize(d, format: '%d %b %Y')
+end
+def format_date_time d
+  I18n.localize(d, format: '%d %b %Y, %H:%M %Z')
+#  d.strftime('%d %b %Y, %H:%M %Z')
+end
+
 end
