@@ -55,8 +55,12 @@ class SubmissionRevision < ApplicationRecord
 
 		event :sm_submit do
 			after do
-				#logs.create(state_old: aasm.from_state, state_new: aasm.to_state, event: aasm.current_event)
-				#add_log ''
+
+				#if aasm.from_state==:draft
+					self.submitted_at = DateTime.now
+					self.save!
+				#end
+
 			end
 #			transitions :from => :draft, :to => :under_review
 #			transitions :from => :draft, :to => :submitted, :if => (-> {submission.submitted?})
@@ -79,9 +83,24 @@ class SubmissionRevision < ApplicationRecord
 		event :sm_apply_decision do
 			after do
 
-				if aasm.to_state==:accepted || aasm.to_state==:rejected || aasm.to_state==:reject_without_consideration
-					submission.editor_decided_at = DateTime.now
+				time_now = DateTime.now
+
+				if aasm.to_state==:under_consideration
+					self.editor_took_at = time_now
+				else
+					self.editor_decided_at = time_now
+				end
+				self.save!
+
+				if aasm.to_state==:under_consideration
+					submission.editor_took_at = time_now
 					submission.save!
+				end
+				if aasm.to_state==:accepted ||
+					aasm.to_state==:rejected ||
+					aasm.to_state==:rejected_without_consideration
+						submission.editor_decided_at = time_now
+						submission.save!
 				end
 
 				#submission.sm_apply_decision!

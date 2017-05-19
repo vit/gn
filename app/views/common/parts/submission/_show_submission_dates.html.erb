@@ -1,0 +1,18 @@
+<%
+#  user_role = (defined? user_role) ? user_role : :author
+#    defined?(user_role) or user_role = :author
+#    defined?(can_editor_change) or can_editor_change = false
+
+    lsr = submission.lsr
+
+%>
+
+        <% if submission.first_submitted_at %>
+            <%= t('journal.submissions.time.first_submitted') %> <%= format_date_only( submission.first_submitted_at.to_datetime) rescue '' %>
+            <% if submission.editor_took_at %>
+              | <%= t('journal.submissions.time.under_consideration') %> <%= format_date_only( submission.editor_took_at.to_datetime) rescue '' %>
+            <% end %>
+            <% if lsr && (lsr.accepted? || lsr.rejected? || lsr.rejected_without_consideration?) && submission.editor_decided_at %>
+              | <%= t('journal.submissions.time.'+(lsr.aasm_state rescue 'none')) %> <%= format_date_only( submission.editor_decided_at.to_datetime) rescue '' %>
+            <% end %>
+        <% end %>

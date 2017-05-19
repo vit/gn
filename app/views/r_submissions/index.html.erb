@@ -30,6 +30,13 @@
                 <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
                 <!--br-->
                 <b><%= t('journal.submissions.by') %></b> <%= submission.user.full_name %>
+
+          <div class="papers-list-item-time">
+            <%= render partial: 'common/parts/submission/show_submission_dates', locals: {
+              submission: submission
+            } %>
+          </div>
+
             <% end %>
             <!--p>
                 <%#= submission.inspect %>

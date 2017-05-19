@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509215454) do
+ActiveRecord::Schema.define(version: 20170519121448) do
 
   create_table "event_logs", force: :cascade do |t|
     t.integer  "loggable_id"
@@ -145,10 +145,13 @@ ActiveRecord::Schema.define(version: 20170509215454) do
 
   create_table "submission_revisions", force: :cascade do |t|
     t.integer  "submission_id"
-    t.integer  "revision_n",    default: 0
+    t.integer  "revision_n",        default: 0
     t.string   "aasm_state"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.datetime "submitted_at"
+    t.datetime "editor_decided_at"
+    t.datetime "editor_took_at"
     t.index ["submission_id"], name: "index_submission_revisions_on_submission_id"
   end
 
@@ -174,6 +177,7 @@ ActiveRecord::Schema.define(version: 20170509215454) do
     t.datetime "updated_at",                             null: false
     t.datetime "first_submitted_at"
     t.datetime "editor_decided_at"
+    t.datetime "editor_took_at"
     t.index ["journal_id"], name: "index_submissions_on_journal_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end

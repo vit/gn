@@ -97,7 +97,18 @@
                     <%= simple_format(text.abstract) rescue '' %>
                 </div>
             </div>
+
+
+          <div class="paper-card-time">
+            <%= render partial: 'common/parts/submission/show_submission_dates', locals: {
+              submission: @submission
+            } %>
+          </div>
+
         </div>
+
+
+
     </div>
     <% end %>
 

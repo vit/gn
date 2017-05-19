@@ -161,7 +161,7 @@ en:
                 submitted: originally submitted
                 accepted: accepted
                 rejected: rejected
-            
+
         submission_files:
             upload: Upload
             delete: Delete

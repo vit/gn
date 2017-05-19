@@ -128,6 +128,14 @@
 
                 </div>
 
+                <div class="card-block">
+                    <div class="paper-card-time">
+                        <%= render partial: 'common/parts/submission/show_revision_dates', locals: {
+                            revision: revision
+                        } %>
+                    </div>
+                </div>
+
             </div>
         <% end %>
     </div>

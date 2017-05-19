@@ -1,0 +1,17 @@
+<%
+#  user_role = (defined? user_role) ? user_role : :author
+#    defined?(user_role) or user_role = :author
+#    defined?(can_editor_change) or can_editor_change = false
+%>
+
+                        <% if revision.submitted_at %>
+                            <%= t('journal.submissions.time.submitted') %> <%= format_date_only( revision.submitted_at.to_datetime) rescue '' %>
+                            <% if revision.editor_took_at %>
+                                | <%= t('journal.submissions.time.under_consideration') %> <%= format_date_only( revision.editor_took_at.to_datetime) rescue '' %>
+                            <% end %>
+                            <% if revision.editor_decided_at %>
+                                | <%= t('journal.submissions.time.decided') %> <%= format_date_only( revision.editor_decided_at.to_datetime) rescue '' %>
+                            <% end %>
+                        <% end %>
+
+
