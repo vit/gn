@@ -35,7 +35,7 @@
                         data: { confirm: 'Are you sure?' },
                         :class => 'btn btn-warning btn-sm pull-right', remote: true,
                         :disabled => !ri.may_sm_cancel? do %>
-                            Cancel
+                            <%= t('journal.e_submission.reviewer_invitations.cancel') %>
                     <% end %>
 
                 <!--
@@ -64,6 +64,19 @@
                         <%# end %>
                         | <%= ri.aasm_state %>
                     </p>
+                    <div style="font-size: 70%;">
+                        <%
+                            time_fields = %w[activated cancelled accepted declined]
+                            show_delimiter = false
+                        %>
+                        <% time_fields.each do |f| %>
+                            <% ff = f.to_s+'_at' %>
+                            <% if ri.send(ff) %>
+                                <%= show_delimiter ? ' | ' : '' %><%= t('journal.e_submission.reviewer_invitations.time.'+ff) %> <%= format_date_only( ri.send(ff).to_datetime) rescue '' %>
+                                <% show_delimiter = true %>
+                            <% end %>
+                        <% end %>
+                    </div>
                 </li>
             <% end %>
         </ul>

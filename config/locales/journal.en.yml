@@ -207,6 +207,14 @@ en:
 
         e_submission:
             submitted_papers: Submitted papers
+            reviewer_invitations:
+                activate: Send
+                cancel: Cancel
+                time:
+                    activated_at: sent
+                    accepted_at: accepted
+                    declined_at: declined
+                    cancelled_at: cancelled
         r_submission:
             #assigned_papers: Assigned papers
             assigned_papers: My reviews
@@ -281,6 +289,11 @@ en:
                     (comments and recommendations to be answered should be numbered. The reviewer can insert the questions in the paper text and make a note here),
                     general opinion of the paper.
                 comment_for_editor_description: ''
+                time:
+                    created_at: created
+                    submitted_at: submitted
+                    editor_updated_at: editor changed
+                    cancelled_at: cancelled
 
     user:
         data:

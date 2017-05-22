@@ -34,8 +34,8 @@ class Submission < ApplicationRecord
 #    state :need_revise
 #    state :under_reworking
 #    state :revised
-#    state :rejected
-#    state :accepted
+    state :rejected
+    state :accepted
 ###    state :reviewed
 #    state :decided
     state :nonexistent

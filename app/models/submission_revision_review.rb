@@ -27,6 +27,7 @@ class SubmissionRevisionReview < ApplicationRecord
 
 		event :sm_editor_update do
 			after do |data|
+				self.editor_updated_at = DateTime.now
 				data.each do |f,v|
 					self.send(f+'=', v)
 					self.send(f+'_c=', true)
@@ -38,6 +39,7 @@ class SubmissionRevisionReview < ApplicationRecord
 
 		event :sm_editor_drop do
 			after do |f|
+				self.editor_updated_at = DateTime.now
 				self.send(f+'=', '')
 				self.send(f+'_c=', false)
 				self.save
@@ -47,6 +49,8 @@ class SubmissionRevisionReview < ApplicationRecord
 
 		event :sm_submit do
 			after do
+				self.submitted_at = DateTime.now
+				self.save
 				JournalMailer.send_notifications_submission_review_submitted self
 			end
 			transitions :from => :draft, :to => :submitted
@@ -54,6 +58,8 @@ class SubmissionRevisionReview < ApplicationRecord
 
 		event :sm_cancel do
 			after do
+				self.cancelled_at = DateTime.now
+				self.save
 			end
 			transitions :from => :draft, :to => :cancelled
 		end

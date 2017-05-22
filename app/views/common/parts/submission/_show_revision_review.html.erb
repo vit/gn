@@ -10,6 +10,22 @@
     r = review
 %>
 
+                    <div style="font-size: 70%;">
+                        <%
+                            #time_fields = %w[created submitted cancelled editor_updated]
+                            time_fields = %w[submitted cancelled editor_updated]
+                            show_delimiter = false
+                        %>
+                        <% time_fields.each do |f| %>
+                            <% ff = f.to_s+'_at' %>
+                            <% if r.send(ff) %>
+                                <%= show_delimiter ? ' | ' : '' %><%= t('journal.office_submission.r_review.time.'+ff) %> <%= format_date_only( r.send(ff).to_datetime) rescue '' %>
+                                <% show_delimiter = true %>
+                            <% end %>
+                        <% end %>
+                    </div>
+
+
                         <div>
                             <b><%= t('journal.office_submission.r_review.reviewer') %>:</b>&nbsp;
                             <% if user_role==:author %>

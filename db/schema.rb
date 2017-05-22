@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519121448) do
+ActiveRecord::Schema.define(version: 20170522091045) do
 
   create_table "event_logs", force: :cascade do |t|
     t.integer  "loggable_id"
@@ -80,6 +80,10 @@ ActiveRecord::Schema.define(version: 20170519121448) do
     t.string   "aasm_state"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.datetime "activated_at"
+    t.datetime "cancelled_at"
+    t.datetime "accepted_at"
+    t.datetime "declined_at"
     t.index ["submission_id", "user_id"], name: "index_submission_reviewer_invitations_submission_user", unique: true
     t.index ["submission_id"], name: "index_submission_reviewer_invitations_on_submission_id"
     t.index ["user_id"], name: "index_submission_reviewer_invitations_on_user_id"
@@ -138,6 +142,9 @@ ActiveRecord::Schema.define(version: 20170519121448) do
     t.boolean  "comment_quality_e_c"
     t.boolean  "comment_for_author_e_c"
     t.boolean  "comment_for_editor_e_c"
+    t.datetime "submitted_at"
+    t.datetime "cancelled_at"
+    t.datetime "editor_updated_at"
     t.index ["revision_id", "user_id"], name: "index_submission_revision_reviews_revision_user", unique: true
     t.index ["revision_id"], name: "index_submission_revision_reviews_on_revision_id"
     t.index ["user_id"], name: "index_submission_revision_reviews_on_user_id"
