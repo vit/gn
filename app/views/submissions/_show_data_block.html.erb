@@ -98,12 +98,38 @@
                 </div>
             </div>
 
+            <% if @current_role=='editor' %>
+
+                <%= link_to e_submission_path(@submission,
+                    #op: 'set_archived_' + (false ? 'on' : 'off') ),
+                    op: 'toggle_archived'),
+                    enabled: true,
+                    method: :put,
+                    data: { cconfirm: 'Are you sure you want to toggle the archive status?' },
+                    :class => 'btn bbtn-link bbtn-default bbtn-secondary btn-sm pull-right fform-inline '+(@submission.archived? ? 'btn-toggle-on' : 'btn-toggle-off'),
+                    #:style => @submission.archived? ? "color: green;" : "color: gray;",
+                    #:title => t('journal.e_submission.archive'),
+                    :remote => true, disabled: false do
+                %>
+                    <i class="fa fa-archive ffa-sm"></i>
+                    <%= fa_icon (@submission.archived? ? 'check-square-o' : 'square-o') %>
+                    <%= t('journal.e_submission.archive') %>
+                    <%#= @submission.archived.to_s %>
+                    <%#= @submission.archived? ? 'to archive' : 'from archive' %>
+                    <%#= t('context.office_submission.ce_decision.submit') %>
+                <% end %>
+
+            <% end %>
 
           <div class="paper-card-time">
+
+
             <%= render partial: 'common/parts/submission/show_submission_dates', locals: {
               submission: @submission
             } %>
           </div>
+
+
 
         </div>
 

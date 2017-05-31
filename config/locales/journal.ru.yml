@@ -207,7 +207,9 @@ ru:
                 decision_comment: Комментарий
 
         e_submission:
-            submitted_papers: Поданные статьи
+            #submitted_papers: Поданные статьи
+            submitted_papers: Поданные
+            archive: Архив
             reviewer_invitations:
                 activate: Отправить
                 cancel: Отозвать

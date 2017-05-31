@@ -8,9 +8,12 @@ class ESubmissionsController < OfficeSubmissionsController
 	before_action -> { @current_role = 'editor' }
 
 	def index
+		@filter = params[:filter] || ''
         authorize @journal, :can_editor?
 		#@journal_submissions = @journal.submissions
-		@submissions = @journal.submissions.all_submitted.order(id: :desc)
+
+		@submissions = @journal.submissions.all_submitted.order(id: :desc).where(archived: @filter=='archived')
+
 #		respond_with(@journal_submissions)
         @sidebar_active='editor_office'
 	end

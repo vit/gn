@@ -206,7 +206,9 @@ en:
                 decision_comment: Comment
 
         e_submission:
-            submitted_papers: Submitted papers
+            #submitted_papers: Submitted papers
+            submitted_papers: Submitted
+            archive: Archive
             reviewer_invitations:
                 activate: Send
                 cancel: Cancel

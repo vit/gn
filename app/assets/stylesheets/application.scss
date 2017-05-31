@@ -69,6 +69,25 @@ body {
   border-radius: 35px;
 }
 
+.btn-toggle-off {
+//  color: $brand-primary;
+  color: gray;
+  &:hover {
+    //color: darken($brand-primary, 25%);
+//    color: $brand-success;
+    color: lighten($brand-success, 25%);
+  }
+}
+.btn-toggle-on {
+//  color: $brand-success;
+  color: darken($brand-success, 25%);
+  &:hover {
+//    color: darken($brand-success, 25%);
+    color: lighten($brand-success, 25%);
+    color: $brand-success;
+  }
+}
+
 
 
 @import "home";

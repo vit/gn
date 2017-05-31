@@ -1,18 +1,27 @@
 
 <%
-=begin
+
+case @filter
+when 'archived'
   @page_menu_data = [
     {
-      title: t('journal.submissions.new'),
-      url: new_submission_path,
-      icon: 'plus',
-#      style: 'primary'
+        title: t('journal.office_submission.papers_list'),
+        url: e_submissions_path,
+        icon: 'arrow-left',
+    }
+  ]
+  @page_title = t('journal.e_submission.archive')
+else
+  @page_menu_data = [
+    {
+      title: t('journal.e_submission.archive'),
+      url: e_submissions_path(filter: :archived),
+      icon: 'archive',
       style: 'default'
     }
   ]
-=end
-
   @page_title = t('journal.e_submission.submitted_papers')
+end
 
 %>
 

@@ -29,12 +29,32 @@
   <li class="nav-item nav-item-title">
     <b class="nav-link ttext-xs-center"><%= t('journal.menu.editor_office') %></b>
   </li>
+
+<div style="position: relative; margin: 0px; padding: 0px; bborder: thin solid red;">
   <li class="nav-item nav-item-link">
-    <%= link_to e_submissions_path, class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : '') do %>
+    <%= link_to e_submissions_path,
+      class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : ''),
+      style: "pposition: relative; mmargin-right: 44px; margin-right: 44px;" do
+    %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.e_submission.submitted_papers') %>
         <span class="ttag ttag-default ttag-pill float-xs-right"><%= @journal.submissions.all_submitted.count %></span>
     <% end %>
   </li>
+
+  <li class="nav-item" style="position: absolute; wwidth: 42px; width: 42px; right: 0px; top: 0px; margin: 0px; padding-left: 0px;">
+        <%= link_to e_submissions_path(filter: :archived),
+          class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : ''),
+          style: "pposition: relative; rright: -32px; ttop: -33px; bborder-radius: 15px; padding-left: 0px;",
+          title: t('journal.e_submission.archive'),
+          data: {} do
+        %>
+          <b><%= fa_icon 'archive', cclass: "fa-lg" %> <span cclass="hidden-sm-down"></span></b>
+        <% end %>
+  </li>
+</div>
+
+
+
   <li class="nav-item nav-item-link">
     <%= link_to people_e_submissions_path, class: "nav-link " + (@sidebar_active=='people' ? 'active' : '') do %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.menu.people') %>
@@ -87,6 +107,7 @@
         <%= link_to new_submission_path,
           class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
           style: "pposition: relative; rright: -32px; ttop: -33px; bborder-radius: 15px; padding-left: 0px;",
+          title: t('journal.submissions.new'),
           data: {} do
         %>
           <b><%= fa_icon 'plus', cclass: "fa-lg" %> <span cclass="hidden-sm-down"></span></b>

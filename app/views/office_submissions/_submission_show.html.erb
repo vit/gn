@@ -18,7 +18,17 @@
              title: t('journal.office_submission.papers_list'),
            url: e_submissions_path,
             icon: 'arrow-left',
-        }
+
+            disabled: @submission.archived?
+    }, {
+      title: t('journal.e_submission.archive'),
+      url: e_submissions_path(filter: :archived),
+#      icon: 'archive',
+        icon: 'arrow-left',
+        disabled: !@submission.archived?
+    }
+
+
         ]
     when 'reviewer'
         @page_menu_data = [

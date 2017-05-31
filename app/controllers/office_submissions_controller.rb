@@ -86,7 +86,9 @@ class OfficeSubmissionsController < OfficeBaseController
 		when 'submit_decision_stage_2'
 			@revision.decision_2.sm_submit! if @revision.decision_2 && @revision.decision_2.may_sm_submit?
 #			@decision_2.sm_submit!
-
+		when 'toggle_archived'
+			@submission.archived = !@submission.archived
+			@submission.save
 
 
 #		when 'cancel_decision'
