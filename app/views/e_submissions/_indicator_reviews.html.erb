@@ -3,6 +3,8 @@
 <%
 #            defined?(revision) or revision = submission.lsr
     (defined?(revision) and revs=[revision]) or revs = submission.revisions_submitted.order(:revision_n)
+#    (defined?(review)) or (defined?(revision) and revs=[revision]) or revs = submission.revisions_submitted.order(:revision_n)
+    defined?(invitation) or invitation = nil
 
     d_icon_map = {
         d1_draft: 'square-o',
@@ -28,7 +30,7 @@
     revs.each do |rr|
         decision_1 = rr.decision_1
         step = []
-        if decision_1
+        if decision_1 && !invitation
             status_1 = decision_1.submitted? ? decision_1.decision : 'd1_draft'
 #            steps << [{
 #                type: 'decision',
@@ -47,6 +49,7 @@
             a
         end
         invited = submission.reviewer_invitations.where.not(aasm_state: :inactive)
+        invited = [invitation] if invitation
         reviewers_status = invited.map do |i|
             status = 'pending'
             status = 'cancelled' if i.cancelled?
@@ -76,7 +79,7 @@
         end
 
         decision_2 = rr.decision_2
-        if decision_2
+        if decision_2 && !invitation
             status_2 = decision_2.submitted? ? decision_2.decision : 'd2_draft'
 #            steps << [{
 #                type: 'decision',

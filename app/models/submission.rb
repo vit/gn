@@ -20,6 +20,10 @@ class Submission < ApplicationRecord
     revisions.where.not(aasm_state: 'draft')
   end
 
+  def invitations_active
+    reviewer_invitations.where(aasm_state: 'accepted')
+  end
+
   def reviewers_active
 #    reviewer_invitations.where(aasm_state: 'accepted').pluck(:user)
     reviewer_invitations.where(aasm_state: 'accepted').map { |i| i.user }
@@ -74,10 +78,13 @@ class Submission < ApplicationRecord
         if aasm.from_state==:draft
           self.first_submitted_at = DateTime.now
           #add_log 'first_submitted'
+        else
+          invitations_active.each { |i| i.next_revision_submitted }
         end
 
         self.last_created_revision.sm_submit!
 #        self.last_submitted_revision = self.last_created_revision
+
         save!
 #        JournalMailer.submission_submitted_author(self).deliver_now
 #        JournalMailer.submission_submitted_editor(self).deliver_now
@@ -140,6 +147,8 @@ class Submission < ApplicationRecord
     elsif inv.accepted? && lsr.under_consideration?
         (if review && review.submitted?
             'please_wait'
+        elsif inv.currev_expired?
+            'review_expired'
         else
             'please_review'
         end)

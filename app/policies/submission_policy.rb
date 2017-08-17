@@ -3,7 +3,9 @@ class SubmissionPolicy < ApplicationPolicy
         record.owner?(user)
     end
     def can_write_review?
-        record.user_invitation(user).accepted? && record.last_submitted_revision.under_consideration? &&
+        record.user_invitation(user).accepted? &&
+        !record.user_invitation(user).currev_expired? &&
+        record.last_submitted_revision.under_consideration? &&
         !(record.last_submitted_revision.user_review(user) && record.last_submitted_revision.user_review(user).submitted?)
         rescue false
     end

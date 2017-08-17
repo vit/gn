@@ -1,6 +1,7 @@
 <%
   modal_target_id = 'modal_submission_' + @submission.id.to_s + '_invite_reviewers'
   invitations_block_id = 'invitations_block_' + @submission.id.to_s
+  now_time = DateTime.now
 %>
 
 <div class="card" id="<%= invitations_block_id %>" style='background-color: #eeffee; border-bottom: 1px solid #333333'>
@@ -11,7 +12,12 @@
     <!--/div-->
         <ul class="list-group">
             <% @submission.reviewer_invitations.each do |ri| %>
-                <li class="list-group-item">
+                <%
+                    review = ri.get_review
+                %>
+                <li class="list-group-item card">
+
+                    <div cclass="card-header">
                 <!--
                     <%#= link_to e_submission_path(@submission, op: 'drop_reviewer_invitation', reviewer_id: ri.user.id),
                         method: :put,
@@ -28,13 +34,15 @@
                     #    :disabled => !ri.may_sm_destroy?,
                         :disabled => !ri.inactive?,
                         a: :b do %>
-                            &times;
+                            <i class="fa fa-times"></i>
+                            <%= t('journal.e_submission.reviewer_invitations.delete') %>
                     <% end %>
                     <%= button_to e_submission_path(@submission, op: 'cancel_reviewer_invitation', reviewer_id: ri.user.id),
                         method: :put,
                         data: { confirm: 'Are you sure?' },
                         :class => 'btn btn-warning btn-sm pull-right', remote: true,
                         :disabled => !ri.may_sm_cancel? do %>
+                            <i class="fa fa-ban"></i>
                             <%= t('journal.e_submission.reviewer_invitations.cancel') %>
                     <% end %>
 
@@ -58,25 +66,149 @@
                             <i class="fa fa-check"></i>
                             <%= t('journal.e_submission.reviewer_invitations.activate') %>
                     <% end %>
+
                     <p>
                         <%#= link_to u_path(ri.user), target: "_blank" do %>
                             <i class="fa fa-user"></i> <%= ri.user.full_name -%>
                         <%# end %>
                         | <%= ri.aasm_state %>
                     </p>
-                    <div style="font-size: 70%;">
+                    </div>
+
+
+
+                    <div style="font-size: 70%;" class="clearfix card-block">
+
+                        <!--b><%= t('journal.e_submission.reviewer_invitations.invitation') %>:</b-->
+                        <h4 class="card-title"><%= t('journal.e_submission.reviewer_invitations.invitation') %></h4>
+
+                        <% if ri.accepted? %>
+                            <b><%= t('journal.e_submission.reviewer_invitations.time.accepted_at') %> <%= format_date_only( ri.accepted_at.to_datetime) rescue '' %></b> |
+                        <% end %>
                         <%
-                            time_fields = %w[activated cancelled accepted declined]
+#                            time_fields = %w[activated cancelled accepted declined]
+#                            time_fields = %w[created activated cancelled accepted declined inv_expires inv_remind inv_remind_editor]
+                            time_fields = %w[created activated cancelled declined inv_expires inv_remind inv_remind_editor]
                             show_delimiter = false
                         %>
                         <% time_fields.each do |f| %>
+                            <% text_style = "nnn-danger" %>
                             <% ff = f.to_s+'_at' %>
                             <% if ri.send(ff) %>
-                                <%= show_delimiter ? ' | ' : '' %><%= t('journal.e_submission.reviewer_invitations.time.'+ff) %> <%= format_date_only( ri.send(ff).to_datetime) rescue '' %>
+                                <%= show_delimiter ? ' | ' : '' %><span class="text-<%= text_style %>"><%= t('journal.e_submission.reviewer_invitations.time.'+ff) %> <%= format_date_only( ri.send(ff).to_datetime) rescue '' %></span>
                                 <% show_delimiter = true %>
                             <% end %>
                         <% end %>
+                        | <b><%= ri.expired? ? 'expired' : 'not expired' %></b>
+                            <% if 1 or !ri.expired? %> (<%= distance_of_time_in_words(now_time, ri.inv_expires_at) rescue '' %>) <% end %>
+
+<!--
+                        <%= button_to e_submission_path(@submission, op: 'activate_reviewer_invitation', reviewer_id: ri.user.id),
+                            method: :put,
+#                            data: { confirm: 'Are you sure?' },
+                            :class => 'btn btn-primary btn-sm ppull-right',
+                            remote: true,
+                            :disabled => !ri.may_sm_activate? do %>
+                                <i class="fa fa-calendar-o"></i>
+                                <%= t('journal.e_submission.reviewer_invitations.set_deadline') %>
+                        <% end %>
+-->
+
+<div class="dropdown">
+  <button class="btn bbtn-secondary btn-primary btn-sm dropdown-toggle" type="button" id="dropdown-deadline-inv-<%= ri.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-calendar"></i>
+                                <%= t('journal.e_submission.reviewer_invitations.acceptance_deadline') %>
+  </button>
+<%
+    intervals_inv = [
+        {'title': 'in 1 hour, remind when 20 minutes left', duration: 'PT1H|PT20M'},
+        {'title': 'in 3 days, remind when 1 day left', duration: 'P3D|P1D'},
+        {'title': 'in 1 week, remind when 3 days left', duration: 'P1W|P3D'},
+        {'title': 'in 2 weeks, remind when 5 days left', duration: 'P2W|P5D'},
+        {'title': 'in 1 month, remind when 1 week left', duration: 'P1M|P1W'},
+    ]
+%>
+  <div class="dropdown-menu disabled" aria-labelledby="dropdown-deadline-inv-<%= ri.id %>">
+<% intervals_inv.each do |i| %>
+                        <%= button_to e_submission_path(@submission, op: 'set_reviewer_invitation_deadline', reviewer_id: ri.user.id, deadline_duration: i[:duration]),
+                            method: :put,
+                            data: { confirm: 'Are you sure?' },
+                            :class => 'bbtn bbtn-primary bbtn-sm ppull-right dropdown-item '+(ri.may_sm_set_invitation_deadline? ? "":"disabled"),
+                            remote: true,
+                            :ddisabled => true do
+                        %>
+                                <%= i[:title] %>
+                        <% end %>
+<% end %>
+  </div>
+</div>
+
+
                     </div>
+
+                    <div style="font-size: 70%;" class="clearfix card-block">
+                        <!--b><%= t('journal.e_submission.reviewer_invitations.current_review') %>:</b-->
+                        <h4 class="card-title"><%= t('journal.e_submission.reviewer_invitations.current_review') %>
+                        
+                                    <%= render partial: 'indicator_reviews', locals: {submission: @submission, revision: @submission.lsr, invitation: ri} %>
+
+                        </h4>
+                        <% if review && review.submitted? %>
+                            <b><%= t('journal.e_submission.reviewer_invitations.time.currev_submitted_at') %> <%= format_date_only( review.submitted_at.to_datetime) rescue '' %></b> |
+                        <% end %>
+                        <%
+                            #time_fields = %w[activated cancelled accepted declined inv_expires inv_remind inv_remind_editor]
+                            time_fields = %w[currev_expires currev_remind currev_remind_editor currev_submitted]
+                            show_delimiter = false
+                        %>
+                        <% time_fields.each do |f| %>
+                            <% text_style = "nnn-danger" %>
+                            <% ff = f.to_s+'_at' %>
+                            <% if ri.send(ff) %>
+                                <%= show_delimiter ? ' | ' : '' %><span class="text-<%= text_style %>"><%= t('journal.e_submission.reviewer_invitations.time.'+ff) %> <%= format_date_only( ri.send(ff).to_datetime) rescue '' %></span>
+                                <% show_delimiter = true %>
+                            <% end %>
+                        <% end %>
+                        | <b><%= ri.currev_expired? ? 'expired' : 'not expired' %></b>
+                            <% if 1 or !ri.currev_expired? %> (<%= distance_of_time_in_words(now_time, ri.currev_expires_at) rescue '' %>) <% end %>
+
+
+<div class="dropdown">
+  <button class="btn bbtn-secondary btn-primary btn-sm dropdown-toggle" type="button" id="dropdown-deadline-rev-<%= ri.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-calendar"></i>
+                                <%= t('journal.e_submission.reviewer_invitations.submission_deadline') %>
+  </button>
+<%
+    intervals_rev = [
+        {'title': 'in 1 hour, remind when 20 minutes left', duration: 'PT1H|PT20M'},
+#        {'title': 'in 3 days, remind when 1 day left', duration: 'P3D|P1D'},
+        {'title': 'in 1 week, remind when 3 days left', duration: 'P1W|P3D'},
+        {'title': 'in 2 weeks, remind when 5 days left', duration: 'P2W|P5D'},
+        {'title': 'in 1 month, remind when 1 week left', duration: 'P1M|P1W'},
+        {'title': 'in 2 months, remind when 2 weeks left', duration: 'P2M|P2W'},
+    ]
+%>
+  <div class="dropdown-menu" aria-labelledby="dropdown-deadline-rev-<%= ri.id %>">
+<% intervals_rev.each do |i| %>
+                        <%= button_to e_submission_path(@submission, op: 'set_reviewer_current_review_deadline', reviewer_id: ri.user.id, deadline_duration: i[:duration]),
+                            method: :put,
+                            data: { confirm: 'Are you sure?' },
+                            #:class => 'bbtn bbtn-primary bbtn-sm ppull-right dropdown-item',
+                            :class => 'bbtn bbtn-primary bbtn-sm ppull-right dropdown-item '+(ri.may_sm_set_current_review_deadline? ? "":"disabled"),
+                            remote: true,
+                            :disabled => false do
+                        %>
+                                <%= i[:title] %>
+                        <% end %>
+<% end %>
+  </div>
+</div>
+
+
+
+
+                    </div>
+
                 </li>
             <% end %>
         </ul>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170530101322) do
+ActiveRecord::Schema.define(version: 20170602142626) do
 
   create_table "event_logs", force: :cascade do |t|
     t.integer  "loggable_id"
@@ -78,12 +78,23 @@ ActiveRecord::Schema.define(version: 20170530101322) do
     t.integer  "user_id"
     t.integer  "submission_id"
     t.string   "aasm_state"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.datetime "activated_at"
     t.datetime "cancelled_at"
     t.datetime "accepted_at"
     t.datetime "declined_at"
+    t.boolean  "inv_expired",             default: false
+    t.datetime "inv_expires_at"
+    t.datetime "inv_remind_at"
+    t.datetime "inv_remind_editor_at"
+    t.datetime "inv_decided_at"
+    t.boolean  "currev_expired",          default: false
+    t.boolean  "currev_submitted",        default: false
+    t.datetime "currev_expires_at"
+    t.datetime "currev_remind_at"
+    t.datetime "currev_remind_editor_at"
+    t.datetime "currev_submitted_at"
     t.index ["submission_id", "user_id"], name: "index_submission_reviewer_invitations_submission_user", unique: true
     t.index ["submission_id"], name: "index_submission_reviewer_invitations_on_submission_id"
     t.index ["user_id"], name: "index_submission_reviewer_invitations_on_user_id"

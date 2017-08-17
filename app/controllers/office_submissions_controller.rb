@@ -99,6 +99,7 @@ class OfficeSubmissionsController < OfficeBaseController
 				puts r_id
 				u = User.find(r_id)
 				inv = @submission.reviewer_invitations.build(user: u)
+				inv.sm_init! rescue nil
 				inv.save! rescue nil
 			end if r_ids and r_ids.is_a?(Array)
 		when 'activate_reviewer_invitation'
@@ -117,6 +118,45 @@ class OfficeSubmissionsController < OfficeBaseController
 			u = User.find(r_id)
 			inv = @submission.reviewer_invitations.find_by(user: u)
 			inv.sm_cancel! if inv.may_sm_cancel?
+		when 'set_reviewer_invitation_deadline'
+			r_id = params[:reviewer_id]
+			deadline_duration = params[:deadline_duration]
+			dur_lst = deadline_duration.scan(/(P(\d+[MWD]){0,1}T{0,1}(\d+[HM]){0,1})/) rescue nil
+			d1 = ActiveSupport::Duration.parse(dur_lst[0][0]) rescue nil
+			d2 = ActiveSupport::Duration.parse(dur_lst[1][0]) rescue nil
+			u = User.find(r_id)
+			inv = @submission.reviewer_invitations.find_by(user: u)
+
+#			if d1 && d2 && d1.is_a?(ActiveSupport::Duration) && d2.is_a?(ActiveSupport::Duration)
+#				now_time = DateTime.now
+#				inv.inv_expires_at = now_time + d1
+#				inv.inv_remind_at = inv.inv_expires_at - d2
+#				inv.inv_remind_editor_at = inv.inv_expires_at - d2
+#				inv.save
+#			end
+
+			inv.sm_set_invitation_deadline! d1, d2
+
+		when 'set_reviewer_current_review_deadline'
+			r_id = params[:reviewer_id]
+			deadline_duration = params[:deadline_duration]
+			dur_lst = deadline_duration.scan(/(P(\d+[MWD]){0,1}T{0,1}(\d+[HM]){0,1})/) rescue nil
+			d1 = ActiveSupport::Duration.parse(dur_lst[0][0]) rescue nil
+			d2 = ActiveSupport::Duration.parse(dur_lst[1][0]) rescue nil
+			u = User.find(r_id)
+			inv = @submission.reviewer_invitations.find_by(user: u)
+
+#			if d1 && d2 && d1.is_a?(ActiveSupport::Duration) && d2.is_a?(ActiveSupport::Duration)
+#				now_time = DateTime.now
+#				inv.currev_expires_at = now_time + d1
+#				inv.currev_remind_at = inv.currev_expires_at - d2
+#				inv.currev_remind_editor_at = inv.currev_expires_at - d2
+#				inv.save
+#			end
+
+			inv.sm_set_current_review_deadline! d1, d2
+
+
 #=begin
 		when 'accept_my_reviewer_invitation'
 			@my_invitation.sm_accept! if @my_invitation && @my_invitation.may_sm_accept?
