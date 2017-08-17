@@ -3,18 +3,45 @@
 Здравствуйте, <%= @user.full_name %>!
 
 Пригашаем Вас стать рецензентом статьи #<%= @submission.id %>.
+Главный редактор журнала «Гироскопия и навигация» В.Г. Пешехонов просит Вас подготовить отзыв на статью:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
 
-Чтобы начать рецензирование, нужно подтвердить согласие, приняв приглашение здесь: <%= @submission_reviewer_url %>
-Если Вы не хотите рецензировать этe статью, сообщите, пожалуйста, нам об этом, отклонив приглашение там же.
+Чтобы начать рецензирование, нужно дать согласие, приняв приглашение здесь: <%= @submission_reviewer_url %>
+Если Вы по какой-либо причине не можете рецензировать эту статью, сообщите, пожалуйста, нам об этом, отклонив приглашение там же.
+Крайний срок согласия/отклонения: <%= @invitation.inv_expires_at %>.
+
+Пожалуйста, подготовьте и подайте рецензию не позднее указанного срока: <%= @invitation.currev_expires_at %>.
+
+Принять/отклонить приглашение и подать рецензию после наступления соответствующего срока будет невозможно.
+
+C уважением,
+Тарановский Д.О.
+секретарь редколлегии журнала
+"Гироскопия и навигация"
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
 
 
 Dear <%= @user.full_name %>!
 
-We invite you to become a reviewer of the paper #<%= @submission.id %>.
+The editor-in-chief of journal Gyroscopy and Navigation invites you to become a reviewer of the paper:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
 
 To start reviewing please accept our invitation here: <%= @submission_reviewer_url %>
-Decline the invitation if you do not want to review this paper.
+Decline the invitation if you can't review this paper.
+The deadline for acceptance/declining is: <%= @invitation.inv_expires_at %>.
+
+Please prepare and submit the review before this deadline: <%= @invitation.currev_expires_at %>.
+
+You cannot accept the invitation or submit the review after corresponding deadlines.
+
+Best regards,
+Taranovskiy Dmitriy
+editorial board secretary
+Gyroscopy and Navigation journal
 
 (This email was sent by the system. Please don't reply.)

@@ -165,11 +165,15 @@ class JournalMailer < ApplicationMailer
     def submission_invite_reviewer_reviewer invitation
         @invitation = invitation
         @submission = @invitation.submission
+        @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
+        @title_text = @submission.get_text_submitted.title rescue ''
+        #@lsr = @submission.lsr
         @journal = @submission.journal
         @user = @invitation.user
         @submission_editor_url = e_submission_url(@submission)
         @submission_reviewer_url = r_submission_url(@submission)
-        subject = "#{@journal.slug}##{@submission.id} Please participate as a reviewer | Приглашаем стать рецензентом"
+#        subject = "#{@journal.slug}##{@submission.id} Please participate as a reviewer | Приглашаем стать рецензентом"
+        subject = "##{@submission.id} The paper for review. Journal Gyroscopy and Navigation | Статья на рецензию. Журнал \"Гироскопия и навигация\""
     	mail(to: @user.email, subject: subject) do |format|
             format.text { render 'submission_invite_reviewer_reviewer' }
         end
