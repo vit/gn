@@ -22,7 +22,9 @@
             <%= f.label t('journal.editor_submission.form.decision'), :class => "col-sm-2 col-form-label form-control-label" %>
             <div class="col-sm-10">
               <%#= f.select :decision, options_for_select(SubmissionRevisionDecision::Decisions, @decision.decision), class: "form-control" %>
-              <%= f.select :decision, options_for_select(SubmissionRevisionDecision::decisions(stage), decision.decision), class: "form-control" %>
+              <%= f.select :decision, options_for_select(SubmissionRevisionDecision::decisions(stage).map{ |d|
+                  [t('journal.office_submission.decisions.'+d), d]
+                }, decision.decision), class: "form-control" %>
             </div>
           </div>
           <div class="form-group row">

@@ -255,6 +255,12 @@ ru:
             decision_stage_2: Решение редактора 2
             decision_stage_2_decision: Решение
             decision_stage_2_comment: Комментарий
+            decisions:
+                accept: Принять
+                reject: Отклонить
+                revise: Доработать
+                take_for_consideration: Принять к рассмотрению
+                reject_without_consideration: Отклонить без рассмотрения
             r_invitation: # my review invitation
                 my_invitation: Приглашение к рецензированию
                 inv_txt: Чтобы рецензировать, Вам нужно выразить согласие, нажав "Принять". Нажмите "Отклонить", если Вы не хотите рецензировать эту статью.

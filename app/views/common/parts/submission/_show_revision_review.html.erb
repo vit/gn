@@ -38,7 +38,8 @@
                         </div>
                         <div>
                             <b><%= t('journal.office_submission.r_review.decision') %>:</dt></b>&nbsp;
-                            <%= r.decision %>
+                            <%#= r.decision %>
+                            <%= t('journal.office_submission.decisions.' + r.decision) %>
                         </div>
 
                         <div class="review_blocks">

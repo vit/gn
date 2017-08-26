@@ -14,7 +14,8 @@
                     <!--dt>State:</dt>
                     <dd><%#= @my_review.aasm_state %></dd-->
                     <dt><%= t('journal.office_submission.r_review.decision') %>:</dt>
-                    <dd><%= @my_review.decision %></dd>
+                    <!--dd><%#= @my_review.decision %></dd-->
+                    <dd><%= t('journal.office_submission.decisions.' + @my_review.decision) %></dd>
 
                     <dt><%= t('journal.office_submission.r_review.comment_science_header') %>:</dt>
                     <dd><%= simple_format( strip_tags(@my_review.comment_science) ) %></dd>

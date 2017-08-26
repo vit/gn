@@ -244,6 +244,12 @@ en:
             decision_stage_2: Editor's decision 2
             decision_stage_2_decision: Decision
             decision_stage_2_comment: Comment
+            decisions:
+                accept: Accept
+                reject: Reject
+                revise: Revise
+                take_for_consideration: Take for consideration
+                reject_without_consideration: Reject without consideration
             r_invitation: # my review invitation
                 my_invitation: Reviewer invitation
                 inv_txt: To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.

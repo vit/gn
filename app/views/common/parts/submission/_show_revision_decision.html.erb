@@ -15,7 +15,8 @@
                         <div class="ccollapse" iid="<%= collapse_target_id %>">
                             <div class="card card-block"  style='background-color: #eeeeee;'>
                                 <p class="card-text">
-                                    <b><%= t("journal.office_submission.decision_#{decision.category}_decision") %>:</b> <%= decision.decision rescue '' %>
+                                    <!--b><%#= t("journal.office_submission.decision_#{decision.category}_decision") %>:</b> <%#= decision.decision rescue '' %> -->
+                                    <b><%= t("journal.office_submission.decision_#{decision.category}_decision") %>:</b> <%= t('journal.office_submission.decisions.' + decision.decision) rescue '' %>
                                     <br>
                                     <b><%= t("journal.office_submission.decision_#{decision.category}_comment") %>:</b> <%= decision.comment rescue '' %>
                                 </p>
