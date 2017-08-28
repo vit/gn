@@ -124,9 +124,12 @@ $paper-state-color: (
 
 $paper-reviewer-state-color: (
     please_accept: #00cc22,
-    please_wait: #0033dd,
+    //please_wait: #0033dd,
+    review_submitted: #0033dd,
+    author_works: #0033dd,
     please_review: #eeaa00,
     nothing_to_do: #777777,
+    invitation_expired: #550000,
     review_expired: #550000
 );
 

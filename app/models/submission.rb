@@ -144,6 +144,35 @@ class Submission < ApplicationRecord
     review = lsr.user_review user
     (if inv.pending?
         'please_accept'
+    elsif inv.expired?
+        'invitation_expired'
+    elsif inv.accepted?
+      (if lsr.under_consideration?
+        (if review && review.submitted?
+            #'please_wait'
+            'review_submitted'
+        elsif inv.currev_expired?
+            'review_expired'
+        else
+            'please_review'
+        end)
+      elsif inv.accepted? && lsr.need_revise?
+        #'please_wait'
+        'author_works'
+      else
+        'nothing_to_do'
+      end)
+    else
+        'nothing_to_do'
+    end) rescue '_'
+  end
+
+=begin
+  def reviewer_to_do_status user
+    inv = user_invitation user
+    review = lsr.user_review user
+    (if inv.pending?
+        'please_accept'
     elsif inv.accepted? && lsr.under_consideration?
         (if review && review.submitted?
             'please_wait'
@@ -158,6 +187,7 @@ class Submission < ApplicationRecord
         'nothing_to_do'
     end) rescue '_'
   end
+=end
 
   def owner?(user)
     self.user==user

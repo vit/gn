@@ -13,7 +13,19 @@
     reviewer_to_do_status = @submission.reviewer_to_do_status current_user
 
 #    state1 = state + (lsr.under_consideration? ? ('_'+r_state) : '')
-    state1 = state + (lsr.under_consideration? ? (@my_invitation.currev_expired? ? '_expired' : ('_'+r_state))  : '')
+#    state1 = state + (lsr.under_consideration? ? (@my_invitation.currev_expired? ? '_expired' : ('_'+r_state))  : '')
+
+    state1 = state + (lsr.under_consideration? ? (
+        (
+            @my_review && @my_review.submitted? ? '_done' : (
+                @my_invitation.currev_expired? ? '_expired' : '_not_done'
+            )
+        )
+    ) : '')
+    
+#    (@my_invitation.currev_expired? ? '_expired' : ('_'+r_state))  : '')
+
+
     block_class = 'reviewer_submission-block-'+reviewer_to_do_status
 
 %>
@@ -61,12 +73,23 @@
 
             <% end %>
 
-            <p class="card-text"><%= simple_format( t('journal.submissions.inv_state_description.'+inv_state) ) %></p>
-            <% if inv_state=='accepted' %>
-                <p class="card-text"><%= simple_format( t('journal.submissions.inv_state_description.accepted_'+state1) ) %></p>
-            <% end %>
+<%
+    args = {
+        phone: '<a href="tel:+78124998293">+7 (812) 499-82-93</a>',
+        email: '<a href="mailto:editor@eprib.ru">editor@eprib.ru</a>'
+    }
+%>
 
+            <%
+                if inv_state=='accepted'
+                    inv_state = inv_state + '_' + state1
+                end
+            %>
 
+            <p class="card-text"><p><%= ( t('journal.submissions.inv_state_description.'+inv_state, args) ).html_safe %></p></p>
+            <%# if inv_state=='accepted' %>
+                <!--p class="card-text"><p><%= simple_format( t('journal.submissions.inv_state_description.accepted_'+state1, args) ).html_safe %></p></p-->
+            <%# end %>
 
                     <%
                         ri = @my_invitation
@@ -74,7 +97,7 @@
                     <div style="font-size: 70%;">
                         <b><%= t('journal.e_submission.reviewer_invitations.invitation') %>:</b>
                         <%
-                            time_fields = %w[activated cancelled accepted declined inv_expires]
+                            time_fields = %w[activated inv_expires declined cancelled accepted]
                             show_delimiter = false
                         %>
                         <% time_fields.each do |f| %>
