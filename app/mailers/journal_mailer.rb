@@ -1,6 +1,9 @@
 class JournalMailer < ApplicationMailer
     layout 'journal_mailer'
 
+#    add_template_helper(ApplicationHelper)
+    helper(ApplicationHelper)
+
 	# on submit
     def submission_submitted_author(submission)
         @submission = submission

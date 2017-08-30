@@ -95,7 +95,11 @@
                             <% text_style = "nnn-danger" %>
                             <% ff = f.to_s+'_at' %>
                             <% if ri.send(ff) %>
-                                <%= show_delimiter ? ' | ' : '' %><span class="text-<%= text_style %>"><%= t('journal.e_submission.reviewer_invitations.time.'+ff) %> <%= format_date_only( ri.send(ff).to_datetime) rescue '' %></span>
+                                <%= show_delimiter ? ' | ' : '' %>
+                                <span class="text-<%= text_style %>">
+                                    <%= t('journal.e_submission.reviewer_invitations.time.'+ff) %>
+                                    <%= format_date_time( ri.send(ff).to_datetime ) rescue '' %>
+                                </span>
                                 <% show_delimiter = true %>
                             <% end %>
                         <% end %>
@@ -114,6 +118,7 @@
                         <% end %>
 -->
 
+<% if ri.may_sm_set_invitation_deadline? %>
 <div class="dropdown">
   <button class="btn bbtn-secondary btn-primary btn-sm dropdown-toggle" type="button" id="dropdown-deadline-inv-<%= ri.id %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-calendar"></i>
@@ -142,6 +147,7 @@
 <% end %>
   </div>
 </div>
+<% end %>
 
 
                     </div>
@@ -165,7 +171,11 @@
                             <% text_style = "nnn-danger" %>
                             <% ff = f.to_s+'_at' %>
                             <% if ri.send(ff) %>
-                                <%= show_delimiter ? ' | ' : '' %><span class="text-<%= text_style %>"><%= t('journal.e_submission.reviewer_invitations.time.'+ff) %> <%= format_date_only( ri.send(ff).to_datetime) rescue '' %></span>
+                                <%= show_delimiter ? ' | ' : '' %>
+                                <span class="text-<%= text_style %>">
+                                    <%= t('journal.e_submission.reviewer_invitations.time.'+ff) %>
+                                    <%= format_date_time( ri.send(ff).to_datetime ) rescue '' %>
+                                </span>
                                 <% show_delimiter = true %>
                             <% end %>
                         <% end %>

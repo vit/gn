@@ -3,10 +3,10 @@
 Здравствуйте, <%= @user.full_name %>!
 
 Некоторое время назад мы выслали Вам приглашение стать рецензентом статьи #<%= @submission.id %>.
-Напоминаем Вам, что приближается крайний срок для принятия этого приглашения (<%= @invitation.inv_expires_at %>).
+Напоминаем Вам, что приближается крайний срок для принятия этого приглашения (<%= format_date_time( @invitation.inv_expires_at ) %>).
 
 Чтобы начать рецензирование, нужно подтвердить согласие, приняв приглашение здесь: <%= @submission_reviewer_url %>
-Если Вы не хотите рецензировать этe статью, сообщите, пожалуйста, нам об этом, отклонив приглашение там же.
+Если Вы не имеете возможности рецензировать эту статью, сообщите, пожалуйста, нам об этом, отклонив приглашение там же.
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
 
@@ -14,9 +14,9 @@
 Dear <%= @user.full_name %>!
 
 Some time ago we invited you to become a reviewer of the paper #<%= @submission.id %>.
-We would like to remind you that this invitation is approaching the deadline (<%= @invitation.inv_expires_at %>).
+We would like to remind you that this invitation is approaching the deadline (<%= format_date_time( @invitation.inv_expires_at ) %>).
 
 To start reviewing please accept our invitation here: <%= @submission_reviewer_url %>
-Decline the invitation if you do not want to review this paper.
+Decline the invitation if you can't review this paper.
 
 (This email was sent by the system. Please don't reply.)

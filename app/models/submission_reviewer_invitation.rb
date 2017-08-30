@@ -39,11 +39,13 @@ class SubmissionReviewerInvitation < ApplicationRecord
 			after do
 				now_time = DateTime.now
 
-				self.inv_expires_at = now_time + INTERVALS[:inv_deadline]
+				#self.inv_expires_at = now_time + INTERVALS[:inv_deadline]
+				self.inv_expires_at = plus_interval(now_time, INTERVALS[:inv_deadline])
 				self.inv_remind_at = self.inv_expires_at - INTERVALS[:inv_remind]
 				self.inv_remind_editor_at = self.inv_expires_at - INTERVALS[:inv_remind_editor]
 
-				self.currev_expires_at = now_time + INTERVALS[:currev_deadline]
+				#self.currev_expires_at = now_time + INTERVALS[:currev_deadline]
+				self.currev_expires_at = plus_interval(now_time, INTERVALS[:currev_deadline])
 				self.currev_remind_at = self.currev_expires_at - INTERVALS[:currev_remind]
 				self.currev_remind_editor_at = self.currev_expires_at - INTERVALS[:currev_remind]
 
@@ -56,7 +58,8 @@ class SubmissionReviewerInvitation < ApplicationRecord
 		event :next_revision_submitted do
 			after do
 				now_time = DateTime.now
-				self.currev_expires_at = now_time + INTERVALS[:currev_next_deadline]
+				#self.currev_expires_at = now_time + INTERVALS[:currev_next_deadline]
+				self.currev_expires_at = plus_interval(now_time, INTERVALS[:currev_next_deadline])
 				self.currev_remind_at = self.currev_expires_at - INTERVALS[:currev_next_remind]
 				self.currev_remind_editor_at = self.currev_expires_at - INTERVALS[:currev_next_remind]
 				self.currev_expired = false
@@ -70,7 +73,8 @@ class SubmissionReviewerInvitation < ApplicationRecord
 
 				if d1 && d2 && d1.is_a?(ActiveSupport::Duration) && d2.is_a?(ActiveSupport::Duration)
 					now_time = DateTime.now
-					self.inv_expires_at = now_time + d1
+					#self.inv_expires_at = now_time + d1
+					self.inv_expires_at = plus_interval(now_time, d1)
 					self.inv_remind_at = self.inv_expires_at - d2
 					self.inv_remind_editor_at = self.inv_expires_at - d2
 					self.save
@@ -87,7 +91,8 @@ class SubmissionReviewerInvitation < ApplicationRecord
 
 				if d1 && d2 && d1.is_a?(ActiveSupport::Duration) && d2.is_a?(ActiveSupport::Duration)
 					now_time = DateTime.now
-					self.currev_expires_at = now_time + d1
+					#self.currev_expires_at = now_time + d1
+					self.currev_expires_at = plus_interval(now_time, d1)
 					self.currev_remind_at = self.currev_expires_at - d2
 					self.currev_remind_editor_at = self.currev_expires_at - d2
 
@@ -197,6 +202,15 @@ class SubmissionReviewerInvitation < ApplicationRecord
 		lsr = submission.lsr
 		review = lsr.user_review user
 		review
+	end
+
+private
+
+	def plus_interval t, d
+		r = t + d
+		r = r.in_time_zone('Moscow')
+		r = r.end_of_day if d >= 1.day
+		r
 	end
 
 end

@@ -9,9 +9,9 @@ Id: <%= @submission.id %>
 
 Чтобы начать рецензирование, нужно дать согласие, приняв приглашение здесь: <%= @submission_reviewer_url %>
 Если Вы по какой-либо причине не можете рецензировать эту статью, сообщите, пожалуйста, нам об этом, отклонив приглашение там же.
-Крайний срок согласия/отклонения: <%= @invitation.inv_expires_at %>.
+Крайний срок согласия/отклонения: <%= format_date_time( @invitation.inv_expires_at ) %>.
 
-Пожалуйста, подготовьте и подайте рецензию не позднее указанного срока: <%= @invitation.currev_expires_at %>.
+Пожалуйста, подготовьте и подайте рецензию не позднее указанного срока: <%= format_date_time( @invitation.currev_expires_at ) %>.
 
 Принять/отклонить приглашение и подать рецензию после наступления соответствующего срока будет невозможно.
 
@@ -32,9 +32,9 @@ Paper title: <%= @title_text %>
 
 To start reviewing please accept our invitation here: <%= @submission_reviewer_url %>
 Decline the invitation if you can't review this paper.
-The deadline for acceptance/declining is: <%= @invitation.inv_expires_at %>.
+The deadline for acceptance/declining is: <%= format_date_time( @invitation.inv_expires_at ) %>.
 
-Please prepare and submit the review before this deadline: <%= @invitation.currev_expires_at %>.
+Please prepare and submit the review before this deadline: <%= format_date_time( @invitation.currev_expires_at ) %>.
 
 You cannot accept the invitation or submit the review after corresponding deadlines.
 
