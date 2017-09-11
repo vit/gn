@@ -5,6 +5,7 @@ u1 = User.create!({
     email: 'dt@example.com',
     fname: 'D',
     lname: 'T',
+	country: 'ru',
     password: '123456',
     password_confirmation: '123456'
 })
@@ -13,6 +14,7 @@ u2 = User.create!({
     email: 'vs@example.com',
     fname: 'V',
     lname: 'S',
+	country: 'ru',
     password: '123456',
     password_confirmation: '123456'
 })
@@ -21,6 +23,7 @@ u3 = User.create!({
     email: 'rv1@example.com',
     fname: 'rv1',
     lname: 'rv1',
+	country: 'ru',
     password: '123456',
     password_confirmation: '123456'
 })
@@ -29,6 +32,7 @@ u4 = User.create!({
     email: 'rv2@example.com',
     fname: 'rv2',
     lname: 'rv2',
+	country: 'ru',
     password: '123456',
     password_confirmation: '123456'
 })
@@ -37,6 +41,7 @@ u5 = User.create!({
     email: 'a1@example.com',
     fname: 'a1',
     lname: 'a1',
+	country: 'ru',
     password: '123456',
     password_confirmation: '123456'
 })
@@ -45,6 +50,7 @@ u6 = User.create!({
     email: 'a2@example.com',
     fname: 'a2',
     lname: 'a2',
+	country: 'ru',
     password: '123456',
     password_confirmation: '123456'
 })
