@@ -57,24 +57,8 @@ namespace :reviewer do
       where(currev_expired: false).
       each do |inv|
         p inv
-#        inv.sm_currev_expire!
         inv.currev_expire
 
-#        user = inv.user
-#        p user
-
-#        submission = inv.submission
-#        p submission
-
-#        lsr = submission.lsr
-#        p lsr
-
-#        review = lsr.user_review user
-#        p review
-
-#        if review && review.draft?
-#          p "!!!!!!!"
-#        end
 
         puts
       end
@@ -89,7 +73,6 @@ namespace :reviewer do
         p inv
 
         review = inv.get_review
-#        puts "review && review.submitted? == %{flag}" % {flag: (review && review.submitted?)}
         unless review && review.submitted?
 				  JournalMailer.send_notifications_submission_remind_current_review_reviewer inv
 				end
