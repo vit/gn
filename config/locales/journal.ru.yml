@@ -361,7 +361,8 @@ ru:
         label:
             user:
                 first_name: Имя
-                middle_name: Отчество / middle name
+                #middle_name: Отчество / middle name
+                middle_name: Отчество
                 last_name: Фамилия
                 country: Страна
                 country_blank: Выберите страну
