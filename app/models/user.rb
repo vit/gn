@@ -24,6 +24,12 @@ class User < ApplicationRecord
         "#{lname} #{fname} #{mname}".strip # <#{email}>"
     end
 
+    def country_name
+        country = ISO3166::Country[self.country] rescue nil
+        country ? country.translations[I18n.locale.to_s] || country.name : '-'
+    end
+
+
     # CREATE VIRTUAL TABLE users_fts USING fts4(full_name);
     # insert into users_fts (docid, full_name) values (123, 'user name');
 #    def self.find_fts search

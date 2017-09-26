@@ -190,6 +190,8 @@ en:
             download: Download
             confirm_delete: Are you sure you want to delete this file?
         submission_data:
+            by: By
+            by_contacts: contacts
             revision_number: Version
             revision_state: State
             see_all_revisions: see all versions
@@ -228,6 +230,7 @@ en:
             submitted_papers: Submitted
             archive: Archive
             reviewer_invitations:
+                contacts: contacts
                 activate: Send
                 cancel: Cancel
                 delete: Delete

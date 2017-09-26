@@ -191,6 +191,8 @@ ru:
             download: Скачать
             confirm_delete: Вы точно хотите удалить этот файл?
         submission_data:
+            by: От
+            by_contacts: контакты
             revision_number: Версия
             revision_state: Состояние
             see_all_revisions: см. все версии
@@ -229,6 +231,7 @@ ru:
             submitted_papers: Поданные
             archive: Архив
             reviewer_invitations:
+                contacts: контакты
                 activate: Отправить
                 cancel: Отозвать
                 delete: Удалить
