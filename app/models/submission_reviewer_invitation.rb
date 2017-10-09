@@ -125,6 +125,7 @@ class SubmissionReviewerInvitation < ApplicationRecord
 				JournalMailer.send_notifications_submission_invite_reviewer self
 			end
 			transitions :from => :inactive, :to => :pending
+			transitions :from => :declined, :to => :pending
 		end
 
 		event :sm_cancel do
