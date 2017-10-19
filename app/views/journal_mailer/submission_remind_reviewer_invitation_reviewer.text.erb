@@ -2,7 +2,11 @@
 
 Здравствуйте, <%= @user.full_name %>!
 
-Некоторое время назад мы выслали Вам приглашение стать рецензентом статьи #<%= @submission.id %>.
+Некоторое время назад мы выслали Вам приглашение стать рецензентом следующей статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
 Напоминаем Вам, что приближается крайний срок для принятия этого приглашения (<%= format_date_time( @invitation.inv_expires_at ) %>).
 
 Чтобы начать рецензирование, нужно подтвердить согласие, приняв приглашение здесь: <%= @submission_reviewer_url %>
@@ -13,7 +17,11 @@
 
 Dear <%= @user.full_name %>!
 
-Some time ago we invited you to become a reviewer of the paper #<%= @submission.id %>.
+Some time ago we invited you to become a reviewer of the following paper:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
 We would like to remind you that this invitation is approaching the deadline (<%= format_date_time( @invitation.inv_expires_at ) %>).
 
 To start reviewing please accept our invitation here: <%= @submission_reviewer_url %>

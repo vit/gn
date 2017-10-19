@@ -2,19 +2,37 @@
 
 Здравствуйте, <%= @user.full_name %>!
 
-Вы являетесь рецензентом статьи #<%= @submission.id %>.
+Вы являетесь рецензентом следующей статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
 Хотели бы напомнить Вам, что приближается крайний срок подачи рецензии (<%= format_date_time( @invitation.currev_expires_at ) %>).
 
 Рецензию можно подать здесь: <%= @submission_reviewer_url %>
+
+C уважением,
+Тарановский Д.О.
+секретарь редколлегии журнала
+"Гироскопия и навигация"
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
 
 
 Dear <%= @user.full_name %>!
 
-You are a reviewer of the paper #<%= @submission.id %>.
+You are a reviewer of the following paper:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
 We would like to remind you that the review submission deadline is approaching (<%= format_date_time( @invitation.currev_expires_at ) %>).
 
 You can submit the review here: <%= @submission_reviewer_url %>
+
+Best regards,
+Taranovskiy Dmitriy
+editorial board secretary
+Gyroscopy and Navigation journal
 
 (This email was sent by the system. Please don't reply.)

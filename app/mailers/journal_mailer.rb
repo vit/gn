@@ -185,11 +185,14 @@ class JournalMailer < ApplicationMailer
     def submission_remind_reviewer_invitation_reviewer invitation
         @invitation = invitation
         @submission = @invitation.submission
+        @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
+        @title_text = @submission.get_text_submitted.title rescue ''
         @journal = @submission.journal
         @user = @invitation.user
         @submission_editor_url = e_submission_url(@submission)
         @submission_reviewer_url = r_submission_url(@submission)
-        subject = "#{@journal.slug}##{@submission.id} Your reviewer invitation is approaching the deadline | Ваше приглашение рецензента скоро устареет"
+#        subject = "#{@journal.slug}##{@submission.id} Your reviewer invitation is approaching the deadline | Ваше приглашение рецензента скоро устареет"
+        subject = "##{@submission.id} Invitation deadline. Journal Gyroscopy and Navigation | Приглашение устаревает. Журнал \"Гироскопия и навигация\""
     	mail(to: @user.email, subject: subject) do |format|
             format.text { render 'submission_remind_reviewer_invitation_reviewer' }
         end
@@ -198,12 +201,14 @@ class JournalMailer < ApplicationMailer
     def submission_remind_reviewer_current_review_reviewer invitation
         @invitation = invitation
         @submission = @invitation.submission
+        @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
+        @title_text = @submission.get_text_submitted.title rescue ''
         @journal = @submission.journal
         @user = @invitation.user
         @submission_editor_url = e_submission_url(@submission)
         @submission_reviewer_url = r_submission_url(@submission)
-#        subject = "#{@journal.slug}##{@submission.id} You reviewer invitation is approaching the deadline | Ваше приглашение рецензента скоро устареет"
-        subject = "#{@journal.slug}##{@submission.id} Your review is approaching the deadline | Срок подачи рецензии истекает"
+#        subject = "#{@journal.slug}##{@submission.id} Your review is approaching the deadline | Срок подачи рецензии истекает"
+        subject = "##{@submission.id} Review deadline. Journal Gyroscopy and Navigation | Срок для рецензии. Журнал \"Гироскопия и навигация\""
     	mail(to: @user.email, subject: subject) do |format|
             format.text { render 'submission_remind_reviewer_current_review_reviewer' }
         end
