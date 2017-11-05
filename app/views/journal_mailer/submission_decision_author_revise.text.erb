@@ -4,6 +4,11 @@
 
 Ваша статья нуждается в доработке.
 
+Данные статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
 Сообщение редактора ниже:
 --------------------------------------------------
 <%= @decision.comment %>
@@ -11,7 +16,10 @@
 
 Видеть данные статьи и рецензии, а также подать новую версию статьи, можно здесь: <%= @submission_url %>
 
-Редколлегия журнала ГН
+C уважением,
+Тарановский Д.О.
+секретарь редколлегии журнала
+"Гироскопия и навигация"
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
 
@@ -20,6 +28,11 @@ Dear <%= @user.full_name %>!
 
 Your paper must be revised.
 
+Paper data:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
 The editor's comment is here:
 --------------------------------------------------
 <%= @decision.comment %>
@@ -27,6 +40,9 @@ The editor's comment is here:
 
 You can submit a new paper version or you can see the paper data and reviews here: <%= @submission_url %>
 
-The GN Journal editorial board
+Best regards,
+Taranovskiy Dmitriy
+editorial board secretary
+Gyroscopy and Navigation journal
 
 (This email was sent by the system. Please don't reply.)

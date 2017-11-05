@@ -4,7 +4,11 @@
 
 Вы получили это письмо, поскольку находитесь в списке редакторов Журнала.
 
-Только что была подана новая версия статьи.
+Только что была подана новая версия статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
 Вы можете работать со статьей здесь: <%= @submission_editor_url %>
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
@@ -14,7 +18,11 @@ Dear <%= @user.full_name %>!
 
 You received this email because you are in the list of Journal editors.
 
-New version of the paper was submitted right now.
+New version of the paper was submitted right now:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
 You can work with this paper here: <%= @submission_editor_url %>
 
 (This email was sent by the system. Please don't reply.)

@@ -4,8 +4,19 @@
 
 Вы получили это письмо, поскольку являетесь рецензентом статьи #<%= @submission.id %>.
 
-Только что была подана новая версия статьи.
+Только что была подана новая версия статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
 Вы можете работать со статьей здесь: <%= @submission_reviewer_url %>
+
+Пожалуйста, подготовьте и подайте рецензию не позднее указанного срока: <%= format_date_time( @invitation.currev_expires_at ) %>.
+
+C уважением,
+Тарановский Д.О.
+секретарь редколлегии журнала
+"Гироскопия и навигация"
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
 
@@ -14,7 +25,18 @@ Dear <%= @user.full_name %>!
 
 You received this email because you are a reviewer of the paper #<%= @submission.id %>.
 
-New version of the paper was submitted right now.
+New version of the paper was submitted right now:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
 You can work with this paper here: <%= @submission_reviewer_url %>
+
+Please prepare and submit the review before this deadline: <%= format_date_time( @invitation.currev_expires_at ) %>.
+
+Best regards,
+Taranovskiy Dmitriy
+editorial board secretary
+Gyroscopy and Navigation journal
 
 (This email was sent by the system. Please don't reply.)

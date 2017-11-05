@@ -4,6 +4,11 @@
 
 К сожалению, Ваша статья была отклонена по результатам рецензирования.
 
+Данные статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
 Сообщение редактора ниже:
 --------------------------------------------------
 <%= @decision.comment %>
@@ -11,14 +16,22 @@
 
 Данные статьи и рецензии можно видеть здесь: <%= @submission_url %>
 
-Редколлегия журнала ГН
+C уважением,
+Тарановский Д.О.
+секретарь редколлегии журнала
+"Гироскопия и навигация"
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
 
 
 Dear <%= @user.full_name %>!
 
-Unfortunately your paper was rejected after.
+Unfortunately your paper was rejected after reviewing.
+
+Paper data:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
 
 The editor's comment is here:
 --------------------------------------------------
@@ -27,6 +40,9 @@ The editor's comment is here:
 
 You can see the paper data and reviews here: <%= @submission_url %>
 
-The GN Journal editorial board
+Best regards,
+Taranovskiy Dmitriy
+editorial board secretary
+Gyroscopy and Navigation journal
 
 (This email was sent by the system. Please don't reply.)

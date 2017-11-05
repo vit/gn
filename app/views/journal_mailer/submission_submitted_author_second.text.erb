@@ -2,19 +2,33 @@
 
 Здравствуйте, <%= @user.full_name %>!
 
-Вы только что подали новую версию Вашей статьи.
+Вы только что подали новую версию статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
 Вы можете следить за процессом рецензирования статьи здесь: <%= @submission_url %>
 
-Редколлегия журнала ГН
+C уважением,
+Тарановский Д.О.
+секретарь редколлегии журнала
+"Гироскопия и навигация"
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
 
 
 Dear <%= @user.full_name %>!
 
-You just submitted new version of your paper.
+You just submitted new version of your paper:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
 You can track the paper reviewing progress here: <%= @submission_url %>
 
-The GN Journal editorial board
+Best regards,
+Taranovskiy Dmitriy
+editorial board secretary
+Gyroscopy and Navigation journal
 
 (This email was sent by the system. Please don't reply.)
