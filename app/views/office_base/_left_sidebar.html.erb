@@ -73,13 +73,6 @@
   <li class="nav-item nav-item-title">
     <b class="nav-link ttext-xs-center"><%= t('journal.menu.reviewer_office') %></b>
   </li>
-  <!--li class="nnav-item nav-item-incut">
-    <span class="nnav-link nav-text">
-      (Инструкции:
-      <%= fa_icon 'file-pdf-o' %>
-      <a href="/docs/Guidelines_for_Peer_Reviewers.pdf" style="padding: 0;">англ</a> / <a href="/docs/Guidelines_for_Peer_Reviewers_ru.pdf" style="padding: 0;">рус</a>)
-    </span>
-  </li-->
   <li class="nav-item nav-item-link">
     <%= link_to r_submissions_path, class: "nav-link " + (@sidebar_active=='reviewer_office' ? 'active' : '') do %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.r_submission.assigned_papers') %>
