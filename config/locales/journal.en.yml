@@ -6,6 +6,10 @@ en:
             gn_journal: Gyroscopy and Navigation
             editor_office: Editor office
             reviewer_office: Reviewer office
+            reviewer:
+                guidelines: guidelines
+                guidelines_en: en
+                guidelines_ru: ru
             author_office: Author office
             edit_my_data: My data
             help: 'Any bugs and questions:'

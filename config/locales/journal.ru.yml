@@ -6,6 +6,10 @@ ru:
             gn_journal: Гироскопия и Навигация
             editor_office: Офис редактора
             reviewer_office: Офис рецензента
+            reviewer:
+                guidelines: инструкции
+                guidelines_en: англ
+                guidelines_ru: рус
             author_office: Офис автора
             edit_my_data: Мои данные
             help: 'Какие-то ошибки или вопросы?'

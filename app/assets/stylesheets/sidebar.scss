@@ -53,9 +53,25 @@ $left-panel-shift: 250px;
             padding: 5px 15px 5px 25px;
         }
         b {
-//            padding: 8px 15px 2px 15px;
-//            padding: 5px 15px 5px 15px;
             padding: 12px 15px 5px 15px;
+        }
+    }
+    .nav-item-incut {
+//        border: solid thin red;
+//        color: green;
+        text-align: center;
+        padding: 5px 0px 5px 0px !important;
+//        margin: 0px !important;
+        margin: 0px;
+            font-size: 80%;
+        a {
+            &:hover {
+                text-decoration: none;
+            }
+        }
+        .nav-text {
+            padding: 0px 0px 0px 0px !important;
+            margin: 0px;
         }
     }
     .helpdesk {
