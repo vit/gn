@@ -2,6 +2,6 @@ class JournalAppointment < ApplicationRecord
   belongs_to :journal
   belongs_to :user
 
-  Roles = [:editor, :reviewer, :marked]
+  Roles = [:editor, :reviewer, :submitter, :marked]
 
 end

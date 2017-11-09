@@ -114,6 +114,7 @@
             <% end %>
             <%#= translate_with_link('journal.submissions.state_block.see_old_revisions', link: link_to(t('journal.submissions.state_block.old_revisions'), revisions_link).html_safe ).html_safe %>
             <%= translate_with_link('journal.submissions.state_block.see_old_revisions', revisions_link) if lcr.revision_n>1 %>
+            <%#= translate_with_link('journal.submissions.state_block.see_old_revisions', {}, revisions_link) if lcr.revision_n>1 %>
         </div>
     </div>
     <% end %>

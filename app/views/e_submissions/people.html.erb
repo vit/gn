@@ -1,7 +1,7 @@
 <%
 
-    @page_title = t('journal.appointments.people')
-    @page_title_sm = t('journal.appointments.people_sm')
+    @page_title = t('journal.menu.people')
+#    @page_title_sm = t('journal.appointments.people_sm')
 
 %>
 
@@ -13,7 +13,8 @@
 
                     <% JournalAppointment::Roles.each do |r| %>
                         <%= label_tag do %>
-                            <%= r %>
+                            <%#= r %>
+                            <span style="font-weight: 900; margin-left: 12px;"><%= r.slice(0,1).capitalize %></span><%= r.slice(1..-1) %>
                             <%= check_box_tag "roles[]", r, false %>
                         <% end %>
                     <% end %>

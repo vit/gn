@@ -78,6 +78,12 @@ class Submission < ApplicationRecord
         if aasm.from_state==:draft
           self.first_submitted_at = DateTime.now
           #add_log 'first_submitted'
+
+				  self.user.appointments.create!({
+					  journal: self.journal,
+					  role_name: 'submitter'
+				  }) rescue nil
+
         else
           invitations_active.each { |i| i.next_revision_submitted }
         end
