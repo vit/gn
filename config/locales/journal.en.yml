@@ -110,6 +110,7 @@ en:
                 accepted_accepted: |+
                     Редакция приняла статью, так что рецензировать ее больше не надо.
                     Благодарим Вас за участие!
+                read_guidelines: Please read the reviewer's guidelines in *[russian] or in *[english].
             state_short:
                 rejected_without_consideration: Rejected without consideration
                 submitted: Paper submitted

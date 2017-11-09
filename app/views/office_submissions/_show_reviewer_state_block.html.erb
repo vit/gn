@@ -78,8 +78,6 @@
         phone: '<a href="tel:+78124998293">+7 (812) 499-82-93</a>',
         email: '<a href="mailto:editor@eprib.ru">editor@eprib.ru</a>'
     }
-#  <a href="/docs/Guidelines_for_Peer_Reviewers.pdf"><%= t('journal.menu.reviewer.guidelines_en') % ></a>
-#  <a href="/docs/Guidelines_for_Peer_Reviewers_ru.pdf"><%= t('journal.menu.reviewer.guidelines_ru') % ></a>
 %>
 
             <%
@@ -92,6 +90,18 @@
             <%# if inv_state=='accepted' %>
                 <!--p class="card-text"><p><%= simple_format( t('journal.submissions.inv_state_description.accepted_'+state1, args) ).html_safe %></p></p-->
             <%# end %>
+
+            <% if 'accepted_under_consideration_not_done'==inv_state %>
+                <p class="card-text"><p>
+                    <%= fa_icon 'file-pdf-o' %>
+                <%= (
+                    translate_with_link(
+                        'journal.submissions.inv_state_description.read_guidelines',
+                            "/docs/Guidelines_for_Peer_Reviewers_ru.pdf",
+                            "/docs/Guidelines_for_Peer_Reviewers.pdf"
+                    )
+                ).html_safe %></p></p>
+            <% end %>
 
                     <%
                         ri = @my_invitation
