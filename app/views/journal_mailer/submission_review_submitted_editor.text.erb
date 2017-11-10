@@ -5,6 +5,14 @@
 Вы получили это письмо, поскольку находитесь в списке редакторов Журнала.
 
 Пользователь <%= @reviewer.full_name %> подал рецензию на статью #<%= @submission.id %>
+
+Данные статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
+Рекомендуемое решение: <%= @review.decision %>
+
 Статья находится здесь: <%= @submission_editor_url %>
 
 (Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
@@ -15,6 +23,14 @@ Dear <%= @user.full_name %>!
 You received this email because you are in the list of Journal editors.
 
 The user <%= @reviewer.full_name %> submitted the review on the paper #<%= @submission.id %>
+
+Paper data:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
+Recommended decision: <%= @review.decision %>
+
 The paper is here: <%= @submission_editor_url %>
 
 (This email was sent by the system. Please don't reply.)

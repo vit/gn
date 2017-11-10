@@ -283,7 +283,8 @@ class JournalMailer < ApplicationMailer
         @submission_editor_url = e_submission_url(@submission)
         @submission_reviewer_url = r_submission_url(@submission)
 
-            subject = "#{@journal.slug}##{@submission.id} Review submitted | Рецензия подана"
+#            subject = "#{@journal.slug}##{@submission.id} Review submitted | Рецензия подана"
+            subject = "##{@submission.id} Review submitted. Journal Gyroscopy and Navigation | Рецензия подана. Журнал \"Гироскопия и навигация\""
         	mail(to: @user.email, subject: subject) do |format|
                 format.text { render 'submission_review_submitted_editor' }
             end
