@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170602142626) do
+ActiveRecord::Schema.define(version: 20171118154723) do
 
   create_table "event_logs", force: :cascade do |t|
     t.integer  "loggable_id"
@@ -220,6 +220,8 @@ ActiveRecord::Schema.define(version: 20170602142626) do
     t.datetime "updated_at",                          null: false
     t.string   "search"
     t.string   "country"
+    t.string   "phone"
+    t.text     "affiliation"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

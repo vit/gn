@@ -354,6 +354,8 @@ en:
                 first_name: First name
                 middle_name: Middle name
                 last_name: Last name
+                phone: Telephone
+                affiliation: Affiliation
                 country: Country
                 country_blank: Select a country
                 email: Email

@@ -372,6 +372,8 @@ ru:
                 #middle_name: Отчество / middle name
                 middle_name: Отчество
                 last_name: Фамилия
+                phone: Телефон
+                affiliation: Место работы
                 country: Страна
                 country_blank: Выберите страну
                 email: Email

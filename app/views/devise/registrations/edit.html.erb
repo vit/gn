@@ -25,6 +25,14 @@
     <%= f.text_field :lname, required: true, class: "form-control", id: "lname_field", pplaceholder: "Last Name" %>
   </div>
   <div class="form-group">
+    <%= f.label :phone, for: 'phone_field', cclass: "sr-only" %>
+    <%= f.telephone_field :phone, required: true, class: "form-control", id: "phone_field", pplaceholder: t('helpers.label.user.phone') %>
+  </div>
+  <div class="form-group">
+    <%= f.label :affiliation, for: 'affiliation_field', cclass: "sr-only" %>
+    <%= f.text_area :affiliation, required: false, class: "form-control", id: "affiliation_field", pplaceholder: t('helpers.label.user.affiliation') %>
+  </div>
+  <div class="form-group">
     <%= f.label :country, for: 'country_field', cclass: "sr-only" %>
     <%= f.country_select :country, {priority_countries: ["RU"], include_blank: t('helpers.label.user.country_blank'), sselected: 'RU'}, {required: true, class: "form-control", id: "country_field", pplaceholder: "Country"} %>
   </div>
