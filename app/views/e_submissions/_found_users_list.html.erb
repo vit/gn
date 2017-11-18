@@ -30,8 +30,13 @@
                     <div class="collapse" id="<%= "u_collapse_"+u.id.to_s %>" sstyle="padding: 8px;">
                         <div class="">
                             <div class="p-1">
-                                    <a href='mailto:<%= h u.email -%>'><%= h u.email -%></a><br>
+                                    <a href='mailto:<%= h u.email -%>'><%= h u.email -%></a><%
+                                        if u.phone && u.phone.length>0
+                                    %>, <a href='tel:<%= h u.phone -%>'><%= h u.phone -%></a><% end %><br>
                                     <%= u.country_name %><br>
+                                    <%
+                                        if u.affiliation && u.affiliation.length>0
+                                    %><small style="font-size: 85%;"><%= h u.affiliation -%><% end %></small><br>
                             </div>
                             <div class="p-1">
                                 <%= form_tag people_update_e_submissions_path, class: "form-inline ccard-header" do %>

@@ -77,8 +77,13 @@
                             data-placement="bottom"
                             title="<%= ri.user.full_name -%>"
                             data-content="
-                                <a href='mailto:<%= h ri.user.email -%>'><%= h ri.user.email -%></a><br>
+                                <a href='mailto:<%= h ri.user.email -%>'><%= h ri.user.email -%></a><%
+                                    if ri.user.phone && ri.user.phone.length>0
+                                %>, <a href='tel:<%= h ri.user.phone -%>'><%= h ri.user.phone -%></a><% end %><br>
                                 <%= ri.user.country_name %><br>
+                                <%
+                                    if ri.user.affiliation && ri.user.affiliation.length>0
+                                %><small><%= h ri.user.affiliation -%><% end %></small><br>
                             "
                         ><%= t('journal.e_submission.reviewer_invitations.contacts') %> <i class="fa fa-chevron-down"></i></a>)
                         <script>

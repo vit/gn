@@ -60,8 +60,13 @@
                 %> <i id="<%= 'reg_collapse_chevron_'+@submission.id.to_s %>" class="fa fa-chevron-down transitionable"></i></a>)
                 <div class="collapse" id="<%= "reg_collapse_"+@submission.id.to_s %>">
                     <div class="card card-block">
-                                <a href='mailto:<%= h @submission.user.email -%>'><%= h @submission.user.email -%></a><br>
+                                <a href='mailto:<%= h @submission.user.email -%>'><%= h @submission.user.email -%></a><%
+                                    if @submission.user.phone && @submission.user.phone.length>0
+                                %>, <a href='tel:<%= h @submission.user.phone -%>'><%= h @submission.user.phone -%></a><% end %><br>
                                 <%= @submission.user.country_name %><br>
+                                <%
+                                    if @submission.user.affiliation && @submission.user.affiliation.length>0
+                                %><small><%= h @submission.user.affiliation -%><% end %></small><br>
                     </div>
                 </div>
                 <script>
