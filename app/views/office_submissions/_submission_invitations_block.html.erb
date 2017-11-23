@@ -104,6 +104,27 @@
                         <!--b><%= t('journal.e_submission.reviewer_invitations.invitation') %>:</b-->
                         <h4 class="card-title"><%= t('journal.e_submission.reviewer_invitations.invitation') %></h4>
 
+<% if ri.declined? && ri.why_declined.length>0 %>
+<%
+    collapse_id = "collapse_#{ri.id}_why_declined"
+    header_id = "collapse_#{ri.id}_why_declined_header"
+%>
+<div class="card">
+    <div class="card-header" role="tab" id="<%= header_id %>">
+      <h6 class="mb-0">
+        <a data-toggle="collapse" href="#<%= collapse_id %>" aria-expanded="true" aria-controls="<%= collapse_id %>">
+          Reason for refusal
+        </a>
+      </h6>
+    </div>
+    <div id="<%= collapse_id %>" class="collapse" aria-labelledby="<%= header_id %>">
+      <div class="card-block">
+        <%= simple_format( ri.why_declined ) %>
+      </div>
+    </div>
+</div>
+<% end %>
+
                         <% if ri.accepted? %>
                             <b><%= t('journal.e_submission.reviewer_invitations.time.accepted_at') %> <%= format_date_only( ri.accepted_at.to_datetime) rescue '' %></b> |
                         <% end %>

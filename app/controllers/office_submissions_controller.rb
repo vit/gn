@@ -161,7 +161,8 @@ class OfficeSubmissionsController < OfficeBaseController
 		when 'accept_my_reviewer_invitation'
 			@my_invitation.sm_accept! if @my_invitation && @my_invitation.may_sm_accept?
 		when 'decline_my_reviewer_invitation'
-			@my_invitation.sm_decline! if @my_invitation && @my_invitation.may_sm_decline?
+			why_declined = params[:why_declined] rescue nil
+			@my_invitation.sm_decline!(why_declined: why_declined) if @my_invitation && @my_invitation.may_sm_decline?
 		when 'submit_my_review'
 			@my_review.sm_submit! if @my_review && @my_review.may_sm_submit?
 #=end

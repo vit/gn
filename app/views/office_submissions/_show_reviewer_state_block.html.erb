@@ -39,46 +39,64 @@
                 <%= t('journal.submissions.reviewer_paper_state_short.'+reviewer_to_do_status) %>
             </h3>
 
+        <div class="collapse in show" id="inv-collapsible-text">
             <% if inv_state=='pending' %>
+                <div class="text-center ccard-text cclearfix" style="bborder: solid thin red; mmargin:auto; ffloat: left; text-align: center; ">
+                    <p class="ccollapse ccard-text cclearfix ttext-center" style="ttext-align: center; bborder: solid thin blue; ddisplay: inline-block;">
 
-                    <%= button_to r_submission_path(@submission, op: :decline_my_reviewer_invitation),
-                        method: :put,
-                        data: {
-                            confirm: 'Are you sure your want to decline this invitation?'
-                        },
-                        :class => 'btn btn-danger btn-sm pull-right',
-                        :remote => true,
-                        disabled: !(@my_invitation && policy(@my_invitation).can_decline?),
-                        #disabled: !(@my_invitation && @my_invitation.may_sm_decline?),
-                        a: :b do
-                    %>
-                        <%= fa_icon 'times' %>
-                        <%= t('journal.office_submission.r_invitation.decline') %>
-                    <% end %>
+                    <div style='display: inline-block;'>
 
                     <%= button_to r_submission_path(@submission, op: :accept_my_reviewer_invitation),
                         method: :put,
                         data: {
-                            confirm: 'Are you sure your want to accept this invitation?'
+                            #confirm: 'Are you sure your want to accept this invitation?'
+                            confirm: t('journal.office_submission.r_invitation.accept_are_you_sure')
                         },
-                        :class => 'btn btn-success btn-sm pull-right',
+                        :class => 'btn btn-success btn-sm',
+                        :style => 'text-shadow: none; ddisplay: inline-block;',
                         :remote => true,
                         #disabled: !(@my_invitation && @my_invitation.may_sm_accept?),
                         disabled: !(@my_invitation && policy(@my_invitation).can_accept?),
                         a: :b do
                     %>
-                        <i class="fa fa-check ffa-lg"></i>
+                        <%= fa_icon 'check', :id => '_collapse_accept_chevron' %>
                         <%= t('journal.office_submission.r_invitation.accept') %>
                     <% end %>
 
-            <% end %>
+                    </div>
 
-<%
-    args = {
-        phone: '<a href="tel:+78124998293">+7 (812) 499-82-93</a>',
-        email: '<a href="mailto:editor@eprib.ru">editor@eprib.ru</a>'
-    }
-%>
+                    <%#= link_to '#collapse_accept',
+                        data: {
+                            #toggle: "collapse"
+                        },
+                        :id => 'collapse_accept_btn',
+                        :class => 'btn bbtn-primary btn-success btn-sm',
+                        :style => 'text-shadow: none;',
+                        disabled: !(@my_invitation && policy(@my_invitation).can_accept?),
+                        a: :b do
+                    %>
+                        <%#= t('journal.office_submission.r_invitation.accept') %>
+                        <%#= fa_icon 'chevron-down', :id => 'collapse_accept_chevron' %>
+                    <%# end %>
+
+                    <%= link_to '#collapse_decline',
+                        data: {
+                            #toggle: "collapse"
+                        },
+                        :id => 'collapse_decline_btn',
+                        :class => 'btn bbtn-primary btn-danger btn-sm',
+                        :style => 'text-shadow: none;',
+                        disabled: !(@my_invitation && policy(@my_invitation).can_decline?),
+                        a: :b do
+                    %>
+                        <%= fa_icon 'times', :id => '_collapse_decline_chevron' %>
+                        <%= t('journal.office_submission.r_invitation.decline') %>
+                        <%#= fa_icon 'chevron-down', :id => 'collapse_decline_chevron' %>
+                    <% end %>
+                    </p>
+
+                </div>
+            <% end %>
 
             <%
                 if inv_state=='accepted'
@@ -86,10 +104,14 @@
                 end
             %>
 
-            <p class="card-text"><p><%= ( t('journal.submissions.inv_state_description.'+inv_state, args) ).html_safe %></p></p>
-            <%# if inv_state=='accepted' %>
-                <!--p class="card-text"><p><%= simple_format( t('journal.submissions.inv_state_description.accepted_'+state1, args) ).html_safe %></p></p-->
-            <%# end %>
+            <%
+                args = {
+                    phone: '<a href="tel:+78124998293">+7 (812) 499-82-93</a>',
+                    email: '<a href="mailto:editor@eprib.ru">editor@eprib.ru</a>'
+                }
+            %>
+
+            <p class="collapse in show" id="inv-collapsible-text0" ><%= ( t('journal.submissions.inv_state_description.'+inv_state, args) ).html_safe %></p>
 
             <% if 'accepted_under_consideration_not_done'==inv_state %>
                 <p class="card-text"><p>
@@ -103,10 +125,129 @@
                 ).html_safe %></p></p>
             <% end %>
 
+        </div>
+
+
+            <% if inv_state=='pending' %>
+
+                <div id="collapse_decline" class="collapse p-1" style="background-color:rgba(0, 0, 0, 0.4); text-shadow: none;">
+                    <%= form_tag r_submission_path(@submission, op: :decline_my_reviewer_invitation), method: :put, remote: true do %>
+                        <div class="form-group">
+                            <label for="why_declined"><%= t('journal.office_submission.r_invitation.why_declined') %></label>
+                            <small id="why_declined_text" class="form-text ttext-muted">
+                                <ul>
+                                <li><%= t('journal.office_submission.r_invitation.why_declined_text_1') %></li>
+                                <li><%= t('journal.office_submission.r_invitation.why_declined_text_2') %></li>
+                                </ul>
+                            </small>
+                            <%= text_area_tag 'why_declined', nil, class: "form-control", rows: 3, aria_describedby: "why_declined_text" %>
+                        </div>
+                        <%= button_tag t('journal.office_submission.r_invitation.decline_decline'),
+                            class: "btn btn-danger btn-sm",
+                            data: {
+                                #confirm: "Are you sure?"
+                                confirm: t('journal.office_submission.r_invitation.decline_are_you_sure')
+                            }
+                        %>
+                        <%= button_tag t('journal.office_submission.r_invitation.decline_nodecline'),
+                            type: "button",
+                            class: "btn btn-primary btn-sm",
+                            id: "collapse_decline_nodecline_btn"
+                        %>
+                    <% end %>
+                </div>
+
+
+                    <script>
+///*
+                        //$( document ).on('turbolinks:load', function() {
+                        $( document ).bind('turbolinks:load office_submission_updated_reload', function () {
+
+                            //show_accept();
+                            function show_accept(){
+                                //console.log('show accept');
+                                $('#inv-collapsible-text').collapse('hide');
+                                //$('#collapse_accept').collapse('show');
+                                $('#collapse_decline').collapse('hide');
+                                //$('#collapse_accept_chevron').addClass("upsidedown");
+                                //$('#collapse_decline_chevron').removeClass("upsidedown");
+                            }
+                            function show_decline(){
+                                //console.log('show decline');
+                                $('#inv-collapsible-text').collapse('hide');
+                                //$('#collapse_accept').collapse('hide');
+                                $('#collapse_decline').collapse('show');
+                                //$('#collapse_accept_chevron').removeClass("upsidedown");
+                                //$('#collapse_decline_chevron').addClass("upsidedown");
+                            }
+                            function hide_both(){
+                                //console.log('hide both');
+                                $('#inv-collapsible-text').collapse('show');
+                                //$('#collapse_accept').collapse('hide');
+                                $('#collapse_decline').collapse('hide');
+                                //$('#collapse_accept_chevron').removeClass("upsidedown");
+                                //$('#collapse_decline_chevron').removeClass("upsidedown");
+                            }
+                            //$('#collapse_accept_btn').click(function(e){
+                            //    if ( $('#collapse_accept').hasClass('in') )
+                            //        hide_both();
+                            //    else
+                            //        show_accept();
+                            //    e.preventDefault();
+                            //});
+                            $('#collapse_decline_btn').click(function(e){
+                                if ( $('#collapse_decline').hasClass('in') )
+                                    hide_both();
+                                else
+                                    show_decline();
+                                e.preventDefault();
+                            });
+                            $('#collapse_decline_nodecline_btn').click(function(e){
+                                //if ( $('#collapse_decline').hasClass('in') )
+                                    hide_both();
+                                //else
+                                //    show_decline();
+                                e.preventDefault();
+                            });
+                        });
+//*/
+
+                    /*
+                    $('#collapse_decline').on('show.bs.collapse', function () {
+                        //console.log('===============');
+                        //alert("wer qwerwrt qret ert qer ");
+                        $('#inv-collapsible-text').collapse('hide');
+                        $('#collapse_accept').collapse('hide');
+                        $('#collapse_decline_chevron').addClass("upsidedown")
+                    }).on('hide.bs.collapse', function () {
+                        if (! $('#collapse_accept').hasClass('show') )
+                            $('#inv-collapsible-text').collapse('show');
+                        $('#collapse_decline_chevron').removeClass("upsidedown")
+                    });
+                    $('#collapse_accept').on('show.bs.collapse', function () {
+                        $('#inv-collapsible-text').collapse('hide');
+                        $('#collapse_decline').collapse('hide');
+                        $('#collapse_accept_chevron').addClass("upsidedown")
+                    }).on('hide.bs.collapse', function () {
+                        if (! $('#collapse_decline').hasClass('show') )
+                            $('#inv-collapsible-text').collapse('show');
+                        $('#collapse_accept_chevron').removeClass("upsidedown")
+                    });
+                    */
+                    </script>
+            <% end %>
+
+
+        <!--/div>
+        <div class="card-block"-->
+
+
                     <%
                         ri = @my_invitation
                     %>
-                    <div style="font-size: 70%;">
+                    <!--div style="font-size: 70%;"-->
+                    <p style="font-size: 70%; margin-top: 12px; margin-bottom: 0px;" cclass="card-text">
+                        <!--div style="font-size: 70%;"-->
                         <b><%= t('journal.e_submission.reviewer_invitations.invitation') %>:</b>
                         <%
                             time_fields = %w[activated inv_expires declined cancelled accepted]
@@ -121,8 +262,10 @@
                             <% end %>
                         <% end %>
                         <!-- | <b><%= ri.expired? ? 'expired' : 'not expired' %></b> -->
-                    </div>
-                    <div style="font-size: 70%;">
+                        <!--/div-->
+                        <br>
+                    <!--/p>
+                    <p style="font-size: 70%;" cclass="card-text"-->
                         <b><%= t('journal.e_submission.reviewer_invitations.current_review') %>:</b>
                         <%
                             #time_fields = %w[activated cancelled accepted declined inv_expires inv_remind inv_remind_editor]
@@ -138,11 +281,8 @@
                                 <% show_delimiter = true %>
                             <% end %>
                         <% end %>
-                    </div>
-
-
-
-
+                    </p>
+                    <!--/div-->
 
         </div>
     </div>

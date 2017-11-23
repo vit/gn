@@ -138,7 +138,9 @@ class SubmissionReviewerInvitation < ApplicationRecord
 		end
 
 		event :sm_decline do
-			after do
+			after do |args|
+				self.why_declined = args[:why_declined].strip rescue nil
+#				self.why_declined = "wwwwwwwwwwwwwww"
 				now_time = DateTime.now
 				self.declined_at = now_time
 				self.inv_decided_at = now_time

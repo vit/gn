@@ -271,6 +271,13 @@ en:
                 inv_txt: To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.
                 accept: Accept
                 decline: Decline
+                decline_decline: Send a refusal
+                decline_nodecline: I don't refuse
+                why_declined: Why you rejected, any recommendations?
+                why_declined_text_1: Could you please explain the rejection reason.
+                why_declined_text_2: We would appretiate if you could recommend a right reviewer for this paper (and please tell us his/her contacts).
+                accept_are_you_sure: Pleas confirm you accept the invitataion
+                decline_are_you_sure: (LAST CHANCE) Do you really want to reject the invitation?
                 not_invited_txt: You are not invited to review this paper yet.
                 accepted_txt: You have accepted the invitation
                 declined_txt: You have declined the invitation
