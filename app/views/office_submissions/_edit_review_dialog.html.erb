@@ -34,12 +34,44 @@
 
                     <h4><%= t('journal.office_submission.r_review.comment_science_header') %></h4>
 
-                    <div class="form-group">
-                        <%= f.label :comment_science do %>
-                            <%= simple_format(t('journal.office_submission.r_review.comment_science_description')) %>
-                        <% end %>
-                        <%= f.text_area :comment_science, :class => "form-control", :rows => "5" %>
-                    </div>
+                    <% if my_review.comment_science && my_review.comment_science.length > 0 %>
+
+                        <div class="form-group">
+                            <%= f.label :comment_science do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_description')) %>
+                            <% end %>
+                            <%= f.text_area :comment_science, :class => "form-control", :rows => "5" %>
+                        </div>
+
+                    <% else %>
+
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_1 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_1_description')) %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_1, :class => "form-control" %>
+                        </div>
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_2 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_2_description')) %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_2, :class => "form-control" %>
+                        </div>
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_3 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_3_description')) %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_3, :class => "form-control" %>
+                        </div>
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_4 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_4_description')) %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_4, :class => "form-control" %>
+                        </div>
+
+                    <% end %>
+
                     <div class="form-group">
                         <%= f.label :comment_science_2 do %>
                             <%= simple_format(t('journal.office_submission.r_review.comment_science_2_description')) %>

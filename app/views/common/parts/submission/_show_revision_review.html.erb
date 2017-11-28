@@ -45,15 +45,30 @@
                         <div class="review_blocks">
 
                             <%
-                            blocks_names = [
-                                'comment_science',
-                                'comment_science_2',
-                                'comment_science_3',
-                                'comment_science_4',
-                                'comment_quality',
-                                'comment_for_author',
-                                #'comment_for_editor',
-                            ]
+                            if review.comment_science && review.comment_science.length > 0
+                                blocks_names = [
+                                    'comment_science',
+                                    'comment_science_2',
+                                    'comment_science_3',
+                                    'comment_science_4',
+                                    'comment_quality',
+                                    'comment_for_author',
+                                    #'comment_for_editor',
+                                ]
+                            else
+                                blocks_names = [
+                                    'comment_science_1_1',
+                                    'comment_science_1_2',
+                                    'comment_science_1_3',
+                                    'comment_science_1_4',
+                                    'comment_science_2',
+                                    'comment_science_3',
+                                    'comment_science_4',
+                                    'comment_quality',
+                                    'comment_for_author',
+                                    #'comment_for_editor',
+                                ]
+                            end
                             blocks_names.push('comment_for_editor') unless user_role==:author
                             blocks_names.each do |field_name| %>
                                 <%= render partial: 'common/parts/submission/show_revision_review_field', locals: {

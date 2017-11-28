@@ -4,6 +4,10 @@ class SubmissionRevisionReviewsController < OfficeBaseController
 
     EditorFields = [
         :comment_science_e,
+        :comment_science_1_1_e,
+        :comment_science_1_2_e,
+        :comment_science_1_3_e,
+        :comment_science_1_4_e,
         :comment_science_2_e,
         :comment_science_3_e,
         :comment_science_4_e,

@@ -68,6 +68,10 @@ class OfficeSubmissionsController < OfficeBaseController
 			review_data = params.require(:submission_revision_review).permit(
 				:decision,
 				:comment_science,
+				:comment_science_1_1,
+				:comment_science_1_2,
+				:comment_science_1_3,
+				:comment_science_1_4,
 				:comment_science_2,
 				:comment_science_3,
 				:comment_science_4,

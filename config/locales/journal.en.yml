@@ -307,9 +307,13 @@ en:
                 dont_forget_to_save: Please don't forget to save!
 
                 comment_science_header: Rank the paper scientific level
-                comment_science_2_header: Rank the paper scientific level, часть 2
-                comment_science_3_header: Rank the paper scientific level, часть 3
-                comment_science_4_header: Rank the paper scientific level, часть 4
+                comment_science_1_1_header: Rank the paper scientific level
+                comment_science_1_2_header: Rank the paper scientific level, part 2
+                comment_science_1_3_header: Rank the paper scientific level, part 3
+                comment_science_1_4_header: Rank the paper scientific level, part 4
+                comment_science_2_header: Rank the paper scientific level, part 5
+                comment_science_3_header: Rank the paper scientific level, part 6
+                comment_science_4_header: Rank the paper scientific level, part 7
                 comment_quality_header: Rank the paper presentation
                 comment_for_author_header: Comments for author
                 comment_for_editor_header: Comments for editorial board
@@ -318,6 +322,14 @@ en:
                     а) the paper title is adequate to the contents
                     b) the paper is in line with the modern research
                     c) the paper contains original results, and (if yes) what are they
+                    d) the paper presents an interest to the reader if there are no original results, and why
+                comment_science_1_1_description: |+
+                    а) the paper title is adequate to the contents
+                comment_science_1_2_description: |+
+                    b) the paper is in line with the modern research
+                comment_science_1_3_description: |+
+                    c) the paper contains original results, and (if yes) what are they
+                comment_science_1_4_description: |+
                     d) the paper presents an interest to the reader if there are no original results, and why
                 comment_science_2_description: |+
                     e) there are erroneous statements in the paper, and if YES what are they
