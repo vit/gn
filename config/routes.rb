@@ -65,6 +65,7 @@ Rails.application.routes.draw do
   resources :r_submissions, only: [:index, :show, :update] do
     member do
       get 'revisions'
+      put 'update_review'
     end
   end
 

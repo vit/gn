@@ -1,0 +1,110 @@
+<div id="review_file_upload_block">
+    <%
+        #  block_id = "review_attachment_block"
+        #  form_id = "review_attachment_form"
+        field_id = "review_attachment_field"
+        spinner_id = "review_attachment_spinner"
+        submission_file = my_review.get_file_by_category :reviewer_file rescue nil
+    %>
+
+    <div id="review-file-upload-buttons" style="display: inline-block;">
+        <%= file_field_tag :file_data, id: field_id, style: 'display: none;', aaccept: "image/jpeg,image/png,image/gif" #,
+          #onchange: "$('##{spinner_id}').show(); $('## {form_id}').submit();"
+        %>
+        <%= link_to "#", class: "btn bbtn-primary btn-secondary bbtn-link btn-sm",
+          onclick: "$('input[id=#{field_id}]').click(); return false;",
+          id: "review-file-upload-button",
+          a: :b do
+        %>
+            <%#= fa_icon "paperclip" %>
+            <%= t('journal.office_submission.r_review.attach_file') %>
+            <!--span id="<%= spinner_id %>" style="display: none;"><i class="fa fa-spinner fa-spin ffa-3x fa-fw"></i><span class="sr-only">Loading...</span></span-->
+        <% end %>
+    
+        &nbsp; 
+    </div>
+
+    <div id="review-file-upload-fileinfo" style="display: inline-block;">
+        <% if submission_file %>
+            <%= link_to submission_file.file_data.url, target: "_blank" do
+                -%><%= truncate_middle(File.basename(submission_file.file_data.path), 15)
+            -%><% end -%>
+
+            <%= link_to update_review_r_submission_path(@submission, op: 'delete_review_file'),
+                class: "bbtn bbtn-danger bbtn-link bbtn-sm",
+                method: :put,
+                remote: true,
+                data: {confirm: t('journal.submission_files.confirm_delete')},
+                title: t('journal.submission_files.delete'),
+                a: :b do
+            %>
+                <i class="fa fa-remove"></i>
+            <% end %>
+
+        <% else %>
+            <%= t('journal.office_submission.r_review.no_file') %>
+        <% end %>
+    </div>
+
+    <div id="review-file-upload-progressbar" cclass="progress" style="display: none; ddisplay: inline-block; bborder: thin solid blue; wwidth: 250px; background-color: lightgray;">
+        <div id="review-file-upload-progressbar-inner" style="text-align: center; background-color: lightblue;" cclass="progress-bar" role="progressbar" style="width: 0%"></div>
+    </div>
+
+    <script>
+        $("#<%= field_id %>").on("change", function() {
+        //    alert("changed");
+        //    console.log("changed");
+            var file_data = $("#<%= field_id %>").prop("files")[0];   
+            var form_data = new FormData();
+            form_data.append("review_attachment_file", file_data);
+            form_data.append("op", "attach_review_file");
+            form_data.append("_method", "put");
+            //$("#review-file-upload-button").prop( "disabled", true );
+            $("#review-file-upload-fileinfo").hide();
+            $("#review-file-upload-buttons").hide();
+            $("#review-file-upload-progressbar").show();
+            //$("#review-file-upload-progressbar").css('display', 'inline-block');
+            $.ajax({
+                method: "POST",
+                url: "<%= update_review_r_submission_path(@submission) %>",
+                //dataType: 'script',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,                         
+                type: 'post',
+                success: function(){
+                },
+
+                xhr: function()
+                {
+                    var xhr = new window.XMLHttpRequest();
+                    //Upload progress
+                    xhr.upload.addEventListener("progress", function(evt){
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            //Do something with upload progress
+                            var proc = Math.round(percentComplete*100);
+                            //console.log(percentComplete);
+                            //$("#review-file-upload-progressbar-inner").css("width", ''+2.5*proc+"px").text(''+proc+"%");
+                            $("#review-file-upload-progressbar-inner").css("width", ''+proc+"%").text(''+proc+"%");
+                        }
+                    }, false);
+                    /*
+                    //Download progress
+                    xhr.addEventListener("progress", function(evt){
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            //Do something with download progress
+                            console.log(percentComplete);
+                        }
+                    }, false);
+                    */
+                    return xhr;
+                }
+
+            });
+        });
+    </script>
+
+</div>

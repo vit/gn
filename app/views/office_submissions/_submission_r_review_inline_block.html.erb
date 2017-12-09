@@ -1,0 +1,294 @@
+<%
+#  modal_target_id = 'modal_submission_' + @submission.id.to_s + '_edit_review'
+  review_block_id = 'review_inline_block_' + @submission.id.to_s
+  review_collapsed_block_id = 'review_collapsed_inline_block_' + @submission.id.to_s
+%>
+
+
+    <div class="card" id="<%= review_block_id %>" sstyle='background-color: #eeeeee; bborder-bottom: 1px solid #333333'>
+        <a class="card-header" href="#<%= review_collapsed_block_id %>" data-toggle="collapse" aria-expanded="true" style="display: block; text-decoration: none; color: #000;">
+            <h3 class="card-title"><%= t('journal.office_submission.r_review.my_review') %>
+                        <span sstyle="font-family: monotype;" class="pull-right">
+                <i id="<%= 'my_review_collapse_chevron' %>" class="fa fa-chevron-down transitionable"></i>
+                </span>
+            </h3>
+        </a>
+        <div class="card-block collapse" id="<%= review_collapsed_block_id %>">
+            <!--h3 class="card-title"><%= t('journal.office_submission.r_review.my_review') %></h3-->
+            <%# if @my_review.persisted? %>
+<!--
+            <% if @my_review %>
+                <p><%= t('journal.office_submission.r_review.state_'+@my_review.aasm_state) %></p>
+                <dl class="ddl-horizontal">
+                    <dt><%= t('journal.office_submission.r_review.decision') %>:</dt>
+                    <dd><%= t('journal.office_submission.decisions.' + @my_review.decision) %></dd>
+
+                    <dt><%= t('journal.office_submission.r_review.comment_science_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_1_1) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_1_2) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_1_3) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_1_4) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_2) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_3) ) %></dd>
+                    <dt></dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_science_4) ) %></dd>
+                    <dt><%= t('journal.office_submission.r_review.comment_quality_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_quality) ) %></dd>
+                    <dt><%= t('journal.office_submission.r_review.comment_for_author_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_for_author) ) %></dd>
+                    <dt><%= t('journal.office_submission.r_review.comment_for_editor_header') %>:</dt>
+                    <dd><%= simple_format( strip_tags(@my_review.comment_for_editor) ) %></dd>
+
+                </dl>
+            <% else %>
+                <p><%= t('journal.office_submission.r_review.not_made') %></p>
+            <% end %>
+-->
+
+            <% if operation_enabled %>
+
+
+            <div class="">
+                <% my_review=@my_review %>
+                <% my_review = SubmissionRevisionReview.new unless my_review %>
+                <%= form_for my_review,
+                    #url: r_submission_path(@submission),
+                    url: update_review_r_submission_path(@submission, op: 'save_review'),
+                    method: :put,
+                    remote: true,
+                    :html => {
+                        :id => "my_review_form",
+                        :class => "form-horizontal", :role => "form",
+                        #:onsubmit => "$('## {modal_target_id}').modal('hide'); return true;"
+                    } do |f| %>
+
+                    <div class="form-group row">
+                        <%= f.label t('journal.office_submission.r_review.decision'), :class => "col-sm-2 col-form-label form-control-label" %>
+                        <div class="col-sm-10">
+                            <%#= f.select :decision, options_for_select(SubmissionRevisionDecision::decisions('stage_2'), @decision.decision), class: "form-control" %>
+                            <%= f.select :decision, options_for_select(SubmissionRevisionDecision::decisions('stage_2').map{ |d|
+                                    [t('journal.office_submission.decisions.'+d), d]
+                                }, my_review.decision), class: "form-control" %>
+                        </div>
+                    </div>
+
+
+                    <h4><%= t('journal.office_submission.r_review.comment_science_header') %></h4>
+
+                    <% if my_review.comment_science && my_review.comment_science.length > 0 %>
+
+                        <div class="form-group">
+                            <%= f.label :comment_science do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                            <% end %>
+                            <%= f.text_area :comment_science, :class => "form-control", :rows => "5" %>
+                        </div>
+
+                    <% else %>
+
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_1 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_1_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_1, :class => "form-control" %>
+                        </div>
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_2 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_2_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_2, :class => "form-control" %>
+                        </div>
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_3 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_3_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_3, :class => "form-control" %>
+                        </div>
+                        <div class="form-group">
+                            <%= f.label :comment_science_1_4 do %>
+                                <%= simple_format(t('journal.office_submission.r_review.comment_science_1_4_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                            <% end %>
+                            <%= f.text_area :comment_science_1_4, :class => "form-control" %>
+                        </div>
+
+                    <% end %>
+
+                    <div class="form-group">
+                        <%= f.label :comment_science_2 do %>
+                            <%= simple_format(t('journal.office_submission.r_review.comment_science_2_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                        <% end %>
+                        <%= f.text_area :comment_science_2, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :comment_science_3 do %>
+                            <%= simple_format(t('journal.office_submission.r_review.comment_science_3_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                        <% end %>
+                        <%= f.text_area :comment_science_3, :class => "form-control" %>
+                    </div>
+                    <div class="form-group">
+                        <%= f.label :comment_science_4 do %>
+                            <%= simple_format(t('journal.office_submission.r_review.comment_science_4_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                        <% end %>
+                        <%= f.text_area :comment_science_4, :class => "form-control" %>
+                    </div>
+
+                    <h4><%= t('journal.office_submission.r_review.comment_quality_header') %></h4>
+
+                    <div class="form-group">
+                        <%= f.label :comment_quality do %>
+                            <%= simple_format(t('journal.office_submission.r_review.comment_quality_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                        <% end %>
+                        <%= f.text_area :comment_quality, :class => "form-control" %>
+                    </div>
+
+                    <h4><%= t('journal.office_submission.r_review.comment_for_author_header') %></h4>
+
+                    <div class="form-group">
+                        <%= f.label :comment_for_author do %>
+                            <%= simple_format(t('journal.office_submission.r_review.comment_for_author_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                        <% end %>
+                        <%= f.text_area :comment_for_author, :class => "form-control" %>
+                    </div>
+
+                    <h4><%= t('journal.office_submission.r_review.comment_for_editor_header') %></h4>
+
+                    <div class="form-group">
+                        <%= f.label :comment_for_editor do %>
+                            <%= simple_format(t('journal.office_submission.r_review.comment_for_editor_description'), {class: "m-0"}, wrapper_tag: 'small') %>
+                        <% end %>
+                        <%= f.text_area :comment_for_editor, :class => "form-control" %>
+                    </div>
+
+
+
+
+                    <!--div class="form-group row">
+                        <div class="ooffset-sm-2 col-sm-12">
+                            <% if operation_enabled %>
+                                <%= f.button ddata: { dismiss: "modal" }, :class => 'btn btn-success btn-sm' do %>
+                                    <i class="fa fa-check fa-llg"></i>
+                                    <%= t('journal.office_submission.r_review.save') %>
+                                <% end %>
+                                <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-warning btn-sm' do %>
+                                    <i class="fa fa-times fa-llg"></i>
+                                    <%= t('journal.office_submission.r_review.cancel') %>
+                                <% end %>
+                            <% end %>
+
+                        </div>
+                    </div-->
+                <% end %>
+                    <script>
+                    (function () {
+                        var timeoutId = null;
+                        $('#my_review_form :input').on('change keyup', function (e) {
+                            e.target.style="border: solid thin lightyellow; background-color: lightyellow;";
+                            //$('#review-saving-indicator .saving').hide();
+                            $('#review-saving-indicator .saved').hide();
+                            //$('#review-saving-indicator .changed').show();
+                            $('#review-saving-indicator .saving').show();
+                            if (!timeoutId)
+                                timeoutId = setTimeout(function () {
+                                    $('#review-saving-indicator .saving').show();
+                                    $('#review-saving-indicator .saved').hide();
+                                    $('#review-saving-indicator .changed').hide();
+                                    $('#my_review_form :input').each(function(i, e) { e.style="" });
+                                    $('#my_review_form').submit();
+                                    timeoutId = null;
+                                }, 1000);
+                        });
+                    })();
+                    </script>
+            </div>
+
+
+
+
+
+
+
+
+
+            <div>
+                <%#= form_tag nil, :html => {
+                    :id => "my_review_attachment_form",
+                    :class => "form-horizontal", :role => "form",
+                    #:onsubmit => "$('## {modal_target_id}').modal('hide'); return true;"
+                    } do |f| %>
+
+
+                    <h4><%= t('journal.office_submission.r_review.attached_file_header') %></h4>
+
+                    <div class="form-group">
+                        <%= label_tag :review_attachment do %>
+                            <%= simple_format(t('journal.office_submission.r_review.please_attach'), {class: "m-0"}, wrapper_tag: 'small') %>
+                        <% end %>
+
+                        <%= render partial: 'office_submissions/review_inline_parts/file_upload_block', locals: {
+                            #submission_file: submission_file,
+                            my_review: my_review
+                        } %>
+
+                    </div>
+
+                <%# end %>
+            </div>
+
+
+            <% end %>
+
+
+            <%= render partial: 'office_submissions/review_inline_parts/submit_button_block', locals: {
+                #submission_file: submission_file,
+                operation_enabled: operation_enabled,
+                #my_review: my_review
+            } %>
+
+
+            <% if false && operation_enabled && @my_review %>
+            <div>
+                <%= link_to r_submission_path(@submission, op: :submit_my_review),
+                    method: :put,
+                    #data: { confirm: 'Are you sure your review is ready?' },
+                    data: { confirm: t('journal.office_submission.r_review.submit_confirm') },
+                    :class => 'btn btn-success btn-sm',
+                    :remote => true,
+                    disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do
+                %>
+                    <i class="fa fa-check ffa-lg"></i>
+                    <%= t('journal.office_submission.r_review.submit') %>
+                <% end %>
+            </div>
+            <% end %>
+
+            <div
+                style="width: 120px; text-align: center; position: fixed; bottom: 5%; right: 5%; background-color: rgba(0,0,0,0.05);"
+                id="review-saving-indicator"
+            >
+                <small>
+                    <span class="changed" style="color: darkred; display: none; padding: 2px 5px;"><i class="fa fa-pencil-square-o"></i> <%= t('journal.office_submission.r_review.autosave.changed') %></span>
+                    <span class="saving" style="color: darkorange; display: none; padding: 2px 5px;"><i class="fa fa-spinner fa-pulse ffa-3x fa-fw"></i> <%= t('journal.office_submission.r_review.autosave.saving') %></span>
+                    <span class="saved" style="color: green; display: none; padding: 2px 5px;"><i class="fa fa-check"></i> <%= t('journal.office_submission.r_review.autosave.saved') %></span>
+                </small>
+            </div>
+
+        </div>
+
+
+        <script>
+        $('#<%= review_collapsed_block_id %>').on('hide.bs.collapse', function () {
+            $('#<%= "my_review_collapse_chevron" %>').removeClass("upsidedown")
+        }).on('show.bs.collapse', function () {
+            $('#<%= "my_review_collapse_chevron" %>').addClass("upsidedown")
+        });
+        </script>
+
+    </div>
+

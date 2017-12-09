@@ -60,7 +60,12 @@
     <%#= render partial: 'submissions/show_data_block' unless state=="draft" %>
     <%#= render partial: 'office_submissions/show_reviewer_review_block' if @current_role=='reviewer' %>
     <%= render partial: 'submissions/show_data_block' if %w[reviewer editor].include? @current_role %>
-    <%= render partial: 'submission_r_review_block', locals: {
+    <%= render partial: 'submission_r_review_inline_block', locals: {
+            operation_enabled: policy(@submission).can_write_review?
+#        } if @my_invitation
+        } if @current_role=='reviewer' && reviewer_to_do_status=='please_review'
+    %>
+    <%#= render partial: 'submission_r_review_block', locals: {
             operation_enabled: policy(@submission).can_write_review?
 #        } if @my_invitation
         } if @current_role=='reviewer' && reviewer_to_do_status=='please_review'

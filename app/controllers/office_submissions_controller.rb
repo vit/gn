@@ -2,8 +2,6 @@
 class OfficeSubmissionsController < OfficeBaseController
     before_action :set_submission, except: [:index]
 
-#    before_action :set_context
-
     def show
 #        authorize @journal, :can_editor?
 #        authorize @journal, :can_editor?
@@ -34,6 +32,85 @@ class OfficeSubmissionsController < OfficeBaseController
 		@sidebar_active="#{@current_role}_office"
     end
 
+    def update_review
+		authorize @submission, :can_process?
+
+		@revision = @submission.last_submitted_revision
+#		@my_review = @revision.user_review(current_user)
+
+		if params[:op] == "save_review"
+			data = params[:submission_revision_review]
+			if data
+				review_data = params.require(:submission_revision_review).permit(
+					:decision,
+					:comment_science,
+					:comment_science_1_1,
+					:comment_science_1_2,
+					:comment_science_1_3,
+					:comment_science_1_4,
+					:comment_science_2,
+					:comment_science_3,
+					:comment_science_4,
+					:comment_quality,
+					:comment_for_author,
+					:comment_for_editor,
+				).merge user: current_user
+				@revision.user_review_save(current_user, review_data)
+				#@revision.user_review(current_user) ?
+				#	@revision.user_review(current_user).sm_update!(review_data) :
+				#	@revision.reviews.create(review_data.merge user: current_user)
+		
+				#@submission_revision_review_saved = true
+			end
+		end
+
+		if params[:op] == "attach_review_file"
+			@review_attachment_file = params[:review_attachment_file]
+
+			@my_review = @revision.user_review_or_create(current_user)
+			file_record = @my_review.get_or_new_file_by_category(file_category = 'reviewer_file')
+			file_record.file_data = @review_attachment_file
+			file_record.save!
+
+		end
+
+		if params[:op] == "delete_review_file"
+			#@my_review = @revision.user_review_or_create(current_user)
+			@my_review = @revision.user_review(current_user)
+			file_record = @my_review.get_file_by_category(file_category = 'reviewer_file')
+			file_record.destroy if file_record
+
+		end
+
+		@my_review = @revision.user_review(current_user)
+
+		respond_to do |format|
+			format.js
+		end
+	end
+
+	def destroy
+		@page_update = params[:page_update] || 'self'
+		data = params[:submission_file]
+
+		@submission_file = SubmissionFile.find(params[:id])
+
+		if @submission_file && @submission_file.attachable_type=='SubmissionRevision'
+			@submission = @submission_file.attachable.submission rescue nil
+		end
+
+		@submission_file.destroy
+
+		respond_to do |format|
+			format.js {render :update}
+		end
+	end
+
+
+
+
+
+
     def update
 #        authorize @journal, :can_editor?
 		authorize @submission, :can_process?
@@ -62,6 +139,7 @@ class OfficeSubmissionsController < OfficeBaseController
             end
 		end
 
+=begin
 		data = params[:submission_revision_review]
 		if data
 #			review_data = params.require(:submission_revision_review).permit(:decision, :comment).merge user: current_user
@@ -82,7 +160,10 @@ class OfficeSubmissionsController < OfficeBaseController
 			@revision.user_review(current_user) ?
 				@revision.user_review(current_user).sm_update!(review_data) :
 				@revision.reviews.create(review_data.merge user: current_user)
+
+			@submission_revision_review_saved = true
 		end
+=end
 
 		case params[:op]
 		when 'submit_decision_stage_1'

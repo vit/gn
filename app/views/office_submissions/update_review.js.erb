@@ -1,0 +1,27 @@
+<%# if @submission_revision_review_saved %>
+
+//console.log('review saved');
+//console.log("<%= escape_javascript @review_attachment_file.to_s %>");
+//alert("<%= escape_javascript @review_attachment_file.to_s %>");
+
+<%# else %>
+
+//$('#submission').html("<%#= escape_javascript render('submission_show') %>");
+//$(document).trigger('office_submission_updated_reload');
+
+//alert('delete ok');
+
+<%# end %>
+
+$('#review_file_upload_block').replaceWith("<%= j render partial: 'office_submissions/review_inline_parts/file_upload_block', locals: {
+    my_review: @my_review
+} %>");
+
+$('#review_submit_button_block').replaceWith("<%= j render partial: 'office_submissions/review_inline_parts/submit_button_block', locals: {
+    #my_review: @my_review,
+    operation_enabled: policy(@submission).can_write_review?
+} %>");
+
+$('#review-saving-indicator .saving').hide();
+$('#review-saving-indicator .changed').hide();
+$('#review-saving-indicator .saved').show().delay(2000).fadeOut(500);

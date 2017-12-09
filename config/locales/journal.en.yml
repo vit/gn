@@ -298,7 +298,7 @@ en:
                     Вы пока не начали заполнять форму рецензии.
                     Заполнив форму и сохранив ее в виде черновика, Вы получите возможность присоединить к рецензии еще и файл.
                 edit: Edit
-                submit: Submit
+                submit: Submit review
                 save: Save
                 cancel: Cancel
 
@@ -317,6 +317,7 @@ en:
                 comment_quality_header: Rank the paper presentation
                 comment_for_author_header: Comments for author
                 comment_for_editor_header: Comments for editorial board
+                attached_file_header: Attached file
 
                 comment_science_description: |+
                     а) the paper title is adequate to the contents
@@ -344,11 +345,20 @@ en:
                     (comments and recommendations to be answered should be numbered. The reviewer can insert the questions in the paper text and make a note here),
                     general opinion of the paper.
                 comment_for_editor_description: ''
+                please_attach: |+
+                    Please attach a file if it's necessary.
+                #attach_file: Attach
+                attach_file: Select file
+                no_file: No file
                 time:
                     created_at: created
                     submitted_at: submitted
                     editor_updated_at: editor changed
                     cancelled_at: cancelled
+                autosave:
+                    changed: changed
+                    saving: autosave...
+                    saved: saved
 
     user:
         data:

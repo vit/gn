@@ -1,8 +1,12 @@
 class SubmissionRevisionReview < ApplicationRecord
-  belongs_to :revision, class_name: 'SubmissionRevision'
-  belongs_to :user
+	belongs_to :revision, class_name: 'SubmissionRevision'
+	belongs_to :user
+
+	after_initialize :set_defaults, unless: :persisted?
 
     has_many :files, class_name: 'SubmissionFile', as: :attachable, dependent: :destroy
+
+
 
 	include AASM
 
@@ -10,6 +14,11 @@ class SubmissionRevisionReview < ApplicationRecord
 
 #	validates :decision, :inclusion=> { :in => Decisions }
 	validates_inclusion_of :decision, :in => Decisions
+
+	def set_defaults
+		self.decision  ||= 'revise'
+#		self.decision  ||= 'reject'
+	end
 
 	aasm do
 		state :draft, initial: true

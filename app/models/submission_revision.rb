@@ -132,6 +132,24 @@ class SubmissionRevision < ApplicationRecord
 	def user_review user
 		reviews.find_by(user: user)
 	end
+	def user_review_or_create user
+		begin
+#			rez = reviews.find_or_create_by(user: user)
+			rez = user_review(user) || reviews.create({}.merge(user: user))
+		rescue ActiveRecord::RecordNotUnique
+			retry
+		end
+		#rez.save!
+		rez
+	end
+	def user_review_save user, review_data={}
+		r = user_review(user)
+		r ?
+			r.sm_update!(review_data) :
+			reviews.create(review_data.merge user: user)
+	end
+
+
 
 	def get_file_by_category(file_category = 'author_file')
 #		submission_revision_files.find_by_file_type file_type

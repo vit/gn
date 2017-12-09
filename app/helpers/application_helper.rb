@@ -23,4 +23,17 @@ def format_date_time d
 #  d.strftime('%d %b %Y, %H:%M %Z')
 end
 
+def truncate_middle str, l=20
+  if str.length > l
+    separator = '...'
+    l=8 if l < 8
+    l1 = l - separator.length
+    left = l1/2
+    right = l1 - left
+    str[0,left] + separator + str[-right,right]
+  else
+    str
+  end
+end
+
 end

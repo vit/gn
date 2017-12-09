@@ -1,0 +1,27 @@
+<div id="review_submit_button_block">
+                        <%
+                            #  block_id = "review_attachment_block"
+                            #  form_id = "review_attachment_form"
+                            #field_id = "review_attachment_field"
+                            #spinner_id = "review_attachment_spinner"
+                            #submission_file = my_review.get_file_by_category :reviewer_file rescue nil
+                        %>
+
+
+            <% if operation_enabled && @my_review %>
+            <div>
+                <%= link_to r_submission_path(@submission, op: :submit_my_review),
+                    method: :put,
+                    #data: { confirm: 'Are you sure your review is ready?' },
+                    data: { confirm: t('journal.office_submission.r_review.submit_confirm') },
+                    :class => 'btn btn-success btn-sm',
+                    :remote => true,
+                    disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do
+                %>
+                    <i class="fa fa-check ffa-lg"></i>
+                    <%= t('journal.office_submission.r_review.submit') %>
+                <% end %>
+            </div>
+            <% end %>
+
+</div>
