@@ -33,7 +33,7 @@
                 <div class="list-group collapse" id="<%= collapse_target_id %>">
 
                   <% revision.reviews_submitted.each_with_index do |r, n| %>
-                    <div class="list-group-item">
+                    <div class="list-group-item print-review">
                       <%= render partial: 'common/parts/submission/show_revision_review', locals: {
                         review: r,
                         user_role: user_role,

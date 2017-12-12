@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   resources :e_submissions, only: [:index, :show, :update] do
     member do
       get 'revisions'
+      get 'show_print'
     end
     collection do
       get 'people'

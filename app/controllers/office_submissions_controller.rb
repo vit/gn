@@ -2,6 +2,26 @@
 class OfficeSubmissionsController < OfficeBaseController
     before_action :set_submission, except: [:index]
 
+    def show_print
+		authorize @submission, :can_process?
+		@sidebar_active="#{@current_role}_office"
+
+		@revision = @submission.last_submitted_revision
+
+#        @decision_1 = @revision.decision_1
+#        @decision_2 = @revision.decision_2
+#        @decisions = {
+#            "stage_1" => @decision_1,
+#            "stage_2" => @decision_2
+#		}
+
+#		@my_invitation = @submission.user_invitation current_user
+#		@my_review = @revision.user_review(current_user)
+
+		render layout: "print"
+
+    end
+
     def show
 #        authorize @journal, :can_editor?
 #        authorize @journal, :can_editor?

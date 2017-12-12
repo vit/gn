@@ -156,6 +156,18 @@
                     <%#= t('context.office_submission.ce_decision.submit') %>
                 <% end %>
 
+                <%= link_to show_print_e_submission_path(@submission),
+                    enabled: true,
+                    method: :get,
+                    :target => '_blank',
+                    :class => 'btn bbtn-link bbtn-default bbtn-secondary btn-sm pull-right fform-inline '+(@submission.archived? ? 'btn-toggle-on' : 'btn-toggle-off'),
+                    :remote => false, disabled: false do
+                %>
+                    <i class="fa fa-print ffa-sm"></i>
+                    <%= t('journal.e_submission.print') %>
+                <% end %>
+
+
             <% end %>
 
           <div class="paper-card-time">

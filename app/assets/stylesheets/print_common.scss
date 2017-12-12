@@ -1,0 +1,119 @@
+
+//require jquery-ui
+
+@import "jquery-ui";
+
+//@import url('https://fonts.googleapis.com/css?family=PT+Serif:300,300i,700,700i&subset=cyrillic');
+//@import url('https://fonts.googleapis.com/css?family=PT+Serif');
+@import url('https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i&subset=cyrillic,cyrillic-ext,latin-ext');
+//$font-family-sans-serif: 'PT Serif', serif;
+
+body * {
+  font-family: 'PT Serif', serif;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+
+.print-page {
+  font-size: 12pt;
+  h1 {font-size: 200%;}
+  h2 {font-size: 170%;}
+  h3 {font-size: 150%;}
+  h4 {font-size: 130%;}
+  h5 {font-size: 120%;}
+  h6 {font-size: 110%;}
+}
+
+.print-review {
+  page-break-before: always;
+  #border: thin solid red;
+}
+
+.print-hide {
+  display: none;
+}
+
+//@import "bootstrap/variables";
+
+// Custom bootstrap variables must be set or imported before bootstrap itself.
+//@import "bootstrap";
+//@import "font-awesome";
+
+/*
+body { ppadding-top: 50px; }
+
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+
+body {
+    ddisplay: -webkit-flex;
+    ddisplay: flex;
+    -wwebkit-flex-flow: row nowrap;
+    fflex-flow: row nowrap;
+}
+
+
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.65;
+//  line-height: 1.33;
+  border-radius: 25px;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
+}
+
+.btn-toggle-off {
+//  color: $brand-primary;
+  color: gray;
+  &:hover {
+    //color: darken($brand-primary, 25%);
+//    color: $brand-success;
+    color: lighten($brand-success, 25%);
+  }
+}
+.btn-toggle-on {
+//  color: $brand-success;
+  color: darken($brand-success, 25%);
+  &:hover {
+//    color: darken($brand-success, 25%);
+    color: lighten($brand-success, 25%);
+    color: $brand-success;
+  }
+}
+*/
+
+
+//@import "home";
+
+//@import "navbar";
+//@import "sidebar";
+
+//@import "submissions";
+

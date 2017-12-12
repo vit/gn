@@ -83,6 +83,7 @@
 
                       <p>
 
+                        <div class="print-hide">
                         <% if user_role==:editor %>
                             <%
                                 attachment = r.get_file_by_category :reviewer_file
@@ -120,6 +121,7 @@
                             <% end if attachment %>
                             <br>
                         <% end %>
+                        </div>
 
                       </p>
 

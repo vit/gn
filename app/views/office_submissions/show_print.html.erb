@@ -1,0 +1,56 @@
+<div id="submission" class="container-fluid">
+
+<%
+    lsr = @submission.lsr
+
+    text = @submission.get_text_submitted
+    authors = @submission.get_authors_submitted || []
+
+    submitter = @submission.user
+
+    decision_1 = lsr.decision_1
+    decision_2 = lsr.decision_2
+    current_decision = decision_2 && decision_2.submitted? ? decision_2.decision : (decision_1 && decision_1.submitted? ? decision_1.decision : '?')
+
+%>
+
+<article class="print-paper-info" style="ppage-break-after: always;">
+
+    <p class="text-center">
+        <%= @submission.id %> : <%= lsr.revision_n %> : <%#= @submission.aasm_state %><%= lsr.aasm_state %> [<%= lsr.reviews.map{|r| r.submitted? ? r.decision : '?'}.select{|d| !d.nil?}.join(', ') %> => <%= current_decision %>]
+    </p>
+    <p class="text-center">
+        <b>Submitter:</b> <%= submitter.full_name %> (<%= submitter.id %>); <%= submitter.email %>; <%= submitter.phone %><br><%= submitter.country_name %><br><%= submitter.affiliation %>
+    </p>
+
+    <h1 class="text-center"><%= text.title rescue '' %></h1>
+
+    <p class="text-center">
+        <span class="paper-card-authors"><%= authors.map(&:full_name).join(', ') %></span>
+    </p>
+
+    <p>
+        <%= text.abstract rescue '' %>
+    </p>
+
+</article>
+
+
+                  <% lsr.reviews_submitted.each_with_index do |r, n| %>
+                    <article class="print-review">
+                        <h2 class="text-center">Review <%= n+1 %></h2>
+                      <%= render partial: 'common/parts/submission/show_revision_review', locals: {
+                        review: r,
+                        user_role: :editor,
+                        revision_index: n,
+                        can_editor_change: false
+                      } %>
+
+                    </article>
+                  <% end %>
+
+
+
+
+
+</div>
