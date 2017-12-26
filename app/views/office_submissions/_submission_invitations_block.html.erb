@@ -104,7 +104,7 @@
                         <!--b><%= t('journal.e_submission.reviewer_invitations.invitation') %>:</b-->
                         <h4 class="card-title"><%= t('journal.e_submission.reviewer_invitations.invitation') %></h4>
 
-<% if ri.declined? && ri.why_declined.length>0 %>
+<% if ri.declined? && ri.why_declined && ri.why_declined.length>0 %>
 <%
     collapse_id = "collapse_#{ri.id}_why_declined"
     header_id = "collapse_#{ri.id}_why_declined_header"
