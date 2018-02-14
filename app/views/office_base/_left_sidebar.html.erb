@@ -120,6 +120,22 @@
           <b><%= fa_icon 'plus', cclass: "fa-lg" %> <span cclass="hidden-sm-down"></span></b>
         <% end %>
   </li>
+
+  <li class="nnav-item nav-item-incut">
+    <span class="nnav-link nav-text">
+      <%= t('journal.menu.author.guidelines') %>:
+      <%= fa_icon 'file-pdf-o' %>
+      <a href="/docs/Rules_for_Authors.pdf" style="padding: 0;"><%= t('journal.menu.reviewer.guidelines_en') %></a> / <a href="/docs/Rules_for_Authors_ru.pdf" style="padding: 0;"><%= t('journal.menu.reviewer.guidelines_ru') %></a>
+    </span>
+  </li>
+  <li class="nnav-item nav-item-incut">
+    <span class="nnav-link nav-text">
+      <%= t('journal.menu.author.about_reviews') %>:
+      <%= fa_icon 'file-pdf-o' %>
+      <a href="/docs/Short_Instruction_for_Authors.pdf" style="padding: 0;"><%= t('journal.menu.reviewer.guidelines_en') %></a> / <a href="/docs/Short_Instruction_for_Authors_ru.pdf" style="padding: 0;"><%= t('journal.menu.reviewer.guidelines_ru') %></a>
+    </span>
+  </li>
+
 </div>
 
 

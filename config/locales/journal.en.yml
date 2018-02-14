@@ -10,6 +10,9 @@ en:
                 guidelines: guidelines
                 guidelines_en: en
                 guidelines_ru: ru
+            author:
+                guidelines: guidelines
+                about_reviews: about reviews
             author_office: Author office
             edit_my_data: My data
             help: 'Any bugs and questions:'

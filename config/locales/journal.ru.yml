@@ -10,6 +10,9 @@ ru:
                 guidelines: инструкции
                 guidelines_en: англ
                 guidelines_ru: рус
+            author:
+                guidelines: инструкции
+                about_reviews: про рецензии
             author_office: Офис автора
             edit_my_data: Мои данные
             help: 'Какие-то ошибки или вопросы?'
