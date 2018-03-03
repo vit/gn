@@ -9,6 +9,8 @@
     author_file_lcr = lcr.get_file_by_category 'author_file'
     author_file_lsr = lsr ? lsr.get_file_by_category('author_file') : nil
 
+    author_answer_file_lcr = lcr.get_file_by_category 'author_answer_file'
+
     author_expert_file_newest = @submission.get_file_newest 'author_expert_file'
     authors_newest = @submission.get_authors_newest || []
     text_newest = @submission.get_text_newest
@@ -94,6 +96,23 @@
             </div>
             <% end %>
         </div>
+
+            <% if lsr #  %>
+        <div class="card-block paper-card">
+            <span class="pull-right">
+			    <%= render partial: 'submission_files/submission_file', locals: {submission_file: (lcr.get_or_new_file_by_category :author_answer_file), can_upload: true, show_download_link: false, page_update: 'author_submission_block'} %>
+            </span>
+            <div>
+                <b><%= t('journal.submission_data.author_answer_file') %>:</b>
+                <span class="paper-card-author_file">
+                    <%= link_to author_answer_file_lcr.file_data.url, ttarget: '_blank' do %>
+                        <%= fa_icon 'download' %>
+                        <%= t('journal.submission_files.download') %>
+                    <% end if author_answer_file_lcr %>
+                </span>
+            </div>
+        </div>
+            <% end %>
 
         <div class="card-block paper-card">
             <span class="pull-right">

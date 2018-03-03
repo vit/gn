@@ -17,6 +17,10 @@
     }
 
     author_file = @submission.get_file_submitted 'author_file'
+    #author_answer_file = @submission.get_file_submitted 'author_answer_file'
+    author_answer_file = lsr ? lsr.get_file_by_category('author_answer_file') : nil
+
+
 
     author_expert_file = @submission.get_file_submitted 'author_expert_file'
     text = @submission.get_text_submitted
@@ -99,6 +103,17 @@
                         <%= t('journal.submission_files.download') %>
                 <% end if author_file %></span>
             </div>
+
+            <% if author_answer_file %>
+            <div>
+                <b><%= t('journal.submission_data.author_answer_file') %>:</b>
+                <span class="paper-card-author_file"><%= link_to author_answer_file.file_data.url, ttarget: '_blank' do %>
+                        <%= fa_icon 'download' %>
+                        <%= t('journal.submission_files.download') %>
+                <% end %></span>
+            </div>
+            <% end %>
+
             <% if %w[author editor].include?(@current_role) %>
             <div>
                 <b><%= t('journal.submission_data.author_expert_file') %>:</b>

@@ -46,6 +46,19 @@
                         </div>
                     <% end %>
 
+                    <%
+                        author_answer_file = revision.get_file_by_category 'author_answer_file'
+                    %>
+                    <% if author_answer_file %>
+                        <div>
+                            <b><%= t('journal.submission_data.author_answer_file') %>:</b>
+                            <span class="paper-card-author_file"><%= link_to author_answer_file.file_data.url, ttarget: '_blank' do %>
+                                <%= fa_icon 'download' %>
+                                <%= t('journal.submission_files.download') %>
+                            <% end %></span>
+                        </div>
+                    <% end %>
+
                     <% if %w[author editor].include?(@current_role) %>
                         <%
                             author_expert_file = revision.get_file_by_category 'author_expert_file'

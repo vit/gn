@@ -167,6 +167,7 @@ en:
                     Upload the main paper file and the expert opinion file.
                     You can update them until the submission moment.
                 author_file: Main paper file
+                author_answer_file: Reviwers answer file
                 author_expert_file: Expert opinion file
                 finish: Finish
                 forward: Forward
@@ -204,6 +205,7 @@ en:
             revision_state: State
             see_all_revisions: see all versions
             author_file: Main paper file
+            author_answer_file: Reviwers answer file
             previous_author_file: Previous paper file
             author_expert_file: Expert opinion file
             authors: Authors
