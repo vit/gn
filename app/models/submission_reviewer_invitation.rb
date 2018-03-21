@@ -64,6 +64,8 @@ class SubmissionReviewerInvitation < ApplicationRecord
 				self.currev_remind_editor_at = self.currev_expires_at - INTERVALS[:currev_next_remind]
 				self.currev_expired = false
 				self.save
+
+				JournalMailer.send_notifications_submission_revision_invite_reviewer self
 			end
 			transitions :from => :accepted, :to => :accepted
 		end

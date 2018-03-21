@@ -55,28 +55,30 @@ class JournalMailer < ApplicationMailer
 	    	    end
             end
     end
-    def submission_submitted_reviewer(submission, user)
-        @submission = submission
 
-        @invitation = @submission.user_invitation user
-
+    def submission_revision_submitted_invite_reviewer invitation
+        @invitation = invitation
+        @submission = @invitation.submission
         @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
         @title_text = @submission.get_text_submitted.title rescue ''
-
         @journal = @submission.journal
-        @submission_reviewer_url = r_submission_url(submission)
-        n = @submission.revisions.count
-            @user = user
 
-            if n<2
-            else
-#                subject = "#{@journal.slug}##{submission.id} New version submitted | Новая версия подана"
+        @submission_reviewer_url = r_submission_url(@submission)
+
+        @user = @invitation.user
+
+        n = @submission.revisions.count
+            #@user = user
+
+#            if n<2
+#            else
                 subject = "##{@submission.id} New version. Journal Gyroscopy and Navigation | Новая версия. Журнал \"Гироскопия и навигация\""
     		    mail(to: @user.email, subject: subject) do |format|
                     format.text { render 'submission_submitted_reviewer_second' }
 	    	    end
-            end
+#            end
     end
+
 	# on submit end
 
 	# on decision
@@ -129,68 +131,6 @@ class JournalMailer < ApplicationMailer
             end
         end
     end
-=begin
-    def submission_decision_reviewer(submission, user)
-        @submission = submission
-        @user = @submission.user
-        @submission_url = submission_url(submission)
-        @submission_editor_url = e_submission_url(submission)
-        @submission_reviewer_url = r_submission_url(submission)
-
-        @decision = @submission.lsr.decision_2 || @submission.lsr.decision_1
-
-        if @decision
-            case @decision.decision
-            when 'take_for_consideration'
-                subject = "##{submission.id} The paper was taken for consideration | Статья принята к рассмотрению"
-        		mail(to: @user.email, subject: subject) do |format|
-                    format.text { render 'submission_decision_author_take_for_consideration' }
-		        end
-            when 'reject_without_consideration'
-                subject = "##{submission.id} The paper was rejected without consideration | Статья отклонена без рассмотрения"
-        		mail(to: @user.email, subject: subject) do |format|
-                    format.text { render 'submission_decision_author_reject_without_consideration' }
-		        end
-            when 'reject'
-                subject = "##{submission.id} The paper was rejected | Статья отклонена"
-        		mail(to: @user.email, subject: subject) do |format|
-                    format.text { render 'submission_decision_author_reject' }
-		        end
-#                @submission.reviewers_active.each do |user|
-#                    @user = user
-#                    subject = "##{submission.id} The paper you reviewed was rejected | Статья, которую Вы рецензировали, отклонена"
-#                    mail(to: @user.email, subject: subject) do |format|
-#                        format.text { render 'submission_decision_reviewer_reject' }
-#                    end
-#                end
-            when 'revise'
-                subject = "##{submission.id} The paper must be revised | Статью надо доработать"
-        		mail(to: @user.email, subject: subject) do |format|
-                    format.text { render 'submission_decision_author_revise' }
-		        end
-#                @submission.reviewers_active.each do |user|
-#                    @user = user
-#                    subject = "##{submission.id} The paper you reviewed needs revise | Статья, которую Вы рецензировали, нуждается в доработке"
-#                    mail(to: @user.email, subject: subject) do |format|
-#                        format.text { render 'submission_decision_reviewer_revise' }
-#                    end
-#                end
-            when 'accept'
-                subject = "##{submission.id} The paper was accepted | Статья принята"
-        		mail(to: @user.email, subject: subject) do |format|
-                    format.text { render 'submission_decision_author_accept' }
-		        end
-#                @submission.reviewers_active.each do |user|
-#                    @user = user
-#                    subject = "##{submission.id} The paper you reviewed was accepted | Статья, которую Вы рецензировали, принята"
-#                    mail(to: @user.email, subject: subject) do |format|
-#                        format.text { render 'submission_decision_reviewer_accept' }
-#                    end
-#                end
-            end
-        end
-    end
-=end
 	# on decision end
 
     def submission_invite_reviewer_reviewer invitation
@@ -299,11 +239,11 @@ class JournalMailer < ApplicationMailer
 #            self.submission_submitted_editor(submission, user).deliver_later
             self.submission_submitted_editor(submission, user).deliver_now
 		end
-		submission.reviewers_active.each do |user|
-#            self.submission_submitted_reviewer(submission, user).deliver_later
-            self.submission_submitted_reviewer(submission, user).deliver_now
-		end
     end
+    def self.send_notifications_submission_revision_invite_reviewer invitation
+        self.submission_revision_submitted_invite_reviewer(invitation).deliver_now
+    end
+
     def self.send_notifications_submission_decision submission
 #        self.submission_decision_author(submission).deliver_later
         self.submission_decision_author(submission).deliver_now
