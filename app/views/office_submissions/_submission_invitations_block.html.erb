@@ -200,7 +200,10 @@
                         <h4 class="card-title"><%= t('journal.e_submission.reviewer_invitations.current_review') %>
                         
                                     <%= render partial: 'indicator_reviews', locals: {submission: @submission, revision: @submission.lsr, invitation: ri} %>
-
+<%# if ri.already_has_decision %>
+<% if ri.last_review %>
+(last submitted review: <%= ri.last_review.decision %>)
+<% end %>
                         </h4>
                         <% if review && review.submitted? %>
                             <b><%= t('journal.e_submission.reviewer_invitations.time.currev_submitted_at') %> <%= format_date_only( review.submitted_at.to_datetime) rescue '' %></b> |

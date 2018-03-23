@@ -8,16 +8,6 @@ class OfficeSubmissionsController < OfficeBaseController
 
 		@revision = @submission.last_submitted_revision
 
-#        @decision_1 = @revision.decision_1
-#        @decision_2 = @revision.decision_2
-#        @decisions = {
-#            "stage_1" => @decision_1,
-#            "stage_2" => @decision_2
-#		}
-
-#		@my_invitation = @submission.user_invitation current_user
-#		@my_review = @revision.user_review(current_user)
-
 		render layout: "print"
 
     end
@@ -159,31 +149,6 @@ class OfficeSubmissionsController < OfficeBaseController
             end
 		end
 
-=begin
-		data = params[:submission_revision_review]
-		if data
-#			review_data = params.require(:submission_revision_review).permit(:decision, :comment).merge user: current_user
-			review_data = params.require(:submission_revision_review).permit(
-				:decision,
-				:comment_science,
-				:comment_science_1_1,
-				:comment_science_1_2,
-				:comment_science_1_3,
-				:comment_science_1_4,
-				:comment_science_2,
-				:comment_science_3,
-				:comment_science_4,
-				:comment_quality,
-				:comment_for_author,
-				:comment_for_editor,
-			).merge user: current_user
-			@revision.user_review(current_user) ?
-				@revision.user_review(current_user).sm_update!(review_data) :
-				@revision.reviews.create(review_data.merge user: current_user)
-
-			@submission_revision_review_saved = true
-		end
-=end
 
 		case params[:op]
 		when 'submit_decision_stage_1'

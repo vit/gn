@@ -1,16 +1,9 @@
 class SubmissionReviewerInvitation < ApplicationRecord
-  belongs_to :submission
-  belongs_to :user
+	belongs_to :submission
+	belongs_to :user
 
+	belongs_to :last_review, class_name: 'SubmissionRevisionReview'
 
-#	INTERVALS = {
-#		inv_deadline: 7.minutes,
-#		inv_remind: 3.minutes,
-#		inv_remind_editor: 3.minutes,
-#		currev_deadline: 30.minutes,
-#		currev_remind: 7.minutes,
-#		currev_remind_editor: 7.minutes,
-#	}
 
 	INTERVALS = {
 		inv_deadline: 2.weeks,
@@ -66,6 +59,17 @@ class SubmissionReviewerInvitation < ApplicationRecord
 				self.save
 
 				JournalMailer.send_notifications_submission_revision_invite_reviewer self
+			end
+			transitions :from => :accepted, :to => :accepted
+		end
+
+		event :review_submitted do
+			after do |review|
+				self.last_review = review
+				self.save
+
+#				JournalMailer.send_notifications_submission_review_submitted review
+				JournalMailer.send_notifications_submission_review_submitted self
 			end
 			transitions :from => :accepted, :to => :accepted
 		end
@@ -207,6 +211,13 @@ class SubmissionReviewerInvitation < ApplicationRecord
 		lsr = submission.lsr
 		review = lsr.user_review user
 		review
+	end
+
+	def already_has_decision
+		self.last_review && %w[accept reject].include?(self.last_review.decision)
+	end
+	def last_decision
+		self.last_review ? self.last_review.decision : nil
 	end
 
 private

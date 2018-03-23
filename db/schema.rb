@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127222448) do
+ActiveRecord::Schema.define(version: 20180323180316) do
 
   create_table "event_logs", force: :cascade do |t|
     t.integer  "loggable_id"
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(version: 20171127222448) do
     t.datetime "currev_remind_editor_at"
     t.datetime "currev_submitted_at"
     t.text     "why_declined"
+    t.integer  "last_review_id"
+    t.index ["last_review_id"], name: "index_submission_reviewer_invitations_on_last_review_id"
     t.index ["submission_id", "user_id"], name: "index_submission_reviewer_invitations_submission_user", unique: true
     t.index ["submission_id"], name: "index_submission_reviewer_invitations_on_submission_id"
     t.index ["user_id"], name: "index_submission_reviewer_invitations_on_user_id"

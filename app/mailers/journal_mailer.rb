@@ -177,8 +177,11 @@ class JournalMailer < ApplicationMailer
         @submission_reviewer_url = r_submission_url(@submission)
 #        subject = "#{@journal.slug}##{@submission.id} Your review is approaching the deadline | Срок подачи рецензии истекает"
         subject = "##{@submission.id} Review deadline. Journal Gyroscopy and Navigation | Срок для рецензии. Журнал \"Гироскопия и навигация\""
-    	mail(to: @user.email, subject: subject) do |format|
-            format.text { render 'submission_remind_reviewer_current_review_reviewer' }
+
+        unless @invitation.already_has_decision
+        	mail(to: @user.email, subject: subject) do |format|
+                format.text { render 'submission_remind_reviewer_current_review_reviewer' }
+            end
         end
     end
 
@@ -209,6 +212,28 @@ class JournalMailer < ApplicationMailer
         end
     end
 
+    def submission_review_submitted_editor inv
+        @review = inv.last_review
+        @user = inv.user
+
+        @revision = @review.revision
+        @submission = @revision.submission
+
+        @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
+        @title_text = @submission.get_text_submitted.title rescue ''
+
+        @journal = @submission.journal
+        @reviewer = @review.user
+        @submission_editor_url = e_submission_url(@submission)
+        @submission_reviewer_url = r_submission_url(@submission)
+
+            subject = "##{@submission.id} Review submitted. Journal Gyroscopy and Navigation | Рецензия подана. Журнал \"Гироскопия и навигация\""
+        	mail(to: @user.email, subject: subject) do |format|
+                format.text { render 'submission_review_submitted_editor' }
+            end
+    end
+
+=begin
     def submission_review_submitted_editor review, user
         @review = review
         @revision = @review.revision
@@ -229,7 +254,7 @@ class JournalMailer < ApplicationMailer
                 format.text { render 'submission_review_submitted_editor' }
             end
     end
-
+=end
 
 
     def self.send_notifications_submission_submitted submission
@@ -273,39 +298,19 @@ class JournalMailer < ApplicationMailer
             self.submission_invitation_decision_editor(invitation, user).deliver_now
 		end
     end
+
+=begin
     def self.send_notifications_submission_review_submitted review
         (review.revision.submission.journal.editors rescue []).each do |user|
             self.submission_review_submitted_editor(review, user).deliver_now
         end
     end
-
-
-
-
-
-=begin
-	# sm_apply_decision
-	def author_submission_apply_decision(submission)
-		user = submission.user
-		revision = submission.last_submitted_revision
-		decision = revision.revision_decision
-		to_author user.email, "Dear #{user.full_name}, chief editor decision for your paper has been submitted.\n\nThe decision is as follow:\n\nDecision: #{decision.decision}\nComment: #{decision.comment}\n\n"
-	end
-
-	# sm_destroy
-
-
-private
-	def to_author email, text
-		mail(to: email, subject: 'Author paper notification') do |format|
-			format.text { render text: text }
-		end
-	end
-	def to_editor email, text
-		mail(to: email, subject: 'Chief editor paper notification') do |format|
-			format.text { render text: text }
-		end
-	end
 =end
+    def self.send_notifications_submission_review_submitted inv
+        (inv.last_review.revision.submission.journal.editors rescue []).each do |user|
+            self.submission_review_submitted_editor(inv).deliver_now
+        end
+    end
+
 
 end

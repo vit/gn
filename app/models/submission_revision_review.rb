@@ -6,6 +6,8 @@ class SubmissionRevisionReview < ApplicationRecord
 
     has_many :files, class_name: 'SubmissionFile', as: :attachable, dependent: :destroy
 
+#	has_one :reviewer_card, class_name: 'SubmissionReviewerInvitation', dependent: :nullify
+
 
 
 	include AASM
@@ -60,9 +62,11 @@ class SubmissionRevisionReview < ApplicationRecord
 			after do
 				self.submitted_at = DateTime.now
 				self.save
-				JournalMailer.send_notifications_submission_review_submitted self
+				self.revision.submission.user_invitation(self.user).review_submitted(self)
+#				JournalMailer.send_notifications_submission_review_submitted self
 			end
 			transitions :from => :draft, :to => :submitted
+#			transitions :from => :draft, :to => :draft
 		end
 
 		event :sm_cancel do
