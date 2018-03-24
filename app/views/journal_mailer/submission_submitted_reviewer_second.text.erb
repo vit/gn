@@ -10,9 +10,11 @@ Id: <%= @submission.id %>
 Название статьи: <%= @title_text %>
 
 <% if @invitation.already_has_decision %>
-Вы уже выносили решение по более ранней версии этой статьи: <%= @invitation.last_decision %>.
-Если Вы считаете нужным изменить свое решение или добавить замечания по новой версии, пожалуйста, подайте новую рецензию в указанные сроки.
-Мы не будем слать напоминания о приближении дедлайна для новой версии.
+    Вы уже предложили решение '<%= @invitation.last_decision %>' для более ранней версии этой статьи,
+    однако по замечаниям других рецензентов статья была доработана.
+    Если Вы считаете нужным изменить свою рекомендацию или добавить замечания по новой версии,
+    пожалуйста, подайте новую рецензию в указанные ниже сроки.
+    Мы не будем слать напоминания о приближении дедлайна для этой версии.
 <% end %>
 
 Вы можете работать со статьей здесь: <%= @submission_reviewer_url %>
@@ -37,9 +39,11 @@ Authors: <%= @authors_text %>
 Paper title: <%= @title_text %>
 
 <% if @invitation.already_has_decision %>
-You have made your decision on early version of this paper already: <%= @invitation.last_decision %>.
-Please submit new review before the deadline date if you think that new version deserves it.
-We will not send you deadline notifications for this version anymore.
+    You have made the recommendation '<%= @invitation.last_decision %>' for early version of this paper already.
+    However it was revised in accordance with other reviewer's recomendations.
+    If you have any extra comments or want to change your recommended decision,
+    please submit new review before the deadline.
+    We will not send you deadline reminders for this version anymore.
 <% end %>
 
 You can work with this paper here: <%= @submission_reviewer_url %>
