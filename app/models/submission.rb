@@ -5,16 +5,11 @@ class Submission < ApplicationRecord
   belongs_to :user
   belongs_to :journal
 
-#  validates :title, :abstract, presence: true
-
   has_many :revisions, class_name: 'SubmissionRevision', dependent: :destroy
   has_many :reviewer_invitations, class_name: 'SubmissionReviewerInvitation', dependent: :destroy
-#	has_many :logs, class_name: 'EventLog', as: :loggable, dependent: :destroy
-
 
 #  scope :all_submitted, -> { where.not(aasm_state: 'draft') }
   scope :all_submitted, -> { where(aasm_state: 'submitted') }
-#  scope :get_assigned_to_reviewer, ->(user) { where("user_id == ?", user.id) }
 
   def revisions_submitted
     revisions.where.not(aasm_state: 'draft')
@@ -33,11 +28,7 @@ class Submission < ApplicationRecord
     state :just_created, initial: true
     state :draft
     state :submitted
-#		state :rejected_without_consideration
-#    state :under_consideration
-#    state :need_revise
-#    state :under_reworking
-#    state :revised
+
     state :rejected
     state :accepted
 ###    state :reviewed
@@ -53,9 +44,6 @@ class Submission < ApplicationRecord
 
     event :sm_update_metadata do
       after do |data|
-
-				#logs.create(state_old: aasm.from_state, state_new: aasm.to_state, event: aasm.current_event)
-				#add_log ''
 
         #self.set_text data
         #JournalMailer.author_submission_update(self).deliver_now
@@ -89,12 +77,8 @@ class Submission < ApplicationRecord
         end
 
         self.last_created_revision.sm_submit!
-#        self.last_submitted_revision = self.last_created_revision
 
         save!
-#        JournalMailer.submission_submitted_author(self).deliver_now
-#        JournalMailer.submission_submitted_editor(self).deliver_now
-#        JournalMailer.submission_submitted_reviewer(self).deliver_now
         JournalMailer.send_notifications_submission_submitted self
       end
       transitions :from => :draft, :to => :submitted
@@ -110,21 +94,6 @@ class Submission < ApplicationRecord
 #      transitions :from => :need_revise, :to => :under_reworking
       transitions :from => :submitted, :to => :submitted
     end
-
-=begin
-    event :sm_destroy do
-      after do
-        last_created_revision.sm_destroy! if last_created_revision
-        self.destroy!
-      end
-      error do |e|
-        puts "AASM: state: #{aasm.current_state} event: #{aasm.current_event} error: #{e.inspect}"
-      end
-      transitions :from => :just_created, :to => :nonexistent
-      transitions :from => :draft, :to => :nonexistent
-      transitions :from => :nonexistent, :to => :nonexistent
-    end
-=end
 
 =begin
     event :sm_apply_decision do
@@ -172,28 +141,6 @@ class Submission < ApplicationRecord
         'nothing_to_do'
     end) rescue '_'
   end
-
-=begin
-  def reviewer_to_do_status user
-    inv = user_invitation user
-    review = lsr.user_review user
-    (if inv.pending?
-        'please_accept'
-    elsif inv.accepted? && lsr.under_consideration?
-        (if review && review.submitted?
-            'please_wait'
-        elsif inv.currev_expired?
-            'review_expired'
-        else
-            'please_review'
-        end)
-    elsif inv.accepted? && lsr.need_revise?
-        'please_wait'
-    else
-        'nothing_to_do'
-    end) rescue '_'
-  end
-=end
 
   def owner?(user)
     self.user==user
@@ -274,10 +221,6 @@ class Submission < ApplicationRecord
     end
   end
 
-#	def add_log event
-#		logs.create(state_old: '-', state_new: '-', event: event)
-#	end
-
 
 private
 
@@ -288,9 +231,6 @@ private
       old_list = get_authors_newest
       current_list = lcr.create_authors_list
       old_list.each_with_index do |a,i|
-#        current_list.authors.create(a.merge author_n: i)
-#        current_list.authors.create(a)
-#        current_list.authors.create(a.attributes.keep_if {| key, value | key!='id' })
         current_list.authors.create(a.attributes.delete_if {| key, value | key=='id' })
       end
     end
