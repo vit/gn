@@ -116,6 +116,7 @@ $paper-state-color: (
     draft: #777777,
     submitted: #0033dd,
     under_consideration: #0033dd,
+    waiting_decision: #0033dd,
     need_revise: #eeaa00,
     rejected: #dd0033,
     rejected_without_consideration: #dd0033,
@@ -183,6 +184,7 @@ $paper-reviewer-state-color: (
             }
             .part_2_submitted,
             .part_2_under_consideration,
+            .part_2_waiting_decision,
             .part_2_accepted,
             .part_2_rejected,
             .part_2_rejected_without_consideration,
@@ -190,6 +192,7 @@ $paper-reviewer-state-color: (
                 background-color: #{map-get($paper-state-color, 'submitted')};
             }
             .part_3_under_consideration,
+            .part_3_waiting_decision,
             .part_3_accepted,
             .part_3_rejected,
             //.part_3_rejected_without_consideration,

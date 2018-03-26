@@ -6,6 +6,7 @@
     state = lcr.aasm_state rescue ''
     block_class = 'submission-block-'+state
 
+=begin
     icon_map = {
         "need_revise" => "exclamation",
         "submitted" => "meh-o",
@@ -17,6 +18,7 @@
     }
 
     icon = icon_map[state] || ''
+=end
 
 #    decision_1_comment = lcr.decision_1.comment rescue nil
 #    decision_2_comment = lcr.decision_2.comment rescue nil
@@ -76,7 +78,7 @@
                     </blockquote>
                     <!--/div-->
                 <% end %>
-            <% when 'rejected', 'accepted', 'need_revise', 'draft' %>
+            <% when 'rejected', 'accepted', 'need_revise', 'draft', 'waiting_decision' %>
                 <% if true or decision_2_comment %>
 
                     <!--div class="card-block text-xs-center" style="border: thin solid red;">

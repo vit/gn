@@ -43,6 +43,7 @@ en:
                 rejected_without_consideration: rejected without consideration
                 submitted: submitted
                 under_consideration: under consideration
+                waiting_decision: waiting decision
                 accepted: accepted
                 need_revise: need revise
                 rejected: rejected
@@ -56,6 +57,10 @@ en:
                     When this happens, we will let you know. Please note that a paper may also be rejected without review.
                 under_consideration: |+
                     Your paper is pending. Reviewers are reading it, writing reviews and so on.
+                    When the process is complete, we will inform you of the decision.
+                    The paper will be accepted, or we will suggest to correct it, or it will be rejected.
+                waiting_decision: |+
+                    Your paper is pending. Now it is waiting for the decision of the editorial board.
                     When the process is complete, we will inform you of the decision.
                     The paper will be accepted, or we will suggest to correct it, or it will be rejected.
                 accepted: |+
@@ -103,6 +108,9 @@ en:
                     Вы написали и подали рецензию на эту статью. 
                     Если статья не будет окончательно принята или отклонена редколлегией, то Вам будет  представлена на рассмотрение исправленная версия и нужно будет посмотреть ее снова.
                     Вы получите об этом сообщение по email.
+                accepted_waiting_decision: |+
+                    Сейчас статья ожидает решения редколлегии.
+                    Ваше участие на данном этапе не требуется.
                 accepted_need_revise: |+
                     Вы являетесь рецензентом этой статьи.
                     Сейчас авторы дорабатывают статью по замечаниям рецензентов.
@@ -118,6 +126,7 @@ en:
                 rejected_without_consideration: Rejected without consideration
                 submitted: Paper submitted
                 under_consideration: Under consideration
+                waiting_decision: Waiting editorial board decision
                 accepted: Paper accepted
                 need_revise: Need to improve
                 rejected: Paper rejected
@@ -192,6 +201,7 @@ en:
                 rejected_without_consideration: rejected without consideration
                 decided: decision
                 under_consideration: take for consideration
+                waiting_decision: waiting decision
 
         submission_files:
             upload: Upload
@@ -271,6 +281,7 @@ en:
                 revise: Revise
                 take_for_consideration: Take for consideration
                 reject_without_consideration: Reject without consideration
+                wait_decision: Wait editorial board decision
             r_invitation: # my review invitation
                 my_invitation: Reviewer invitation
                 inv_txt: To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.

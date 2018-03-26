@@ -6,7 +6,8 @@ class SubmissionRevisionDecision < ApplicationRecord
 
 	Decisions = {
 		'stage_1' => %w[take_for_consideration reject_without_consideration],
-		'stage_2' => %w[revise accept reject]
+		'stage_2' => %w[revise accept reject wait_decision],
+		'stage_3' => %w[revise accept reject]
 	}
 	def self.decisions stage
 		Decisions[stage.to_s] rescue []

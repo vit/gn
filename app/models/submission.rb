@@ -131,6 +131,8 @@ class Submission < ApplicationRecord
         else
             'please_review'
         end)
+      elsif lsr.waiting_decision? && review && review.submitted?
+        'review_submitted'
       elsif inv.accepted? && lsr.need_revise?
         #'please_wait'
         'author_works'

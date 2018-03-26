@@ -111,7 +111,7 @@
                     <% end %>
 
                     <% if @current_role=='author' %>
-                        <% if %w[accepted rejected need_revise].include?(revision.aasm_state) && revision.reviews_submitted.count > 0 %>
+                        <% if %w[accepted rejected need_revise -waiting_decision].include?(revision.aasm_state) && revision.reviews_submitted.count > 0 %>
                             <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
                                 revision: revision,
                                 user_role: :author,

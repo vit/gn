@@ -128,6 +128,9 @@ class JournalMailer < ApplicationMailer
         		mail(to: @user.email, subject: subject) do |format|
                     format.text { render 'submission_decision_author_accept' }
 		        end
+            when 'wait_decision'
+                # Add email for transition to this this state???
+                nil
             end
         end
     end

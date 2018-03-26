@@ -103,7 +103,7 @@
             <%#= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: @submission.under_consideration?} %>
             <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_1', operation_enabled: lsr.submitted?} %>
             <%= render partial: 'submission_e_decision_block', locals: {stage: 'stage_2', operation_enabled: lsr.under_consideration?} %>
-            <%= render partial: 'submission_invitations_block', locals: {operation_enabled: true} if lsr.under_consideration? %>
+            <%= render partial: 'submission_invitations_block', locals: {operation_enabled: true} if lsr.under_consideration? || lsr.waiting_decision? %>
 
             <%
 #                last_revision = @submission.last_submitted_revision

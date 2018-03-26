@@ -15,6 +15,7 @@ class SubmissionRevision < ApplicationRecord
 	end
 	def decision_2
 		revision_decisions.where(category: :stage_2).first
+#		revision_decisions.where(category: :stage_2).order(created_at: :desc).first
 	end
 
 	def create_decision_1 data
@@ -37,6 +38,7 @@ class SubmissionRevision < ApplicationRecord
 		state :submitted
 		state :rejected_without_consideration
 		state :under_consideration
+		state :waiting_decision
 		state :need_revise
 		state :rejected
 		state :accepted
@@ -98,6 +100,7 @@ class SubmissionRevision < ApplicationRecord
 			transitions :from => :under_consideration, :to => :rejected, :if => (-> {decision_2 && decision_2.decision=='reject'})
 			transitions :from => :under_consideration, :to => :accepted, :if => (-> {decision_2 && decision_2.decision=='accept'})
 			transitions :from => :under_consideration, :to => :need_revise, :if => (-> {decision_2 && decision_2.decision=='revise'})
+			transitions :from => :under_consideration, :to => :waiting_decision, :if => (-> {decision_2 && decision_2.decision=='wait_decision'})
 		end
 
 	end
