@@ -15,7 +15,7 @@ class ESubmissionsController < OfficeSubmissionsController
 		@submissions = @journal.submissions.all_submitted.order(id: :desc).where(archived: @filter=='archived')
 
 #		respond_with(@journal_submissions)
-        @sidebar_active='editor_office'
+        @sidebar_active = @filter=='archived' ? 'editor_office_archive' : 'editor_office'
 	end
 
 	def people
