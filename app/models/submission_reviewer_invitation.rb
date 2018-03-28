@@ -2,7 +2,7 @@ class SubmissionReviewerInvitation < ApplicationRecord
 	belongs_to :submission
 	belongs_to :user
 
-	belongs_to :last_review, class_name: 'SubmissionRevisionReview'
+	belongs_to :last_review, class_name: 'SubmissionRevisionReview', optional: true
 
 
 	INTERVALS = {
