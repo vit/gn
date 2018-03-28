@@ -35,7 +35,7 @@ class SubmissionsController < OfficeSubmissionsController
     @submission = Submission.new
     @submission_text = @submission.get_text || SubmissionText.new
 
-    @sidebar_active='my_papers'
+    @sidebar_active='my_papers_new'
   end
 
 =begin

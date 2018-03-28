@@ -130,16 +130,16 @@
   <li class="nav-item nav-item-link" sstyle="ppadding-right: 34px;">
     <%= link_to submissions_path,
       class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
-      style: "pposition: relative; mmargin-right: 44px; margin-right: 44px;" do
+      style: "mmargin-right: 44px;" do
     %>
-        <%= fa_icon 'hand-o-right' %> <%= t('journal.submissions.my_papers') %>
+        <%= fa_icon 'files-o' %> <%= t('journal.submissions.my_papers') %>
         <span class="ttag ttag-default ttag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
 
     <% end %>
   </li>
 
 
-  <li class="nav-item" style="position: absolute; wwidth: 42px; width: 42px; right: 0px; top: 0px; margin: 0px; padding-left: 0px;">
+  <!--li class="nav-item" style="position: absolute; wwidth: 42px; width: 42px; right: 0px; top: 0px; margin: 0px; padding-left: 0px;">
         <%= link_to new_submission_path,
           class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
           style: "pposition: relative; rright: -32px; ttop: -33px; bborder-radius: 15px; padding-left: 0px;",
@@ -148,7 +148,19 @@
         %>
           <b><%= fa_icon 'plus', cclass: "fa-lg" %> <span cclass="hidden-sm-down"></span></b>
         <% end %>
+  </li-->
+
+
+  <li class="nav-item nav-item-link" sstyle="ppadding-right: 34px;">
+    <%= link_to new_submission_path,
+      class: "nav-link " + (@sidebar_active=='my_papers_new' ? 'active' : ''),
+      style: "mmargin-right: 44px;" do
+    %>
+        <%= fa_icon 'plus' %> <%= t('journal.submissions.new') %>
+
+    <% end %>
   </li>
+
 
   <li class="nnav-item nav-item-incut">
     <span class="nnav-link nav-text">
