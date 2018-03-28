@@ -19,6 +19,7 @@ class OfficeSubmissionsController < OfficeBaseController
 		authorize @submission, :can_process?
 #        @sidebar_active='editor_office'
 		@sidebar_active="#{@current_role}_office"
+		@sidebar_active += '_archive' if @submission.archived? && @current_role=='editor'
 
 		@revision = @submission.last_submitted_revision
 
@@ -40,6 +41,12 @@ class OfficeSubmissionsController < OfficeBaseController
     def revisions
 		authorize @submission, :can_process?
 		@sidebar_active="#{@current_role}_office"
+		@sidebar_active += '_archive' if @submission.archived? && @current_role=='editor'
+    end
+    def timeline
+		authorize @submission, :can_process?
+		@sidebar_active="#{@current_role}_office"
+		@sidebar_active += '_archive' if @submission.archived? && @current_role=='editor'
     end
 
     def update_review

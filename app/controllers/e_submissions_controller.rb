@@ -79,7 +79,7 @@ class ESubmissionsController < OfficeSubmissionsController
 		@found_users = @found_users.where(
 			JournalAppointment.where("journal_appointments.user_id = users.id AND journal_appointments.role_name IN (?)", roles).exists
 		) if roles.any?
-		@found_users = @found_users.limit(50)
+		@found_users = @found_users.limit(100)
 
 	#	@found_users = User.where('lower(lname) LIKE ?', "#{search.mb_chars.downcase.to_s}%")
 	#	@found_users = User.where("(COALESCE(lname, '') || COALESCE(fname, '') || COALESCE(mname, '')) LIKE ?", "%#{search}%")

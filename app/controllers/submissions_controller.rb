@@ -24,10 +24,10 @@ class SubmissionsController < OfficeSubmissionsController
     @sidebar_active='my_papers'
   end
 
-  def timeline
-    authorize @submission, :show?
-    @sidebar_active='my_papers'
-  end
+#  def timeline
+#    authorize @submission, :show?
+#    @sidebar_active='my_papers'
+#  end
 
   def new
     authorize @journal, :can_author?
