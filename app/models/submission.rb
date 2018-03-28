@@ -24,6 +24,21 @@ class Submission < ApplicationRecord
     reviewer_invitations.where(aasm_state: 'accepted').map { |i| i.user }
   end
 
+  def get_timeline
+    res = []
+    #revisions.order(updated_at: :desc).each do |revision|
+    revisions.order(submitted_at: :desc).each do |revision|
+      revision.revision_decisions.where(aasm_state: 'submitted').order(updated_at: :desc).each do |decision|
+        res << {time: decision.updated_at, type: 'decision', object: decision}
+      end
+      revision.reviews.where(aasm_state: 'submitted').order(updated_at: :desc).each do |review|
+        res << {time: review.updated_at, type: 'review', object: review}
+      end
+      res << {time: revision.submitted_at || revision.created_at, type: 'revision', object: revision}
+    end
+    res.sort_by { |o| o[:time] }.reverse
+  end
+
   aasm do
     state :just_created, initial: true
     state :draft

@@ -1,0 +1,41 @@
+<%
+
+    case @current_role
+    when 'editor'
+        @page_menu_data = [
+        {
+            title: ( '#'+@submission.id.to_s + ' ' + t('journal.office_submission.paper') ),
+            url: e_submission_path(@submission),
+            icon: 'arrow-left',
+        }
+        ]
+    when 'reviewer'
+        @page_menu_data = [
+        {
+            title: ( '#'+@submission.id.to_s + ' ' + t('journal.office_submission.paper') ),
+            url: r_submission_path(@submission),
+            icon: 'arrow-left',
+        }
+        ]
+    end
+
+#  @page_title = t('journal.submissions.show') + ' #' + @submission.id.to_s
+#  @page_title_sm = '#' + @submission.id.to_s
+
+#  @page_title = t('journal.office_submission.paper') + ' #' + @submission.id.to_s
+#  @page_title_sm = '#' + @submission.id.to_s
+
+  @page_title = '#' + @submission.id.to_s + ' ' + 'Timeline' #t('journal.submissions.timeline')
+  @page_title_sm = '#' + @submission.id.to_s
+
+
+%>
+
+
+
+<div class="container-fluid revisions" style="overflow: hidden;">
+
+    <%= render partial: 'submissions/show_timeline' %>
+
+</div>
+

@@ -33,6 +33,11 @@
     else nil
     end
 
+    timeline_link = case @current_role
+    when 'editor' then timeline_e_submission_path(@submission)
+    else nil
+    end
+
 %>
 
     <% unless state=="draft" && @current_role=='author' %>
@@ -50,6 +55,17 @@
                             <%#= fa_icon 'arrow-right' %>
                         <% end %>
                     <% end %>
+
+            <% if %w[editor].include?(@current_role) %>
+                        <%= link_to timeline_link,
+                            :class => 'btn btn-secondary bbtn-primary bbtn-sm pull-right',
+                            a: :b do
+                        %>
+                            <%= fa_icon 'clock-o' %>
+                            <%= t('journal.submissions.timeline') %>
+                        <% end %>
+            <% end %>
+
 
             <h3 class="card-title ttext-xs-center"><%= t('journal.submissions.paper_data') %></h3>
 

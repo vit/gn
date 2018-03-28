@@ -264,7 +264,8 @@ $paper-decision-status-color: (
     d2_draft: #0033dd,
     accept: #00cc22,
     reject: #dd0033,
-    revise: #eeaa00
+    revise: #eeaa00,
+    wait_decision: #0033dd
 );
 
     @each $rs, $color in $paper-review-status-color {
