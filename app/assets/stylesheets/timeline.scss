@@ -205,8 +205,10 @@
   z-index: 1;
   right: 30px;
   border: medium solid white;
+  -border: medium solid #ffeeee;
   border-width: 10px 0 10px 10px;
   border-color: transparent transparent transparent white;
+  -border-color: transparent transparent transparent #ffeeee;
 }
 
 /* Add arrows to the right container (pointing left) */
@@ -237,8 +239,47 @@
   border-radius: 6px;
 }
 
+.left .content {
+  -background-color: #ffeeee;
+}
 
+.timeline-revision {
+  &.left::before {
+    -border: medium solid #ffeeee;
+    border-color: transparent transparent transparent #ffeeee;
+  }
+  &.right::before {
+    -border: medium solid #ffeeee;
+    border-color: transparent #ffeeee transparent transparent;
+  }
+  .content {
+    background-color: #ffeeee !important;
+  }
+}
 
+.timeline-review {
+  &.left::before {
+    border-color: transparent transparent transparent #eeeeff;
+  }
+  &.right::before {
+    border-color: transparent #eeeeff transparent transparent;
+  }
+  .content {
+    background-color: #eeeeff !important;
+  }
+}
+
+.timeline-decision {
+  &.left::before {
+    border-color: transparent transparent transparent #eeffee;
+  }
+  &.right::before {
+    border-color: transparent #eeffee transparent transparent;
+  }
+  .content {
+    background-color: #f7ffee !important;
+  }
+}
 
 
 
