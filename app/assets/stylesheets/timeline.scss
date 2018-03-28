@@ -316,6 +316,29 @@
   .right {
     left: 0%;
   }
+
+
+
+.timeline-revision {
+  &.left::before {
+    border-color: transparent #ffeeee transparent transparent;
+  }
+}
+
+.timeline-review {
+  &.left::before {
+    border-color: transparent #eeeeff transparent transparent;
+  }
+}
+
+.timeline-decision {
+  &.left::before {
+    border-color: transparent #eeffee transparent transparent;
+  }
+}
+  
+  
+
 }
 
 
