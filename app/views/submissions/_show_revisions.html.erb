@@ -90,6 +90,10 @@
                 </div>
 
                 <div class="card-block">
+
+<%
+=begin
+%>
                     <% unless @current_role=='reviewer' %>
                         <h4 class="card-title"><%= t('journal.submission_data.revision.decisions') %></h4>
                     <% end %>
@@ -109,6 +113,57 @@
                             <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} %>
                         <% end %>
                     <% end %>
+<%
+=end
+%>
+
+
+<%
+=begin
+%>
+
+            <% revision.decisions.each do |decision| %>
+            <%
+                #item_time = decision.created_at
+                item_time = decision.updated_at
+            %>
+            <p>
+                <div>
+                    <div>
+                        <div class="paper-card-time ppull-left">
+                            <% if item_time %>
+                                <b><%#= t('journal.submissions.time.submitted') %> <%= format_date_time( item_time.to_datetime) rescue '' %></b>
+                            <% end %>
+                        </div>
+
+                        <div>
+                            <%= t('journal.submissions.state_block.decision') %>:
+                            <span class="ppaper-card-revision_number ddecision-status-<%= decision.decision %>">
+                                <b><%= t('journal.office_submission.decisions.' + decision.decision) rescue '' %></b>
+                            </span>
+                        </div>
+                        <% unless decision.comment.blank? %>
+                            <blockquote class="blockquote">
+                                <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
+                                <%= simple_format(decision.comment) %>
+                            </blockquote>
+                        <% end %>
+
+                            <%#= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: decision} %>
+                    </div>
+                </div>
+            </p>
+            <% end %>
+<%
+=end
+%>
+
+
+                    <%= render partial: 'common/parts/submission/show_revision_decisions', locals: {revision: revision} %>
+
+
+
+
 
                     <% if @current_role=='author' %>
                         <% if %w[accepted rejected need_revise -waiting_decision].include?(revision.aasm_state) && revision.reviews_submitted.count > 0 %>

@@ -282,6 +282,10 @@ ru:
             reviews_list: Рецензии
             review: Рецензия
             text: Текст
+            decisions_any: Решения редактора
+            decision_any: Решение редактора
+            decision_any_decision: Решение
+            decision_any_comment: Комментарий
             decision_stage_1: Решение редактора 1
             decision_stage_1_decision: Решение
             decision_stage_1_comment: Комментарий

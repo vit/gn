@@ -1,0 +1,51 @@
+
+<%# if decision.submitted? %>
+<div class="editor-decisions">
+
+    <div class="card">
+        <div class="card-block" style='background-color: #eeeeee;'>
+            <h5 class="card-title bbtn bbtn-link ccollapse-link">
+                <%= t("journal.office_submission.decisions_any") %>
+            </h5>
+
+            <% revision.decisions.each do |decision| %>
+
+                <%
+                    collapse_target_id = 'collapse_decision_' + decision.id.to_s
+                %>
+
+                            <p class="ccard card-text">
+                                
+                                <div class="ccard-block paper-card-time ppull-left">
+                                    <b><%= format_date_time( decision.updated_at.to_datetime) rescue '' %></b>
+                                </div>
+
+                                <div class="ccard-block">
+                                    <%= t('journal.office_submission.decision_any_decision') %>:
+                                    <span class="decision-status-<%= decision.decision %>">
+                                        <b><%= t('journal.office_submission.decisions.' + decision.decision) rescue '' %></b>
+                                    </span>
+                                </div>
+
+                                <% unless decision.comment.blank? %>
+                                    <div cclass="card" cclass="card-block">
+                                        <b class="btn-link collapse-link" data-toggle="collapse" data-target="#<%= collapse_target_id %>">
+                                            <%= t("journal.office_submission.decision_any_comment") %>
+                                            <%= fa_icon 'caret-down' %>
+                                        </b>
+                                        <div class="collapse" id="<%= collapse_target_id %>" style="background-color: white;">
+                                            <%#= decision.comment rescue '' %>
+                                            <%= simple_format(decision.comment) %>
+                                        </div>
+                                    </div>
+                                <% end %>
+                            </p>
+
+            <% end %>
+
+
+        </div>
+    </div>
+
+</div>
+<%# end %>

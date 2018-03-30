@@ -271,6 +271,10 @@ en:
             reviews_list: Reviews list
             review: Review
             text: Text
+            decisions_any: Editor's decisions
+            decision_any: Editor's decision
+            decision_any_decision: Decision
+            decision_any_comment: Comment
             decision_stage_1: Editor's decision 1
             decision_stage_1_decision: Decision
             decision_stage_1_comment: Comment
