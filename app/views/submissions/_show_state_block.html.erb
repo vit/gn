@@ -68,6 +68,10 @@
 
             <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+state) ) %></p>
         <!--/div-->
+
+<%
+=begin
+%>
             <% case state %>
             <% when 'rejected_without_consideration' %>
                 <% if true or decision_1_comment %>
@@ -114,6 +118,80 @@
                     <!--/div-->
                 <% end %>
             <% end %>
+<%
+=end
+%>
+
+
+
+
+                    <% if false && state=='need_revise' %>
+                        <%= link_to submission_path(@submission, op: :revise),
+                            method: :put,
+                            data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
+                            :class => 'btn btn-primary bbtn-sm',
+                            :remote => true,
+                            #disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?),
+                            a: :b do
+                        %>
+                            <%= fa_icon 'wrench' %>
+                            <%= t('journal.submissions.rework') %>
+                        <% end %>
+                    <% end %>
+
+
+            <%# unless state=='draft' %>
+            <% lsr.decisions.each do |decision| %>
+            <%
+                #item_time = decision.created_at
+                item_time = decision.updated_at
+            %>
+            <p>
+                <div cclass="container right ccard timeline-decision" sstyle="overflow: hidden; mmargin: 15px 0;">
+                    <div cclass="content ccard-block">
+                        <div class="paper-card-time ppull-left">
+                            <% if item_time %>
+                                <b><%#= t('journal.submissions.time.submitted') %> <%= format_date_time( item_time.to_datetime) rescue '' %></b>
+                            <% end %>
+                        </div>
+
+                        <div>
+                            <%= t('journal.submissions.state_block.decision') %>:
+                            <%#= t('journal.office_submission.decision_any_decision') %>:
+                            <span class="ppaper-card-revision_number ddecision-status-<%= decision.decision %>">
+                                <b><%= t('journal.office_submission.decisions.' + decision.decision) rescue '' %></b>
+                            </span>
+                        </div>
+                        <% unless decision.comment.blank? %>
+                            <blockquote class="blockquote">
+                                <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
+                                <%= simple_format(decision.comment) %>
+                            </blockquote>
+                        <% end %>
+
+                            <%#= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: decision} %>
+                    </div>
+                </div>
+            </p>
+            <% end %>
+            <%# end %>
+
+
+
+
+                        <% if %w[accepted rejected need_revise].include?(state) && lsr.reviews_submitted.count > 0 %>
+                                <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
+                                    revision: lsr,
+                                    user_role: :author,
+                                    id_prefix: 'state'
+                                } %>
+                        <% end %>
+
+
+
+
+
+
             <%#= translate_with_link('journal.submissions.state_block.see_old_revisions', link: link_to(t('journal.submissions.state_block.old_revisions'), revisions_link).html_safe ).html_safe %>
             <%= translate_with_link('journal.submissions.state_block.see_old_revisions', revisions_link) if lcr.revision_n>1 %>
             <%#= translate_with_link('journal.submissions.state_block.see_old_revisions', {}, revisions_link) if lcr.revision_n>1 %>

@@ -18,6 +18,12 @@ class SubmissionRevision < ApplicationRecord
 #		revision_decisions.where(category: :stage_2).order(created_at: :desc).first
 	end
 
+	def decisions
+#		revision_decisions.where(category: :stage_2).first
+		revision_decisions.where(aasm_state: 'submitted').order(updated_at: :desc)
+	end
+
+
 	def create_decision_1 data
 		decision = revision_decisions.build(data.merge category: 'stage_1')
 		decision.save!

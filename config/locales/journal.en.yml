@@ -143,6 +143,8 @@ en:
                 nothing_to_do: It looks like here is nothing to do
 
             state_block:
+                decision: "Editor's decision:"
+                decision_comment: "Editor's comment:"
                 decision_1_comment: "Editor's comment:"
                 decision_2_comment: "Editor's comment:"
                 see_old_revisions: "See all past reviews and editor's decisions in the paper's *[versions list]."
