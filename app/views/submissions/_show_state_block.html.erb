@@ -141,12 +141,16 @@
 
 
             <%# unless state=='draft' %>
-            <% lsr.decisions.each do |decision| %>
+            <%# lsr.decisions.first.each do |decision| %>
+            <%
+                decision = lsr.decisions.first
+                if decision
+            %>
             <%
                 #item_time = decision.created_at
                 item_time = decision.updated_at
             %>
-            <p>
+            <!--p-->
                 <div cclass="container right ccard timeline-decision" sstyle="overflow: hidden; mmargin: 15px 0;">
                     <div cclass="content ccard-block">
                         <div class="paper-card-time ppull-left">
@@ -172,7 +176,7 @@
                             <%#= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: decision} %>
                     </div>
                 </div>
-            </p>
+            <!--/p-->
             <% end %>
             <%# end %>
 
