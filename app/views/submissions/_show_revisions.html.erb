@@ -91,12 +91,13 @@
 
                 <div class="card-block">
 
-<%
-=begin
-%>
                     <% unless @current_role=='reviewer' %>
                         <h4 class="card-title"><%= t('journal.submission_data.revision.decisions') %></h4>
                     <% end %>
+
+<%
+=begin
+%>
                     <% if revision.decision_1 %>
                         <% if %w[author editor].include? @current_role %>
                             <%

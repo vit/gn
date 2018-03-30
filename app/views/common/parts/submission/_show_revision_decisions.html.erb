@@ -4,9 +4,9 @@
 
     <div class="card">
         <div class="card-block" style='background-color: #eeeeee;'>
-            <h5 class="card-title bbtn bbtn-link ccollapse-link">
+            <!--h5 class="card-title bbtn bbtn-link ccollapse-link">
                 <%= t("journal.office_submission.decisions_any") %>
-            </h5>
+            </h5-->
 
             <% revision.decisions.each do |decision| %>
 
@@ -21,7 +21,7 @@
                                 </div>
 
                                 <div class="ccard-block">
-                                    <%= t('journal.office_submission.decision_any_decision') %>:
+                                    <%= t('journal.office_submission.decision_any') %>:
                                     <span class="decision-status-<%= decision.decision %>">
                                         <b><%= t('journal.office_submission.decisions.' + decision.decision) rescue '' %></b>
                                     </span>
