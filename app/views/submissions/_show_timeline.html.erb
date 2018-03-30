@@ -51,18 +51,35 @@
                     <div class="content ccard-block">
                         <div class="paper-card-time ppull-left">
                             <% if item_time %>
-                                <b><%#= t('journal.submissions.time.submitted') %> <%= format_date_time( item_time.to_datetime) rescue '' %></b>
+                                <b><%= format_date_time( item_time.to_datetime) rescue '' %></b>
                             <% end %>
                         </div>
-                      <!--p><%= item.inspect %></p-->
 
                         <div>
-                            <%= t('journal.submission_data.revision.decision') %>:
+                            <%= t('journal.office_submission.decision_any') %>:
                             <span class="ppaper-card-revision_number decision-status-<%= decision.decision %>">
                                 <b><%= t('journal.office_submission.decisions.' + decision.decision) rescue '' %></b>
                             </span>
                         </div>
-                            <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: decision} %>
+
+                                <% unless decision.comment.blank? %>
+                                    <%
+                                        collapse_target_id = 'collapse_decision_' + decision.id.to_s
+                                    %>
+                                    <div>
+                                        <b class="btn-link collapse-link" data-toggle="collapse" data-target="#<%= collapse_target_id %>">
+                                            <%= t("journal.office_submission.decision_any_comment") %>
+                                            <%= fa_icon 'caret-down' %>
+                                        </b>
+                                        <div class="collapse" id="<%= collapse_target_id %>" style="background-color: white;">
+                                            <%#= decision.comment rescue '' %>
+                                            <%= simple_format(decision.comment) %>
+                                        </div>
+                                    </div>
+                                <% end %>
+
+
+                            <%#= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: decision} %>
                     </div>
                 </div>
             <% end %>
