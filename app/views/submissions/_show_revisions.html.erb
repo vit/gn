@@ -21,15 +21,22 @@
                     <% end %>
 
                     <div>
-                        <b><%= t('journal.submission_data.revision_number') %>:</b>
+                        <%= t('journal.submission_data.revision_number') %>:
                         <span class="paper-card-revision_number">
-                            #<%= revision.revision_n %>
+                            <b>#<%= revision.revision_n %></b>
+                        </span>
+                        <span cclass="paper-card-time">
+                        <% if revision.submitted_at %>,
+                            <%= t('journal.submissions.time.submitted') %>: <%= format_date_time( revision.submitted_at.to_datetime) rescue '' %>
+                        <% end %>
                         </span>
                     </div>
+
                     <div>
-                        <b><%= t('journal.submission_data.revision_state') %>:</b>
+                        <%= t('journal.submission_data.revision_state') %>:
                         <span class="paper-card-revision_state">
-                            <%= revision.aasm_state %>
+                            <!--b><%= revision.aasm_state %></b-->
+                            <b><%= t('journal.submissions.state.'+ revision.aasm_state )%></b>
                         </span>
                     </div>
 
@@ -38,7 +45,7 @@
                     %>
                     <% if author_file %>
                         <div>
-                            <b><%= t('journal.submission_data.author_file') %>:</b>
+                            <%= t('journal.submission_data.author_file') %>:
                             <span class="paper-card-author_file"><%= link_to author_file.file_data.url, ttarget: '_blank' do %>
                                 <%= fa_icon 'download' %>
                                 <%= t('journal.submission_files.download') %>
@@ -51,7 +58,7 @@
                     %>
                     <% if author_answer_file %>
                         <div>
-                            <b><%= t('journal.submission_data.author_answer_file') %>:</b>
+                            <%= t('journal.submission_data.author_answer_file') %>:
                             <span class="paper-card-author_file"><%= link_to author_answer_file.file_data.url, ttarget: '_blank' do %>
                                 <%= fa_icon 'download' %>
                                 <%= t('journal.submission_files.download') %>
@@ -65,7 +72,7 @@
                         %>
                         <% if author_expert_file %>
                             <div>
-                                <b><%= t('journal.submission_data.author_expert_file') %>:</b>
+                                <%= t('journal.submission_data.author_expert_file') %>:
                                 <span class="paper-card-author_file"><%= link_to author_expert_file.file_data.url, ttarget: '_blank' do %>
                                     <%= fa_icon 'download' %>
                                     <%= t('journal.submission_files.download') %>
@@ -76,16 +83,17 @@
 
                     <% if revision.authors_list %>
                         <div>
-                            <b><%= t('journal.submission_data.authors') %>:</b>
+                            <%= t('journal.submission_data.authors') %>:
                             <span class="paper-card-authors">
                                 <%= revision.authors_list.authors.order(author_n: :asc).map(&:full_name).join(', ') %>
                             </span>
                         </div>
                     <% end %>
 
-                    <% if revision.text %>
-                        <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
-                    <% end %>
+                    <%# if revision.text %>
+                        <%#= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+                    <%# end %>
+
 
                 </div>
 
@@ -197,13 +205,13 @@
 
                 </div>
 
-                <div class="card-block">
+                <!--div class="card-block">
                     <div class="paper-card-time">
-                        <%= render partial: 'common/parts/submission/show_revision_dates', locals: {
+                        <%#= render partial: 'common/parts/submission/show_revision_dates', locals: {
                             revision: revision
                         } %>
                     </div>
-                </div>
+                </div-->
 
             </div>
         <% end %>
