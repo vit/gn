@@ -72,11 +72,13 @@ namespace :reviewer do
       each do |inv|
         p inv
 
-        review = inv.get_review
-        unless review && review.submitted?
-				  JournalMailer.send_notifications_submission_remind_current_review_reviewer inv
-				end
-        
+        if inv.submission && inv.submission.lsr && inv.submission.lsr.under_consideration?
+          #p "*** is under_consideration ***"
+          review = inv.get_review
+          unless review && review.submitted?
+		  		  JournalMailer.send_notifications_submission_remind_current_review_reviewer inv
+			  	end
+        end
       end
 
 #    puts
