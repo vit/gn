@@ -215,9 +215,10 @@ class JournalMailer < ApplicationMailer
         end
     end
 
-    def submission_review_submitted_editor inv
+    def submission_review_submitted_editor inv, user
         @review = inv.last_review
-        @user = inv.user
+        #@user = inv.user
+        @user = user
 
         @revision = @review.revision
         @submission = @revision.submission
@@ -311,7 +312,7 @@ class JournalMailer < ApplicationMailer
 =end
     def self.send_notifications_submission_review_submitted inv
         (inv.last_review.revision.submission.journal.editors rescue []).each do |user|
-            self.submission_review_submitted_editor(inv).deliver_now
+            self.submission_review_submitted_editor(inv, user).deliver_now
         end
     end
 
