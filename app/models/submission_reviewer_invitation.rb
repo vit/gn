@@ -58,7 +58,8 @@ class SubmissionReviewerInvitation < ApplicationRecord
 				self.currev_expired = false
 				self.save
 
-				JournalMailer.send_notifications_submission_revision_invite_reviewer self
+				#JournalMailer.send_notifications_submission_revision_invite_reviewer self
+				JournalMailer.send_notifications_submission_revision_to_reviewer self
 			end
 			transitions :from => :accepted, :to => :accepted
 		end

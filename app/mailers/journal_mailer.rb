@@ -56,7 +56,7 @@ class JournalMailer < ApplicationMailer
             end
     end
 
-    def submission_revision_submitted_invite_reviewer invitation
+    def submission_revision_submitted_to_reviewer invitation
         @invitation = invitation
         @submission = @invitation.submission
         @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
@@ -269,8 +269,8 @@ class JournalMailer < ApplicationMailer
             self.submission_submitted_editor(submission, user).deliver_now
 		end
     end
-    def self.send_notifications_submission_revision_invite_reviewer invitation
-        self.submission_revision_submitted_invite_reviewer(invitation).deliver_now
+    def self.send_notifications_submission_revision_to_reviewer invitation
+        self.submission_revision_submitted_to_reviewer(invitation).deliver_now
     end
 
     def self.send_notifications_submission_decision submission
