@@ -220,6 +220,7 @@ en:
             author_answer_file: Reviwers answer file
             previous_author_file: Previous paper file
             author_expert_file: Expert opinion file
+            author_expert_file_remark: (for russian institutions only)
             authors: Authors
             title: Title
             abstract: Abstract

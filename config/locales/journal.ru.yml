@@ -221,6 +221,7 @@ ru:
             author_answer_file: Файл ответа рецензентам
             previous_author_file: Предыдущий файл статьи
             author_expert_file: Файл экспертного заключения
+            author_expert_file_remark: (только для российских организаций)
             authors: Авторы
             title: Название
             abstract: Аннотация
