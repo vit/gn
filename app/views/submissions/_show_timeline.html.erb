@@ -88,10 +88,11 @@
             <% if item_type=='revision' %>
                 <%
                     revision = item_object
+                    is_draft = revision.aasm_state=='draft'
+                    class_suffixe = is_draft ? '-draft' : ''
                 %>
-                <div class="container left ccard timeline-revision" sstyle="overflow: hidden; mmargin: 15px 0;">
+                <div class="container left ccard timeline-revision<%= class_suffixe %>" sstyle="overflow: hidden; mmargin: 15px 0;">
                     <div class="content ccard-block">
-
                       <!--p><%= item.inspect %></p-->
                         <div class="paper-card-time ppull-right" style="text-align: right;">
                             <% if item_time %>
@@ -100,65 +101,68 @@
                         </div>
             
                         <div>
-                            <%= t('journal.submissions.submitter') %> <%= revision.submission.user.full_name %>,
+                            <%= t('journal.submission_data.submitter') %> <%= revision.submission.user.full_name %>,
                             <%= t('journal.submission_data.revision_number') %>:
                             <span class="paper-card-revision_number">
-                                <b>#<%= revision.revision_n %></b>
+                                <b>#<%= revision.revision_n %></b><%=
+                                    (is_draft ? ' ('+t('journal.submission_data.is_a_draft')+')' : '').html_safe
+                                %>
                             </span>
                         </div>
-            
-                        <%
-                            author_file = revision.get_file_by_category 'author_file'
-                        %>
-                        <% if author_file %>
-                            <div>
-                                <%= t('journal.submission_data.author_file') %>:
-                                <span class="paper-card-author_file"><%= link_to author_file.file_data.url, ttarget: '_blank' do %>
-                                    <%= fa_icon 'download' %>
-                                    <%= t('journal.submission_files.download') %>
-                                <% end %></span>
-                            </div>
-                        <% end %>
-
-                        <%
-                            author_answer_file = revision.get_file_by_category 'author_answer_file'
-                        %>
-                        <% if author_answer_file %>
-                            <div>
-                                <%= t('journal.submission_data.author_answer_file') %>:
-                                <span class="paper-card-author_file"><%= link_to author_answer_file.file_data.url, ttarget: '_blank' do %>
-                                    <%= fa_icon 'download' %>
-                                    <%= t('journal.submission_files.download') %>
-                                <% end %></span>
-                            </div>
-                        <% end %>
-            
-                        <% if %w[author editor].include?(@current_role) %>
+                        <% unless is_draft %>
                             <%
-                                author_expert_file = revision.get_file_by_category 'author_expert_file'
+                                author_file = revision.get_file_by_category 'author_file'
                             %>
-                            <% if author_expert_file %>
+                            <% if author_file %>
                                 <div>
-                                    <%= t('journal.submission_data.author_expert_file') %>:
-                                    <span class="paper-card-author_file"><%= link_to author_expert_file.file_data.url, ttarget: '_blank' do %>
+                                    <%= t('journal.submission_data.author_file') %>:
+                                    <span class="paper-card-author_file"><%= link_to author_file.file_data.url, ttarget: '_blank' do %>
                                         <%= fa_icon 'download' %>
                                         <%= t('journal.submission_files.download') %>
                                     <% end %></span>
                                 </div>
                             <% end %>
-                        <% end %>
-
-                        <% if revision.authors_list %>
-                            <div>
-                                <%= t('journal.submission_data.authors') %>:
-                                <span class="paper-card-authors">
-                                    <%= revision.authors_list.authors.order(author_n: :asc).map(&:full_name).join(', ') %>
-                                </span>
-                            </div>
-                        <% end %>
-            
-                        <% if revision.text %>
-                            <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+    
+                            <%
+                                author_answer_file = revision.get_file_by_category 'author_answer_file'
+                            %>
+                            <% if author_answer_file %>
+                                <div>
+                                    <%= t('journal.submission_data.author_answer_file') %>:
+                                    <span class="paper-card-author_file"><%= link_to author_answer_file.file_data.url, ttarget: '_blank' do %>
+                                        <%= fa_icon 'download' %>
+                                        <%= t('journal.submission_files.download') %>
+                                    <% end %></span>
+                                </div>
+                            <% end %>
+                
+                            <% if %w[author editor].include?(@current_role) %>
+                                <%
+                                    author_expert_file = revision.get_file_by_category 'author_expert_file'
+                                %>
+                                <% if author_expert_file %>
+                                    <div>
+                                        <%= t('journal.submission_data.author_expert_file') %>:
+                                        <span class="paper-card-author_file"><%= link_to author_expert_file.file_data.url, ttarget: '_blank' do %>
+                                            <%= fa_icon 'download' %>
+                                            <%= t('journal.submission_files.download') %>
+                                        <% end %></span>
+                                    </div>
+                                <% end %>
+                            <% end %>
+    
+                            <% if revision.authors_list %>
+                                <div>
+                                    <%= t('journal.submission_data.authors') %>:
+                                    <span class="paper-card-authors">
+                                        <%= revision.authors_list.authors.order(author_n: :asc).map(&:full_name).join(', ') %>
+                                    </span>
+                                </div>
+                            <% end %>
+                
+                            <% if revision.text %>
+                                <%= render partial: 'common/parts/submission/show_revision_text', locals: {revision: revision} %>
+                            <% end %>
                         <% end %>
 
                     </div>

@@ -34,7 +34,8 @@ class Submission < ApplicationRecord
       revision.reviews.where(aasm_state: 'submitted').order(updated_at: :desc).each do |review|
         res << {time: review.updated_at, type: 'review', object: review}
       end
-      res << {time: revision.submitted_at || revision.created_at, type: 'revision', object: revision}
+#      res << {time: revision.submitted_at || revision.created_at, type: 'revision', object: revision}
+      res << {time: revision.submitted_at || revision.updated_at || revision.created_at, type: 'revision', object: revision}
     end
     res.sort_by { |o| o[:time] }.reverse
   end

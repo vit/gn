@@ -257,6 +257,20 @@
   }
 }
 
+.timeline-revision-draft {
+  &.left::before {
+    -border: medium solid #777777;
+    border-color: transparent transparent transparent #777777;
+  }
+  &.right::before {
+    -border: medium solid #777777;
+    border-color: transparent #777777 transparent transparent;
+  }
+  .content {
+    background-color: #777777 !important;
+  }
+}
+
 .timeline-review {
   &.left::before {
     border-color: transparent transparent transparent #eeeeff;
@@ -322,6 +336,12 @@
 .timeline-revision {
   &.left::before {
     border-color: transparent #ffeeee transparent transparent;
+  }
+}
+
+.timeline-revision-draft {
+  &.left::before {
+    border-color: transparent #777777 transparent transparent;
   }
 }
 

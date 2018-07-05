@@ -223,8 +223,10 @@ ru:
             author_expert_file: Файл экспертного заключения
             author_expert_file_remark: (только для российских организаций)
             authors: Авторы
+            submitter: Владелец
             title: Название
             abstract: Аннотация
+            is_a_draft: черновик, еще не подано
             revision:
                 data: Данные
                 decisions: Решения

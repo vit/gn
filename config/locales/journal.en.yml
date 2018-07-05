@@ -222,8 +222,10 @@ en:
             author_expert_file: Expert opinion file
             author_expert_file_remark: (for russian institutions only)
             authors: Authors
+            submitter: Owner
             title: Title
             abstract: Abstract
+            is_a_draft: draft, not submitted yet
             revision:
                 data: Data
                 decisions: Decisions
