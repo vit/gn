@@ -25,7 +25,7 @@ class ESubmissionsController < OfficeSubmissionsController
 		roles = JournalAppointment::Roles.map(&:to_s)
 		@found_users = User.includes(:appointments)	#.joins(:appointments)
 #		@found_users = @found_users.where('journal_appointments.role_name': roles) if roles.any?
-		@found_users = @found_users.limit(100)
+		@found_users = @found_users.limit(200)
 
 		@sidebar_active='people'
 	end
