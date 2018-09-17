@@ -13,7 +13,7 @@ class SubmissionRevisionReviewsController < OfficeBaseController
         :comment_science_4_e,
         :comment_quality_e,
         :comment_for_author_e,
-#       :comment_for_editor,
+        :comment_for_editor_e,
     ]
 
 	def editor_update
