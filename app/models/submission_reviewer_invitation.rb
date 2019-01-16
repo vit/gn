@@ -6,9 +6,12 @@ class SubmissionReviewerInvitation < ApplicationRecord
 
 
 	INTERVALS = {
-		inv_deadline: 2.weeks,
-		inv_remind: 1.week,
-		inv_remind_editor: 1.week,
+#		inv_deadline: 2.weeks,
+#		inv_remind: 1.week,
+#		inv_remind_editor: 1.week,
+		inv_deadline: 1.week,
+		inv_remind: 3.days,
+		inv_remind_editor: 3.days,
 		currev_deadline: 1.month,
 		currev_remind: 2.weeks,
 		currev_remind_editor: 2.weeks,
