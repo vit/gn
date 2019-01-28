@@ -109,7 +109,7 @@
                                 %>
                             </span>
                         </div>
-                        <% unless is_draft %>
+                        <% unless false && is_draft %>
                             <%
                                 author_file = revision.get_file_by_category 'author_file'
                             %>
