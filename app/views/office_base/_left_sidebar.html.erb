@@ -81,6 +81,13 @@
 </div>
 
 
+  <li class="nav-item nav-item-link">
+    <%= link_to expired_reviews_e_submissions_path, class: "nav-link " + (@sidebar_active=='expired_reviews' ? 'active' : '') do %>
+        <%= fa_icon 'exclamation-triangle' %> <%= t('journal.menu.expired_reviews') %>
+        <span class="ttag ttag-default ttag-pill float-xs-right"><%#= User.all.count %></span>
+    <% end %>
+  </li>
+
 
 
   <li class="nav-item nav-item-link">

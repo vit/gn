@@ -2,7 +2,7 @@ class ESubmissionsController < OfficeSubmissionsController
 #    before_action :set_submission, only: [:show, :update]
 #    before_action :set_submission, except: [:index]
 
-    before_action :set_submission, except: [:index, :people, :people_update, :people_find]
+    before_action :set_submission, except: [:index, :people, :people_update, :people_find, :expired_reviews]
 
 
 	before_action -> { @current_role = 'editor' }
@@ -16,6 +16,32 @@ class ESubmissionsController < OfficeSubmissionsController
 
 #		respond_with(@journal_submissions)
         @sidebar_active = @filter=='archived' ? 'editor_office_archive' : 'editor_office'
+	end
+
+	def expired_reviews
+		@filter = params[:filter] || ''
+        authorize @journal, :can_editor?
+		#@journal_submissions = @journal.submissions
+
+#		@submissions = @journal.submissions.all_submitted.order(id: :desc).where_exists(:reviewer_invitations, ['currev_expired'])
+=begin
+		@submissions = @journal.submissions.all_submitted
+			.order(id: :desc)
+    		.where( 'exists (select 1 from submission_reviewer_invitations as sri where not sri.currev_expired)')
+
+#			.joins(:reviewer_invitations)
+=end
+
+		@expired_reviews = SubmissionReviewerInvitation
+			.where(currev_expired: true)
+			.joins(:submission)
+			.where(submissions: { journal_id: @journal })
+			.order(currev_expires_at: :desc)
+			.joins(submission: :revisions)
+			.where(submission_revisions: { aasm_state: "under_consideration" })
+			.where('submission_revisions.id = (select id from submission_revisions as sr where sr.submission_id=submissions.id and aasm_state!="draft" order by revision_n desc limit 1)')
+
+        @sidebar_active = 'expired_reviews'
 	end
 
 	def people

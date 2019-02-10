@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     end
     collection do
       get 'people'
+      get 'expired_reviews'
       post 'people_update'
       post 'people_find'
     end
