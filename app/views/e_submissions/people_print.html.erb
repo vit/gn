@@ -16,6 +16,8 @@
             <th>fname</th>
             <th>mname</th>
             <th>lname</th>
+            <th>country code</th>
+            <th>country name</th>
                 <% JournalAppointment::Roles.each do |r| -%>
                     <th>
                         <%= r %>
@@ -30,6 +32,8 @@
                 <td><%= u.fname.to_s %></td>
                 <td><%= u.mname.to_s %></td>
                 <td><%= u.lname.to_s %></td>
+                <td><%= u.country %></td>
+                <td><%= u.country_name %></td>
 
                 <%
                     app_h = {}
