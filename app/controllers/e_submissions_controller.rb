@@ -2,7 +2,7 @@ class ESubmissionsController < OfficeSubmissionsController
 #    before_action :set_submission, only: [:show, :update]
 #    before_action :set_submission, except: [:index]
 
-    before_action :set_submission, except: [:index, :people, :people_update, :people_find, :expired_reviews]
+    before_action :set_submission, except: [:index, :people, :people_update, :people_find, :expired_reviews, :people_print]
 
 
 	before_action -> { @current_role = 'editor' }
@@ -54,6 +54,17 @@ class ESubmissionsController < OfficeSubmissionsController
 		@found_users = @found_users.limit(200)
 
 		@sidebar_active='people'
+	end
+
+	def people_print
+        authorize @journal, :can_editor?
+#		@found_users = User.includes(:appointments).limit(50)
+
+		roles = JournalAppointment::Roles.map(&:to_s)
+		@found_users = User.includes(:appointments)	#.joins(:appointments)
+#		@found_users = @found_users.limit(200)
+
+		render layout: "print"
 	end
 
 	def people_update

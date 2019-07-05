@@ -1,0 +1,68 @@
+<div id="submission" class="container-fluid">
+
+<%
+%>
+
+<article class="print-paper-info" >
+
+    <p cclass="text-center">
+
+
+    <table class="people_print_table" cellpadding=10>
+        <tr>
+            <th>id</th>
+            <th>email</th>
+            <th>full name</th>
+            <th>fname</th>
+            <th>mname</th>
+            <th>lname</th>
+                <% JournalAppointment::Roles.each do |r| -%>
+                    <th>
+                        <%= r %>
+                    </th>
+                <% end -%>
+
+        <% @found_users.each do |u| %>
+            <tr>
+                <td><%= u.id.to_s %></td>
+                <td><%= u.email.to_s %></td>
+                <td><%= u.full_name.to_s %></td>
+                <td><%= u.fname.to_s %></td>
+                <td><%= u.mname.to_s %></td>
+                <td><%= u.lname.to_s %></td>
+
+                <%
+                    app_h = {}
+                %>
+                <% u.appointments.each do |a| %>
+                    <%
+                        app_h[a.role_name.to_sym] = true
+                    %>
+                <% end %>
+
+                <% JournalAppointment::Roles.each do |r| -%>
+                    <td>
+                        <%= app_h[r] ? '1' : '0' %>
+                    </td>
+                <% end -%>
+
+            </tr>
+
+        <% end if @found_users %>
+
+        </tr>
+    </table>
+
+
+
+
+
+
+
+    </p>
+
+</article>
+
+
+
+</div>
