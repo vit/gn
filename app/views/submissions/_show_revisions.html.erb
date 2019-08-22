@@ -10,6 +10,34 @@
             <div class="card llist-group-item paper-revisions-list-item paper-revisions-list-item-#{state}" style="overflow: hidden; mmargin: 15px 0;">
                 <div class="card-block">
 
+
+
+
+<!--div>
+    <%# %w[submission_deadline_missed submitted_after_deadline_in].each do |f| %>
+    <%#= f %>: <%#= revision.public_send(f) %><br>
+    <%# end %>
+</div-->
+
+<% if revision.submission_deadline_missed %>
+<div style="margin-bottom: 10px;">
+    <b><%= t('journal.submission_data.author_version_deadline_missed') %></b>
+</div>
+<% end %>
+
+<% if false && revision.submitted_after_deadline_in > 0 %>
+<div style="margin-bottom: 10px;">
+    <b><%= t('journal.submission_data.submitted_after_deadline_in') %>:</b>
+    <span>
+        <%= revision.submitted_after_deadline_in %>
+    </span>
+    <b><%= t('journal.submission_data.submitted_after_deadline_in_seconds') %></b>
+</div>
+<% end %>
+
+
+
+
                     <% if @current_role=='editor' %>
                         <div class="pull-right">
                             <%= render partial: 'indicator_reviews', locals: {submission: @submission, revision: revision} %>
@@ -103,74 +131,8 @@
                         <h4 class="card-title"><%= t('journal.submission_data.revision.decisions') %></h4>
                     <% end %>
 
-<%
-=begin
-%>
-                    <% if revision.decision_1 %>
-                        <% if %w[author editor].include? @current_role %>
-                            <%
-                                decision_1_comment = revision.decision_1.comment rescue nil
-                            %>
-                            <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_1} %>
-                        <% end %>
-                    <% end %>
-                    <% if revision.decision_2 %>
-                        <% if %w[author editor].include? @current_role %>
-                            <%
-                                decision_2_comment = revision.decision_2.comment rescue nil
-                            %>
-                            <%= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: revision.decision_2} %>
-                        <% end %>
-                    <% end %>
-<%
-=end
-%>
-
-
-<%
-=begin
-%>
-
-            <% revision.decisions.each do |decision| %>
-            <%
-                #item_time = decision.created_at
-                item_time = decision.updated_at
-            %>
-            <p>
-                <div>
-                    <div>
-                        <div class="paper-card-time ppull-left">
-                            <% if item_time %>
-                                <b><%#= t('journal.submissions.time.submitted') %> <%= format_date_time( item_time.to_datetime) rescue '' %></b>
-                            <% end %>
-                        </div>
-
-                        <div>
-                            <%= t('journal.submissions.state_block.decision') %>:
-                            <span class="ppaper-card-revision_number ddecision-status-<%= decision.decision %>">
-                                <b><%= t('journal.office_submission.decisions.' + decision.decision) rescue '' %></b>
-                            </span>
-                        </div>
-                        <% unless decision.comment.blank? %>
-                            <blockquote class="blockquote">
-                                <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
-                                <%= simple_format(decision.comment) %>
-                            </blockquote>
-                        <% end %>
-
-                            <%#= render partial: 'common/parts/submission/show_revision_decision', locals: {decision: decision} %>
-                    </div>
-                </div>
-            </p>
-            <% end %>
-<%
-=end
-%>
-
 
                     <%= render partial: 'common/parts/submission/show_revision_decisions', locals: {revision: revision} %>
-
-
 
 
 

@@ -1,0 +1,38 @@
+(see english text below)
+
+Здравствуйте, <%= @user.full_name %>!
+
+Хотели бы напомнить Вам, что приближается крайний срок подачи доработанной версии статьи (<%= format_date_time( @submission.submission_deadline_at ) %>).
+
+Данные статьи:
+Id: <%= @submission.id %>
+Авторы: <%= @authors_text %>
+Название статьи: <%= @title_text %>
+
+Видеть данные статьи и рецензии, а также подать новую версию статьи, можно здесь: <%= @submission_url %>
+
+C уважением,
+Тарановский Д.О.
+секретарь редколлегии журнала
+"Гироскопия и навигация"
+
+(Это письмо было отправлено системой. Пожалуйста, не отвечайте на него.)
+
+
+Dear <%= @user.full_name %>!
+
+We would like to remind you that the review submission deadline is approaching (<%= format_date_time( @submission.submission_deadline_at ) %>).
+
+Paper data:
+Id: <%= @submission.id %>
+Authors: <%= @authors_text %>
+Paper title: <%= @title_text %>
+
+You can submit a new paper version or you can see the paper data and reviews here: <%= @submission_url %>
+
+Best regards,
+Taranovskiy Dmitriy
+editorial board secretary
+Gyroscopy and Navigation journal
+
+(This email was sent by the system. Please don't reply.)

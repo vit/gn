@@ -67,6 +67,49 @@
             <% end %>
 
 
+<% if %w[editor].include?(@current_role) %>
+    <div>
+        <%# %w[submission_deadline_at submission_deadline_remind_at submission_deadline_remind_editor_at submission_deadline_missed submitted_after_deadline_in].each do |f| %>
+        <% %w[submission_deadline_at submission_deadline_remind_at submission_deadline_missed submitted_after_deadline_in].each do |f| %>
+        <%= f %>: <%= @submission.public_send(f) %><br>
+        <% end %>
+    </div>
+<% end %>
+
+
+<% if %w[editor].include?(@current_role) %>
+
+    <% if @submission.submission_deadline_at %>
+    <div style="margin-bottom: 10px;">
+        <b><%= t('journal.submission_data.author_version_deadline') %>:</b>
+        <span>
+            <%= format_date_time @submission.submission_deadline_at %>
+        </span>
+    </div>
+    <% end %>
+    
+    <% if @submission.submission_deadline_missed %>
+    <div style="margin-bottom: 10px;">
+        <b><%= t('journal.submission_data.author_version_deadline_missed') %></b>
+        <!--span>
+            <%#= format_date_time @submission.submission_deadline_at %>
+        </span-->
+    </div>
+    <% end %>
+    
+    <% if false && @submission.submitted_after_deadline_in > 0 %>
+    <div style="margin-bottom: 10px;">
+        <b><%= t('journal.submission_data.submitted_after_deadline_in') %>:</b>
+        <span>
+            <%= @submission.submitted_after_deadline_in %>
+        </span>
+        <b><%= t('journal.submission_data.submitted_after_deadline_in_seconds') %></b>
+    </div>
+    <% end %>
+
+<% end %>
+
+
             <h3 class="card-title ttext-xs-center"><%= t('journal.submissions.paper_data') %></h3>
 
             <% if @current_role=="editor" %>

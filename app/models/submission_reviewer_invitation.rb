@@ -35,12 +35,13 @@ class SubmissionReviewerInvitation < ApplicationRecord
 			after do
 				now_time = DateTime.now
 
-				#self.inv_expires_at = now_time + INTERVALS[:inv_deadline]
-				self.inv_expires_at = plus_interval(now_time, INTERVALS[:inv_deadline])
-				self.inv_remind_at = self.inv_expires_at - INTERVALS[:inv_remind]
-				self.inv_remind_editor_at = self.inv_expires_at - INTERVALS[:inv_remind_editor]
+#				self.set_inv_deadline now_time, INTERVALS[:inv_deadline], INTERVALS[:inv_remind], INTERVALS[:inv_remind_editor]
+				set_inv_deadline now_time, INTERVALS[:inv_deadline], INTERVALS[:inv_remind], INTERVALS[:inv_remind_editor]
 
-				#self.currev_expires_at = now_time + INTERVALS[:currev_deadline]
+#				self.inv_expires_at = plus_interval(now_time, INTERVALS[:inv_deadline])
+#				self.inv_remind_at = self.inv_expires_at - INTERVALS[:inv_remind]
+#				self.inv_remind_editor_at = self.inv_expires_at - INTERVALS[:inv_remind_editor]
+
 				self.currev_expires_at = plus_interval(now_time, INTERVALS[:currev_deadline])
 				self.currev_remind_at = self.currev_expires_at - INTERVALS[:currev_remind]
 				self.currev_remind_editor_at = self.currev_expires_at - INTERVALS[:currev_remind]
@@ -51,15 +52,19 @@ class SubmissionReviewerInvitation < ApplicationRecord
 			transitions :from => :inactive, :to => :inactive
 		end
 
-		event :next_revision_submitted do
+#		event :next_revision_submitted do
+		event :start_next_reviewer_iteration do
 			after do
-				now_time = DateTime.now
-				#self.currev_expires_at = now_time + INTERVALS[:currev_next_deadline]
-				self.currev_expires_at = plus_interval(now_time, INTERVALS[:currev_next_deadline])
-				self.currev_remind_at = self.currev_expires_at - INTERVALS[:currev_next_remind]
-				self.currev_remind_editor_at = self.currev_expires_at - INTERVALS[:currev_next_remind]
-				self.currev_expired = false
-				self.save
+#				now_time = DateTime.now
+
+#				self.set_currev_deadline Time.now, INTERVALS[:currev_next_deadline], INTERVALS[:currev_next_remind], INTERVALS[:currev_next_remind]
+				set_currev_deadline Time.now, INTERVALS[:currev_next_deadline], INTERVALS[:currev_next_remind], INTERVALS[:currev_next_remind]
+
+#				self.currev_expires_at = plus_interval(now_time, INTERVALS[:currev_next_deadline])
+#				self.currev_remind_at = self.currev_expires_at - INTERVALS[:currev_next_remind]
+#				self.currev_remind_editor_at = self.currev_expires_at - INTERVALS[:currev_next_remind]
+#				self.currev_expired = false
+#				self.save
 
 				#JournalMailer.send_notifications_submission_revision_invite_reviewer self
 				JournalMailer.send_notifications_submission_revision_to_reviewer self
@@ -83,11 +88,14 @@ class SubmissionReviewerInvitation < ApplicationRecord
 
 				if d1 && d2 && d1.is_a?(ActiveSupport::Duration) && d2.is_a?(ActiveSupport::Duration)
 					now_time = DateTime.now
-					#self.inv_expires_at = now_time + d1
-					self.inv_expires_at = plus_interval(now_time, d1)
-					self.inv_remind_at = self.inv_expires_at - d2
-					self.inv_remind_editor_at = self.inv_expires_at - d2
-					self.save
+
+#					self.set_inv_deadline now_time, d1, d2, d2
+					set_inv_deadline now_time, d1, d2, d2
+
+#					self.inv_expires_at = plus_interval(now_time, d1)
+#					self.inv_remind_at = self.inv_expires_at - d2
+#					self.inv_remind_editor_at = self.inv_expires_at - d2
+#					self.save
 				end
 #				JournalMailer.send_notifications_submission_invite_reviewer self
 			end
@@ -101,12 +109,14 @@ class SubmissionReviewerInvitation < ApplicationRecord
 
 				if d1 && d2 && d1.is_a?(ActiveSupport::Duration) && d2.is_a?(ActiveSupport::Duration)
 					now_time = DateTime.now
-					#self.currev_expires_at = now_time + d1
-					self.currev_expires_at = plus_interval(now_time, d1)
-					self.currev_remind_at = self.currev_expires_at - d2
-					self.currev_remind_editor_at = self.currev_expires_at - d2
 
-					self.currev_expired = false
+#					self.set_currev_deadline now_time, d1, d2, d2
+					set_currev_deadline now_time, d1, d2, d2
+
+#					self.currev_expires_at = plus_interval(now_time, d1)
+#					self.currev_remind_at = self.currev_expires_at - d2
+#					self.currev_remind_editor_at = self.currev_expires_at - d2
+#					self.currev_expired = false
 
 					self.save
 				end
@@ -121,15 +131,6 @@ class SubmissionReviewerInvitation < ApplicationRecord
 		event :sm_activate do
 			after do
 				now_time = DateTime.now
-
-#				self.inv_expires_at = now_time + INTERVALS[:inv_deadline]
-#				self.inv_remind_at = self.inv_expires_at - INTERVALS[:inv_remind]
-#				self.inv_remind_editor_at = self.inv_expires_at - INTERVALS[:inv_remind_editor]
-
-#				self.currev_expires_at = now_time + 30.days
-#				self.currev_remind_at = self.currev_expires_at - 7.days
-#				self.currev_remind_editor_at = self.currev_expires_at - 7.days
-
 				self.activated_at = now_time
 				self.save
 				JournalMailer.send_notifications_submission_invite_reviewer self
@@ -181,26 +182,6 @@ class SubmissionReviewerInvitation < ApplicationRecord
 			transitions :from => :pending, :to => :expired
 		end
 
-#		event :sm_currev_expire do
-#			after do
-#				self.currev_expired = true
-#				self.save
-#				#JournalMailer.send_notifications_submission_invitation_decision self
-#			end
-#			#transitions :from => :pending, :to => :pending
-#			#transitions :from => :pending, :to => :expired
-##			transitions :from => SubmissionReviewerInvitation.aasm.states.map(&:name)
-##			transitions :to => self.aasm.current_state
-#		end
-
-#		event :sm_destroy do
-#			after do
-#				self.destroy!
-#			end
-##			transitions :to => :nonexistent
-#			transitions :from => :inactive, :to => :nonexistent
-#		end
-
 	end
 
 	def currev_expire
@@ -232,6 +213,24 @@ private
 		r = r.end_of_day if d >= 1.day
 		r
 	end
+
+
+	def set_inv_deadline since_time, d1, d2, d3
+		self.inv_expires_at = plus_interval(since_time, d1)
+		self.inv_remind_at = self.inv_expires_at - d2
+		self.inv_remind_editor_at = self.inv_expires_at - d3
+		self.inv_expired = false
+		self.save
+	end
+
+	def set_currev_deadline since_time, d1, d2, d3
+		self.currev_expires_at = plus_interval(since_time, d1)
+		self.currev_remind_at = self.currev_expires_at - d2
+		self.currev_remind_editor_at = self.currev_expires_at - d3
+		self.currev_expired = false
+		self.save
+	end
+
 
 end
 

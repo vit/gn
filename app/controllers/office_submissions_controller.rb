@@ -26,9 +26,11 @@ class OfficeSubmissionsController < OfficeBaseController
 #		@decision = @revision.revision_decision || @revision.build_revision_decision({user: current_user})
 
         @decision_1 = @revision.decision_1
+        @decision_1_cold = @revision.decision_1_cold
         @decision_2 = @revision.decision_2
         @decisions = {
             "stage_1" => @decision_1,
+            "stage_1_cold" => @decision_1_cold,
             "stage_2" => @decision_2
 		}
 
@@ -143,12 +145,16 @@ class OfficeSubmissionsController < OfficeBaseController
 		data = params[:submission_revision_decision]
 		if data
             category = data[:category]
-            decision_data = params.require(:submission_revision_decision).permit(:decision, :comment).merge(user: current_user) rescue nil
+            decision_data = params.require(:submission_revision_decision).permit(:decision, :submission_deadline, :comment).merge(user: current_user) rescue nil
             case category
                 when "stage_1" then
                     @revision.decision_1 ?
                         @revision.decision_1.sm_update!(decision_data) :
                         @revision.create_decision_1(decision_data.merge user: current_user)
+                when "stage_1_cold" then
+                    @revision.decision_1_cold ?
+                        @revision.decision_1_cold.sm_update!(decision_data) :
+                        @revision.create_decision_1_cold(decision_data.merge user: current_user)
                 when "stage_2" then
                     @revision.decision_2 ?
                         @revision.decision_2.sm_update!(decision_data) :
@@ -160,6 +166,10 @@ class OfficeSubmissionsController < OfficeBaseController
 		case params[:op]
 		when 'submit_decision_stage_1'
 			@revision.decision_1.sm_submit! if @revision.decision_1 && @revision.decision_1.may_sm_submit?
+		when 'submit_decision_stage_1_cold'
+			#Rails.logger.debug 'submit_decision_stage_1_cold'
+			#Rails.logger.debug @revision.decision_1_cold
+			@revision.decision_1_cold.sm_submit! if @revision.decision_1_cold && @revision.decision_1_cold.may_sm_submit?
 		when 'submit_decision_stage_2'
 			@revision.decision_2.sm_submit! if @revision.decision_2 && @revision.decision_2.may_sm_submit?
 #			@decision_2.sm_submit!
@@ -246,10 +256,12 @@ class OfficeSubmissionsController < OfficeBaseController
 		end
 
         @decision_1 = @revision.decision_1
+        @decision_1_cold = @revision.decision_1_cold
         @decision_2 = @revision.decision_2
 
         @decisions = {
             "stage_1" => @decision_1,
+            "stage_1_cold" => @decision_1_cold,
             "stage_2" => @decision_2
 		}
 

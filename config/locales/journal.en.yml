@@ -38,11 +38,13 @@ en:
             edit_text: Edit
             edit_authors: Edit
             submit: Submit
+            submit_after_deadline: Submit after deadline
             rework: Rework
             state:
                 rejected_without_consideration: rejected without consideration
                 submitted: submitted
                 under_consideration: under consideration
+                submitted_cold: waiting editor's decision
                 waiting_decision: waiting decision
                 accepted: accepted
                 need_revise: need revise
@@ -59,6 +61,9 @@ en:
                     Your paper is pending. Reviewers are reading it, writing reviews and so on.
                     When the process is complete, we will inform you of the decision.
                     The paper will be accepted, or we will suggest to correct it, or it will be rejected.
+                submitted_cold: |+
+                    Your paper is pending.
+                    The editor can forward it to the reviiewers or make another decision .
                 waiting_decision: |+
                     Your paper is pending. Now it is waiting for the decision of the editorial board.
                     When the process is complete, we will inform you of the decision.
@@ -81,6 +86,11 @@ en:
                     You can submit a new paper version by clicking on the button. Before that, make sure that all data are correct.
                     You have to upload a corrected version of the main paper file.
                     The other data does not need to be changed unless necessary.
+            state_deadline:
+                deadline_missed: |+
+                    You missed the deadline for the new paper version, but you still may submit it.
+                submitted_after_deadline: |+
+                    The last version was submitted after the deadline.
             inv_state_description:
                 pending: |+
                     Главный редактор журнала просит Вас стать рецензентом статьи, данные которой показаны ниже.
@@ -97,6 +107,9 @@ en:
                     Вы отклонили приглашение рецензировать эту статью.
                 #accepted: |+
                 #    Вы являетесь рецензентом этой статьи.
+                accepted_submitted_cold: |+
+                    You are the reviewer of this paper.
+                    The author submitted new version, but the editor has not made decision yet.
                 accepted_under_consideration_expired: |+
                     Вы являетесь рецензентом этой статьи, но сейчас не можете подать рецензию, поскольку срок подачи пропущен.
                     У Вас снова появится такая возможность, когда автор подаст следующую версию статьи.
@@ -126,6 +139,7 @@ en:
                 rejected_without_consideration: Rejected without consideration
                 submitted: Paper submitted
                 under_consideration: Under consideration
+                submitted_cold: Waiting editor's decision
                 waiting_decision: Waiting editorial board decision
                 accepted: Paper accepted
                 need_revise: Need to improve
@@ -140,6 +154,7 @@ en:
                 #please_wait: Wait please
                 review_submitted: Your review have been submitted, thank you
                 author_works: The paper has been returned to authors for revision
+                editor_is_working: The editor is working with the paper
                 nothing_to_do: It looks like here is nothing to do
 
             state_block:
@@ -229,6 +244,11 @@ en:
             revision:
                 data: Data
                 decisions: Decisions
+            author_version_deadline: Submission deadline
+            author_version_deadline_missed: The submission deadline for this version has been missed
+            author_version_deadline_missed_short: missed
+            submitted_after_deadline_in: The deadline missed in
+            submitted_after_deadline_in_seconds: seconds
         submission_titles:
             paper_text: "Paper #%{number} Text"
             paper_text_sm: "#%{number} Text"
@@ -289,6 +309,7 @@ en:
                 reject: Reject
                 revise: Revise
                 take_for_consideration: Take for consideration
+                continue_reviewing: Continue reviewing
                 reject_without_consideration: Reject without consideration
                 wait_decision: Wait editorial board decision
             r_invitation: # my review invitation

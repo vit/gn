@@ -94,7 +94,7 @@ class JournalMailer < ApplicationMailer
         @submission_editor_url = e_submission_url(submission)
         @submission_reviewer_url = r_submission_url(submission)
 
-        @decision = @submission.lsr.decision_2 || @submission.lsr.decision_1
+        @decision = @submission.lsr.decision_2 || @submission.lsr.decision_1_cold || @submission.lsr.decision_1
 
         if @decision
             case @decision.decision
@@ -237,6 +237,24 @@ class JournalMailer < ApplicationMailer
             end
     end
 
+
+
+    def submission_remind_submission_author submission
+        @submission = submission
+        @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
+        @title_text = @submission.get_text_submitted.title rescue ''
+        @journal = @submission.journal
+        @user = @submission.user
+        @submission_url = submission_url(@submission)
+#        @submission_editor_url = e_submission_url(@submission)
+#        @submission_reviewer_url = r_submission_url(@submission)
+        subject = "##{@submission.id} Deadline is approaching. Journal Gyroscopy and Navigation | Дедлайн приближается. Журнал \"Гироскопия и навигация\""
+    	mail(to: @user.email, subject: subject) do |format|
+            format.text { render 'submission_remind_submission_author' }
+        end
+    end
+
+
 =begin
     def submission_review_submitted_editor review, user
         @review = review
@@ -302,6 +320,14 @@ class JournalMailer < ApplicationMailer
             self.submission_invitation_decision_editor(invitation, user).deliver_now
 		end
     end
+
+
+    def self.send_notifications_submission_remind_submission_author submission
+        self.submission_remind_submission_author(submission).deliver_now
+    end
+
+
+
 
 =begin
     def self.send_notifications_submission_review_submitted review

@@ -10,6 +10,8 @@
         d1_draft: 'square-o',
         reject_without_consideration: 'times',
         take_for_consideration: 'plus',
+        d1_cold_draft: 'pencil-square',
+        continue_reviewing: 'arrow-right',
         d2_draft: 'pencil-square',
         accept: 'square',
         reject: 'square',
@@ -32,15 +34,21 @@
         step = []
         if decision_1 && !invitation
             status_1 = decision_1.submitted? ? decision_1.decision : 'd1_draft'
-#            steps << [{
-#                type: 'decision',
-#                status: status_1,
-#                icon: d_icon_map[status_1.to_sym]
-#            }]
             step << {
                 type: 'decision',
                 status: status_1,
                 icon: d_icon_map[status_1.to_sym]
+            }
+        end
+
+        decision_1_cold = rr.decision_1_cold
+        step = []
+        if decision_1_cold && !invitation
+            status_1_cold = decision_1_cold.submitted? ? decision_1_cold.decision : 'd1_cold_draft'
+            step << {
+                type: 'decision',
+                status: status_1_cold,
+                icon: d_icon_map[status_1_cold.to_sym]
             }
         end
 

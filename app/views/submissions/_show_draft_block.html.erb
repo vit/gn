@@ -28,8 +28,6 @@
     <% if state=="draft" %>
     <div class="card paper-data-block" style="overflow: hidden;">
         <div class="card-block paper-card">
-            <%#= fa_icon "file-text-o", class: 'fa-2x', style: 'position: absolute; left: 5px; top: 5px;' %>
-            <!--h4 class="card-title ttext-xs-center"><%= t('journal.submissions.draft_short.'+substate) %></h4-->
             <h3 class="card-title ttext-xs-center"><%= t('journal.submissions.draft_short.'+substate) %></h3>
 
                 <div class="btn-group-vertical pull-right">
@@ -52,20 +50,40 @@
                             method: :put,
                             #data: { confirm: 'Are you sure you want to submit next revision for this paper?' },
                             data: { confirm: t('journal.submissions.submit_confirm.'+substate) },
-                            :class => 'btn btn-success bbtn-sm pull-right',
+#                            :class => 'btn btn-success bbtn-sm pull-right',
+                            :class => 'btn btn-'+ (@submission.submission_deadline_missed ? 'warning' : 'success') +' bbtn-sm pull-right',
                             #:remote => true,
                             #disabled: true || !author_file_lcr,
                             disabled: !author_file_lcr,
                             a: :b do
                         %>
                             <%= fa_icon 'send' %>
-                            <%= t('journal.submissions.submit') %>
+                            <% if @submission.submission_deadline_missed %>
+                                <%= t('journal.submissions.submit_after_deadline') %>
+                            <% else %>
+                                <%= t('journal.submissions.submit') %>
+                            <% end %>
                         <% end %>
                     <% end %>
                 </div>
 
 
             <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+substate) ) %></p>
+
+            <p class="card-text">
+                <% if @submission.submission_deadline_at %>
+                    <b><%= t('journal.submission_data.author_version_deadline') %>:</b>
+                    <span>
+                        <%= format_date_time @submission.submission_deadline_at %>
+                    </span>
+                    <% if @submission.submission_deadline_missed %>
+                        (<%= t('journal.submission_data.author_version_deadline_missed_short') %>)
+                    <% end %>
+                <% end %>
+            </p>
+
+
+
 
         </div>
 

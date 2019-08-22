@@ -8,6 +8,7 @@ class Submission < ApplicationRecord
   has_many :revisions, class_name: 'SubmissionRevision', dependent: :destroy
   has_many :reviewer_invitations, class_name: 'SubmissionReviewerInvitation', dependent: :destroy
 
+
 #  scope :all_submitted, -> { where.not(aasm_state: 'draft') }
   scope :all_submitted, -> { where(aasm_state: 'submitted') }
 
@@ -79,9 +80,18 @@ class Submission < ApplicationRecord
 
     event :sm_submit do
       after do
+
+        if self.submission_deadline_missed
+#  				now_time = DateTime.now
+          now_time = Time.now
+          self.submitted_after_deadline_in = (now_time - self.submission_deadline_at).to_i if self.submission_deadline_at
+        end
+        self.submission_deadline_at = nil
+				self.submission_deadline_remind_at = nil
+				self.submission_deadline_remind_editor_at = nil
+
         if aasm.from_state==:draft
           self.first_submitted_at = DateTime.now
-          #add_log 'first_submitted'
 
 				  self.user.appointments.create!({
 					  journal: self.journal,
@@ -89,7 +99,8 @@ class Submission < ApplicationRecord
 				  }) rescue nil
 
         else
-          invitations_active.each { |i| i.next_revision_submitted }
+#          invitations_active.each { |i| i.next_revision_submitted }
+#          invitations_active.each { |i| i.start_next_reviewer_iteration }
         end
 
         self.last_created_revision.sm_submit!
@@ -109,6 +120,27 @@ class Submission < ApplicationRecord
       end
 #      transitions :from => :need_revise, :to => :under_reworking
       transitions :from => :submitted, :to => :submitted
+    end
+
+    event :sm_expire_author_deadline do
+      after do
+        p "...in sm_expire_author_deadline..."
+#				self.inv_expired = true
+#				self.save
+#				now_time = DateTime.now
+				now_time = Time.now
+
+#				self.submission_deadline_at = nil
+
+				self.submission_deadline_remind_at = nil
+				self.submission_deadline_remind_editor_at = nil
+        self.submission_deadline_missed = true
+
+#        self.submitted_after_deadline_in = 0
+				self.save!
+				#JournalMailer.send_notifications_submission_invitation_decision self
+			end
+			transitions :from => :submitted, :to => :submitted
     end
 
 =begin
@@ -147,6 +179,8 @@ class Submission < ApplicationRecord
         else
             'please_review'
         end)
+      elsif lsr.submitted_cold?
+        'editor_is_working'
       elsif lsr.waiting_decision? && review && review.submitted?
         'review_submitted'
       elsif inv.accepted? && lsr.need_revise?

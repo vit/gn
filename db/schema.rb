@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180323180316) do
+ActiveRecord::Schema.define(version: 20190812170000) do
 
   create_table "event_logs", force: :cascade do |t|
     t.integer  "loggable_id"
@@ -109,9 +109,10 @@ ActiveRecord::Schema.define(version: 20180323180316) do
     t.integer  "revision_id"
     t.integer  "user_id"
     t.string   "aasm_state"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.string   "category"
+    t.string   "submission_deadline"
     t.index ["revision_id"], name: "index_submission_revision_decisions_on_revision_id"
     t.index ["user_id"], name: "index_submission_revision_decisions_on_user_id"
   end
@@ -178,13 +179,15 @@ ActiveRecord::Schema.define(version: 20180323180316) do
 
   create_table "submission_revisions", force: :cascade do |t|
     t.integer  "submission_id"
-    t.integer  "revision_n",        default: 0
+    t.integer  "revision_n",                  default: 0
     t.string   "aasm_state"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.datetime "submitted_at"
     t.datetime "editor_decided_at"
     t.datetime "editor_took_at"
+    t.boolean  "submission_deadline_missed",  default: false
+    t.integer  "submitted_after_deadline_in", default: 0
     t.index ["submission_id"], name: "index_submission_revisions_on_submission_id"
   end
 
@@ -202,16 +205,21 @@ ActiveRecord::Schema.define(version: 20180323180316) do
     t.text     "abstract"
     t.integer  "user_id"
     t.integer  "journal_id"
-    t.integer  "revision_seq",               default: 0
+    t.integer  "revision_seq",                         default: 0
     t.integer  "last_created_revision_id"
     t.integer  "last_submitted_revision_id"
     t.string   "aasm_state"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
     t.datetime "first_submitted_at"
     t.datetime "editor_decided_at"
     t.datetime "editor_took_at"
-    t.boolean  "archived",                   default: false
+    t.boolean  "archived",                             default: false
+    t.datetime "submission_deadline_at"
+    t.datetime "submission_deadline_remind_at"
+    t.datetime "submission_deadline_remind_editor_at"
+    t.boolean  "submission_deadline_missed",           default: false
+    t.integer  "submitted_after_deadline_in",          default: 0
     t.index ["journal_id"], name: "index_submissions_on_journal_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end

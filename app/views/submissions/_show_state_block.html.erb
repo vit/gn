@@ -6,19 +6,6 @@
     state = lcr.aasm_state rescue ''
     block_class = 'submission-block-'+state
 
-=begin
-    icon_map = {
-        "need_revise" => "exclamation",
-        "submitted" => "meh-o",
-        "under_consideration" => "meh-o",
-        "accepted" => "smile-o",
-        "rejected" => "frown-o",
-        "rejected_without_consideration" => "frown-o",
-        "draft" => "",
-    }
-
-    icon = icon_map[state] || ''
-=end
 
 #    decision_1_comment = lcr.decision_1.comment rescue nil
 #    decision_2_comment = lcr.decision_2.comment rescue nil
@@ -65,62 +52,28 @@
                         <% end %>
                     <% end %>
 
-
             <p class="card-text"><%= simple_format( t('journal.submissions.state_description.'+state) ) %></p>
         <!--/div-->
 
-<%
-=begin
-%>
-            <% case state %>
-            <% when 'rejected_without_consideration' %>
-                <% if true or decision_1_comment %>
-                    <!--div class="card-block"-->
-                    <blockquote class="blockquote">
-                        <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_1_comment') %></h6>
-                        <%= simple_format(decision_1_comment) %>
-                    </blockquote>
-                    <!--/div-->
-                <% end %>
-            <% when 'rejected', 'accepted', 'need_revise', 'draft', 'waiting_decision' %>
-                <% if true or decision_2_comment %>
-
-                    <!--div class="card-block text-xs-center" style="border: thin solid red;">
-                    <% if state=='need_revise' %>
-                        <%= link_to submission_path(@submission, op: :revise),
-                            method: :put,
-                            data: { confirm: 'Are you sure you want to prepare next revision for this paper?' },
-                            :class => 'btn btn-primary bbtn-sm',
-                            :remote => true,
-                            #disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?),
-                            a: :b do
-                        %>
-                            <%= fa_icon 'wrench' %>
-                            <%= t('journal.submissions.rework') %>
-                        <% end %>
+            <p class="card-text">
+                <% if @submission.submission_deadline_at %>
+                    <b><%= t('journal.submission_data.author_version_deadline') %>:</b>
+                    <span>
+                        <%= format_date_time @submission.submission_deadline_at %>
+                    </span>
+                    <% if @submission.submission_deadline_missed %>
+                        (<%= t('journal.submission_data.author_version_deadline_missed_short') %>)
                     <% end %>
-                    </div-->
+                <% end %>
+            </p>
 
-                    <blockquote class="blockquote">
-                        <h6 class="card-title ttext-xs-center"><%= t('journal.submissions.state_block.decision_2_comment') %></h6>
-                        <%= simple_format(decision_2_comment) %>
-                    </blockquote>
-
-                        <% if %w[accepted rejected need_revise draft].include?(state) && lsr.reviews_submitted.count > 0 %>
-                                <%= render partial: 'common/parts/submission/show_revision_reviews', locals: {
-                                    revision: lsr,
-                                    user_role: :author,
-                                    id_prefix: 'state'
-                                } %>
-                        <% end %>
-
-
-                    <!--/div-->
+            <% if @submission.submission_deadline_missed %>
+                <% if @submission.submitted_after_deadline_in > 0 %>
+                    <p class="card-text"><%= simple_format( t('journal.submissions.state_deadline.submitted_after_deadline') ) %></p>
+                <% else %>
+                    <p class="card-text"><%= simple_format( t('journal.submissions.state_deadline.deadline_missed') ) %></p>
                 <% end %>
             <% end %>
-<%
-=end
-%>
 
 
 
