@@ -188,22 +188,45 @@
                     <script>
                     (function () {
                         var timeoutId = null;
-                        $('#my_review_form :input').on('change keyup', function (e) {
-                            e.target.style="border: solid thin lightyellow; background-color: lightyellow;";
-                            //$('#review-saving-indicator .saving').hide();
+                        function on_change(el, original){
+                            el = el.get(0);
+                            el.style="background-color: lightyellow;";
                             $('#review-saving-indicator .saved').hide();
-                            //$('#review-saving-indicator .changed').show();
                             $('#review-saving-indicator .saving').show();
+                            //$('#review-saving-indicator .changed').show();
                             if (!timeoutId)
                                 timeoutId = setTimeout(function () {
-                                    $('#review-saving-indicator .saving').show();
-                                    $('#review-saving-indicator .saved').hide();
-                                    $('#review-saving-indicator .changed').hide();
-                                    $('#my_review_form :input').each(function(i, e) { e.style="" });
+                                    $('#review-saving-indicator .saving').hide();
+                                    $('#review-saving-indicator .saved').show();
+//                                    $('#review-saving-indicator .changed').hide();
+                                    el.style="";
                                     $('#my_review_form').submit();
                                     timeoutId = null;
                                 }, 1000);
+
+                        }
+                        $('#my_review_form textarea').each(function (ind, el) {
+                            el = $(el);
+                            el.css({'display': 'none'});
+                            var new_el = $( "<div>", {
+                                text: el.val(),
+                                contenteditable: true,
+                                'class': el.attr('class')
+                            });
+                            el.after(new_el);
+                            new_el.on('change keyup', function(e) {
+                                el.val( new_el.text() );
+                                on_change(new_el);
+                            });
+
                         });
+                        $('#my_review_form :input').each(function (ind, el) {
+                            el = $(el);
+                            el.on('change keyup', function (e) {
+                                on_change(el);
+                            });
+                        });
+
                     })();
                     </script>
             </div>
