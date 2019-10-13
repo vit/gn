@@ -1,6 +1,9 @@
 class JournalMailer < ApplicationMailer
     layout 'journal_mailer'
 
+    U_FIRE = "\u{1F525}"
+    U_OK = "\u{1F197}"
+
 #    add_template_helper(ApplicationHelper)
     helper(ApplicationHelper)
 
@@ -33,6 +36,7 @@ class JournalMailer < ApplicationMailer
     end
     def submission_submitted_editor(submission, user)
         @submission = submission
+        @submitted_cold = 'submitted_cold' == submission.lsr.aasm_state
 
         @authors_text = @submission.get_authors_submitted.map{ |a| a.full_name }.join(', ')
         @title_text = @submission.get_text_submitted.title rescue ''
@@ -44,12 +48,19 @@ class JournalMailer < ApplicationMailer
             if n<2
 #                subject = "#{@journal.slug}##{submission.id} New paper submitted | Новая статья подана"
                 subject = "##{@submission.id} New paper. Journal Gyroscopy and Navigation | Новая статья. Журнал \"Гироскопия и навигация\""
+                subject = U_FIRE + subject
         		mail(to: @user.email, subject: subject) do |format|
                     format.text { render 'submission_submitted_editor_first' }
 		        end
             else
 #                subject = "#{@journal.slug}##{submission.id} New version submitted | Новая версия подана"
                 subject = "##{@submission.id} New version. Journal Gyroscopy and Navigation | Новая версия. Журнал \"Гироскопия и навигация\""
+                if @submitted_cold
+                    subject = U_FIRE + subject
+                else
+                    subject = U_OK + subject
+                end
+#                subject = U_FIRE + subject
     		    mail(to: @user.email, subject: subject) do |format|
                     format.text { render 'submission_submitted_editor_second' }
 	    	    end

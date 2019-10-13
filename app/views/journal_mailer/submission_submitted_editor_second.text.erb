@@ -4,6 +4,12 @@
 
 Вы получили это письмо, поскольку находитесь в списке редакторов Журнала.
 
+<% if @submitted_cold %>
+Требуются действия редактора.
+<% else %>
+Действий редактора сейчас не требуется.
+<% end %>
+
 Только что была подана новая версия статьи:
 Id: <%= @submission.id %>
 Авторы: <%= @authors_text %>
@@ -17,6 +23,12 @@ Id: <%= @submission.id %>
 Dear <%= @user.full_name %>!
 
 You received this email because you are in the list of Journal editors.
+
+<% if @submitted_cold %>
+Editor's reaction needed.
+<% else %>
+Editor's reaction not needed.
+<% end %>
 
 New version of the paper was submitted right now:
 Id: <%= @submission.id %>
