@@ -92,7 +92,13 @@ class SubmissionRevision < ApplicationRecord
 			end
 			transitions :from => :draft, :to => :submitted_cold, :if => (-> { submission.submission_deadline_missed })
 			transitions :from => :draft, :to => :submitted, :if => (-> {!submission.lsr rescue false})
-			transitions :from => :draft, :to => :under_consideration, :if => (-> {submission.lsr rescue false})
+
+			# needs editor decision for any newly submitted version, not one with missed deadline only 
+			transitions :from => :draft, :to => :submitted_cold, :if => (-> {submission.lsr rescue false})
+
+			#transitions :from => :draft, :to => :under_consideration, :if => (-> {submission.lsr rescue false})
+
+
 # ???????
 		end
 

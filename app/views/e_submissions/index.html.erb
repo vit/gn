@@ -23,15 +23,69 @@ else
   @page_title = t('journal.e_submission.submitted_papers')
 end
 
+
+#require 'set'
+
+#@states_list = Set[
+@states_list = [
+  'submitted',
+  'submitted_cold',
+  'under_consideration',
+  'waiting_decision'
+]
+
+@submissions_by_state = {}
+@submissions.each do |submission|
+  lsr_state = submission.last_submitted_revision.aasm_state
+#  @states_list.add(lsr_state)
+  @states_list |= [lsr_state]
+  @submissions_by_state[lsr_state] = @submissions_by_state[lsr_state] || []
+  @submissions_by_state[lsr_state].push(submission)
+end
+
+
 %>
 
 
 <div class="container-fluid submissions">
 
-<!--div class="page-header">
-  <h2><%= t('journal.editor.submitted_papers') %></h2>
-</div-->
 
+<div class="list-group papers-list">
+<% #@submissions_by_state.each do |lsr_state, submissions_list| %>
+<%
+@states_list.each do |lsr_state|
+  submissions_list = @submissions_by_state[lsr_state]
+%>
+  <% if submissions_list && submissions_list.is_a?(Array) then %>
+    <h1 style="text-align: center; margin: 60px 0 20px 0; text-transform: uppercase;"><%= t('journal.submissions.state.'+lsr_state) %>: <b class="text-info -bg-danger <%#= 'paper-tag-'+lsr_state %>"><%= submissions_list.size %></b></h1>
+    <% submissions_list.each do |submission| %>
+        <%
+              text = submission.get_text
+              lsr = submission.lsr
+              authors = submission.get_authors_newest
+        %>
+      <%= link_to(e_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item") do %>
+          <span class="tag tag-pill tag-warning tag-pill float-xs-right paper-tag-<%= submission.last_submitted_revision.aasm_state %>"><%= t('journal.submissions.state.'+submission.last_submitted_revision.aasm_state) rescue '-' %></span>
+          <b><%= submission.id %></b> | <%= text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= text.abstract.truncate(250) rescue '' %></i></span>
+          <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
+          <b><%= t('journal.submissions.by') %></b> <%= submission.user.full_name %>
+            <div>
+              <%= render partial: 'indicator_reviews', locals: {submission: submission} %>
+            </div>
+            <div class="papers-list-item-time">
+              <%= render partial: 'common/parts/submission/show_submission_dates', locals: {
+                submission: submission
+              } %>
+            </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+</div>
+
+<%
+=begin
+%>
 <div class="list-group papers-list">
   <% @submissions.each do |submission| %>
       <%
@@ -40,29 +94,24 @@ end
             authors = submission.get_authors_newest
       %>
     <%= link_to(e_submission_path(submission), class: "list-group-item list-group-item-action papers-list-item") do %>
-        <!--span class="tag tag-pill tag-warning tag-pill float-xs-right"><%= submission.last_submitted_revision.aasm_state rescue '-' %></span-->
         <span class="tag tag-pill tag-warning tag-pill float-xs-right paper-tag-<%= submission.last_submitted_revision.aasm_state %>"><%= t('journal.submissions.state.'+submission.last_submitted_revision.aasm_state) rescue '-' %></span>
-        <!--b><%#= submission.id %></b> | <%#= submission.title.truncate(120) %> <span class="hidden-sm-down"><i><%#= submission.abstract.truncate(250) %></i></span-->
         <b><%= submission.id %></b> | <%= text.title.truncate(120) rescue '' %> <span class="hidden-sm-down"><i><%= text.abstract.truncate(250) rescue '' %></i></span>
         <div class="papers-list-item-authors"><%= (authors || []).map(&:full_name).join(', ') %></div>
-        <!--br-->
         <b><%= t('journal.submissions.by') %></b> <%= submission.user.full_name %>
-        <%# if lsr.under_consideration? %>
           <div>
             <%= render partial: 'indicator_reviews', locals: {submission: submission} %>
           </div>
-        <%# end %>
-
           <div class="papers-list-item-time">
             <%= render partial: 'common/parts/submission/show_submission_dates', locals: {
               submission: submission
             } %>
           </div>
-
-
     <% end %>
   <% end %>
 </div>
+<%
+=end
+%>
 
 
 
