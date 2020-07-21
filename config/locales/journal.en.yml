@@ -12,7 +12,8 @@ en:
                 guidelines_ru: ru
             author:
                 guidelines: guidelines
-                about_reviews: about reviews
+                #about_reviews: about reviews
+                about_reviews: requirements for review follow-up
             author_office: Author office
             edit_my_data: My data
             help: 'Any bugs and questions:'

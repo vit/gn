@@ -12,7 +12,8 @@ ru:
                 guidelines_ru: рус
             author:
                 guidelines: инструкции
-                about_reviews: про рецензии
+                #about_reviews: про рецензии
+                about_reviews: требования по отработке рецензий
             author_office: Офис автора
             edit_my_data: Мои данные
             help: 'Какие-то ошибки или вопросы?'
