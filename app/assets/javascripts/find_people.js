@@ -27,20 +27,8 @@ $(document).bind('turbolinks:load', function () {
 
 $(document).bind('turbolinks:load findusersreload', function () {
 
-//    $(".found_users_item input[type=checkbox]").change(function(){
-/*    var forms = $(".found_users_item form");
-    forms.each(function(){
-        var form = this;
-        $(form).find("input[type=checkbox]").change(function(){
-            console.log(123);
-            form.submit();
-        });
-    });
-*/
-
     var items = $(".found_users_item");
-    items.each(function(){
-        var item = this;
+    items.each(function(index, item){
         var form = $(item).find("form");
         if(form) {
             $(form).find("input[type=checkbox]").change(function(elm){
@@ -55,7 +43,5 @@ $(document).bind('turbolinks:load findusersreload', function () {
             });
         }
     });
-
-
 
 });
