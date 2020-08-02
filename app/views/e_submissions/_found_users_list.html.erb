@@ -3,8 +3,7 @@
         <%#= params.inspect %>
         <div cclass="list-group" sstyle="padding: 0;">
         <% @found_users.each do |u| %>
-            <!--div class="list-group-item found_users_item ccard" sstyle="margin: 0 !important; padding: 0;"-->
-            <div class="p-0 list-group-item found_users_item" ddata-toggle="collapse" hhref="#<%= "u_collapse_"+u.id.to_s %>">
+
                 <%
                     app_h = {}
                 %>
@@ -14,6 +13,11 @@
                         app_h[a.role_name.to_sym] = true
                     %>
                 <% end %>
+                <%
+                    app_h[:disabled] = u.disabled;
+                %>
+
+            <div class="p-0 list-group-item found_users_item <%= u.disabled ? 'found_users_item_disabled' : '' %>" ddata-toggle="collapse" hhref="#<%= "u_collapse_"+u.id.to_s %>">
 
                     <a style="display: block; text-decoration: none; color: #000;" class="p-1 ppaper-card-registrator" data-toggle="collapse" href="#<%= "u_collapse_"+u.id.to_s %>">
                         <span sstyle="font-family: monotype;" class="pull-right">
@@ -42,12 +46,12 @@
                                 <%= form_tag people_update_e_submissions_path, class: "form-inline ccard-header" do %>
                                     <%= hidden_field_tag 'op', 'switch_user_appointment' %>
                                     <%= hidden_field_tag 'user_id', u.id %>
-                                    <% JournalAppointment::Roles.each do |r| %>
+                                    <% (JournalAppointment::Roles + [:disabled]).each do |r| %>
                                         <div class="form-check disabled">
                                         <%= label_tag nil, cclass: "mr-1" do %>
                                             <%#= r %>
                                             <span style="font-weight: 900; margin-left: 12px;"><%= r.slice(0,1).capitalize %></span><%= r.slice(1..-1) %>
-                                            <%= check_box_tag "roles[]", r, app_h[r], disabled: (u.id==current_user.id && r==:editor) %>
+                                            <%= check_box_tag "roles[]", r, app_h[r], disabled: (u.id==current_user.id && [:editor, :disabled].include?(r)) %>
                                         <% end %>
                                         </div>
                                     <% end %>

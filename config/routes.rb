@@ -61,6 +61,7 @@ Rails.application.routes.draw do
     collection do
       get 'people'
       get 'people_print'
+      get 'people_all'
       get 'expired_reviews'
       post 'people_update'
       post 'people_find'

@@ -1,0 +1,55 @@
+
+<div class="container ccontainer-fluid">
+
+<%
+
+next_page_num = @page_num + 1
+prev_page_num = @page_num - 1
+
+is_last_page = next_page_num > @max_page_num
+is_first_page = prev_page_num < 0
+
+
+items_around = 5
+
+start_page = @page_num - items_around;
+start_page = 0 if start_page < 0
+
+finish_page = start_page + 2*items_around;
+finish_page = @max_page_num if finish_page > @max_page_num
+
+
+render_item_title = -> (text, page) {
+    page==@page_num ? "<b>#{text}</b>".html_safe : text
+}
+
+%>
+<div class="p-0 m-0" style="display: flex; justify-content: center;">
+    <nav class="text-center">
+      <ul class="pagination">
+        <li class="page-item <%= is_first_page ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= prev_page_num %>">&lt;&lt; Previous</a></li>
+        <li class="page-item"><a class="page-link" href="?page=0">
+            <%= render_item_title.call("First", 0) %>
+        </a></li>
+        <% (start_page..finish_page).each do |page| %>
+            <li class="page-item"><a class="page-link" href="?page=<%= page %>">
+                <%= render_item_title.call(page+1, page) %>
+            </a></li>
+        <% end %>
+        <li class="page-item"><a class="page-link" href="?page=<%= @max_page_num %>">
+            <%= render_item_title.call("Last", @max_page_num) %>
+        </a></li>
+        <li class="page-item <%= is_last_page ? 'disabled' : '' %>"><a class="page-link" href="?page=<%= next_page_num %>">Next &gt;&gt;</a></li>
+      </ul>
+    </nav>
+</div>
+
+
+
+
+
+<%= render('e_submissions/found_users_list') %>
+
+</div>
+
+

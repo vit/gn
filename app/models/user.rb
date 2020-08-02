@@ -41,4 +41,20 @@ class User < ApplicationRecord
         u.search = u.lname.mb_chars.downcase.to_s
     end
 
+
+
+
+    # =========== FOR DISABLED ACCOUNTS ===========
+
+    def active_for_authentication?
+      super && !disabled
+    end
+    
+    def inactive_message
+      !disabled ? super : :the_user_account_is_blocked
+    end
+
+
+
+
 end
