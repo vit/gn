@@ -1,0 +1,56 @@
+
+<%
+
+journals_map = @journals_map || {}
+
+%>
+
+
+<div class="jumbotron jumbotron-cover">
+    <div class="llayer-1" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+      <div class="ccontainer text-xs-center llayer-2">
+
+        <h1 class="display-5">Online review system</h1>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+            <% if journals_map[1] %>
+                <div style="min-width: 200px; margin: 0 15px; padding: 10px;">
+                    <h4>&#147;Gyroscopy and Navigation&#148; Journal</h4>
+            
+                    <p class=issn>
+                        ISSN 0869-7035 (print),
+                        ISSN 2075-0927 (online)<br>
+                        <%= link_to "Journal site", 'http://www.elektropribor.spb.ru/en/publications/journal-giroskopiya-i-navigatsiya/', class: 'cover-link' %>
+                    </p>
+
+                    <p>
+                        <a class="btn btn-primary bbtn-sm" href="<%= journal_office_path(1) %>" role="button">Enter</a>
+                    </p>
+                </div>
+            <% end %>
+            <% if journals_map[2] %>
+                <div style="min-width: 200px; margin: 0 15px; padding: 10px;">
+                    <h4>Conference of Young Scientists "Navigation and Motion Control"</h4>
+
+                    <p class=issn>
+                        <%= link_to "Conference site", 'http://www.elektropribor.spb.ru/en/conferences/1263/', class: 'cover-link' %>
+                    </p>
+            
+                    <p>
+                        <a class="btn btn-primary bbtn-sm" href="<%= journal_office_path(2) %>" role="button">Enter</a>
+                    </p>
+                </div>
+            <% end %>
+        </div>
+    
+      </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+

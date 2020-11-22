@@ -3,7 +3,7 @@
   @page_menu_data = [
     {
       title: t('journal.submissions.my_papers'),
-      url: submissions_path,
+      url: journal_submissions_path(@journal),
       icon: 'arrow-left',
 #      icon: 'list',
       style: 'default'
@@ -19,15 +19,6 @@
 
 <div class="container-fluid">
 
-<!--div class="page-header"-->
-<!--
-  <%#= link_to submissions_path, class: 'btn btn-default' do %>
-    <i class="fa fa-level-up fa-lg"></i>
-    <%#= t('context.submissions.my_list_title') %>
-  <%# end %>
--->
-  <!--h2><%= t('journal.submissions.new_paper') %></h2-->
-<!--/div-->
 
 <%= render partial: 'form', locals: {mode: :wizard} %>
 

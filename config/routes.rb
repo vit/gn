@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
 
   get 'home/index'
+  get 'office', to: 'home#office'
 #  get 'help', to: "home#help"
   root 'home#index'
+
 
 #  devise_for :users, controllers: {registrations: 'custom_registrations'}
 
@@ -29,9 +31,21 @@ Rails.application.routes.draw do
 #  resources :journals, only: [:show]
 
 #  get 'office/index'
-  get '/office/', to: 'office#show'
 
-  resources :submissions, except: [:edit] do
+#  get '/office/', to: 'office#show'
+  resources :journals do
+    get '/office/', to: 'office#show'
+    get '/', to: redirect('/journals/%{journal_id}/office')
+#    resources :office, only: [:show] do
+#    end
+  end
+
+
+
+
+
+#  resources :submissions, except: [:edit] do
+  resources :submissions, except: [:edit, :index, :new] do
     member do
       get 'edit_text'
       get 'wizard_files'
@@ -41,6 +55,27 @@ Rails.application.routes.draw do
       get 'revisions'
     end
   end
+
+  resources :journals do
+    resources :submissions, only: [:index, :new, :create] do
+    end
+    resources :e_submissions, only: [:index] do
+      collection do
+        get 'people'
+        get 'people_print'
+        get 'people_all'
+        get 'expired_reviews'
+        post 'people_update'
+        post 'people_find'
+      end
+    end
+    resources :r_submissions, only: [:index] do
+    end
+  end
+
+
+
+
 
 #  resources :submission_revision_files
   resources :submission_files
@@ -52,22 +87,24 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :e_submissions, only: [:index, :show, :update] do
+#  resources :e_submissions, only: [:index, :show, :update] do
+  resources :e_submissions, only: [:show, :update] do
     member do
       get 'revisions'
       get 'timeline'
       get 'show_print'
     end
-    collection do
-      get 'people'
-      get 'people_print'
-      get 'people_all'
-      get 'expired_reviews'
-      post 'people_update'
-      post 'people_find'
-    end
+    # collection do
+    #   get 'people'
+    #   get 'people_print'
+    #   get 'people_all'
+    #   get 'expired_reviews'
+    #   post 'people_update'
+    #   post 'people_find'
+    # end
   end
-  resources :r_submissions, only: [:index, :show, :update] do
+#  resources :r_submissions, only: [:index, :show, :update] do
+  resources :r_submissions, only: [:show, :update] do
     member do
       get 'revisions'
       put 'update_review'

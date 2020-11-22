@@ -10,7 +10,7 @@
     </div>
             <% end %>
     <div class="card-block">
-        <%= form_for(@submission_text, method: @submission.persisted? ? :put : :post ,url: @submission.persisted? ? submission_path(@submission) : submissions_path, :html => { :class => "fform-horizontal", :role => "form" }) do |f| %>
+        <%= form_for(@submission_text, method: @submission.persisted? ? :put : :post ,url: @submission.persisted? ? submission_path(@submission) : journal_submissions_path, :html => { :class => "fform-horizontal", :role => "form" }) do |f| %>
           <div class="form-group row">
             <%= f.label t('journal.submission_form.title'), :class => "col-sm-2 control-label" %>
             <div class="col-sm-10">
@@ -44,7 +44,7 @@
                     <%= t('journal.submissions.text.back_to_paper') %>
                 <% end if @submission.persisted? %>
 
-                <%= link_to submissions_path,
+                <%= link_to journal_submissions_path(@journal),
                     class: "btn btn-warning btn-sm float-xs-left",
                     data: {
                       confirm: t('journal.submissions.text.confirm_stop')

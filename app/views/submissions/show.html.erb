@@ -18,7 +18,7 @@
         disabled: !policy(@submission).destroy?
     }, {
         title: t('journal.submissions.my_papers'),
-        url: submissions_path,
+        url: journal_submissions_path(@journal),
         icon: 'arrow-left',
 #        icon: 'list',
 #        style: 'default'

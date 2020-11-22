@@ -1,6 +1,7 @@
 
 <% content_for :content do %>
-    <%= render partial: 'office_base/left_sidebar' %>
+    <%#= render partial: 'office_base/left_sidebar' %>
+    <%= render partial: @journal ? 'office_base/left_sidebar' : 'office_base/left_sidebar_nojournal' %>
     <div id="main-block">
         <%= render partial: 'office_base/nav' %>
         <main>

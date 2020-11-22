@@ -291,6 +291,8 @@ private
 
     def set_submission
       @submission = Submission.find(params[:id])
+      @journal = @submission.journal
+      
       #@context = @submission.context
     end
 

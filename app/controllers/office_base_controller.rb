@@ -18,8 +18,11 @@ class OfficeBaseController < ApplicationController
 private
 
     def set_context
-      @journal = Journal.all.first
-#      @journal = Journal.find(params[:journal_id]) if params[:journal_id]
+#      @journal = Journal.all.first
+      @journal = Journal.find(params[:journal_id]) if params[:journal_id]
+#      @journals_map = Journal.all.where({}).inject({}) { |acc,j| acc[j.id] = j; acc }
+#      @journals_map = Journal.all.where({id: 1}).inject({}) { |acc,j| acc[j.id] = j; acc }
+
 #      set_context_indirect unless @journal
     end
 

@@ -4,6 +4,8 @@ en:
         menu:
             #gn_journal: GN Journal
             gn_journal: Gyroscopy and Navigation
+            gn_journal_1: Gyroscopy and Navigation
+            gn_journal_2: Navigation and Motion Control
             editor_office: Editor office
             reviewer_office: Reviewer office
             reviewer:
@@ -270,6 +272,9 @@ en:
             form:
                 decision: Decision
                 decision_comment: Comment
+
+        office_base:
+            no_rights: You are not allowed to access this page
 
         e_submission:
             #submitted_papers: Submitted papers

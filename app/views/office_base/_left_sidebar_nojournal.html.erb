@@ -1,0 +1,67 @@
+
+<aside id="left-sidebar">
+
+<ul iid="navleft" class="nav nav-pills nav-stacked bbg-inverse bbg-faded" sstyle: "position: relative;">
+
+  <%= link_to "#", class: "btn btn-default btn-lg float-xs-right left-sidebar-close-btn" do %>
+    <%= fa_icon 'times' %>
+  <% end %>
+  
+  <li class="nnav-item text-xs-center">
+    <a class="nnav-link ttext-xs-center" href="/" style="mmargin: 0px; ppadding: 10px; 2px; 0px; 2px;"><%= fa_icon 'home' %></a>
+  </li>
+
+
+<%
+
+journals_map = @journals_map || {}
+
+%>
+
+<ul>
+  <% [1,2].each do |id| %>
+            <% if journals_map[id] %>
+              <li cclass="nav-item">
+                <%= link_to journal_office_path(id), cclass: "nav-link" do %>
+                  <%= t('journal.menu.gn_journal_'+id.to_s) %>
+                <% end %>
+              </li>
+            <% end %>
+  <% end %>
+
+</ul>
+
+<hr style="margin: 5px; padding: 0px;">
+
+<%#= journals_map.inspect %>
+
+
+
+  <li class="nav-item">
+    <b class="nav-link ttext-xs-center"><%= fa_icon 'user' %> <%= current_user.full_name %> (Id: <%= current_user.id %>)</b>
+  </li>
+  <li class="nav-item">
+    <%= link_to edit_user_registration_path, class: 'nav-link ' + (@sidebar_active=='edit_my_data' ? 'active' : '') do %>
+      <%= fa_icon 'pencil' %> <%= t('journal.menu.edit_my_data') %>
+    <% end %>
+  </li>
+  <li class="nav-item">
+    <%= link_to(destroy_user_session_path,
+        class: 'nav-link ' + (@sidebar_active=='logout' ? 'active' : ''),
+        :method => :delete, data: {confirm: t('journal.menu.sign_out_confirm')}) do -%>
+      <%= fa_icon 'sign-out' %> <%= t('journal.menu.sign_out') %>
+    <% end -%>
+  </li>
+
+
+<!--hr-->
+
+<hr>
+
+
+
+
+</ul>
+
+
+</aside>

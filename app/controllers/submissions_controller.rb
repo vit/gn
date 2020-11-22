@@ -1,6 +1,7 @@
 #class SubmissionsController < ApplicationController
 class SubmissionsController < OfficeSubmissionsController
-  before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :wizard_authors, :wizard_files, :edit_text, :update_authors, :update, :destroy]
+#  before_action :set_submission, only: [:show, :revisions, :edit, :edit_authors, :wizard_authors, :wizard_files, :edit_text, :update_authors, :update, :destroy]
+  before_action :set_submission, except: [:index, :new, :create]
 #  before_action :set_context, only: [:index, :new, :create]
 #  before_action :authenticate_user!
   before_action -> { @current_role = 'author' }
@@ -14,7 +15,7 @@ class SubmissionsController < OfficeSubmissionsController
 
   def show
 #    authorize @submission
-    redirect_to submissions_path unless policy(@submission).show? && @submission
+    redirect_to journal_submissions_path(@journal) unless policy(@submission).show? && @submission
 
     @sidebar_active='my_papers'
   end
@@ -24,11 +25,6 @@ class SubmissionsController < OfficeSubmissionsController
     @sidebar_active='my_papers'
   end
 
-#  def timeline
-#    authorize @submission, :show?
-#    @sidebar_active='my_papers'
-#  end
-
   def new
     authorize @journal, :can_author?
 
@@ -37,21 +33,6 @@ class SubmissionsController < OfficeSubmissionsController
 
     @sidebar_active='my_papers_new'
   end
-
-=begin
-  def edit
-    authorize @submission, :update?
-
-#    @submission_text = @submission.get_text || SubmissionText.new
-    @submission_text = @submission.get_text_newest || SubmissionText.new
-    @submission_revision = @submission.last_created_revision
-#    @file_records = (true and @submission_revision) ? %w[author_file author_expert_file].map do |type|
-#      @submission_revision.get_or_new_file_by_type type
-#    end : []
-
-    @sidebar_active='my_papers'
-  end
-=end
 
   def edit_text
 #    authorize @submission, :update?
@@ -193,8 +174,7 @@ class SubmissionsController < OfficeSubmissionsController
 #      @submission.sm_destroy!
     end
     respond_to do |format|
-#      format.html { redirect_to context_submissions_url, notice: 'Submission was successfully destroyed.' }
-      format.html { redirect_to submissions_url, notice: t('journal.submissions.submission_was_destroyed') }
+      format.html { redirect_to journal_submissions_url(@journal), notice: t('journal.submissions.submission_was_destroyed') }
       format.json { head :no_content }
     end
   end
@@ -203,14 +183,15 @@ class SubmissionsController < OfficeSubmissionsController
 
     def set_submission
       @submission = Submission.find(params[:id])
-      #@context = @submission.context
+      @journal = @submission.journal
     end
 
     def submission_text_params
       params.require(:submission_text).permit(:title, :abstract) rescue nil
     end
     def submission_params
-      params.require(:submission).permit(:title, :abstract, :sid, :user_id, :context_id, :revision_seq, :last_created_revision_id, :last_submitted_revision_id, :aasm_state) rescue nil
+#      params.require(:submission).permit(:title, :abstract, :sid, :user_id, :context_id, :revision_seq, :last_created_revision_id, :last_submitted_revision_id, :aasm_state) rescue nil
+      params.require(:submission).permit(:title, :abstract, :sid, :user_id, :context_id, :journal_id, :revision_seq, :last_created_revision_id, :last_submitted_revision_id, :aasm_state) rescue nil
     end
 end
 

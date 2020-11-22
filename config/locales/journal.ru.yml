@@ -4,6 +4,8 @@ ru:
         menu:
             #gn_journal: Журнал ГН
             gn_journal: Гироскопия и Навигация
+            gn_journal_1: Гироскопия и Навигация
+            gn_journal_2: Навигация и управление движением
             editor_office: Офис редактора
             reviewer_office: Офис рецензента
             reviewer:
@@ -271,6 +273,9 @@ ru:
             form:
                 decision: Решение
                 decision_comment: Комментарий
+
+        office_base:
+            no_rights: У вас недостаточно прав для доступа к этой странице
 
         e_submission:
             #submitted_papers: Поданные статьи

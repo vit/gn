@@ -20,7 +20,13 @@ class CustomRegistrationsController < Devise::RegistrationsController
 private
 
     def set_context
-      @journal = Journal.all.first
+      @journal = nil
+#      @journal = Journal.all.first
+
+#      @journals_map = Journal.all.where(id: 1).inject({}) { |acc,j| acc[j.id] = j; acc }
+      @journals_map = Journal.all.where({}).inject({}) { |acc,j| acc[j.id] = j; acc }
+#      @journals_map = Journal.all.where({id: 1}).inject({}) { |acc,j| acc[j.id] = j; acc }
+
 #      @journal = Journal.find(params[:journal_id]) if params[:journal_id]
 #      set_context_indirect unless @journal
     end

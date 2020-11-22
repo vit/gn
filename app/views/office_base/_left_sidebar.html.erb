@@ -7,23 +7,27 @@
     <%= fa_icon 'times' %>
   <% end %>
   
-  <li class="nav-item">
-    <a class="nav-link ttext-xs-center" href="/" style="mmargin: 0px; padding: 10px; 2px; 0px; 2px;">
-        <b class="nav-link text-xs-center"style="margin: 0px; padding: 0px; 0px;"><%= t('journal.menu.gn_journal') %></b>
-    </a>
+  <li class="nnav-item text-xs-center">
+    <a class="nnav-link ttext-xs-center" href="/" style="mmargin: 0px; ppadding: 10px; 2px; 0px; 2px;"><%= fa_icon 'home' %></a>
+      <!-- %= fa_icon 'chevron-right', cclass: 'fa-xs' % -->
+      /
+    <%= link_to journal_office_path(@journal),
+      class: "nnav-link " + (@sidebar_active=='editor_office' ? 'active' : ''),
+      style: "pposition: relative; mmargin-right: 44px;" do
+    %>
+          <%= t('journal.menu.gn_journal_'+@journal.id.to_s) %>
+    <% end %>
+
+    <!--a class="nnav-link ttext-xs-center" href="/" style="mmargin: 0px; ppadding: 10px; 2px; 0px; 2px;">
+        <b class="nnav-link text-xs-center"style="margin: 0px; ppadding: 0px; 0px;">
+          <%#= t('journal.menu.gn_journal') %>
+          <%= t('journal.menu.gn_journal_'+@journal.id.to_s) %>
+        </b>
+    </a-->
   </li>
 
 <hr style="margin: 5px; padding: 0px;">
 
-<!--
-<% if policy(@journal).can_editor? %>
-  <li class="nav-item">
-    <%= link_to office_path, class: "nav-link " + (@sidebar_active=='dashboard' ? 'active' : '') do %>
-        Dashboard
-    <% end %>
-  </li>
-<% end %>
--->
 
 <% if policy(@journal).can_editor? %>
   <li class="nav-item nav-item-title">
@@ -32,7 +36,7 @@
 
 <div style="position: relative; margin: 0px; padding: 0px; bborder: thin solid red;">
   <li class="nav-item nav-item-link">
-    <%= link_to e_submissions_path,
+    <%= link_to journal_e_submissions_path(@journal),
       class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : ''),
       style: "pposition: relative; mmargin-right: 44px;" do
     %>
@@ -42,7 +46,7 @@
   </li>
 
   <!--li class="nav-item" style="position: absolute; wwidth: 42px; width: 42px; right: 0px; top: 0px; margin: 0px; padding-left: 0px;">
-        <%= link_to e_submissions_path(filter: :archived),
+        <%= link_to journal_e_submissions_path(@journal, filter: :archived),
           class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : ''),
           style: "pposition: relative; rright: -32px; ttop: -33px; bborder-radius: 15px; padding-left: 0px;",
           title: t('journal.e_submission.archive'),
@@ -59,7 +63,7 @@
 
 <div style="position: relative; margin: 0px; padding: 0px; bborder: thin solid red;">
   <li class="nav-item nav-item-link">
-    <%= link_to e_submissions_path(filter: :archived),
+    <%= link_to journal_e_submissions_path(@journal, filter: :archived),
       class: "nav-link " + (@sidebar_active=='editor_office_archive' ? 'active' : ''),
       style: "pposition: relative; mmargin-right: 44px; mmargin-right: 44px;" do
     %>
@@ -69,7 +73,7 @@
   </li>
 
   <!--li class="nav-item" style="position: absolute; wwidth: 42px; width: 42px; right: 0px; top: 0px; margin: 0px; padding-left: 0px;">
-        <%= link_to e_submissions_path(filter: :archived),
+        <%= link_to journal_e_submissions_path(@journal, filter: :archived),
           class: "nav-link " + (@sidebar_active=='editor_office' ? 'active' : ''),
           style: "pposition: relative; rright: -32px; ttop: -33px; bborder-radius: 15px; padding-left: 0px;",
           title: t('journal.e_submission.archive'),
@@ -82,7 +86,7 @@
 
 
   <li class="nav-item nav-item-link">
-    <%= link_to expired_reviews_e_submissions_path, class: "nav-link " + (@sidebar_active=='expired_reviews' ? 'active' : '') do %>
+    <%= link_to expired_reviews_journal_e_submissions_path(@journal), class: "nav-link " + (@sidebar_active=='expired_reviews' ? 'active' : '') do %>
         <%= fa_icon 'exclamation-triangle' %> <%= t('journal.menu.expired_reviews') %>
         <span class="ttag ttag-default ttag-pill float-xs-right"><%#= User.all.count %></span>
     <% end %>
@@ -91,7 +95,7 @@
 
 
   <li class="nav-item nav-item-link">
-    <%= link_to people_e_submissions_path, class: "nav-link " + (@sidebar_active=='people' ? 'active' : '') do %>
+    <%= link_to people_journal_e_submissions_path(@journal), class: "nav-link " + (@sidebar_active=='people' ? 'active' : '') do %>
         <%= fa_icon 'users' %> <%= t('journal.menu.people') %>
         <span class="ttag ttag-default ttag-pill float-xs-right"><%= User.all.count %></span>
     <% end %>
@@ -110,7 +114,7 @@
     <b class="nav-link ttext-xs-center"><%= t('journal.menu.reviewer_office') %></b>
   </li>
   <li class="nav-item nav-item-link">
-    <%= link_to r_submissions_path, class: "nav-link " + (@sidebar_active=='reviewer_office' ? 'active' : '') do %>
+    <%= link_to journal_r_submissions_path(@journal), class: "nav-link " + (@sidebar_active=='reviewer_office' ? 'active' : '') do %>
         <%= fa_icon 'hand-o-right' %> <%= t('journal.r_submission.assigned_papers') %>
         <span class="ttag ttag-default ttag-pill float-xs-right"><%= @journal.user_reviewer_invitations(current_user).count %></span>
     <% end %>
@@ -135,19 +139,20 @@
 <div style="position: relative; margin: 0px; padding: 0px; bborder: thin solid red;">
 
   <li class="nav-item nav-item-link" sstyle="ppadding-right: 34px;">
-    <%= link_to submissions_path,
+    <%= link_to journal_submissions_path(@journal),
       class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
       style: "mmargin-right: 44px;" do
     %>
         <%= fa_icon 'files-o' %> <%= t('journal.submissions.my_papers') %>
         <span class="ttag ttag-default ttag-pill float-xs-right"><%= current_user.submissions.where(journal: @journal).count %></span>
-
     <% end %>
   </li>
 
 
   <!--li class="nav-item" style="position: absolute; wwidth: 42px; width: 42px; right: 0px; top: 0px; margin: 0px; padding-left: 0px;">
-        <%= link_to new_submission_path,
+        <%= 
+          #link_to new_submission_path,
+          link_to new_journal_submission_path(@journal),
           class: "nav-link " + (@sidebar_active=='my_papers' ? 'active' : ''),
           style: "pposition: relative; rright: -32px; ttop: -33px; bborder-radius: 15px; padding-left: 0px;",
           title: t('journal.submissions.new'),
@@ -159,7 +164,9 @@
 
 
   <li class="nav-item nav-item-link" sstyle="ppadding-right: 34px;">
-    <%= link_to new_submission_path,
+    <%= 
+      #link_to new_submission_path,
+      link_to new_journal_submission_path(@journal),
       class: "nav-link " + (@sidebar_active=='my_papers_new' ? 'active' : ''),
       style: "mmargin-right: 44px;" do
     %>

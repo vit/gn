@@ -43,7 +43,7 @@
                                     %><small style="font-size: 85%;"><%= h u.affiliation -%><% end %></small><br>
                             </div>
                             <div class="p-1">
-                                <%= form_tag people_update_e_submissions_path, class: "form-inline ccard-header" do %>
+                                <%= form_tag people_update_journal_e_submissions_path(@journal), class: "form-inline ccard-header" do %>
                                     <%= hidden_field_tag 'op', 'switch_user_appointment' %>
                                     <%= hidden_field_tag 'user_id', u.id %>
                                     <% (JournalAppointment::Roles + [:disabled]).each do |r| %>

@@ -16,13 +16,13 @@
         }, {
 #            title: t('journal.e_submissions.papers_list'),
              title: t('journal.office_submission.papers_list'),
-           url: e_submissions_path,
+           url: journal_e_submissions_path(@journal),
             icon: 'arrow-left',
 
             disabled: @submission.archived?
     }, {
       title: t('journal.e_submission.archive'),
-      url: e_submissions_path(filter: :archived),
+      url: journal_e_submissions_path(@journal, filter: :archived),
 #      icon: 'archive',
         icon: 'arrow-left',
         disabled: !@submission.archived?
@@ -40,7 +40,7 @@
         }, {
 #            title: t('journal.r_submissions.papers_list'),
             title: t('journal.office_submission.papers_list'),
-            url: r_submissions_path,
+            url: journal_r_submissions_path(@journal),
             icon: 'arrow-left',
         }
         ]

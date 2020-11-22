@@ -18,13 +18,12 @@ class OfficeController < OfficeBaseController
   # GET /contexts/1.json
   def show
     @sidebar_active='dashboard'
-#    redirect_to submissions_path unless policy(@journal).can_editor?
     if policy(@journal).can_editor?
-      redirect_to e_submissions_path
+      redirect_to journal_e_submissions_path(@journal)
     elsif policy(@journal).can_reviewer?
-      redirect_to r_submissions_path
+      redirect_to journal_r_submissions_path(@journal)
     else
-      redirect_to submissions_path
+      redirect_to journal_submissions_path(@journal)
     end
       
   end
@@ -87,15 +86,15 @@ class OfficeController < OfficeBaseController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_context
-      @journal = Journal.all.first
-      #@journal = Journal.find(params[:id])
+#      @journal = Journal.all.first
+      @journal = Journal.find(params[:journal_id])
       #add_breadcrumb @context.title, context_path(@context)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def context_params
 #      params.require(:context).permit(:title, :desription, :slug, :type, :user_id)
-      params.require(:context).permit(:title, :description, :slug, :type)
+      params.require(:context).permit(:title, :description, :slug, :type, :journal_id)
     end
 end
 

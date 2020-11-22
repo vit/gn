@@ -8,7 +8,7 @@
 <div class="container ccontainer-fluid">
     <div class="card">
         <div class="card-block">
-            <%= form_tag people_find_e_submissions_path, method: :post, remote: true, id: 'find_users_form' do %>
+            <%= form_tag people_find_journal_e_submissions_path(@journal), method: :post, remote: true, id: 'find_users_form' do %>
                 <%= search_field_tag 'search', '', id: 'find_users_text', placeholder: 'Last Name' %>
 
                     <% JournalAppointment::Roles.each do |r| %>
@@ -28,9 +28,9 @@
 
 
         <p class="text-center">
-            <%= link_to "Users table (print/export)", people_print_e_submissions_path, {target: "_blank"} %>
+            <%= link_to "Users table (print/export)", people_print_journal_e_submissions_path(@journal), {target: "_blank"} %>
             |
-            <%= link_to "All users", people_all_e_submissions_path %>
+            <%= link_to "All users", people_all_journal_e_submissions_path(@journal) %>
         </p>
 
 </div>
