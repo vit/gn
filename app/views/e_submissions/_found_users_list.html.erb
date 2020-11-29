@@ -1,5 +1,94 @@
 
     <div class="llist-group" id="found_users_list">
+
+
+<%
+=begin
+%>
+
+        <div cclass="list-group" sstyle="padding: 0;">
+        <% @found_users_arr.each do |u| %>
+
+                <%
+                    app_h = {}
+                %>
+                <% (u['roles'] || []).each do |role_name| %>
+                    <%
+                        app_h[role_name.to_sym] = true
+                    %>
+                <% end %>
+                <%
+                    app_h[:disabled] = u['disabled'];
+                %>
+
+            <div class="p-0 list-group-item found_users_item <%= u['disabled'] ? 'found_users_item_disabled' : '' %>" ddata-toggle="collapse" hhref="#<%= "u_collapse_"+u['id'].to_s %>">
+
+                    <a style="display: block; text-decoration: none; color: #000;" class="p-1 ppaper-card-registrator" data-toggle="collapse" href="#<%= "u_collapse_"+u['id'].to_s %>">
+                        <span sstyle="font-family: monotype;" class="pull-right">
+                            #<%= u['id'] %>
+                            <% JournalAppointment::Roles.each do |r| -%><span style="opacity: <%= app_h[r] ? '1' : '0.2' %>; font-weight: 900; font-family: monotype;"
+                                ><%= r.to_s.first.upcase %></span><% end -%>
+                            <i id="<%= 'u_collapse_chevron_'+u['id'].to_s %>" class="fa fa-chevron-down transitionable"></i>
+                        </span>
+                        <%= u['full_name'] %> <!--(#<%= u['id'] %>)-->
+                    </a>
+
+
+
+                    <div class="collapse" id="<%= "u_collapse_"+u['id'].to_s %>" sstyle="padding: 8px;">
+                        <div class="">
+                            <div class="p-1">
+                                    <a href='mailto:<%= h u['email'] -%>'><%= h u['email'] -%></a><%
+                                        if u['phone'] && u['phone'].length>0
+                                    %>, <a href='tel:<%= h u['phone'] -%>'><%= h u['phone'] -%></a><% end %><br>
+                                    <%= u['country_name'] %><br>
+                                    <%
+                                        if u['affiliation'] && u['affiliation'].length>0
+                                    %><small style="font-size: 85%;"><%= h u['affiliation'] -%><% end %></small><br>
+                            </div>
+                            <div class="p-1">
+                                <%= form_tag people_update_journal_e_submissions_path(@journal), class: "form-inline ccard-header" do %>
+                                    <%= hidden_field_tag 'op', 'switch_user_appointment' %>
+                                    <%= hidden_field_tag 'user_id', u['id'] %>
+                                    <% (JournalAppointment::Roles + [:disabled]).each do |r| %>
+                                        <div class="form-check disabled">
+                                        <%= label_tag nil, cclass: "mr-1" do %>
+                                            <span style="font-weight: 900; margin-left: 12px;"><%= r.slice(0,1).capitalize %></span><%= r.slice(1..-1) %>
+                                            <%= check_box_tag "roles[]", r, app_h[r], disabled: (u['id']==current_user.id && [:editor, :disabled].include?(r)) %>
+                                        <% end %>
+                                        </div>
+                                    <% end %>
+                                <% end %>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                    ///*
+                    $('#<%= "u_collapse_"+u['id'].to_s %>').on('hide.bs.collapse', function () {
+                        $('#<%= "u_collapse_chevron_"+u['id'].to_s %>').removeClass("upsidedown")
+                    });
+                    $('#<%= "u_collapse_"+u['id'].to_s %>').on('show.bs.collapse', function () {
+                        $('#<%= "u_collapse_chevron_"+u['id'].to_s %>').addClass("upsidedown")
+                    });
+                    //*/
+                    </script>
+
+            </div>
+            <!--/div-->
+        <% end if @found_users %>
+        </div>
+
+<hr>
+
+<%
+=end
+%>
+
+<%
+#=begin
+%>
+
+
         <%#= params.inspect %>
         <div cclass="list-group" sstyle="padding: 0;">
         <% @found_users.each do |u| %>
@@ -7,7 +96,8 @@
                 <%
                     app_h = {}
                 %>
-                <% u.appointments.each do |a| %>
+                <%# u.appointments.each do |a| %>
+                <% u.roles_for_journal(@journal).each do |a| %>
                     <%#= a.inspect %>
                     <%
                         app_h[a.role_name.to_sym] = true
@@ -76,4 +166,8 @@
             <!--/div-->
         <% end if @found_users %>
         </div>
+<%
+#=end
+%>
+
     </div>

@@ -43,6 +43,31 @@ class User < ApplicationRecord
 
 
 
+    def roles_for_journal(journal)
+        self.appointments.where(journal_id: journal.id)
+    end
+
+=begin
+    def self.list_with_roles(journal, args = {})
+		found = User.select("users.*", "journal_appointments.role_name"). #select("teams_users.team_id IS NOT NULL AS member FROM teams").
+    		joins("LEFT OUTER JOIN journal_appointments on users.id=journal_appointments.user_id and journal_appointments.journal_id = #{journal.id.to_i}") #.
+		#where(account_id: account.id)
+
+        result = []
+        current = nil
+        found.each do |u|
+            unless current && current['id']==u.id
+                current = u.as_json
+                current['full_name'] = u.full_name
+                current['roles'] = []
+                result << current
+            end
+            current['roles'] << u.role_name if u.role_name
+        end
+
+        result
+    end
+=end
 
     # =========== FOR DISABLED ACCOUNTS ===========
 
