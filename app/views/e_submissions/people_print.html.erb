@@ -38,7 +38,9 @@
                 <%
                     app_h = {}
                 %>
-                <% u.appointments.each do |a| %>
+
+                <%# u.appointments.each do |a| %>
+                <% u.roles_for_journal(@journal).each do |a| %>
                     <%
                         app_h[a.role_name.to_sym] = true
                     %>
