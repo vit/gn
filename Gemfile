@@ -65,7 +65,7 @@ gem "pundit"
 
 
 #gem 'carrierwave'
-gem 'carrierwave', '>= 1.0.0.rc', '< 2.0'
+gem 'carrierwave', '>= 1.0.0.rc', '< 3.0'
 
 gem "mini_magick"
 #gem 'remotipart', '~> 1.2'
